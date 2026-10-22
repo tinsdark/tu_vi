@@ -4,22 +4,161 @@
     "trang_thai": "dang_thu_thap"
   },
   "diem_khac_biet": [
-    { "id": "tu_hoa_canh", "mo_ta": "Tứ Hóa can Canh: Khoa/Kỵ là Âm/Đồng hay Đồng/Âm", "phuong_an": ["am_dong", "dong_am"], "xem": "tu_hoa.json" },
-    { "id": "tu_hoa_nham", "mo_ta": "Hóa Khoa can Nhâm: Tả Phù hay Thiên Phủ", "phuong_an": ["ta_phu", "thien_phu"], "xem": "tu_hoa.json" },
-    { "id": "thang_nhuan", "mo_ta": "Sinh tháng nhuận an Mệnh/Thân theo tháng nào", "phuong_an": ["nhu_thang_truoc", "nhu_thang_sau", "nua_dau_truoc_nua_sau_sau"], "ghi_chu": "lasotuvi dùng 'nhu_thang_truoc' (bỏ qua cờ nhuận)" },
-    { "id": "gio_ty", "mo_ta": "Sinh 23:00–23:59 tính ngày hôm đó hay ngày hôm sau", "phuong_an": ["ngay_hom_sau", "ngay_hom_do"] },
-    { "id": "mui_gio_lich_su", "mo_ta": "Múi giờ dùng đổi âm lịch: +7 cố định hay theo lịch sử (miền Nam dùng +8 nhiều giai đoạn trước 1975)", "phuong_an": ["utc7_co_dinh", "theo_lich_su_vung"] },
-    { "id": "gio_mat_troi", "mo_ta": "Dùng giờ đồng hồ hay hiệu chỉnh giờ mặt trời thực theo kinh độ nơi sinh", "phuong_an": ["gio_dong_ho", "gio_mat_troi_thuc"] },
-    { "id": "chieu_trang_sinh", "mo_ta": "Chiều vòng Tràng Sinh", "phuong_an": ["duong_nam_am_nu_thuan", "nam_thuan_nu_nghich"], "ghi_chu": "lasotuvi đã đổi sang duong_nam_am_nu_thuan" },
-    { "id": "luu_ha_thien_tru", "mo_ta": "Có an Lưu Hà, Thiên Trù không / an theo bảng nào", "phuong_an": ["co_an", "khong_an"] },
-    { "id": "do_sang", "mo_ta": "Bảng Miếu/Vượng/Đắc/Bình/Hãm", "phuong_an": ["lasotuvi", "thai_thu_lang", "iztro_trung"], "xem": "do_sang.json" }
+    {
+      "id": "tu_hoa_canh",
+      "mo_ta": "Tứ Hóa can Canh: Khoa/Kỵ là Âm/Đồng hay Đồng/Âm",
+      "phuong_an": [
+        "am_dong",
+        "dong_am"
+      ],
+      "xem": "tu_hoa.json"
+    },
+    {
+      "id": "tu_hoa_nham",
+      "mo_ta": "Hóa Khoa can Nhâm: Tả Phù hay Thiên Phủ",
+      "phuong_an": [
+        "ta_phu",
+        "thien_phu"
+      ],
+      "xem": "tu_hoa.json"
+    },
+    {
+      "id": "thang_nhuan",
+      "mo_ta": "Sinh tháng nhuận an Mệnh/Thân theo tháng nào",
+      "phuong_an": [
+        "nhu_thang_truoc",
+        "nhu_thang_sau",
+        "nua_dau_truoc_nua_sau_sau"
+      ],
+      "ghi_chu": "lasotuvi dùng 'nhu_thang_truoc' (bỏ qua cờ nhuận)"
+    },
+    {
+      "id": "gio_ty",
+      "mo_ta": "Sinh 23:00–23:59 tính ngày hôm đó hay ngày hôm sau",
+      "phuong_an": [
+        "ngay_hom_sau",
+        "ngay_hom_do"
+      ]
+    },
+    {
+      "id": "mui_gio_lich_su",
+      "mo_ta": "Múi giờ dùng đổi âm lịch: +7 cố định hay theo lịch sử (miền Nam dùng +8 nhiều giai đoạn trước 1975)",
+      "phuong_an": [
+        "utc7_co_dinh",
+        "theo_lich_su_vung"
+      ]
+    },
+    {
+      "id": "gio_mat_troi",
+      "mo_ta": "Dùng giờ đồng hồ hay hiệu chỉnh giờ mặt trời thực theo kinh độ nơi sinh",
+      "phuong_an": [
+        "gio_dong_ho",
+        "gio_mat_troi_thuc"
+      ]
+    },
+    {
+      "id": "chieu_trang_sinh",
+      "mo_ta": "Chiều vòng Tràng Sinh",
+      "phuong_an": [
+        "duong_nam_am_nu_thuan",
+        "nam_thuan_nu_nghich"
+      ],
+      "ghi_chu": "lasotuvi đã đổi sang duong_nam_am_nu_thuan"
+    },
+    {
+      "id": "luu_ha_thien_tru",
+      "mo_ta": "Có an Lưu Hà, Thiên Trù không / an theo bảng nào",
+      "phuong_an": [
+        "co_an",
+        "khong_an"
+      ]
+    },
+    {
+      "id": "do_sang",
+      "mo_ta": "Bảng Miếu/Vượng/Đắc/Bình/Hãm",
+      "phuong_an": [
+        "lasotuvi",
+        "thai_thu_lang",
+        "iztro_trung"
+      ],
+      "xem": "do_sang.json"
+    },
+    {
+      "id": "khoi_viet",
+      "mo_ta": "Vị trí Thiên Khôi/Thiên Việt theo can năm",
+      "phuong_an": [
+        "khau_quyet",
+        "lasotuvi"
+      ],
+      "ghi_chu": "Khẩu quyết phổ biến 'Giáp Mậu Ngưu Dương, Ất Kỷ Thử Hầu, Bính Đinh Trư Kê, Nhâm Quý Thỏ Xà, Canh Tân Mã Hổ'. lasotuvi lệch ở Đinh, Mậu, Canh, Nhâm (khớp 60%). Chọn khẩu quyết."
+    },
+    {
+      "id": "hoa_linh_ty_dau_suu",
+      "mo_ta": "Tuổi Tỵ Dậu Sửu: Hỏa khởi Mão Linh khởi Tuất, hay ngược lại",
+      "phuong_an": [
+        "hoa_mao_linh_tuat",
+        "hoa_tuat_linh_mao"
+      ],
+      "ghi_chu": "Khẩu quyết phổ biến: Hỏa Mão Linh Tuất. lasotuvi đảo ngược. Chọn khẩu quyết."
+    },
+    {
+      "id": "pha_toai",
+      "mo_ta": "Phá Toái theo chi năm",
+      "phuong_an": [
+        "khau_quyet",
+        "lasotuvi"
+      ],
+      "ghi_chu": "Khẩu quyết: Tý Ngọ Mão Dậu → Tỵ; Dần Thân Tỵ Hợi → Dậu; Thìn Tuất Sửu Mùi → Sửu. lasotuvi đổi Tỵ/Dậu."
+    },
+    {
+      "id": "thien_giai",
+      "mo_ta": "Thiên Giải: đếm từ Thân theo tháng có nhảy cung không",
+      "phuong_an": [
+        "khong_nhay",
+        "nhay_cung"
+      ],
+      "ghi_chu": "Chính tác giả lasotuvi ghi trong code là không chắc. Chưa có căn cứ quyết định."
+    }
   ],
   "profile": {
     "mac_dinh_v0": {
       "mo_ta": "Profile TẠM để chạy được test chéo với lasotuvi — KHÔNG phải lựa chọn đúng. Sẽ thay bằng profile theo sách khi chốt phái (xem docs/05-cau-hoi.md).",
-      "tu_hoa_canh": "dong_am", "tu_hoa_nham": "thien_phu", "thang_nhuan": "nhu_thang_truoc",
-      "gio_ty": "chua_chot", "mui_gio_lich_su": "utc7_co_dinh", "gio_mat_troi": "gio_dong_ho",
-      "chieu_trang_sinh": "duong_nam_am_nu_thuan", "luu_ha_thien_tru": "co_an", "do_sang": "lasotuvi"
+      "tu_hoa_canh": "dong_am",
+      "tu_hoa_nham": "thien_phu",
+      "thang_nhuan": "nhu_thang_truoc",
+      "gio_ty": "chua_chot",
+      "mui_gio_lich_su": "utc7_co_dinh",
+      "gio_mat_troi": "gio_dong_ho",
+      "chieu_trang_sinh": "duong_nam_am_nu_thuan",
+      "luu_ha_thien_tru": "co_an",
+      "do_sang": "lasotuvi"
+    },
+    "tong_hop_v1": {
+      "mo_ta": "Profile 'tổng hợp': mỗi điểm chọn phương án khẩu quyết phổ biến/đa số. Engine tools/tuvi/an_sao.py dùng profile này làm mặc định.",
+      "tu_hoa_canh": "am_dong",
+      "tu_hoa_nham": "ta_phu",
+      "khoi_viet": "khau_quyet",
+      "hoa_linh_ty_dau_suu": "hoa_mao_linh_tuat",
+      "pha_toai": "khau_quyet",
+      "thien_giai": "khong_nhay",
+      "thang_nhuan": "chua_chot",
+      "gio_ty": "chua_chot",
+      "mui_gio_lich_su": "chua_chot",
+      "gio_mat_troi": "chua_chot",
+      "chieu_trang_sinh": "duong_nam_am_nu_thuan",
+      "do_sang": "lasotuvi+nguon2"
     }
-  }
+  },
+  "loi_da_xac_nhan_o_nguon_tham_khao": [
+    {
+      "nguon": "lasotuvi",
+      "loi": "Đảo thứ tự Thai và Dưỡng trong vòng Tràng Sinh (Thai đặt ngay trước Tràng Sinh). Thứ tự đúng của vòng 12 giai đoạn: ... Tuyệt → Thai → Dưỡng → Tràng Sinh, nên Dưỡng phải liền trước Tràng Sinh.",
+      "muc_do": "chac_chan"
+    },
+    {
+      "nguon": "lasotuvi",
+      "loi": "Không có độ sáng cho Thiên Phủ.",
+      "muc_do": "chac_chan"
+    }
+  ]
 }

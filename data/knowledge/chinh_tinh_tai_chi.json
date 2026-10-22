@@ -1,0 +1,83 @@
+{
+  "_meta": {
+    "mo_ta": "Toàn bộ 38 bộ chính tinh có thể đứng chung một cung × vị trí địa chi (= 120 trường hợp) + Vô Chính Diệu. Danh sách bộ/vị trí do engine tools/tuvi/an_sao.py sinh ra và đã kiểm (đủ, không thiếu không thừa). Nội dung luận là tính chất khi bộ sao này thủ MỆNH; khi đóng cung khác, bộ luận ghép với linh_vuc của cung (xem chinh_tinh_tai_cung_chuc.json).",
+    "nguon": "AI tổng hợp từ kiến thức phổ thông tử vi VN + tên các cách cục phổ biến (Thạch Trung Ẩn Ngọc, Nhật Lệ Trung Thiên, Minh Châu Xuất Hải…). Chưa có trích dẫn trang sách.",
+    "trang_thai": "draft_ai_tong_hop",
+    "dieu_chinh": "-2..+2 cộng thêm vào điểm tính từ độ sáng, cho các trường hợp sách đánh giá khác với độ sáng thuần (VD Tử Vi tại Tý là Bình nhưng vẫn được xem là đế tinh có uy)."
+  },
+  "bo_sao": [
+    { "bo": ["Tử Vi"], "chi": ["Tý", "Ngọ"], "chung": "Đế tinh độc tọa, đối cung Tham Lang. Tự tôn cao, muốn làm chủ.",
+      "theo_chi": { "Ngọ": "Tử Vi cư Ngọ (Miếu) — cách 'Cực hướng ly minh', quý hiển nếu có Tả Hữu, Khôi Việt.", "Tý": "Tử Vi cư Tý (Bình) — đế tinh ở đất thủy, lực yếu; cần phụ tá, không có thì cô quân." },
+      "dieu_chinh": { "Ngọ": 1, "Tý": 0 } },
+    { "bo": ["Tử Vi", "Phá Quân"], "chi": ["Sửu", "Mùi"], "chung": "Quyền uy kèm phá cách: dám thay đổi, khởi nghiệp, nhưng đời nhiều thăng trầm; trung niên mới ổn.", "theo_chi": {} },
+    { "bo": ["Tử Vi", "Thiên Phủ"], "chi": ["Dần", "Thân"], "chung": "Tử Phủ đồng cung — vừa có uy vừa có kho; ổn định, phúc hậu, giỏi quản trị. Đối cung Thất Sát nên vẫn có quyết đoán.", "theo_chi": {}, "dieu_chinh": { "Dần": 1, "Thân": 1 } },
+    { "bo": ["Tử Vi", "Tham Lang"], "chi": ["Mão", "Dậu"], "chung": "Tử Tham — 'đào hoa phạm chủ': đa tài, giao tế giỏi, ham hưởng thụ; dễ sa đà tửu sắc nếu gặp Đào Hồng Riêu. Gặp Không Kiếp lại hợp tu hành/ triết lý.", "theo_chi": {} },
+    { "bo": ["Tử Vi", "Thiên Tướng"], "chi": ["Thìn", "Tuất"], "chung": "Tử Tướng tại Thiên La Địa Võng — có uy và có ấn nhưng bị gò bó; đối cung Phá Quân, đời có bước ngoặt lớn.", "theo_chi": {} },
+    { "bo": ["Tử Vi", "Thất Sát"], "chi": ["Tỵ", "Hợi"], "chung": "Tử Sát — 'hóa sát vi quyền': quyền lực thực, quyết đoán, làm việc lớn; tính nóng, khó chịu lép.", "theo_chi": { "Tỵ": "Tỵ là đất miếu của Tử Vi, lực mạnh hơn.", "Hợi": "Hợi Tử Vi bình, Sát đắc thế hơn — thiên về hành động." } },
+
+    { "bo": ["Thiên Cơ"], "chi": ["Tý", "Ngọ", "Sửu", "Mùi", "Tỵ", "Hợi"], "chung": "Thiên Cơ độc tọa: mưu trí, linh hoạt, hợp kỹ thuật, kế hoạch, tư vấn.",
+      "theo_chi": { "Tý": "Đối cung Cự Môn — thông minh, lý luận sắc.", "Ngọ": "Đối cung Cự Môn — thông minh, lý luận sắc.", "Sửu": "Đối Thiên Lương — đa mưu nhưng hay lo.", "Mùi": "Đối Thiên Lương — đa mưu nhưng hay lo.", "Tỵ": "Đối Thái Âm — linh hoạt, hay di chuyển.", "Hợi": "Cơ hãm tại Hợi — dễ dao động, nghĩ nhiều làm ít." } },
+    { "bo": ["Thiên Cơ", "Thái Âm"], "chi": ["Dần", "Thân"], "chung": "Cơ Nguyệt đồng cung: tinh tế, nhạy cảm, có óc nghệ thuật/ kỹ thuật; hay thay đổi chỗ làm.",
+      "theo_chi": { "Thân": "Thái Âm sáng ở Thân → tốt hơn, ổn định tài sản.", "Dần": "Thái Âm hãm ở Dần → tình cảm lắm sóng gió, phải tự lập." } },
+    { "bo": ["Thiên Cơ", "Cự Môn"], "chi": ["Mão", "Dậu"], "chung": "Cự Cơ — tài ăn nói + mưu trí; hợp luật, kinh doanh, giảng dạy.",
+      "theo_chi": { "Mão": "Cự Cơ Mão — cách tốt ('Cự Cơ Mão Dậu' được khen, Mão hơn Dậu), phát về kinh doanh.", "Dậu": "Ở Dậu kém hơn: tài có nhưng thị phi nhiều." }, "dieu_chinh": { "Mão": 1, "Dậu": 0 } },
+    { "bo": ["Thiên Cơ", "Thiên Lương"], "chi": ["Thìn", "Tuất"], "chung": "Cơ Lương — 'thiện đàm binh': giỏi bàn luận, mưu lược, hợp nghiên cứu, tư vấn, tôn giáo; ít hợp kinh doanh mạo hiểm.", "theo_chi": {} },
+
+    { "bo": ["Thái Dương"], "chi": ["Tý", "Ngọ", "Thìn", "Tuất", "Tỵ", "Hợi"], "chung": "Thái Dương độc tọa: rộng rãi, thích cho đi, coi trọng danh dự.",
+      "theo_chi": { "Ngọ": "Nhật lệ trung thiên — mặt trời giữa trưa, danh tiếng lớn, có quyền; dễ 'quá nắng' thành nóng nảy.", "Tý": "Mặt trời nửa đêm (Hãm): vất vả, danh không rạng; được Hóa Lộc/Quyền, Tuần Triệt lại khá.", "Thìn": "Nhật xuất Thìn (Vượng) — đang lên, tốt.", "Tuất": "Nhật lạc Tuất (Hãm) — tốt ở hình thức, trong vất vả.", "Tỵ": "Thái Dương Tỵ (Miếu) — sáng, phát danh.", "Hợi": "Thái Dương Hợi (Hãm) — 'Nhật trầm thủy để', nhưng đối cung Cự Môn Tỵ sáng; có cách riêng nếu đủ Khoa Quyền Lộc." },
+      "dieu_chinh": { "Ngọ": 1 } },
+    { "bo": ["Thái Dương", "Thái Âm"], "chi": ["Sửu", "Mùi"], "chung": "Nhật Nguyệt đồng cung: vừa cương vừa nhu, đa năng nhưng mâu thuẫn nội tâm; một sao luôn kém sáng.",
+      "theo_chi": { "Sửu": "Nguyệt hơn Nhật — thiên về âm nhu, lợi người sinh ban đêm.", "Mùi": "Nhật hơn Nguyệt — thiên về dương cương, lợi người sinh ban ngày." } },
+    { "bo": ["Thái Dương", "Cự Môn"], "chi": ["Dần", "Thân"], "chung": "Cự Nhật đồng cung — ăn nói có sức thuyết phục, nổi danh nhờ lời nói (luật, truyền thông, giảng dạy).",
+      "theo_chi": { "Dần": "Cự Nhật Dần — 'quan phong tam đại', cách rất tốt (mặt trời mọc chiếu tan bóng tối của Cự Môn).", "Thân": "Ở Thân mặt trời lặn: có danh nhưng vất vả hơn, thị phi nhiều hơn." }, "dieu_chinh": { "Dần": 2, "Thân": 0 } },
+    { "bo": ["Thái Dương", "Thiên Lương"], "chi": ["Mão", "Dậu"], "chung": "Nhật Lương — chính trực, thích làm thầy, có danh.",
+      "theo_chi": { "Mão": "Nhật chiếu lôi môn (Mão) — cách tốt, hiển đạt, đặc biệt nếu có Xương Lộc ('Dương Lương Xương Lộc').", "Dậu": "Nhật Lương Dậu — mặt trời lặn: danh có mà lực yếu, hợp nghề phục vụ, chuyên môn." }, "dieu_chinh": { "Mão": 1 } },
+
+    { "bo": ["Vũ Khúc"], "chi": ["Thìn", "Tuất"], "chung": "Vũ Khúc độc tọa ở mộ địa (Miếu), đối cung Tham Lang — tài tinh mạnh, quyết đoán, phát muộn nhưng chắc ('Tham Vũ bất phát thiếu niên nhân').", "theo_chi": {} },
+    { "bo": ["Vũ Khúc", "Thiên Phủ"], "chi": ["Tý", "Ngọ"], "chung": "Vũ Phủ — tài + kho: giỏi tài chính, tích lũy, ổn định; hợp ngân hàng, kế toán, kinh doanh.", "theo_chi": {}, "dieu_chinh": { "Tý": 1, "Ngọ": 1 } },
+    { "bo": ["Vũ Khúc", "Tham Lang"], "chi": ["Sửu", "Mùi"], "chung": "Vũ Tham đồng cung — phát muộn (sau 30), kinh doanh giỏi; gặp Hỏa/Linh thành cách phát nhanh.", "theo_chi": {} },
+    { "bo": ["Vũ Khúc", "Thiên Tướng"], "chi": ["Dần", "Thân"], "chung": "Vũ Tướng — tài và ấn: có năng lực quản lý tiền, được tin cậy; đối cung Phá Quân nên có lúc phải làm lại.", "theo_chi": {} },
+    { "bo": ["Vũ Khúc", "Thất Sát"], "chi": ["Mão", "Dậu"], "chung": "Vũ Sát — cứng rắn, dám làm, kiếm tiền bằng mạo hiểm; dễ tai nạn kim khí nếu gặp Kình Hình.", "theo_chi": {} },
+    { "bo": ["Vũ Khúc", "Phá Quân"], "chi": ["Tỵ", "Hợi"], "chung": "Vũ Phá — tài tinh gặp hao tinh: kiếm được nhiều, tiêu cũng nhiều; hợp nghề kỹ thuật, cơ khí; tự lập sớm.", "theo_chi": {}, "dieu_chinh": { "Tỵ": -1, "Hợi": -1 } },
+
+    { "bo": ["Thiên Đồng"], "chi": ["Mão", "Dậu", "Thìn", "Tuất", "Tỵ", "Hợi"], "chung": "Thiên Đồng độc tọa: hiền, dễ thích nghi, thích an nhàn.",
+      "theo_chi": { "Mão": "Đồng Mão (Đắc), đối Thái Âm Dậu sáng — khá.", "Dậu": "Đồng Dậu (Hãm), đối Thái Âm Mão hãm — thiếu ý chí.", "Thìn": "Đồng Thìn, đối Cự Môn — tay trắng làm nên, vất vả trước.", "Tuất": "Đồng Tuất, đối Cự Môn Thìn — 'phản bối' cách: tuổi Đinh tốt, tuổi khác vất vả.", "Tỵ": "Đồng Tỵ (Đắc), đối Thiên Lương — hiền, có phúc.", "Hợi": "Đồng Hợi (Đắc), đối Thiên Lương — phúc, hưởng thụ." } },
+    { "bo": ["Thiên Đồng", "Thái Âm"], "chi": ["Tý", "Ngọ"], "chung": "Đồng Âm — dịu dàng, tình cảm, có óc thẩm mỹ.",
+      "theo_chi": { "Tý": "Đồng Âm Tý — 'Nguyệt lãng thiên môn' gần, rất tốt: phúc, giàu, thanh nhã.", "Ngọ": "Đồng Âm Ngọ — Thái Âm hãm: lận đận tình cảm; gặp Kình Dương thành 'Mã đầu đới kiếm' (uy võ nhưng hiểm)." }, "dieu_chinh": { "Tý": 1, "Ngọ": -1 } },
+    { "bo": ["Thiên Đồng", "Cự Môn"], "chi": ["Sửu", "Mùi"], "chung": "Đồng Cự — hai sao đều kém ở đây: hay buồn phiền, thị phi, khẩu thiệt; phải nỗ lực, hợp nghề dùng lời nói.", "theo_chi": {}, "dieu_chinh": { "Sửu": -1, "Mùi": -1 } },
+    { "bo": ["Thiên Đồng", "Thiên Lương"], "chi": ["Dần", "Thân"], "chung": "Đồng Lương — phúc thọ, hiền lành, hợp công chức, y, giáo dục; dễ thay đổi chỗ ở.", "theo_chi": {} },
+
+    { "bo": ["Liêm Trinh"], "chi": ["Dần", "Thân"], "chung": "Liêm Trinh độc tọa (Miếu), đối cung Tham Lang — 'Hùng tú triều viên' nếu đủ cát tinh: liêm chính, có chí, hợp quân đội, chính trị.", "theo_chi": {} },
+    { "bo": ["Liêm Trinh", "Thiên Phủ"], "chi": ["Thìn", "Tuất"], "chung": "Liêm Phủ — có kho có kỷ luật: ổn định, quản lý tốt; cẩn thận Thiên La Địa Võng gò bó.", "theo_chi": {} },
+    { "bo": ["Liêm Trinh", "Thiên Tướng"], "chi": ["Tý", "Ngọ"], "chung": "Liêm Tướng — trọng nghĩa, phục vụ tập thể; Liêm hãm nên cần tránh Hình Kỵ ('Hình tù giáp ấn' xấu).", "theo_chi": {} },
+    { "bo": ["Liêm Trinh", "Thất Sát"], "chi": ["Sửu", "Mùi"], "chung": "Liêm Sát — cương quyết, chịu khổ, hợp võ nghiệp/ kỹ thuật nặng; dễ tai nạn, kiện tụng nếu gặp sát tinh.", "theo_chi": {} },
+    { "bo": ["Liêm Trinh", "Phá Quân"], "chi": ["Mão", "Dậu"], "chung": "Liêm Phá — hai sao hãm: đời nhiều biến cố, phá cách; có Tuần Triệt hoặc Lộc Quyền mới đỡ.", "theo_chi": {}, "dieu_chinh": { "Mão": -1, "Dậu": -1 } },
+    { "bo": ["Liêm Trinh", "Tham Lang"], "chi": ["Tỵ", "Hợi"], "chung": "Liêm Tham — hai sao hãm: tửu sắc, cờ bạc, dễ vướng pháp luật ('Liêm Tham Tỵ Hợi'); gặp Tuần Triệt hoặc Hóa Lộc lại giảm xấu đáng kể.", "theo_chi": {}, "dieu_chinh": { "Tỵ": -1, "Hợi": -1 } },
+
+    { "bo": ["Thiên Phủ"], "chi": ["Sửu", "Mùi", "Mão", "Dậu", "Tỵ", "Hợi"], "chung": "Thiên Phủ độc tọa: ổn định, thận trọng, biết giữ.",
+      "theo_chi": { "Sửu": "Đối Liêm Sát.", "Mùi": "Đối Liêm Sát.", "Mão": "Đối Vũ Sát — cần Lộc để kho có của.", "Dậu": "Đối Vũ Sát — cần Lộc để kho có của.", "Tỵ": "Đối Tử Sát — được uy của Tử Vi chiếu.", "Hợi": "Đối Tử Sát — được uy của Tử Vi chiếu." } },
+    { "bo": ["Thái Âm"], "chi": ["Mão", "Dậu", "Thìn", "Tuất", "Tỵ", "Hợi"], "chung": "Thái Âm độc tọa: dịu, kín đáo, coi trọng tài sản/ nhà cửa.",
+      "theo_chi": { "Hợi": "Nguyệt lãng thiên môn (Hợi, Miếu) — cách rất tốt: giàu, thanh cao.", "Tỵ": "Thái Âm Tỵ (Hãm) — vất vả, tình cảm buồn.", "Dậu": "Thái Âm Dậu (Miếu) — tốt.", "Mão": "Thái Âm Mão (Hãm) — kém.", "Tuất": "Thái Âm Tuất (Miếu) — tốt, đối cung Thái Dương Thìn sáng → Nhật Nguyệt tịnh minh nếu đủ.", "Thìn": "Thái Âm Thìn (Hãm) — đối Thái Dương Tuất hãm → 'Nhật Nguyệt phản bối' (xấu, nhưng có thể thành cách riêng)." },
+      "dieu_chinh": { "Hợi": 1 } },
+    { "bo": ["Tham Lang"], "chi": ["Tý", "Ngọ", "Dần", "Thân", "Thìn", "Tuất"], "chung": "Tham Lang độc tọa: ham muốn lớn, đa tài, giao tế, thích hưởng thụ.",
+      "theo_chi": { "Thìn": "Tham Lang Thìn (Vượng), đối Vũ Khúc — phát muộn mà lớn.", "Tuất": "Tham Lang Tuất (Vượng) — như Thìn.", "Dần": "Tham Dần (Đắc), đối Liêm Trinh.", "Thân": "Tham Thân (Đắc), đối Liêm Trinh.", "Tý": "Tham Tý (Hãm) — 'Phiếm thủy đào hoa': đa tình, sa đà.", "Ngọ": "Tham Ngọ (Hãm), đối Tử Vi — nhưng 'Mộc hỏa thông minh', có cách nếu gặp Hỏa/Linh." } },
+    { "bo": ["Cự Môn"], "chi": ["Tý", "Ngọ", "Thìn", "Tuất", "Tỵ", "Hợi"], "chung": "Cự Môn độc tọa: ăn nói, tranh biện, soi xét, đa nghi.",
+      "theo_chi": { "Tý": "Thạch trung ẩn ngọc (Tý) — ngọc trong đá: phát muộn mà quý, cần Lộc Quyền.", "Ngọ": "Thạch trung ẩn ngọc (Ngọ) — như Tý.", "Thìn": "Cự Thìn (Hãm), đối Thiên Đồng — thị phi.", "Tuất": "Cự Tuất (Hãm), đối Thiên Đồng.", "Tỵ": "Cự Tỵ (Hãm), đối Thái Dương Hợi.", "Hợi": "Cự Hợi (Đắc), đối Thái Dương Tỵ sáng — tốt hơn." },
+      "dieu_chinh": { "Tý": 1, "Ngọ": 1 } },
+    { "bo": ["Thiên Tướng"], "chi": ["Sửu", "Mùi", "Mão", "Dậu", "Tỵ", "Hợi"], "chung": "Thiên Tướng độc tọa, đối cung luôn có Phá Quân (+ Tử/ Vũ/ Liêm): trọng nghĩa, có tướng mạo, thích giúp người.", "theo_chi": { "Mão": "Hãm — giúp người mà thiệt mình.", "Dậu": "Hãm — giúp người mà thiệt mình." } },
+    { "bo": ["Thiên Lương"], "chi": ["Tý", "Ngọ", "Sửu", "Mùi", "Tỵ", "Hợi"], "chung": "Thiên Lương độc tọa: che chở, nguyên tắc, làm thầy.",
+      "theo_chi": { "Ngọ": "Thọ tinh nhập miếu (Ngọ) — cách tốt, chính trực, được trọng vọng.", "Tý": "Lương Tý (Vượng), đối Thái Dương Ngọ sáng — tốt.", "Tỵ": "Lương Tỵ (Hãm) — phiêu bạt, gặp Mã càng lang bạt.", "Hợi": "Lương Hợi (Hãm) — như Tỵ." }, "dieu_chinh": { "Ngọ": 1 } },
+    { "bo": ["Thất Sát"], "chi": ["Tý", "Ngọ", "Dần", "Thân", "Thìn", "Tuất"], "chung": "Thất Sát độc tọa, đối Thiên Phủ (+Tử/Vũ/Liêm): quả cảm, độc lập, ghét bị chỉ huy.",
+      "theo_chi": { "Dần": "Thất Sát triều đẩu (Dần) — đối Tử Phủ: tước lộc vinh xương.", "Thân": "Thất Sát ngưỡng đẩu (Thân) — đối Tử Phủ: rất tốt.", "Tý": "Sát Tý (Vượng), đối Vũ Phủ — giỏi tài chính quyết liệt.", "Ngọ": "Sát Ngọ (Vượng), đối Vũ Phủ.", "Thìn": "Sát Thìn (Hãm), đối Liêm Phủ — nhiều trắc trở.", "Tuất": "Sát Tuất (Hãm), đối Liêm Phủ." },
+      "dieu_chinh": { "Dần": 1, "Thân": 1 } },
+    { "bo": ["Phá Quân"], "chi": ["Tý", "Ngọ", "Dần", "Thân", "Thìn", "Tuất"], "chung": "Phá Quân độc tọa, đối Thiên Tướng (+Tử/Vũ/Liêm): tiên phong, phá cũ làm mới.",
+      "theo_chi": { "Tý": "Anh tinh nhập miếu (Tý) — cách tốt, đặc biệt tuổi Đinh Kỷ Quý.", "Ngọ": "Anh tinh nhập miếu (Ngọ) — đặc biệt tuổi Giáp Đinh Kỷ.", "Dần": "Phá Dần (Hãm) — biến động lớn.", "Thân": "Phá Thân (Hãm).", "Thìn": "Phá Thìn (Đắc), đối Tử Tướng.", "Tuất": "Phá Tuất (Đắc), đối Tử Tướng." },
+      "dieu_chinh": { "Tý": 1, "Ngọ": 1 } }
+  ],
+  "vo_chinh_dieu": {
+    "chung": "Không có chính tinh: tính cách chịu ảnh hưởng mạnh từ cung xung chiếu và môi trường; dễ thích nghi nhưng thiếu trục chính. Luận bằng chính tinh xung chiếu × 0.7.",
+    "dieu_kien_tot": "Gặp Tuần/Triệt, Thiên Không, Địa Không (Nhị/Tam/Tứ Không) → 'VCD đắc Tam Không': phú quý bất ngờ. Có Tả Hữu/ Xương Khúc/ Khôi Việt tam hợp.",
+    "dieu_kien_xau": "Có sát tinh thủ (Kình Đà, Hỏa Linh) mà không có Không: dễ theo sát tinh mà hành xử, đời bấp bênh.",
+    "cach_lien_quan": ["Minh Châu Xuất Hải (Mệnh VCD tại Mùi, Nhật Mão Nguyệt Hợi)", "Nhật Nguyệt chiếu hư không"]
+  }
+}

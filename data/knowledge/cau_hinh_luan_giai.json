@@ -1,0 +1,198 @@
+{
+  "_meta": {
+    "mo_ta": "Tham số định lượng cho bộ luận giải (docs/06). Đây là MÔ HÌNH của mình để biến cách đọc định tính thành con số — không sách nào ghi con số này. Phải hiệu chỉnh bằng lá số người thật.",
+    "trang_thai": "mo_hinh_ban_dau"
+  },
+  "trong_so_vi_tri": {
+    "ban_cung": 1.0,
+    "xung_chieu": 0.8,
+    "tam_hop": 0.6,
+    "giap": 0.3
+  },
+  "he_so_do_sang": {
+    "M": 1.0,
+    "V": 0.9,
+    "Đ": 0.7,
+    "B": 0.4,
+    "H": -0.5,
+    "khong_ro": 0.5
+  },
+  "vo_chinh_dieu": {
+    "muon_xung_chieu": true,
+    "he_so": 0.7
+  },
+  "tuan_triet": {
+    "he_so_sao_tot": 0.5,
+    "he_so_sao_xau": 0.5,
+    "ghi_chu": "Giảm lực cả sao tốt lẫn xấu; vì sao xấu bị giảm nên cung xấu thành đỡ xấu.",
+    "triet_manh_truoc_tuoi": 30,
+    "tuan_manh_sau_tuoi": 30
+  },
+  "doi_sao_cung_hoi": {
+    "he_so_nhan": 1.5,
+    "cap": [
+      [
+        "Tả Phù",
+        "Hữu Bật"
+      ],
+      [
+        "Văn Xương",
+        "Văn Khúc"
+      ],
+      [
+        "Thiên Khôi",
+        "Thiên Việt"
+      ],
+      [
+        "Kình Dương",
+        "Đà La"
+      ],
+      [
+        "Hỏa Tinh",
+        "Linh Tinh"
+      ],
+      [
+        "Địa Không",
+        "Địa Kiếp"
+      ],
+      [
+        "Long Trì",
+        "Phượng Các"
+      ],
+      [
+        "Tam Thai",
+        "Bát Tọa"
+      ],
+      [
+        "Ân Quang",
+        "Thiên Quý"
+      ],
+      [
+        "Thai Phụ",
+        "Phong Cáo"
+      ]
+    ]
+  },
+  "menh_cuc": {
+    "cuc_sinh_menh": {
+      "diem": 2,
+      "luan": "Cục sinh Mệnh: được hoàn cảnh nâng đỡ, dễ phát huy."
+    },
+    "tuong_hoa": {
+      "diem": 1,
+      "luan": "Mệnh Cục đồng hành: hài hòa, ổn định."
+    },
+    "menh_khac_cuc": {
+      "diem": 0,
+      "luan": "Mệnh khắc Cục: phải tự lực, vất vả nhưng làm chủ được hoàn cảnh."
+    },
+    "menh_sinh_cuc": {
+      "diem": -1,
+      "luan": "Mệnh sinh Cục: hao sức cho hoàn cảnh, làm nhiều hưởng ít."
+    },
+    "cuc_khac_menh": {
+      "diem": -2,
+      "luan": "Cục khắc Mệnh: hoàn cảnh bất lợi, nhiều trở ngại, cần tu dưỡng."
+    }
+  },
+  "sao_chu_ban_menh": {
+    "sao_sinh_menh": 1,
+    "dong_hanh": 1,
+    "menh_sinh_sao": 0,
+    "menh_khac_sao": 0,
+    "sao_khac_menh": -1
+  },
+  "trang_sinh": {
+    "Tràng Sinh": 0.1,
+    "Lâm Quan": 0.1,
+    "Đế Vượng": 0.1,
+    "Quan Đới": 0.05,
+    "Mộc Dục": -0.05,
+    "Suy": -0.05,
+    "Bệnh": -0.1,
+    "Tử": -0.1,
+    "Mộ": 0,
+    "Tuyệt": -0.1,
+    "Thai": 0,
+    "Dưỡng": 0.05
+  },
+  "nguong_ket_luan": {
+    "_ghi_chu": "Sinh tự động bởi tools/tuvi/hieu_chinh.py: phân vị 10/30/70/90 của điểm cung trên mẫu lá số ngẫu nhiên.",
+    "so_mau": 3000,
+    "theo_cung": {
+      "Mệnh": {
+        "rat_tot": 17.06,
+        "tot": 11.82,
+        "trung_binh": 4.47,
+        "xau": -0.15
+      },
+      "Phụ Mẫu": {
+        "rat_tot": 13.52,
+        "tot": 8.98,
+        "trung_binh": 3.51,
+        "xau": -0.28
+      },
+      "Phúc Đức": {
+        "rat_tot": 14.31,
+        "tot": 10.0,
+        "trung_binh": 4.18,
+        "xau": 0.26
+      },
+      "Điền Trạch": {
+        "rat_tot": 13.65,
+        "tot": 9.64,
+        "trung_binh": 4.05,
+        "xau": 0.42
+      },
+      "Quan Lộc": {
+        "rat_tot": 14.57,
+        "tot": 10.53,
+        "trung_binh": 4.45,
+        "xau": 0.41
+      },
+      "Nô Bộc": {
+        "rat_tot": 13.71,
+        "tot": 9.08,
+        "trung_binh": 3.5,
+        "xau": -0.33
+      },
+      "Thiên Di": {
+        "rat_tot": 13.6,
+        "tot": 9.74,
+        "trung_binh": 4.33,
+        "xau": 0.4
+      },
+      "Tật Ách": {
+        "rat_tot": 12.64,
+        "tot": 8.63,
+        "trung_binh": 3.67,
+        "xau": -0.15
+      },
+      "Tài Bạch": {
+        "rat_tot": 14.2,
+        "tot": 10.11,
+        "trung_binh": 4.25,
+        "xau": 0.18
+      },
+      "Tử Tức": {
+        "rat_tot": 13.56,
+        "tot": 9.32,
+        "trung_binh": 3.82,
+        "xau": -0.12
+      },
+      "Phu Thê": {
+        "rat_tot": 12.96,
+        "tot": 9.02,
+        "trung_binh": 3.54,
+        "xau": -0.22
+      },
+      "Huynh Đệ": {
+        "rat_tot": 13.08,
+        "tot": 9.09,
+        "trung_binh": 3.33,
+        "xau": -0.47
+      }
+    }
+  },
+  "he_so_phu_tinh_nho": 0.4
+}

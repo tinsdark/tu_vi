@@ -5,12 +5,103 @@
     "trang_thai": "trich_doan_chua_day_du"
   },
   "sao": {
-    "Tử vi":      { "MV": ["Tỵ","Ngọ","Dần","Thân","Thìn","Tuất"], "Đ": ["Sửu","Mùi","Hợi","Tý"], "B": ["Mão","Dậu"] },
-    "Vũ khúc":    { "H": ["Tỵ","Hợi"] },
-    "Thiên tướng":{ "H": ["Mão","Dậu"] },
-    "Phá quân":   { "MV": ["Tý","Ngọ","Sửu","Mùi"], "H": ["Dần","Thân","Tỵ","Hợi","Mão","Dậu"] },
-    "Liêm trinh": { "H": ["Tỵ","Hợi","Mão","Dậu"] },
-    "Tham lang":  { "MV": ["Thìn","Tuất","Sửu","Mùi"], "H": ["Tỵ","Hợi","Tý","Ngọ","Mão","Dậu"] },
-    "Thái dương": { "MV": ["Tỵ","Ngọ","Dần","Mão","Thìn"], "H": ["Thân","Dậu","Tuất","Hợi","Tý"] }
+    "Tử vi": {
+      "MV": [
+        "Tỵ",
+        "Ngọ",
+        "Dần",
+        "Thân",
+        "Thìn",
+        "Tuất"
+      ],
+      "Đ": [
+        "Sửu",
+        "Mùi",
+        "Hợi",
+        "Tý"
+      ],
+      "B": [
+        "Mão",
+        "Dậu"
+      ]
+    },
+    "Vũ khúc": {
+      "H": [
+        "Tỵ",
+        "Hợi"
+      ]
+    },
+    "Thiên tướng": {
+      "H": [
+        "Mão",
+        "Dậu"
+      ]
+    },
+    "Phá quân": {
+      "MV": [
+        "Tý",
+        "Ngọ",
+        "Sửu",
+        "Mùi"
+      ],
+      "H": [
+        "Dần",
+        "Thân",
+        "Tỵ",
+        "Hợi",
+        "Mão",
+        "Dậu"
+      ]
+    },
+    "Liêm trinh": {
+      "H": [
+        "Tỵ",
+        "Hợi",
+        "Mão",
+        "Dậu"
+      ]
+    },
+    "Tham lang": {
+      "MV": [
+        "Thìn",
+        "Tuất",
+        "Sửu",
+        "Mùi"
+      ],
+      "H": [
+        "Tỵ",
+        "Hợi",
+        "Tý",
+        "Ngọ",
+        "Mão",
+        "Dậu"
+      ]
+    },
+    "Thái dương": {
+      "MV": [
+        "Tỵ",
+        "Ngọ",
+        "Dần",
+        "Mão",
+        "Thìn"
+      ],
+      "H": [
+        "Thân",
+        "Dậu",
+        "Tuất",
+        "Hợi",
+        "Tý"
+      ]
+    },
+    "Thiên phủ": {
+      "MV": [
+        "Dần",
+        "Thân",
+        "Tý",
+        "Ngọ",
+        "Thìn",
+        "Tuất"
+      ]
+    }
   }
 }

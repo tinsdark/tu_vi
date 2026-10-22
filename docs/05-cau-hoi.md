@@ -1,5 +1,7 @@
 # 05 — Câu hỏi cần mày trả lời
 
+> **Cập nhật 2026-10-22**: Q1 đã chốt = **tổng hợp đa phái** (engine dùng profile `tong_hop_v1`, chỗ bất đồng giữ cả hai phương án). Q4 đã chốt = **không có sách**, tri thức lấy từ web + kiến thức AI, gắn nhãn độ tin cậy. Câu hỏi mới ở cuối file.
+
 Xếp theo mức ảnh hưởng. Mỗi câu có đề xuất của tao.
 
 ### Q1. Lấy phái nào làm chuẩn mặc định?
@@ -39,3 +41,16 @@ Dùng API trả phí (Claude) cho: trích quy tắc từ sách (1 lần, vài ch
 
 ### Q10. Phạm vi luận giải v1?
 **Đề xuất**: Mệnh, Thân, 12 cung, cách cục chính, đại hạn 10 năm, lưu niên năm hiện tại. Để sau: lưu nguyệt, lưu nhật, xem hợp tuổi, chọn ngày.
+
+---
+
+## Câu hỏi mới (sau vòng 2)
+
+### Q11. Mở mạng cho môi trường để tao đọc được các web tử vi?
+Hiện proxy của môi trường chặn hết các site tử vi (tuvi.cohoc.net, hoc.kabala.vn, hocvienlyso.org, thaiam.vn…) — tao chỉ đọc được phần trích trong kết quả tìm kiếm. Nếu mày thêm các domain đó vào **Allowed domains** của environment (Network access), tao đọc được toàn văn bài để đối chiếu từng quy tắc, chất lượng dữ liệu tăng rõ.
+
+### Q12. Bộ lá số người thật để kiểm luận giải
+Đây là thứ duy nhất chứng minh luận đúng hay sai. Mày gom được bao nhiêu lá số (người nhà, bạn bè) kèm vài sự kiện đời đã biết (nghề, hôn nhân, năm biến cố lớn)? Chỉ cần ngày giờ sinh âm lịch + giới tính + 3–5 sự kiện. Mục tiêu 30 người.
+
+### Q13. Mức "chắc chắn" muốn hiển thị cho người dùng?
+Đề xuất: mỗi câu luận hiện một chấm màu theo độ tin cậy (xanh = nhiều nguồn đồng thuận, vàng = 1 nguồn, xám = AI tổng hợp). Mày thấy được không, hay muốn giấu đi cho gọn?
