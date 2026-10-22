@@ -1848,6 +1848,125 @@
       "web": [
         "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
       ]
+    },
+    {
+      "id": "CC54",
+      "ten": "Lộc Mã ở Thiên Di",
+      "loai": "cat",
+      "pham_vi": "Thiên Di",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Mã"
+          },
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai",
+        "su_nghiep"
+      ],
+      "ket_luan": "Ra ngoài, đi xa hoặc làm ăn xa phát tài.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC55",
+      "ten": "Đào Hồng Hỷ hội Phu Thê",
+      "loai": "trung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "dem": {
+          "dem": [
+            "Đào Hoa",
+            "Hồng Loan",
+            "Thiên Hỷ"
+          ],
+          "toi_thieu": 2,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Duyên đến sớm, dễ có người để ý; gặp sát tinh thì dễ đa tình, lận đận.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC56",
+      "ten": "Sát tinh hội Tật Ách",
+      "loai": "hung",
+      "pham_vi": "Tật Ách",
+      "thanh": {
+        "dem": {
+          "nhom": "luc_sat",
+          "toi_thieu": 3,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "suc_khoe",
+        "tai_nan"
+      ],
+      "ket_luan": "Nhiều sát tinh chiếu Tật Ách: đề phòng tai nạn, phẫu thuật, bệnh cấp tính.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC57",
+      "ten": "Phúc thọ (Lương/Phủ miếu ở Phúc Đức)",
+      "loai": "cat",
+      "pham_vi": "Phúc Đức",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Thiên Lương"
+              },
+              {
+                "sang": {
+                  "sao": "Thiên Lương",
+                  "thuoc": [
+                    "M",
+                    "V"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Thiên Phủ"
+              },
+              {
+                "sang": {
+                  "sao": "Thiên Phủ",
+                  "thuoc": [
+                    "M",
+                    "V"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "phuc",
+        "an_khang"
+      ],
+      "ket_luan": "Phúc dày, sống thọ, tinh thần an ổn.",
+      "xac_nhan_web": false
     }
   ]
 }
