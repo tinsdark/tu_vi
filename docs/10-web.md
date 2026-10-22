@@ -59,7 +59,9 @@ Lần chạy `GOLDEN_N=2000`: 6.000 ngày + 6.000 ca lịch đầy đủ + 8.000
 - Lưu lá số trong trình duyệt (localStorage); chép liên kết (`#c=…` mã hóa dữ liệu sinh, **không có họ tên**); tải PNG/SVG; in/PDF; sáng/tối.
 - Truy cập được: nhãn cho mọi ô nhập, tab đúng vai trò ARIA, Esc đóng ngăn kéo, focus trả về chỗ cũ, tôn trọng `prefers-color-scheme`.
 
-## 5. API viết văn
+## 5. API viết văn (tùy chọn)
+
+**Không cần API key để dùng web.** Không có key thì web tự ghép văn từ các nhận định (xem `docs/07`), nút “Viết lại bằng AI” tự ẩn, và chi phí bằng 0.
 
 `POST /api/viet-van` — body là **dữ liệu sinh** (cùng hình dạng form), không phải báo cáo hay prompt:
 

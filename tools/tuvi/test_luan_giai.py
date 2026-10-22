@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import an_la_so  # noqa: E402
 from tuvi.lich_am import tu_duong_lich  # noqa: E402
 from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao  # noqa: E402
-from tuvi.viet_van import viet  # noqa: E402
+from tuvi.viet_van import viet, viet_mau, ve  # noqa: E402
 
 
 def test_bao_cao_bat_bien():
@@ -37,6 +37,37 @@ def test_phi_tuyen_giam_phan_tot():
     them = LuanGiai(ls, sao_them={ls["menh"]: ["Lưu Kình Dương", "Lưu Đà La", "Lưu Hóa Kỵ"]}).cham_cung("Mệnh")
     assert them["diem"] < goc["diem"]
     assert any(n["id"] == "PHI_TUYEN" for n in them["nhan_dinh"])
+
+
+def test_sat_tinh_dac_dia_khong_la_diem_manh():
+    # sát tinh đắc địa được lật điểm dương nhưng câu luận vẫn nói mặt xấu → phải gắn dao_dau và không vào điểm mạnh/yếu của chủ đề
+    tt, rnd, thay = TriThuc(), random.Random(11), 0
+    for _ in range(300):
+        nam = rnd.randint(1930, 2020)
+        ls = an_la_so((nam - 4) % 10 + 1, (nam - 4) % 12 + 1, rnd.randint(1, 12), rnd.randint(1, 30), rnd.randint(1, 12), rnd.choice(["nam", "nu"]))
+        kq = bao_cao(LuanGiai(ls, tt))
+        for k in kq["cung"].values():
+            thay += sum(1 for n in k["nhan_dinh"] if n.get("dao_dau"))
+            assert all(n["diem"] > 0 for n in k["nhan_dinh"] if n.get("dao_dau"))
+        for cd in kq["chu_de"].values():
+            assert not any(n.get("dao_dau") for n in cd["diem_manh"] + cd["diem_yeu"])
+    assert thay > 20
+
+
+def test_van_mau_khong_lap_y_va_so_sanh_dung_chieu():
+    tt, rnd = TriThuc(), random.Random(5)
+    for _ in range(100):
+        nam = rnd.randint(1930, 2020)
+        ls = an_la_so((nam - 4) % 10 + 1, (nam - 4) % 12 + 1, rnd.randint(1, 12), rnd.randint(1, 30), rnd.randint(1, 12), rnd.choice(["nam", "nu"]))
+        kq = bao_cao(LuanGiai(ls, tt), nam, nam + 30)
+        van = viet_mau(kq)
+        assert "top " not in van                                     # bản cũ ghi 'top 94%' cho lá số rất xấu
+        for ten, cd in kq["chu_de"].items():
+            dong = next(d for d in van.splitlines() if f"[CD.{ten}]" in d)
+            assert ("cao hơn khoảng" in dong) == (cd["phan_vi"] >= 50)
+        # mỗi ý (mã + nội dung) của các chủ đề chỉ xuất hiện đúng một lần trong văn
+        for n in {(n["id"], n["nhan_dinh"]): n for cd in kq["chu_de"].values() for n in cd["diem_manh"] + cd["diem_yeu"]}.values():
+            assert van.count(ve(n)) == 1, ve(n)
 
 
 def test_tu_duong_lich_toi_luan():

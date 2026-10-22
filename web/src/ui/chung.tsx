@@ -32,7 +32,7 @@ export function DanhSachNhanDinh({ ds, rong }: { ds: NhanDinh[]; rong?: boolean 
   return (
     <ul className={`nhan-dinh${rong ? " nhan-dinh-rong" : ""}`}>
       {ds.map((n, i) => (
-        <li key={`${n.id}-${i}`} className={n.diem > 0 ? "nd-tot" : n.diem < 0 ? "nd-xau" : "nd-trung"}>
+        <li key={`${n.id}-${i}`} className={n.dao_dau ? "nd-trung" : n.diem > 0 ? "nd-tot" : n.diem < 0 ? "nd-xau" : "nd-trung"}>
           <ChamTinCay id={n.id} />
           <span className="nd-van">{n.nhan_dinh}</span>
           {n.ly_do && <span className="nd-ly-do">{n.ly_do}</span>}

@@ -227,6 +227,7 @@ class LuanGiai:
                     continue
                 base = p["diem"] * he_so_luu
                 dac = CHI[c] in p.get("dac_dia", [])
+                dao_dau = base < 0 and dac       # sát tinh đắc địa: điểm lật dương nhưng câu luận vẫn mô tả mặt xấu
                 ham = base > 0 and self.tt.sang(p["ten"], c) == "H"
                 if base < 0 and dac:
                     base = base * -0.3            # sát tinh đắc địa: hết hại, thành lực
@@ -247,8 +248,11 @@ class LuanGiai:
                         txt = (txt + " " if txt else "") + self.tt.tu_hoa.get(f"{self.goc_hoa[s]}|{s}", "" if txt else p["y_nghia"])
                     txt = (txt or p["y_nghia"]).strip()
                     if abs(p["diem"]) >= 2 or goc_ten.startswith("Hóa") or he_so_luu != 1.0:
-                        nhan_dinh.append({"id": f"PT.{s}" + (f".{ten_cung}" if goc_ten in self.tt.phu_cung else ""), "diem": round(d, 2),
-                                          "nhan_dinh": txt, "ly_do": f"{s} thủ {ten_cung} tại {CHI[c]}" + (" (đắc địa)" if dac else " (hãm địa — lực yếu)" if ham else "")})
+                        nd = {"id": f"PT.{s}" + (f".{ten_cung}" if goc_ten in self.tt.phu_cung else ""), "diem": round(d, 2),
+                              "nhan_dinh": txt, "ly_do": f"{s} thủ {ten_cung} tại {CHI[c]}" + (" (đắc địa: bớt hại, có thể thành lực)" if dao_dau else " (đắc địa)" if dac else " (hãm địa — lực yếu)" if ham else "")}
+                        if dao_dau:
+                            nd["dao_dau"] = True
+                        nhan_dinh.append(nd)
 
         # vòng Tràng Sinh tại bản cung
         for s in self.cung[chi]:
@@ -285,7 +289,7 @@ class LuanGiai:
         diem = tong["tot"] * he_so_pha + tong["xau"]
         if he_so_pha < 0.75:
             nhan_dinh.append({"id": "PHI_TUYEN", "diem": round(tong["tot"] * (he_so_pha - 1), 2),
-                              "nhan_dinh": f"{ten_cung}: sát tinh/Hóa Kỵ nặng ở bản cung và xung chiếu — cái tốt của cung chỉ phát huy khoảng {he_so_pha:.0%}.",
+                              "nhan_dinh": f"Ở cung {ten_cung}, sát tinh/Hóa Kỵ nặng ở bản cung và xung chiếu nên cái tốt chỉ phát huy khoảng {he_so_pha:.0%}.",
                               "ly_do": f"Tổng lực sao phá {tong['nang']:.1f}, hệ số {he_so_pha:.2f}"})
 
         nguong = cfg["nguong_ket_luan"].get("theo_cung", {}).get(ten_cung)
@@ -394,7 +398,7 @@ class LuanGiai:
             ung_vien = []
             for c, w in cd["cung"].items():
                 for n in cham[c]["nhan_dinh"]:
-                    if not n["diem"]:
+                    if not n["diem"] or n.get("dao_dau"):
                         continue
                     tag = set(n.get("linh_vuc", []))
                     if n["id"].startswith("PT."):

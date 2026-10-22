@@ -213,6 +213,7 @@ export class LuanGiai {
         if (!p) continue;
         let base = p.diem * heSoLuu;
         const dac = (p.dac_dia ?? []).includes(CHI[c]);
+        const daoDau = base < 0 && dac; // sát tinh đắc địa: điểm lật dương nhưng câu luận vẫn mô tả mặt xấu
         const ham = base > 0 && this.tt.sang(p.ten, c) === "H";
         if (base < 0 && dac) base = base * -0.3; // sát tinh đắc địa: hết hại, thành lực
         else if (ham) base = base * 0.3; // cát tinh hãm địa (VD Xương Khúc): còn ít lực
@@ -227,10 +228,12 @@ export class LuanGiai {
           if (gocTen.startsWith("Hóa") && s === gocTen) txt = (txt ? `${txt} ` : "") + (this.tt.tuHoa[`${this.gocHoa[s]}|${s}`] ?? (txt ? "" : p.y_nghia));
           const nd = (txt || p.y_nghia).trim();
           if (Math.abs(p.diem) >= 2 || gocTen.startsWith("Hóa") || heSoLuu !== 1.0) {
-            nhanDinh.push({
+            const nhan: NhanDinh = {
               id: `PT.${s}` + (gocTen in this.tt.phuCung ? `.${tenCung}` : ""), diem: pyRound(d, 2), nhan_dinh: nd,
-              ly_do: `${s} thủ ${tenCung} tại ${CHI[c]}` + (dac ? " (đắc địa)" : ham ? " (hãm địa — lực yếu)" : ""),
-            });
+              ly_do: `${s} thủ ${tenCung} tại ${CHI[c]}` + (daoDau ? " (đắc địa: bớt hại, có thể thành lực)" : dac ? " (đắc địa)" : ham ? " (hãm địa — lực yếu)" : ""),
+            };
+            if (daoDau) nhan.dao_dau = true;
+            nhanDinh.push(nhan);
           }
         }
       }
@@ -277,7 +280,7 @@ export class LuanGiai {
     if (heSoPha < 0.75) {
       nhanDinh.push({
         id: "PHI_TUYEN", diem: pyRound(tong.tot * (heSoPha - 1), 2),
-        nhan_dinh: `${tenCung}: sát tinh/Hóa Kỵ nặng ở bản cung và xung chiếu — cái tốt của cung chỉ phát huy khoảng ${phanTramPy(heSoPha)}.`,
+        nhan_dinh: `Ở cung ${tenCung}, sát tinh/Hóa Kỵ nặng ở bản cung và xung chiếu nên cái tốt chỉ phát huy khoảng ${phanTramPy(heSoPha)}.`,
         ly_do: `Tổng lực sao phá ${toFixedPy(tong.nang, 1)}, hệ số ${toFixedPy(heSoPha, 2)}`,
       });
     }
@@ -408,7 +411,7 @@ export class LuanGiai {
       const ungVien: NhanDinh[] = [];
       for (const [c, w] of cungW) {
         for (const n of cham[c].nhan_dinh) {
-          if (!n.diem) continue;
+          if (!n.diem || n.dao_dau) continue;
           let tag = new Set(n.linh_vuc ?? []);
           if (n.id.startsWith("PT.")) {
             const { p } = this.phu(n.id.split(".")[1]);
