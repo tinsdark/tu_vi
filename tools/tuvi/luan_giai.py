@@ -249,9 +249,10 @@ class LuanGiai:
         dh = next((c for c, t in sorted(self.ls["dai_han"].items(), key=lambda kv: kv[1])
                    if t <= tuoi < t + 10), None)
         can_x, chi_x = (nam_xem - 4) % 10 + 1, (nam_xem - 4) % 12 + 1
-        luu = an_la_so(can_x, chi_x, 1, 1, 1, self.ls["input"]["gioi_tinh"])["sao"]  # chỉ lấy sao theo can/chi năm
-        luu_sao = {f"Lưu {s}": luu[s] for s in ("Thái Tuế", "Lộc Tồn", "Kình Dương", "Đà La", "Thiên Mã",
-                                                 "Hóa Lộc", "Hóa Quyền", "Hóa Khoa", "Hóa Kỵ")}
+        luu_ls = an_la_so(can_x, chi_x, 1, 1, 1, self.ls["input"]["gioi_tinh"])  # chỉ lấy sao theo can/chi năm
+        luu_sao = {f"Lưu {s}": luu_ls["sao"][s] for s in ("Thái Tuế", "Lộc Tồn", "Kình Dương", "Đà La", "Thiên Mã")}
+        # Lưu Tứ Hóa: tên sao được hóa theo can năm xem, nhưng VỊ TRÍ là vị trí sao đó trên lá số gốc
+        luu_sao.update({f"Lưu {hoa}": self.ls["sao"][goc] for hoa, goc in luu_ls["tu_hoa"].items()})
         ket = {"tuoi_am": tuoi, "dai_han": None, "luu_nien": {}}
         if dh:
             ten = self.ls["cung_chuc"][dh]
