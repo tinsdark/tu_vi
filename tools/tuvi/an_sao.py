@@ -1,6 +1,6 @@
 """Engine an sao Tử Vi — tự viết từ khẩu quyết an sao, không port từ engine khác.
 
-Input là dữ kiện ÂM LỊCH (năm can chi, tháng, ngày, giờ). Đổi dương → âm lịch là việc của module lịch (chưa làm).
+Input là dữ kiện ÂM LỊCH (năm can chi, tháng, ngày, giờ). Từ dương lịch: dùng lich_am.tu_duong_lich().
 Quy ước: địa chi 1..12 = Tý..Hợi, thiên can 1..10 = Giáp..Quý, giờ 1..12 = Tý..Hợi.
 Chỗ các phái khác nhau đọc từ PROFILE (khớp data/knowledge/bien_the.json).
 """
