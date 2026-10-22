@@ -402,7 +402,7 @@ INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',6,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',7,N'H',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',8,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',9,N'B',N'mot_phan');
-INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',10,N'B',N'mot_phan');
+INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',10,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',11,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',12,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn khúc',1,N'H',N'mot_phan');

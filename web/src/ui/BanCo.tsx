@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { CHI, CUNG_CHUC, dungOCung, duongSangAm, HANH_VN, VI_TRI_LUOI, canChiCung, chiNamTieuHan, chuMenh, chuThan, hanhSao, laiNhan, quanHeCucMenh, tenNapAm, CAN, type KetQuaTinh, type OCung } from "../engine";
+import { CHI, CUNG_CHUC, dungOCung, duongSangAm, HANH_VN, VI_TRI_LUOI, canChiCung, canLuong, chiNamTieuHan, chuMenh, chuThan, hanhSao, laiNhan, quanHeCucMenh, tenNapAm, CAN, type KetQuaTinh, type OCung } from "../engine";
 import { useNganKeo } from "./chung";
 
 function Sao({ ten, muc, chi, lop }: { ten: string; muc?: string | null; chi: number; lop: string }) {
@@ -98,6 +98,7 @@ export function BanCo({ kq, hienSaoLuu, mauHanh }: { kq: KetQuaTinh; hienSaoLuu:
         <p>Bản mệnh: <b>{tenNapAm(canNam, CHI.indexOf(i.chi_nam))}</b></p>
         <p>Cục mệnh: <b>{HANH_VN[ls.cuc.hanh]} {["", "", "nhị", "tam", "tứ", "ngũ", "lục"][ls.cuc.so]} cục</b> <span className="mo">({quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)})</span></p>
         <p>Chủ mệnh: <b>{chuMenh(ls)}</b> · Chủ thân: <b>{chuThan(ls)}</b></p>
+        <p>Cân lượng: <b>{canLuong(ls)}</b></p>
         <p>Lai nhân: cung <b>{laiNhan(ls)}</b> · Thân cư: <b>{ls.cung_chuc[ls.than]}</b></p>
         <p className="mo">Xem thêm: nguyệt vận tháng {hn.thang} · tiểu vận năm {han?.nam_xem ?? ""}</p>
         <p className="gua-hoa">{Object.entries(ls.tu_hoa).map(([h, s]) => <span key={h} className={h === "Hóa Kỵ" ? "tx-ky" : "tx-tot"}>{h.replace("Hóa ", "")}: {s}</span>)}</p>

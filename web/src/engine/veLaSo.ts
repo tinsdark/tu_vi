@@ -2,7 +2,7 @@
 import type { LaSo } from "./anSao";
 import { CAN, CHI } from "./anSao";
 import type { KetQuaHan } from "./types";
-import { canChiCung, chiNamTieuHan, chuMenh, chuThan, hanhSao, laiNhan, quanHeCucMenh, tenNapAm } from "./thongTin";
+import { canChiCung, canLuong, chiNamTieuHan, chuMenh, chuThan, hanhSao, laiNhan, quanHeCucMenh, tenNapAm } from "./thongTin";
 import { dungOCung, VI_TRI_LUOI } from "./boCuc";
 import { HANH_VN } from "./luanGiai";
 
@@ -69,6 +69,7 @@ export function veLaSo(ls: LaSo, tieuDe = "Lá số Tử Vi", hoTen?: string, ha
     `Bản mệnh: ${tenNapAm(canNam, CHI.indexOf(i.chi_nam))}`,
     `Cục mệnh: ${HANH_VN[ls.cuc.hanh]} ${ls.cuc.so} (${quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)})`,
     `Chủ mệnh: ${chuMenh(ls)} · Chủ thân: ${chuThan(ls)}`,
+    `Cân lượng: ${canLuong(ls)}`,
     `Lai nhân: cung ${laiNhan(ls)} · Thân cư: ${ls.cung_chuc[ls.than]}`,
     mauHanh ? "Màu sao theo ngũ hành: Kim xám, Mộc xanh lá, Thủy xanh dương, Hỏa đỏ, Thổ nâu" : "Màu: xanh = sao tốt / sáng, đỏ = sao xấu / hãm",
     "Góc trái: can chi cung · góc phải: tuổi bắt đầu đại hạn · chân: chi năm tiểu hạn · Th.n = lưu nguyệt",

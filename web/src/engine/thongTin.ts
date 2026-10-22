@@ -64,3 +64,29 @@ export function hanhSao(ten: string): string | null {
   const goc = ten.replace(/^Lưu /, "");
   return tt.phu.get(goc)?.hanh ?? tt.chinh.get(goc)?.ngu_hanh ?? null;
 }
+
+// Cân lượng (cân xương): năm + tháng âm + ngày âm + giờ, đơn vị chỉ (10 chỉ = 1 lượng).
+// Bảng theo tracuutuvi.com / tracuulasotuvi.com (cùng giá trị; 2 trang lệch nhau ở ngày 5: 1,5 và 1,6 → theo tracuutuvi.com).
+// Khớp 3/3 lá số mẫu. Giáp Tuất = 0,5 theo web mẫu (một số sách ghi 1,5, chưa kiểm).
+const CAN_LUONG_NAM: Record<string, number[]> = { // theo chi; thứ tự các can như web: xem CAN_THU_TU
+  Tý: [12, 16, 15, 7, 5], Sửu: [9, 8, 8, 7, 5], Dần: [6, 8, 9, 9, 12], Mão: [7, 19, 12, 12, 8], Thìn: [12, 12, 10, 8, 8],
+  Tỵ: [5, 6, 7, 7, 6], Ngọ: [9, 8, 15, 13, 19], Mùi: [8, 7, 6, 5, 6], Thân: [7, 5, 5, 14, 8], Dậu: [8, 15, 14, 5, 16],
+  Tuất: [5, 6, 14, 9, 10], Hợi: [9, 16, 9, 17, 7],
+};
+const CAN_THU_TU: Record<string, string[]> = {
+  Tý: ["Giáp", "Bính", "Mậu", "Canh", "Nhâm"], Sửu: ["Ất", "Đinh", "Kỷ", "Tân", "Quý"], Dần: ["Bính", "Mậu", "Canh", "Nhâm", "Giáp"],
+  Mão: ["Đinh", "Kỷ", "Tân", "Quý", "Ất"], Thìn: ["Mậu", "Canh", "Nhâm", "Giáp", "Bính"], Tỵ: ["Kỷ", "Tân", "Quý", "Ất", "Đinh"],
+  Ngọ: ["Canh", "Nhâm", "Giáp", "Bính", "Mậu"], Mùi: ["Tân", "Quý", "Ất", "Đinh", "Kỷ"], Thân: ["Nhâm", "Giáp", "Bính", "Mậu", "Canh"],
+  Dậu: ["Quý", "Ất", "Đinh", "Kỷ", "Tân"], Tuất: ["Giáp", "Bính", "Mậu", "Canh", "Nhâm"], Hợi: ["Ất", "Đinh", "Kỷ", "Tân", "Quý"],
+};
+const CL_THANG = [6, 7, 18, 9, 5, 16, 9, 15, 18, 18, 9, 5];
+const CL_NGAY = [5, 10, 8, 15, 16, 15, 8, 16, 8, 16, 9, 17, 8, 17, 10, 8, 9, 18, 5, 15, 10, 9, 8, 9, 15, 18, 7, 8, 16, 6];
+const CL_GIO = [16, 6, 7, 10, 9, 16, 10, 8, 8, 9, 6, 6]; // Tý … Hợi
+
+/** Cân lượng của lá số, VD "3 lượng 3 chỉ". Tháng/ngày là âm lịch (đúng như ls.input). */
+export function canLuong(ls: LaSo): string {
+  const chi = ls.input.chi_nam;
+  const nam = CAN_LUONG_NAM[chi][CAN_THU_TU[chi].indexOf(ls.input.can_nam)];
+  const tong = nam + CL_THANG[ls.input.thang - 1] + CL_NGAY[ls.input.ngay - 1] + CL_GIO[CHI.indexOf(ls.input.gio) - 1];
+  return `${Math.floor(tong / 10)} lượng ${tong % 10} chỉ`;
+}

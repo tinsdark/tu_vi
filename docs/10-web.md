@@ -110,3 +110,7 @@ So từng ô 12 cung với 1 PDF của tracuutuvi.com (Quý Mùi, 11/5/2003 14:4
 ### Lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam)
 
 Vị trí sao khớp 100%; can chi cung, chi năm tiểu hạn, `Th.n` của cả 12 cung khớp; lai nhân (Điền Trạch) khớp. Hai chỗ sửa sau lần này: Văn Xương tại Mão đặt lại **Đắc** (lasotuvi và 2 lá số mẫu cùng ghi), quan hệ cùng hành viết "bình hòa". Còn lệch về độ sáng: web mẫu có thêm nhãn cho Tang Môn (Đ ở Dậu), Thiên Hình (Đ ở Tuất), Hóa Lộc/Quyền (Đ), Hóa Kỵ (H ở Dậu), và không ghi Thiên Hư ở Sửu (lasotuvi: Đắc). Mỗi ô mới có 1 điểm dữ liệu, chưa đủ dựng bảng. Cân lượng: 2 lá số mẫu (3 lượng 3 chỉ; 4 lượng 0 chỉ) cùng tuổi Quý Mùi giờ Mùi, khác tháng/ngày — chưa đủ để suy bảng.
+
+### Lá số mẫu thứ 3 (nữ, Quý Mùi, 5/12/2003 2:30) và cân lượng
+
+Vị trí sao, can chi cung, chi năm tiểu hạn (nữ nghịch), `Th.n`, lai nhân (Mệnh), quan hệ Cục–Mệnh: khớp hết. Đã thêm **cân lượng** (bảng tracuutuvi.com): khớp cả 3 lá số mẫu (3 lượng 3 chỉ, 4 lượng 0 chỉ, 3 lượng 9 chỉ). Văn Xương tại Dậu đặt lại Đắc theo web mẫu (1 nguồn). Nhãn độ sáng web mẫu có mà ta chưa có (Tang Môn, Thiên Hình, Hóa Lộc/Quyền/Kỵ, Thiên Riêu Hợi) được ghi lại ở `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`, chưa dùng chấm điểm.

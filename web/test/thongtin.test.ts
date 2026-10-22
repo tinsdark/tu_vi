@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { anLaSo, CAN, CHI, napAm } from "../src/engine";
-import { canChiCung, chiNamTieuHan, chuMenh, chuThan, laiNhan, quanHeCucMenh, tenNapAm } from "../src/engine/thongTin";
+import { canChiCung, canLuong, chiNamTieuHan, chuMenh, chuThan, laiNhan, quanHeCucMenh, tenNapAm } from "../src/engine/thongTin";
 
 describe("thông tin hiển thị (đối chiếu lá số mẫu tracuutuvi.com: Quý Mùi, tháng 4, ngày 11, giờ Mùi, nam)", () => {
   const ls = anLaSo(10, 8, 4, 11, 8, "nam");
@@ -53,5 +53,30 @@ describe("lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam — tracuutuvi
     const t = Object.fromEntries(kq.bao_cao.han!.luu_nguyet.map((m) => [m.chi, m.thang]));
     expect([t["Tý"], t["Thân"], t["Mão"]]).toEqual([7, 3, 10]);
     expect(dungOCung(ls)[4].tot.find((s) => s.ten === "Văn Xương")?.muc).toBe("Đ");
+  });
+});
+
+describe("cân lượng khớp 3 lá số mẫu tracuutuvi.com", () => {
+  it.each([
+    [[10, 8, 4, 11, 8, "nam"], "3 lượng 3 chỉ"],
+    [[10, 8, 2, 26, 8, "nam"], "4 lượng 0 chỉ"],
+    [[10, 8, 11, 12, 2, "nu"], "3 lượng 9 chỉ"],
+  ] as const)("%j", (a, kq) => {
+    expect(canLuong(anLaSo(a[0], a[1], a[2], a[3], a[4], a[5]))).toBe(kq);
+  });
+});
+
+describe("lá số nữ (Quý Mùi, 5/12/2003 2:30 — tiểu hạn nghịch)", () => {
+  it("lai nhân, chân ô, Văn Xương Dậu", async () => {
+    const { tinhLaSo, chuanHoaNhap, dungOCung } = await import("../src/engine");
+    const r = chuanHoaNhap({ nam: 2003, thang: 12, ngay: 5, gio: 2, phut: 30, gioi_tinh: "nu", mien: "bac", nam_xem: 2026 });
+    if (!r.ok) throw new Error(r.loi.join());
+    const kq = tinhLaSo(r.nhap);
+    expect(laiNhan(kq.la_so)).toBe("Mệnh");
+    expect(canChiCung(kq.la_so, 12)).toBe("Q.Hợi");
+    const t = Object.fromEntries(kq.bao_cao.han!.luu_nguyet.map((m) => [m.chi, m.thang]));
+    expect([t["Hợi"], t["Tý"]]).toEqual([7, 8]);
+    expect(chiNamTieuHan(kq.la_so, 12)).toBe("Dậu");
+    expect(dungOCung(kq.la_so)[10].tot.find((s) => s.ten === "Văn Xương")?.muc).toBe("Đ");
   });
 });
