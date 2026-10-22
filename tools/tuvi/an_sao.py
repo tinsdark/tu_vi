@@ -19,6 +19,9 @@ PROFILE_MAC_DINH = {
     "hoa_linh_ty_dau_suu": "hoa_mao_linh_tuat",  # dị bản: hoa_tuat_linh_mao (lasotuvi)
     "pha_toai": "khau_quyet",       # Tý Ngọ Mão Dậu → Tỵ; dị bản: lasotuvi (đổi Tỵ/Dậu)
     "thien_giai": "khong_nhay",     # Thân thuận theo tháng; dị bản: nhay_cung (lasotuvi theo Thiên Lương)
+    "luu_ha": "thai_thu_lang",      # Đinh Thìn, Canh Thân, Tân Mão; dị bản: thien_luong (Đinh Thân, Canh Thìn), ngu_hanh (Đinh Thân, Canh Mão, Tân Thìn)
+    "thien_tru_quy": "tuat",
+    "thien_quy": "nghich",          # từ Văn Khúc đếm nghịch (lasotuvi); dị bản: thuan (iztro, phái Trung Hoa)        # Quý → Tuất (lasotuvi); dị bản: hoi (iztro, khẩu quyết Trung Hoa)
 }
 
 
@@ -129,7 +132,7 @@ def an_la_so(can_nam, chi_nam, thang, ngay, gio, gioi_tinh, profile=None):
     dat("Tam Thai", mv(sao["Tả Phù"], ngay - 1))
     dat("Bát Tọa", mv(sao["Hữu Bật"], -(ngay - 1)))
     dat("Ân Quang", mv(sao["Văn Xương"], ngay - 2))
-    dat("Thiên Quý", mv(sao["Văn Khúc"], -(ngay - 2)))
+    dat("Thiên Quý", mv(sao["Văn Khúc"], (ngay - 2) * (1 if p["thien_quy"] == "thuan" else -1)))
 
     # --- Theo can năm
     if p["khoi_viet"] == "khau_quyet":
@@ -145,6 +148,13 @@ def an_la_so(can_nam, chi_nam, thang, ngay, gio, gioi_tinh, profile=None):
     dat("Văn Tinh", mv(loc, 3))
     dat("Đường Phù", mv(loc, 5))
     dat("Quốc Ấn", mv(loc, 8))
+    luu_ha = [0, DAU, TUAT, MUI, THIN, TI, NGO, THAN, MAO, HOI, DAN]
+    if p["luu_ha"] == "thien_luong":
+        luu_ha[4], luu_ha[7] = THAN, THIN
+    elif p["luu_ha"] == "ngu_hanh":
+        luu_ha[4], luu_ha[7], luu_ha[8] = THAN, MAO, THIN
+    dat("Lưu Hà", luu_ha[can_nam])
+    dat("Thiên Trù", [0, TI, NGO, TY, TI, NGO, THAN, DAN, NGO, DAU, TUAT if p["thien_tru_quy"] == "tuat" else HOI][can_nam])
 
     # --- Theo chi năm
     dat("Long Trì", mv(THIN, chi_nam - 1))

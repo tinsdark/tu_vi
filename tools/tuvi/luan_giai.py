@@ -30,13 +30,13 @@ class TriThuc:
         self.chinh = {s["ten"]: s for s in nap("chinh_tinh.json")["sao"]}
         self.bo_sao = nap("chinh_tinh_tai_chi.json")
         self.ma_tran = nap("chinh_tinh_tai_cung_chuc.json")["ma_tran"]
-        self.cach = nap("cach_cuc.json")["cach"]
+        cc = nap("cach_cuc.json")
+        self.cach, self.pha_chung = cc["cach"], cc["_meta"]["pha_chung"]
         self.tu_hoa = nap("tu_hoa_luan.json")["to_hop"]
-        # Độ sáng: lasotuvi là nguồn chính; sao thiếu thì lấy nguồn 2 (chỉ có Miếu/Vượng gộp)
+        # Độ sáng: bảng đã chốt (do_sang_chot.json) ưu tiên, còn lại lấy lasotuvi
         self.do_sang = {s["ten"].lower(): s["theo_chi"] for s in nap("do_sang.json")["sao"]}
-        for ten, quy in nap("do_sang_nguon2.json")["sao"].items():
-            if ten.lower() not in self.do_sang:
-                self.do_sang[ten.lower()] = {c: ("V" if muc == "MV" else muc) for muc, ds in quy.items() for c in ds}
+        for ten, s in nap("do_sang_chot.json")["sao"].items():
+            self.do_sang[ten.lower()] = s["theo_chi"]
 
     def sang(self, sao, chi):
         return self.do_sang.get(sao.lower(), {}).get(CHI[chi])
@@ -55,7 +55,9 @@ class LuanGiai:
     # ---------- vùng ảnh hưởng
     def vung(self, chi, o="ban_cung"):
         return {"ban_cung": [chi], "xung": [mv(chi, 6)], "tam_hop": [mv(chi, 4), mv(chi, -4)],
-                "tam_phuong": [chi, mv(chi, 4), mv(chi, -4), mv(chi, 6)], "giap": [mv(chi, -1), mv(chi, 1)]}[o]
+                "tam_hop_ca_ban": [chi, mv(chi, 4), mv(chi, -4)], "ban_xung": [chi, mv(chi, 6)],
+                "tam_phuong": [chi, mv(chi, 4), mv(chi, -4), mv(chi, 6)], "giap": [mv(chi, -1), mv(chi, 1)],
+                "than": [self.ls["than"]]}[o]
 
     def sao_trong(self, chi, o="ban_cung"):
         return [s for c in self.vung(chi, o) for s in self.cung[c]]
@@ -101,6 +103,9 @@ class LuanGiai:
             return ("Tuần" in self.cung[chi] or "Triệt" in self.cung[chi]) == dk["tuan_triet"]
         if "can_nam" in dk:
             return self.ls["input"]["can_nam"] in dk["can_nam"]
+        if "vung_trung" in dk:
+            a, b = dk["vung_trung"]
+            return set(self.vung(chi, a)) == set(self.vung(chi, b))
         raise ValueError(f"Điều kiện không hiểu: {dk}")
 
     # ---------- Lớp 1: nền
@@ -229,11 +234,19 @@ class LuanGiai:
         for cc in self.tt.cach:
             if cc.get("pham_vi", "Mệnh") != ten_cung or not self.khop(cc["thanh"], chi):
                 continue
-            bi_pha = "pha" in cc and self.khop(cc["pha"], chi)
-            d = cc.get("diem_pha", cc["diem"]) if bi_pha else cc["diem"]
+            pha_chung = self.tt.pha_chung
+            if "pha" in cc:
+                bi_pha = self.khop(cc["pha"], chi)
+                d = cc.get("diem_pha", cc["diem"]) if bi_pha else cc["diem"]
+            elif cc.get("loai") == "cat" and self.khop(pha_chung["dieu_kien"], chi):
+                bi_pha, d = True, round(cc["diem"] * pha_chung["he_so_diem"], 2)
+            else:
+                bi_pha, d = False, cc["diem"]
             diem += d
             nhan_dinh.append({"id": cc["id"], "diem": d,
-                              "nhan_dinh": f"[{cc['ten']}{' — PHÁ CÁCH' if bi_pha else ''}] " + (cc.get("ket_luan_pha") if bi_pha else cc["ket_luan"]),
+                              "nhan_dinh": f"[{cc['ten']}{' — PHÁ CÁCH' if bi_pha else ''}] "
+                                           + (cc.get("ket_luan_pha", "Gặp từ 2 sát tinh/Hóa Kỵ trong tam phương: cách bị giảm nhiều. " + cc["ket_luan"])
+                                              if bi_pha else cc["ket_luan"]),
                               "ly_do": "Thỏa điều kiện cách cục" + (" nhưng gặp điều kiện phá" if bi_pha else "")
                                        + ("" if cc.get("xac_nhan_web") else " (cách chưa xác nhận nguồn web)")})
 

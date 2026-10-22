@@ -1,944 +1,965 @@
 {
- "_meta": {
-  "mo_ta": "Phụ tinh: thuộc tính + điểm gốc + lĩnh vực + đắc/hãm. diem = tác động gốc -3..+3 khi đóng ở cung (trước khi nhân độ sáng / vị trí). tag dùng để bộ luận ghép với lĩnh vực của cung chức.",
-  "nguon": "Tổng hợp: kiến thức phổ thông tử vi VN (AI tổng hợp) + đối chiếu cách phân loại sao tốt/xấu trong lasotuvi/Sao.py (saoLoai) + kết quả tìm kiếm web. Đắc/hãm phụ tinh lấy theo do_sang.json khi có.",
-  "trang_thai": "draft_ai_tong_hop",
-  "tag": "tai (tiền) | quyen | danh | hoc | quy_nhan | tinh_cam | suc_khoe | tai_nan | thi_phi | kien_tung | hao | co_doc | di_chuyen | giai_ach | phuc | nghe_thuat | tang_thuong | an_khang"
- },
- "nhom": {
-  "luc_cat": [
-   "Tả Phù",
-   "Hữu Bật",
-   "Văn Xương",
-   "Văn Khúc",
-   "Thiên Khôi",
-   "Thiên Việt"
-  ],
-  "luc_sat": [
-   "Kình Dương",
-   "Đà La",
-   "Hỏa Tinh",
-   "Linh Tinh",
-   "Địa Không",
-   "Địa Kiếp"
-  ],
-  "tu_sat": [
-   "Kình Dương",
-   "Đà La",
-   "Hỏa Tinh",
-   "Linh Tinh"
-  ],
-  "tam_hoa_cat": [
-   "Hóa Lộc",
-   "Hóa Quyền",
-   "Hóa Khoa"
-  ],
-  "loc": [
-   "Lộc Tồn",
-   "Hóa Lộc"
-  ],
-  "dao_hoa": [
-   "Đào Hoa",
-   "Hồng Loan",
-   "Thiên Hỷ",
-   "Thiên Riêu",
-   "Mộc Dục"
-  ],
-  "giai_than": [
-   "Thiên Giải",
-   "Địa Giải",
-   "Giải Thần",
-   "Thiên Quan",
-   "Thiên Phúc",
-   "Thiên Đức",
-   "Nguyệt Đức",
-   "Long Đức",
-   "Phúc Đức"
-  ],
-  "tu_khong": [
-   "Tuần",
-   "Triệt",
-   "Thiên Không",
-   "Địa Không"
-  ],
-  "hinh_ky": [
-   "Thiên Hình",
-   "Hóa Kỵ",
-   "Kình Dương"
+  "_meta": {
+    "mo_ta": "Phụ tinh: thuộc tính + điểm gốc + lĩnh vực + đắc/hãm. diem = tác động gốc -3..+3 khi đóng ở cung (trước khi nhân độ sáng / vị trí). tag dùng để bộ luận ghép với lĩnh vực của cung chức.",
+    "nguon": "Tổng hợp: kiến thức phổ thông tử vi VN (AI tổng hợp) + đối chiếu cách phân loại sao tốt/xấu trong lasotuvi/Sao.py (saoLoai) + kết quả tìm kiếm web. Đắc/hãm phụ tinh lấy theo do_sang.json khi có.",
+    "trang_thai": "draft_ai_tong_hop",
+    "tag": "tai (tiền) | quyen | danh | hoc | quy_nhan | tinh_cam | suc_khoe | tai_nan | thi_phi | kien_tung | hao | co_doc | di_chuyen | giai_ach | phuc | nghe_thuat | tang_thuong | an_khang"
+  },
+  "nhom": {
+    "luc_cat": [
+      "Tả Phù",
+      "Hữu Bật",
+      "Văn Xương",
+      "Văn Khúc",
+      "Thiên Khôi",
+      "Thiên Việt"
+    ],
+    "luc_sat": [
+      "Kình Dương",
+      "Đà La",
+      "Hỏa Tinh",
+      "Linh Tinh",
+      "Địa Không",
+      "Địa Kiếp"
+    ],
+    "tu_sat": [
+      "Kình Dương",
+      "Đà La",
+      "Hỏa Tinh",
+      "Linh Tinh"
+    ],
+    "tam_hoa_cat": [
+      "Hóa Lộc",
+      "Hóa Quyền",
+      "Hóa Khoa"
+    ],
+    "loc": [
+      "Lộc Tồn",
+      "Hóa Lộc"
+    ],
+    "dao_hoa": [
+      "Đào Hoa",
+      "Hồng Loan",
+      "Thiên Hỷ",
+      "Thiên Riêu",
+      "Mộc Dục"
+    ],
+    "giai_than": [
+      "Thiên Giải",
+      "Địa Giải",
+      "Giải Thần",
+      "Thiên Quan",
+      "Thiên Phúc",
+      "Thiên Đức",
+      "Nguyệt Đức",
+      "Long Đức",
+      "Phúc Đức"
+    ],
+    "tu_khong": [
+      "Tuần",
+      "Triệt",
+      "Thiên Không",
+      "Địa Không"
+    ],
+    "hinh_ky": [
+      "Thiên Hình",
+      "Hóa Kỵ",
+      "Kình Dương"
+    ],
+    "cat_tinh": [
+      "Tả Phù",
+      "Hữu Bật",
+      "Văn Xương",
+      "Văn Khúc",
+      "Thiên Khôi",
+      "Thiên Việt",
+      "Lộc Tồn",
+      "Hóa Lộc",
+      "Hóa Quyền",
+      "Hóa Khoa"
+    ],
+    "hung_pha": [
+      "Kình Dương",
+      "Đà La",
+      "Hỏa Tinh",
+      "Linh Tinh",
+      "Địa Không",
+      "Địa Kiếp",
+      "Hóa Kỵ"
+    ]
+  },
+  "sao": [
+    {
+      "ten": "Tả Phù",
+      "hanh": "Tho",
+      "diem": 2,
+      "tag": [
+        "quy_nhan",
+        "quyen"
+      ],
+      "y_nghia": "Phụ tá, được người giúp sức, có tay chân; đi với Hữu Bật càng mạnh."
+    },
+    {
+      "ten": "Hữu Bật",
+      "hanh": "Thuy",
+      "diem": 2,
+      "tag": [
+        "quy_nhan",
+        "quyen"
+      ],
+      "y_nghia": "Như Tả Phù, thiên về giúp đỡ ngầm, mềm mỏng."
+    },
+    {
+      "ten": "Văn Xương",
+      "hanh": "Kim",
+      "diem": 2,
+      "tag": [
+        "hoc",
+        "danh"
+      ],
+      "y_nghia": "Học vấn chính quy, khoa bảng, giấy tờ, văn bản.",
+      "do_sang": "xem do_sang.json (nghi vấn)"
+    },
+    {
+      "ten": "Văn Khúc",
+      "hanh": "Thuy",
+      "diem": 2,
+      "tag": [
+        "hoc",
+        "nghe_thuat"
+      ],
+      "y_nghia": "Tài năng nghệ thuật, ăn nói, văn chương ngoài chính quy.",
+      "do_sang": "xem do_sang.json (nghi vấn)"
+    },
+    {
+      "ten": "Thiên Khôi",
+      "hanh": "Hoa",
+      "diem": 2,
+      "tag": [
+        "quy_nhan",
+        "danh"
+      ],
+      "y_nghia": "Quý nhân dương (người lớn, nam), cơ hội thăng tiến, thi cử."
+    },
+    {
+      "ten": "Thiên Việt",
+      "hanh": "Hoa",
+      "diem": 2,
+      "tag": [
+        "quy_nhan",
+        "danh"
+      ],
+      "y_nghia": "Quý nhân âm (nữ, ngầm), cơ hội bất ngờ."
+    },
+    {
+      "ten": "Lộc Tồn",
+      "hanh": "Tho",
+      "diem": 2,
+      "tag": [
+        "tai",
+        "phuc",
+        "co_doc"
+      ],
+      "y_nghia": "Tài lộc bền, giữ của, tính thận trọng; hơi cô độc. Luôn bị Kình Đà kẹp hai bên."
+    },
+    {
+      "ten": "Thiên Mã",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "di_chuyen",
+        "tai"
+      ],
+      "y_nghia": "Di chuyển, thay đổi, năng động. Gặp Lộc = Lộc Mã giao trì; gặp Tuần Triệt = 'Mã què'; gặp Đà La = 'Mã chiết túc'.",
+      "dac_dia": [
+        "Dần",
+        "Tỵ"
+      ]
+    },
+    {
+      "ten": "Hóa Lộc",
+      "hanh": "Moc",
+      "diem": 3,
+      "tag": [
+        "tai",
+        "phuc"
+      ],
+      "y_nghia": "Tài lộc, thuận lợi, duyên; tăng cái tốt của sao được hóa."
+    },
+    {
+      "ten": "Hóa Quyền",
+      "hanh": "Moc",
+      "diem": 2,
+      "tag": [
+        "quyen"
+      ],
+      "y_nghia": "Quyền lực, chủ động, uy; quá mức thì độc đoán."
+    },
+    {
+      "ten": "Hóa Khoa",
+      "hanh": "Thuy",
+      "diem": 2,
+      "tag": [
+        "danh",
+        "hoc",
+        "giai_ach"
+      ],
+      "y_nghia": "Danh tiếng, học vấn, được bảo vệ (đệ nhất giải thần)."
+    },
+    {
+      "ten": "Hóa Kỵ",
+      "hanh": "Thuy",
+      "diem": -2,
+      "tag": [
+        "thi_phi",
+        "hao"
+      ],
+      "y_nghia": "Vướng mắc, ghen tị, thị phi, trở ngại tại cung nó đóng; khi đắc địa (tứ mộ) và gặp sao sáng lại thành động lực.",
+      "dac_dia": [
+        "Sửu",
+        "Thìn",
+        "Mùi",
+        "Tuất"
+      ]
+    },
+    {
+      "ten": "Kình Dương",
+      "hanh": "Kim",
+      "diem": -2,
+      "tag": [
+        "tai_nan",
+        "quyen"
+      ],
+      "y_nghia": "Hung tinh cương mãnh: cạnh tranh, mổ xẻ, dao kéo; đắc địa thì quyết đoán, uy dũng (võ nghiệp).",
+      "dac_dia": [
+        "Thìn",
+        "Tuất",
+        "Sửu",
+        "Mùi"
+      ]
+    },
+    {
+      "ten": "Đà La",
+      "hanh": "Kim",
+      "diem": -2,
+      "tag": [
+        "tai_nan",
+        "thi_phi"
+      ],
+      "y_nghia": "Trì trệ, dây dưa, ngấm ngầm; đắc địa thì kiên nhẫn, bền bỉ.",
+      "dac_dia": [
+        "Thìn",
+        "Tuất",
+        "Sửu",
+        "Mùi"
+      ]
+    },
+    {
+      "ten": "Hỏa Tinh",
+      "hanh": "Hoa",
+      "diem": -2,
+      "tag": [
+        "tai_nan",
+        "hao"
+      ],
+      "y_nghia": "Nóng nảy, bộc phát, tai họa bất ngờ (lửa, nhiệt); gặp Tham Lang miếu = Hỏa Tham cách phát nhanh.",
+      "dac_dia": [
+        "Dần",
+        "Mão",
+        "Thìn",
+        "Tỵ",
+        "Ngọ"
+      ]
+    },
+    {
+      "ten": "Linh Tinh",
+      "hanh": "Hoa",
+      "diem": -2,
+      "tag": [
+        "tai_nan",
+        "hao"
+      ],
+      "y_nghia": "Như Hỏa Tinh nhưng âm ỉ, kéo dài; gặp Tham Lang miếu = Linh Tham cách.",
+      "dac_dia": [
+        "Dần",
+        "Mão",
+        "Thìn",
+        "Tỵ",
+        "Ngọ"
+      ]
+    },
+    {
+      "ten": "Địa Không",
+      "hanh": "Hoa",
+      "diem": -2,
+      "tag": [
+        "hao",
+        "tai_nan"
+      ],
+      "y_nghia": "Hao tán về tinh thần, ý tưởng viển vông, mất mát bất ngờ; đắc địa thì tư duy đột phá, phát nhanh mà khó bền.",
+      "dac_dia": [
+        "Dần",
+        "Thân",
+        "Tỵ",
+        "Hợi"
+      ]
+    },
+    {
+      "ten": "Địa Kiếp",
+      "hanh": "Hoa",
+      "diem": -2,
+      "tag": [
+        "hao",
+        "tai_nan"
+      ],
+      "y_nghia": "Hao tán vật chất, cướp đoạt, phá sản; đắc địa thì liều lĩnh mà thành.",
+      "dac_dia": [
+        "Dần",
+        "Thân",
+        "Tỵ",
+        "Hợi"
+      ]
+    },
+    {
+      "ten": "Thiên Không",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "hao"
+      ],
+      "y_nghia": "Không, mất, ảo tưởng; tốt cho tu hành, triết lý; VCD gặp lại tốt."
+    },
+    {
+      "ten": "Thiên Hình",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "kien_tung",
+        "tai_nan",
+        "quyen"
+      ],
+      "y_nghia": "Hình pháp, kỷ luật, phẫu thuật; đắc địa hợp ngành luật, quân đội, y (ngoại khoa).",
+      "dac_dia": [
+        "Dần",
+        "Mão",
+        "Thân",
+        "Dậu"
+      ]
+    },
+    {
+      "ten": "Thiên Riêu",
+      "hanh": "Thuy",
+      "diem": -1,
+      "tag": [
+        "tinh_cam"
+      ],
+      "y_nghia": "Đa tình, lãng mạn, dễ sa đà; đắc địa thì có duyên nghệ thuật.",
+      "dac_dia": [
+        "Dần",
+        "Mão",
+        "Dậu",
+        "Tuất"
+      ]
+    },
+    {
+      "ten": "Thiên Y",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "suc_khoe"
+      ],
+      "y_nghia": "Thuốc men, chữa bệnh, giải bệnh; hợp ngành y dược."
+    },
+    {
+      "ten": "Đào Hoa",
+      "hanh": "Moc",
+      "diem": 1,
+      "tag": [
+        "tinh_cam",
+        "nghe_thuat"
+      ],
+      "y_nghia": "Duyên, sức hút, giao tế; gặp sát tinh hoặc sao dâm thì dễ lụy tình."
+    },
+    {
+      "ten": "Hồng Loan",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "tinh_cam"
+      ],
+      "y_nghia": "Hôn nhân, hỷ sự, duyên dáng."
+    },
+    {
+      "ten": "Thiên Hỷ",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "tinh_cam",
+        "phuc"
+      ],
+      "y_nghia": "Tin vui, hỷ sự."
+    },
+    {
+      "ten": "Long Trì",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "danh",
+        "nghe_thuat"
+      ],
+      "y_nghia": "Khoa danh, thanh lịch; đi đôi Phượng Các."
+    },
+    {
+      "ten": "Phượng Các",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "danh",
+        "nghe_thuat"
+      ],
+      "y_nghia": "Khoa danh, thanh lịch, văn hoa."
+    },
+    {
+      "ten": "Giải Thần",
+      "hanh": "Moc",
+      "diem": 1,
+      "tag": [
+        "giai_ach"
+      ],
+      "y_nghia": "Giải trừ tai ách."
+    },
+    {
+      "ten": "Tam Thai",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "danh",
+        "quyen"
+      ],
+      "y_nghia": "Địa vị, chức tước; đi đôi Bát Tọa."
+    },
+    {
+      "ten": "Bát Tọa",
+      "hanh": "Moc",
+      "diem": 1,
+      "tag": [
+        "danh",
+        "quyen"
+      ],
+      "y_nghia": "Địa vị, phương tiện; đi đôi Tam Thai."
+    },
+    {
+      "ten": "Ân Quang",
+      "hanh": "Moc",
+      "diem": 1,
+      "tag": [
+        "quy_nhan",
+        "phuc"
+      ],
+      "y_nghia": "Ơn huệ, được thương yêu nâng đỡ; đi đôi Thiên Quý."
+    },
+    {
+      "ten": "Thiên Quý",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "quy_nhan",
+        "phuc"
+      ],
+      "y_nghia": "Ơn huệ, phúc đức."
+    },
+    {
+      "ten": "Thai Phụ",
+      "hanh": "Kim",
+      "diem": 1,
+      "tag": [
+        "danh"
+      ],
+      "y_nghia": "Chức vị, ấn tín, lời khen."
+    },
+    {
+      "ten": "Phong Cáo",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "danh"
+      ],
+      "y_nghia": "Danh dự, khen thưởng."
+    },
+    {
+      "ten": "Quốc Ấn",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "quyen",
+        "danh"
+      ],
+      "y_nghia": "Ấn tín, chức quyền chính thức."
+    },
+    {
+      "ten": "Đường Phù",
+      "hanh": "Moc",
+      "diem": 1,
+      "tag": [
+        "danh"
+      ],
+      "y_nghia": "Bằng sắc, danh vị; nhà cửa đàng hoàng."
+    },
+    {
+      "ten": "Văn Tinh",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "hoc"
+      ],
+      "y_nghia": "Văn chương, học hành."
+    },
+    {
+      "ten": "Thiên Quan",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "quy_nhan",
+        "giai_ach",
+        "phuc"
+      ],
+      "y_nghia": "Quý nhân, phúc, giải nạn; thiên về tín ngưỡng."
+    },
+    {
+      "ten": "Thiên Phúc",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "phuc",
+        "giai_ach"
+      ],
+      "y_nghia": "Phúc thọ, giải nạn."
+    },
+    {
+      "ten": "Thiên Đức",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "phuc",
+        "giai_ach"
+      ],
+      "y_nghia": "Đức độ, giải nạn."
+    },
+    {
+      "ten": "Nguyệt Đức",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "phuc",
+        "giai_ach"
+      ],
+      "y_nghia": "Đức độ, hiền hòa, giải nạn."
+    },
+    {
+      "ten": "Thiên Giải",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "giai_ach"
+      ],
+      "y_nghia": "Giải trừ tai họa."
+    },
+    {
+      "ten": "Địa Giải",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "giai_ach"
+      ],
+      "y_nghia": "Giải trừ tai họa."
+    },
+    {
+      "ten": "Thiên Tài",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "tai"
+      ],
+      "y_nghia": "Tài năng; làm tăng cái tốt/ xấu của cung."
+    },
+    {
+      "ten": "Thiên Thọ",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "suc_khoe",
+        "phuc"
+      ],
+      "y_nghia": "Thọ, hiền hậu."
+    },
+    {
+      "ten": "Thiên Khốc",
+      "hanh": "Kim",
+      "diem": -1,
+      "tag": [
+        "tang_thuong"
+      ],
+      "y_nghia": "Buồn khổ, nước mắt; đắc địa (Tý Ngọ) lại có tiếng tăm, giọng nói hay.",
+      "dac_dia": [
+        "Tý",
+        "Ngọ",
+        "Mão",
+        "Dậu",
+        "Sửu",
+        "Mùi"
+      ]
+    },
+    {
+      "ten": "Thiên Hư",
+      "hanh": "Thuy",
+      "diem": -1,
+      "tag": [
+        "tang_thuong",
+        "hao"
+      ],
+      "y_nghia": "Hư hao, buồn rầu; đi với Khốc ở Tý Ngọ thành cách.",
+      "dac_dia": [
+        "Tý",
+        "Ngọ",
+        "Mão",
+        "Dậu",
+        "Sửu",
+        "Mùi"
+      ]
+    },
+    {
+      "ten": "Cô Thần",
+      "hanh": "Tho",
+      "diem": -1,
+      "tag": [
+        "co_doc"
+      ],
+      "y_nghia": "Cô độc, ít người thân cận (nghiêng về nam)."
+    },
+    {
+      "ten": "Quả Tú",
+      "hanh": "Tho",
+      "diem": -1,
+      "tag": [
+        "co_doc"
+      ],
+      "y_nghia": "Cô quả (nghiêng về nữ), tình cảm lạnh."
+    },
+    {
+      "ten": "Phá Toái",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "hao"
+      ],
+      "y_nghia": "Đổ vỡ, hao tán vặt."
+    },
+    {
+      "ten": "Kiếp Sát",
+      "hanh": "Hoa",
+      "diem": -2,
+      "tag": [
+        "tai_nan"
+      ],
+      "y_nghia": "Tai nạn, sát phạt."
+    },
+    {
+      "ten": "Hoa Cái",
+      "hanh": "Kim",
+      "diem": 1,
+      "tag": [
+        "danh",
+        "nghe_thuat",
+        "co_doc"
+      ],
+      "y_nghia": "Phong cách, cái tôi, thẩm mỹ; nghiêng về tôn giáo/ nghệ thuật."
+    },
+    {
+      "ten": "Thiên La",
+      "hanh": "Tho",
+      "diem": -1,
+      "tag": [
+        "kien_tung"
+      ],
+      "y_nghia": "Lưới trời: bị trói buộc; cố định tại Thìn."
+    },
+    {
+      "ten": "Địa Võng",
+      "hanh": "Tho",
+      "diem": -1,
+      "tag": [
+        "kien_tung"
+      ],
+      "y_nghia": "Lưới đất: bị trói buộc; cố định tại Tuất."
+    },
+    {
+      "ten": "Thiên Thương",
+      "hanh": "Tho",
+      "diem": -1,
+      "tag": [
+        "hao",
+        "tang_thuong"
+      ],
+      "y_nghia": "Hao tổn, buồn; luôn ở Nô Bộc, xét khi hạn tới."
+    },
+    {
+      "ten": "Thiên Sứ",
+      "hanh": "Thuy",
+      "diem": -1,
+      "tag": [
+        "tai_nan"
+      ],
+      "y_nghia": "Tai họa; luôn ở Tật Ách, xét khi hạn tới."
+    },
+    {
+      "ten": "Đẩu Quân",
+      "hanh": "Hoa",
+      "diem": 0,
+      "tag": [
+        "co_doc"
+      ],
+      "y_nghia": "Nghiêm khắc, cô độc; dùng xét lưu nguyệt."
+    },
+    {
+      "ten": "Thái Tuế",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "thi_phi",
+        "quyen"
+      ],
+      "y_nghia": "Uy nghiêm, lý lẽ, dễ thị phi kiện cáo; trong lưu niên chỉ năm đang xét."
+    },
+    {
+      "ten": "Thiếu Dương",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "phuc"
+      ],
+      "y_nghia": "Thông minh, vui vẻ."
+    },
+    {
+      "ten": "Tang Môn",
+      "hanh": "Moc",
+      "diem": -2,
+      "tag": [
+        "tang_thuong"
+      ],
+      "y_nghia": "Tang thương, buồn."
+    },
+    {
+      "ten": "Thiếu Âm",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "phuc"
+      ],
+      "y_nghia": "Hiền hòa, thông minh."
+    },
+    {
+      "ten": "Quan Phù",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "kien_tung"
+      ],
+      "y_nghia": "Kiện cáo, giấy tờ pháp lý (vòng Thái Tuế)."
+    },
+    {
+      "ten": "Tử Phù",
+      "hanh": "Kim",
+      "diem": -1,
+      "tag": [
+        "tang_thuong"
+      ],
+      "y_nghia": "Buồn, tang."
+    },
+    {
+      "ten": "Tuế Phá",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "hao",
+        "thi_phi"
+      ],
+      "y_nghia": "Phá, ngang ngạnh, hao tán."
+    },
+    {
+      "ten": "Long Đức",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "phuc",
+        "giai_ach"
+      ],
+      "y_nghia": "Phúc đức, giải nạn."
+    },
+    {
+      "ten": "Bạch Hổ",
+      "hanh": "Kim",
+      "diem": -2,
+      "tag": [
+        "tai_nan",
+        "tang_thuong"
+      ],
+      "y_nghia": "Tai nạn, tang; đắc địa ở Dần Thân thì uy mãnh.",
+      "dac_dia": [
+        "Dần",
+        "Thân"
+      ]
+    },
+    {
+      "ten": "Phúc Đức",
+      "hanh": "Tho",
+      "diem": 1,
+      "tag": [
+        "phuc",
+        "giai_ach"
+      ],
+      "y_nghia": "Phúc, giải nạn."
+    },
+    {
+      "ten": "Điếu Khách",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "thi_phi",
+        "tang_thuong"
+      ],
+      "y_nghia": "Ăn nói bừa, tang."
+    },
+    {
+      "ten": "Trực Phù",
+      "hanh": "Kim",
+      "diem": -1,
+      "tag": [
+        "tang_thuong"
+      ],
+      "y_nghia": "Buồn, phiền."
+    },
+    {
+      "ten": "Bác Sĩ",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "hoc",
+        "danh"
+      ],
+      "y_nghia": "Thông minh, học rộng."
+    },
+    {
+      "ten": "Lực Sĩ",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "quyen"
+      ],
+      "y_nghia": "Sức mạnh, quyền lực thực thi."
+    },
+    {
+      "ten": "Thanh Long",
+      "hanh": "Thuy",
+      "diem": 1,
+      "tag": [
+        "phuc",
+        "tai"
+      ],
+      "y_nghia": "Hỷ sự, may mắn."
+    },
+    {
+      "ten": "Tiểu Hao",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "hao"
+      ],
+      "y_nghia": "Hao tán nhỏ, tiêu xài.",
+      "dac_dia": [
+        "Dần",
+        "Mão",
+        "Thân",
+        "Dậu"
+      ]
+    },
+    {
+      "ten": "Tướng Quân",
+      "hanh": "Moc",
+      "diem": 1,
+      "tag": [
+        "quyen"
+      ],
+      "y_nghia": "Uy quyền, quyết đoán."
+    },
+    {
+      "ten": "Tấu Thư",
+      "hanh": "Kim",
+      "diem": 1,
+      "tag": [
+        "hoc",
+        "danh"
+      ],
+      "y_nghia": "Văn thư, ăn nói khéo."
+    },
+    {
+      "ten": "Phi Liêm",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "thi_phi"
+      ],
+      "y_nghia": "Nhanh nhẹn; thị phi, cô độc."
+    },
+    {
+      "ten": "Hỷ Thần",
+      "hanh": "Hoa",
+      "diem": 1,
+      "tag": [
+        "phuc"
+      ],
+      "y_nghia": "Vui vẻ, hỷ sự."
+    },
+    {
+      "ten": "Bệnh Phù",
+      "hanh": "Tho",
+      "diem": -1,
+      "tag": [
+        "suc_khoe"
+      ],
+      "y_nghia": "Bệnh tật."
+    },
+    {
+      "ten": "Đại Hao",
+      "hanh": "Hoa",
+      "diem": -2,
+      "tag": [
+        "hao"
+      ],
+      "y_nghia": "Hao tán lớn.",
+      "dac_dia": [
+        "Dần",
+        "Mão",
+        "Thân",
+        "Dậu"
+      ]
+    },
+    {
+      "ten": "Phục Binh",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "thi_phi"
+      ],
+      "y_nghia": "Bị ngầm hại, tiểu nhân."
+    },
+    {
+      "ten": "Quan Phủ",
+      "hanh": "Hoa",
+      "diem": -1,
+      "tag": [
+        "kien_tung"
+      ],
+      "y_nghia": "Kiện tụng, giấy tờ (vòng Bác Sĩ)."
+    }
   ]
- },
- "sao": [
-  {
-   "ten": "Tả Phù",
-   "hanh": "Tho",
-   "diem": 2,
-   "tag": [
-    "quy_nhan",
-    "quyen"
-   ],
-   "y_nghia": "Phụ tá, được người giúp sức, có tay chân; đi với Hữu Bật càng mạnh."
-  },
-  {
-   "ten": "Hữu Bật",
-   "hanh": "Thuy",
-   "diem": 2,
-   "tag": [
-    "quy_nhan",
-    "quyen"
-   ],
-   "y_nghia": "Như Tả Phù, thiên về giúp đỡ ngầm, mềm mỏng."
-  },
-  {
-   "ten": "Văn Xương",
-   "hanh": "Kim",
-   "diem": 2,
-   "tag": [
-    "hoc",
-    "danh"
-   ],
-   "y_nghia": "Học vấn chính quy, khoa bảng, giấy tờ, văn bản.",
-   "do_sang": "xem do_sang.json (nghi vấn)"
-  },
-  {
-   "ten": "Văn Khúc",
-   "hanh": "Thuy",
-   "diem": 2,
-   "tag": [
-    "hoc",
-    "nghe_thuat"
-   ],
-   "y_nghia": "Tài năng nghệ thuật, ăn nói, văn chương ngoài chính quy.",
-   "do_sang": "xem do_sang.json (nghi vấn)"
-  },
-  {
-   "ten": "Thiên Khôi",
-   "hanh": "Hoa",
-   "diem": 2,
-   "tag": [
-    "quy_nhan",
-    "danh"
-   ],
-   "y_nghia": "Quý nhân dương (người lớn, nam), cơ hội thăng tiến, thi cử."
-  },
-  {
-   "ten": "Thiên Việt",
-   "hanh": "Hoa",
-   "diem": 2,
-   "tag": [
-    "quy_nhan",
-    "danh"
-   ],
-   "y_nghia": "Quý nhân âm (nữ, ngầm), cơ hội bất ngờ."
-  },
-  {
-   "ten": "Lộc Tồn",
-   "hanh": "Tho",
-   "diem": 2,
-   "tag": [
-    "tai",
-    "phuc",
-    "co_doc"
-   ],
-   "y_nghia": "Tài lộc bền, giữ của, tính thận trọng; hơi cô độc. Luôn bị Kình Đà kẹp hai bên."
-  },
-  {
-   "ten": "Thiên Mã",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "di_chuyen",
-    "tai"
-   ],
-   "y_nghia": "Di chuyển, thay đổi, năng động. Gặp Lộc = Lộc Mã giao trì; gặp Tuần Triệt = 'Mã què'; gặp Đà La = 'Mã chiết túc'.",
-   "dac_dia": [
-    "Dần",
-    "Tỵ"
-   ]
-  },
-  {
-   "ten": "Hóa Lộc",
-   "hanh": "Moc",
-   "diem": 3,
-   "tag": [
-    "tai",
-    "phuc"
-   ],
-   "y_nghia": "Tài lộc, thuận lợi, duyên; tăng cái tốt của sao được hóa."
-  },
-  {
-   "ten": "Hóa Quyền",
-   "hanh": "Moc",
-   "diem": 2,
-   "tag": [
-    "quyen"
-   ],
-   "y_nghia": "Quyền lực, chủ động, uy; quá mức thì độc đoán."
-  },
-  {
-   "ten": "Hóa Khoa",
-   "hanh": "Thuy",
-   "diem": 2,
-   "tag": [
-    "danh",
-    "hoc",
-    "giai_ach"
-   ],
-   "y_nghia": "Danh tiếng, học vấn, được bảo vệ (đệ nhất giải thần)."
-  },
-  {
-   "ten": "Hóa Kỵ",
-   "hanh": "Thuy",
-   "diem": -2,
-   "tag": [
-    "thi_phi",
-    "hao"
-   ],
-   "y_nghia": "Vướng mắc, ghen tị, thị phi, trở ngại tại cung nó đóng; khi đắc địa (tứ mộ) và gặp sao sáng lại thành động lực.",
-   "dac_dia": [
-    "Sửu",
-    "Thìn",
-    "Mùi",
-    "Tuất"
-   ]
-  },
-  {
-   "ten": "Kình Dương",
-   "hanh": "Kim",
-   "diem": -2,
-   "tag": [
-    "tai_nan",
-    "quyen"
-   ],
-   "y_nghia": "Hung tinh cương mãnh: cạnh tranh, mổ xẻ, dao kéo; đắc địa thì quyết đoán, uy dũng (võ nghiệp).",
-   "dac_dia": [
-    "Thìn",
-    "Tuất",
-    "Sửu",
-    "Mùi"
-   ]
-  },
-  {
-   "ten": "Đà La",
-   "hanh": "Kim",
-   "diem": -2,
-   "tag": [
-    "tai_nan",
-    "thi_phi"
-   ],
-   "y_nghia": "Trì trệ, dây dưa, ngấm ngầm; đắc địa thì kiên nhẫn, bền bỉ.",
-   "dac_dia": [
-    "Thìn",
-    "Tuất",
-    "Sửu",
-    "Mùi"
-   ]
-  },
-  {
-   "ten": "Hỏa Tinh",
-   "hanh": "Hoa",
-   "diem": -2,
-   "tag": [
-    "tai_nan",
-    "hao"
-   ],
-   "y_nghia": "Nóng nảy, bộc phát, tai họa bất ngờ (lửa, nhiệt); gặp Tham Lang miếu = Hỏa Tham cách phát nhanh.",
-   "dac_dia": [
-    "Dần",
-    "Mão",
-    "Thìn",
-    "Tỵ",
-    "Ngọ"
-   ]
-  },
-  {
-   "ten": "Linh Tinh",
-   "hanh": "Hoa",
-   "diem": -2,
-   "tag": [
-    "tai_nan",
-    "hao"
-   ],
-   "y_nghia": "Như Hỏa Tinh nhưng âm ỉ, kéo dài; gặp Tham Lang miếu = Linh Tham cách.",
-   "dac_dia": [
-    "Dần",
-    "Mão",
-    "Thìn",
-    "Tỵ",
-    "Ngọ"
-   ]
-  },
-  {
-   "ten": "Địa Không",
-   "hanh": "Hoa",
-   "diem": -2,
-   "tag": [
-    "hao",
-    "tai_nan"
-   ],
-   "y_nghia": "Hao tán về tinh thần, ý tưởng viển vông, mất mát bất ngờ; đắc địa thì tư duy đột phá, phát nhanh mà khó bền.",
-   "dac_dia": [
-    "Dần",
-    "Thân",
-    "Tỵ",
-    "Hợi"
-   ]
-  },
-  {
-   "ten": "Địa Kiếp",
-   "hanh": "Hoa",
-   "diem": -2,
-   "tag": [
-    "hao",
-    "tai_nan"
-   ],
-   "y_nghia": "Hao tán vật chất, cướp đoạt, phá sản; đắc địa thì liều lĩnh mà thành.",
-   "dac_dia": [
-    "Dần",
-    "Thân",
-    "Tỵ",
-    "Hợi"
-   ]
-  },
-  {
-   "ten": "Thiên Không",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "hao"
-   ],
-   "y_nghia": "Không, mất, ảo tưởng; tốt cho tu hành, triết lý; VCD gặp lại tốt."
-  },
-  {
-   "ten": "Thiên Hình",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "kien_tung",
-    "tai_nan",
-    "quyen"
-   ],
-   "y_nghia": "Hình pháp, kỷ luật, phẫu thuật; đắc địa hợp ngành luật, quân đội, y (ngoại khoa).",
-   "dac_dia": [
-    "Dần",
-    "Mão",
-    "Thân",
-    "Dậu"
-   ]
-  },
-  {
-   "ten": "Thiên Riêu",
-   "hanh": "Thuy",
-   "diem": -1,
-   "tag": [
-    "tinh_cam"
-   ],
-   "y_nghia": "Đa tình, lãng mạn, dễ sa đà; đắc địa thì có duyên nghệ thuật.",
-   "dac_dia": [
-    "Dần",
-    "Mão",
-    "Dậu",
-    "Tuất"
-   ]
-  },
-  {
-   "ten": "Thiên Y",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "suc_khoe"
-   ],
-   "y_nghia": "Thuốc men, chữa bệnh, giải bệnh; hợp ngành y dược."
-  },
-  {
-   "ten": "Đào Hoa",
-   "hanh": "Moc",
-   "diem": 1,
-   "tag": [
-    "tinh_cam",
-    "nghe_thuat"
-   ],
-   "y_nghia": "Duyên, sức hút, giao tế; gặp sát tinh hoặc sao dâm thì dễ lụy tình."
-  },
-  {
-   "ten": "Hồng Loan",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "tinh_cam"
-   ],
-   "y_nghia": "Hôn nhân, hỷ sự, duyên dáng."
-  },
-  {
-   "ten": "Thiên Hỷ",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "tinh_cam",
-    "phuc"
-   ],
-   "y_nghia": "Tin vui, hỷ sự."
-  },
-  {
-   "ten": "Long Trì",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "danh",
-    "nghe_thuat"
-   ],
-   "y_nghia": "Khoa danh, thanh lịch; đi đôi Phượng Các."
-  },
-  {
-   "ten": "Phượng Các",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "danh",
-    "nghe_thuat"
-   ],
-   "y_nghia": "Khoa danh, thanh lịch, văn hoa."
-  },
-  {
-   "ten": "Giải Thần",
-   "hanh": "Moc",
-   "diem": 1,
-   "tag": [
-    "giai_ach"
-   ],
-   "y_nghia": "Giải trừ tai ách."
-  },
-  {
-   "ten": "Tam Thai",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "danh",
-    "quyen"
-   ],
-   "y_nghia": "Địa vị, chức tước; đi đôi Bát Tọa."
-  },
-  {
-   "ten": "Bát Tọa",
-   "hanh": "Moc",
-   "diem": 1,
-   "tag": [
-    "danh",
-    "quyen"
-   ],
-   "y_nghia": "Địa vị, phương tiện; đi đôi Tam Thai."
-  },
-  {
-   "ten": "Ân Quang",
-   "hanh": "Moc",
-   "diem": 1,
-   "tag": [
-    "quy_nhan",
-    "phuc"
-   ],
-   "y_nghia": "Ơn huệ, được thương yêu nâng đỡ; đi đôi Thiên Quý."
-  },
-  {
-   "ten": "Thiên Quý",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "quy_nhan",
-    "phuc"
-   ],
-   "y_nghia": "Ơn huệ, phúc đức."
-  },
-  {
-   "ten": "Thai Phụ",
-   "hanh": "Kim",
-   "diem": 1,
-   "tag": [
-    "danh"
-   ],
-   "y_nghia": "Chức vị, ấn tín, lời khen."
-  },
-  {
-   "ten": "Phong Cáo",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "danh"
-   ],
-   "y_nghia": "Danh dự, khen thưởng."
-  },
-  {
-   "ten": "Quốc Ấn",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "quyen",
-    "danh"
-   ],
-   "y_nghia": "Ấn tín, chức quyền chính thức."
-  },
-  {
-   "ten": "Đường Phù",
-   "hanh": "Moc",
-   "diem": 1,
-   "tag": [
-    "danh"
-   ],
-   "y_nghia": "Bằng sắc, danh vị; nhà cửa đàng hoàng."
-  },
-  {
-   "ten": "Văn Tinh",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "hoc"
-   ],
-   "y_nghia": "Văn chương, học hành."
-  },
-  {
-   "ten": "Thiên Quan",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "quy_nhan",
-    "giai_ach",
-    "phuc"
-   ],
-   "y_nghia": "Quý nhân, phúc, giải nạn; thiên về tín ngưỡng."
-  },
-  {
-   "ten": "Thiên Phúc",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "phuc",
-    "giai_ach"
-   ],
-   "y_nghia": "Phúc thọ, giải nạn."
-  },
-  {
-   "ten": "Thiên Đức",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "phuc",
-    "giai_ach"
-   ],
-   "y_nghia": "Đức độ, giải nạn."
-  },
-  {
-   "ten": "Nguyệt Đức",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "phuc",
-    "giai_ach"
-   ],
-   "y_nghia": "Đức độ, hiền hòa, giải nạn."
-  },
-  {
-   "ten": "Thiên Giải",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "giai_ach"
-   ],
-   "y_nghia": "Giải trừ tai họa."
-  },
-  {
-   "ten": "Địa Giải",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "giai_ach"
-   ],
-   "y_nghia": "Giải trừ tai họa."
-  },
-  {
-   "ten": "Thiên Tài",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "tai"
-   ],
-   "y_nghia": "Tài năng; làm tăng cái tốt/ xấu của cung."
-  },
-  {
-   "ten": "Thiên Thọ",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "suc_khoe",
-    "phuc"
-   ],
-   "y_nghia": "Thọ, hiền hậu."
-  },
-  {
-   "ten": "Thiên Khốc",
-   "hanh": "Kim",
-   "diem": -1,
-   "tag": [
-    "tang_thuong"
-   ],
-   "y_nghia": "Buồn khổ, nước mắt; đắc địa (Tý Ngọ) lại có tiếng tăm, giọng nói hay.",
-   "dac_dia": [
-    "Tý",
-    "Ngọ",
-    "Mão",
-    "Dậu",
-    "Sửu",
-    "Mùi"
-   ]
-  },
-  {
-   "ten": "Thiên Hư",
-   "hanh": "Thuy",
-   "diem": -1,
-   "tag": [
-    "tang_thuong",
-    "hao"
-   ],
-   "y_nghia": "Hư hao, buồn rầu; đi với Khốc ở Tý Ngọ thành cách.",
-   "dac_dia": [
-    "Tý",
-    "Ngọ",
-    "Mão",
-    "Dậu",
-    "Sửu",
-    "Mùi"
-   ]
-  },
-  {
-   "ten": "Cô Thần",
-   "hanh": "Tho",
-   "diem": -1,
-   "tag": [
-    "co_doc"
-   ],
-   "y_nghia": "Cô độc, ít người thân cận (nghiêng về nam)."
-  },
-  {
-   "ten": "Quả Tú",
-   "hanh": "Tho",
-   "diem": -1,
-   "tag": [
-    "co_doc"
-   ],
-   "y_nghia": "Cô quả (nghiêng về nữ), tình cảm lạnh."
-  },
-  {
-   "ten": "Phá Toái",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "hao"
-   ],
-   "y_nghia": "Đổ vỡ, hao tán vặt."
-  },
-  {
-   "ten": "Kiếp Sát",
-   "hanh": "Hoa",
-   "diem": -2,
-   "tag": [
-    "tai_nan"
-   ],
-   "y_nghia": "Tai nạn, sát phạt."
-  },
-  {
-   "ten": "Hoa Cái",
-   "hanh": "Kim",
-   "diem": 1,
-   "tag": [
-    "danh",
-    "nghe_thuat",
-    "co_doc"
-   ],
-   "y_nghia": "Phong cách, cái tôi, thẩm mỹ; nghiêng về tôn giáo/ nghệ thuật."
-  },
-  {
-   "ten": "Thiên La",
-   "hanh": "Tho",
-   "diem": -1,
-   "tag": [
-    "kien_tung"
-   ],
-   "y_nghia": "Lưới trời: bị trói buộc; cố định tại Thìn."
-  },
-  {
-   "ten": "Địa Võng",
-   "hanh": "Tho",
-   "diem": -1,
-   "tag": [
-    "kien_tung"
-   ],
-   "y_nghia": "Lưới đất: bị trói buộc; cố định tại Tuất."
-  },
-  {
-   "ten": "Thiên Thương",
-   "hanh": "Tho",
-   "diem": -1,
-   "tag": [
-    "hao",
-    "tang_thuong"
-   ],
-   "y_nghia": "Hao tổn, buồn; luôn ở Nô Bộc, xét khi hạn tới."
-  },
-  {
-   "ten": "Thiên Sứ",
-   "hanh": "Thuy",
-   "diem": -1,
-   "tag": [
-    "tai_nan"
-   ],
-   "y_nghia": "Tai họa; luôn ở Tật Ách, xét khi hạn tới."
-  },
-  {
-   "ten": "Đẩu Quân",
-   "hanh": "Hoa",
-   "diem": 0,
-   "tag": [
-    "co_doc"
-   ],
-   "y_nghia": "Nghiêm khắc, cô độc; dùng xét lưu nguyệt."
-  },
-  {
-   "ten": "Thái Tuế",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "thi_phi",
-    "quyen"
-   ],
-   "y_nghia": "Uy nghiêm, lý lẽ, dễ thị phi kiện cáo; trong lưu niên chỉ năm đang xét."
-  },
-  {
-   "ten": "Thiếu Dương",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "phuc"
-   ],
-   "y_nghia": "Thông minh, vui vẻ."
-  },
-  {
-   "ten": "Tang Môn",
-   "hanh": "Moc",
-   "diem": -2,
-   "tag": [
-    "tang_thuong"
-   ],
-   "y_nghia": "Tang thương, buồn."
-  },
-  {
-   "ten": "Thiếu Âm",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "phuc"
-   ],
-   "y_nghia": "Hiền hòa, thông minh."
-  },
-  {
-   "ten": "Quan Phù",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "kien_tung"
-   ],
-   "y_nghia": "Kiện cáo, giấy tờ pháp lý (vòng Thái Tuế)."
-  },
-  {
-   "ten": "Tử Phù",
-   "hanh": "Kim",
-   "diem": -1,
-   "tag": [
-    "tang_thuong"
-   ],
-   "y_nghia": "Buồn, tang."
-  },
-  {
-   "ten": "Tuế Phá",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "hao",
-    "thi_phi"
-   ],
-   "y_nghia": "Phá, ngang ngạnh, hao tán."
-  },
-  {
-   "ten": "Long Đức",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "phuc",
-    "giai_ach"
-   ],
-   "y_nghia": "Phúc đức, giải nạn."
-  },
-  {
-   "ten": "Bạch Hổ",
-   "hanh": "Kim",
-   "diem": -2,
-   "tag": [
-    "tai_nan",
-    "tang_thuong"
-   ],
-   "y_nghia": "Tai nạn, tang; đắc địa ở Dần Thân thì uy mãnh.",
-   "dac_dia": [
-    "Dần",
-    "Thân"
-   ]
-  },
-  {
-   "ten": "Phúc Đức",
-   "hanh": "Tho",
-   "diem": 1,
-   "tag": [
-    "phuc",
-    "giai_ach"
-   ],
-   "y_nghia": "Phúc, giải nạn."
-  },
-  {
-   "ten": "Điếu Khách",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "thi_phi",
-    "tang_thuong"
-   ],
-   "y_nghia": "Ăn nói bừa, tang."
-  },
-  {
-   "ten": "Trực Phù",
-   "hanh": "Kim",
-   "diem": -1,
-   "tag": [
-    "tang_thuong"
-   ],
-   "y_nghia": "Buồn, phiền."
-  },
-  {
-   "ten": "Bác Sĩ",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "hoc",
-    "danh"
-   ],
-   "y_nghia": "Thông minh, học rộng."
-  },
-  {
-   "ten": "Lực Sĩ",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "quyen"
-   ],
-   "y_nghia": "Sức mạnh, quyền lực thực thi."
-  },
-  {
-   "ten": "Thanh Long",
-   "hanh": "Thuy",
-   "diem": 1,
-   "tag": [
-    "phuc",
-    "tai"
-   ],
-   "y_nghia": "Hỷ sự, may mắn."
-  },
-  {
-   "ten": "Tiểu Hao",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "hao"
-   ],
-   "y_nghia": "Hao tán nhỏ, tiêu xài.",
-   "dac_dia": [
-    "Dần",
-    "Mão",
-    "Thân",
-    "Dậu"
-   ]
-  },
-  {
-   "ten": "Tướng Quân",
-   "hanh": "Moc",
-   "diem": 1,
-   "tag": [
-    "quyen"
-   ],
-   "y_nghia": "Uy quyền, quyết đoán."
-  },
-  {
-   "ten": "Tấu Thư",
-   "hanh": "Kim",
-   "diem": 1,
-   "tag": [
-    "hoc",
-    "danh"
-   ],
-   "y_nghia": "Văn thư, ăn nói khéo."
-  },
-  {
-   "ten": "Phi Liêm",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "thi_phi"
-   ],
-   "y_nghia": "Nhanh nhẹn; thị phi, cô độc."
-  },
-  {
-   "ten": "Hỷ Thần",
-   "hanh": "Hoa",
-   "diem": 1,
-   "tag": [
-    "phuc"
-   ],
-   "y_nghia": "Vui vẻ, hỷ sự."
-  },
-  {
-   "ten": "Bệnh Phù",
-   "hanh": "Tho",
-   "diem": -1,
-   "tag": [
-    "suc_khoe"
-   ],
-   "y_nghia": "Bệnh tật."
-  },
-  {
-   "ten": "Đại Hao",
-   "hanh": "Hoa",
-   "diem": -2,
-   "tag": [
-    "hao"
-   ],
-   "y_nghia": "Hao tán lớn.",
-   "dac_dia": [
-    "Dần",
-    "Mão",
-    "Thân",
-    "Dậu"
-   ]
-  },
-  {
-   "ten": "Phục Binh",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "thi_phi"
-   ],
-   "y_nghia": "Bị ngầm hại, tiểu nhân."
-  },
-  {
-   "ten": "Quan Phủ",
-   "hanh": "Hoa",
-   "diem": -1,
-   "tag": [
-    "kien_tung"
-   ],
-   "y_nghia": "Kiện tụng, giấy tờ (vòng Bác Sĩ)."
-  }
- ]
 }

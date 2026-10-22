@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "mo_ta": "Bảng độ sáng ĐÃ CHỐT sau đối chiếu nhiều nguồn. Engine đọc file này trước, ô nào không có mới lấy do_sang.json (lasotuvi).",
+    "quy_tac_chot": "Một ô 'dong_thuan' khi ≥ 2 nguồn ĐỘC LẬP khớp. thaiam.vn trùng 100% lasotuvi ở sát tinh + Xương Khúc → coi là cùng 1 nguồn, không cộng phiếu. iztro theo phái Trung Hoa (7 bậc, có Lợi/Bất) → chỉ tham khảo, không bỏ phiếu.",
+    "nguon": {
+      "L": "lasotuvi DiaBan.dacTinhSao (do_sang.json)",
+      "HV": "https://hocvienlyso.org/14-chinh-tinh.html (ghi nguồn soncd.wordpress.com) — đọc toàn văn 2026-10-22",
+      "NS": "https://nhanso.vn/la-so-tu-vi/sao-thien-phu/ , https://tracuulasotuvi.com/thien-phu.html , https://lichngaytot.com/tu-vi/sao-thien-phu-304-218855.html (qua kết quả tìm kiếm)",
+      "TA": "https://thaiam.vn/tu-vi-wiki/dac-tinh.html — đọc toàn văn",
+      "CH": "https://tuvi.cohoc.net/sao-van-khuc-nid-3003.html — đọc toàn văn",
+      "TNT": "https://trannhatthanh.wordpress.com/2012/07/13/xuong-khuc/ — tổng hợp TTL, Việt Viêm Tử, Toàn Thư",
+      "LS": "https://lyso.vn/xem-tu-vi/van-xuong-va-van-khuc-toan-thu-t91943/ — Đại Toàn, Ralos, ayen",
+      "TV": "https://tracuulasotuvi.com/tu-vi.html , https://lyso.vn/tu-vi/danh-muc-tra-cuu-sao-tu-vi-t873/ (Tử Vi, qua tìm kiếm)"
+    },
+    "trang_thai": "da_gan_nguon"
+  },
+  "sao": {
+    "Thiên Phủ": {
+      "theo_chi": {
+        "Tý": "M",
+        "Dần": "M",
+        "Ngọ": "M",
+        "Thân": "M",
+        "Thìn": "V",
+        "Tuất": "V",
+        "Tỵ": "Đ",
+        "Mùi": "Đ",
+        "Hợi": "Đ",
+        "Sửu": "B",
+        "Mão": "B",
+        "Dậu": "B"
+      },
+      "do_tin_cay": "dong_thuan",
+      "phieu": "HV + NS (3 trang) khớp; HV gộp Miếu/Vượng, ghi 'Đắc: Mùi Tý Hợi' — Tý trùng mục Miếu Vượng nên đọc là Tỵ (lỗi gõ).",
+      "di_ban": "thaiam: Bình ở Sửu Mão Mùi Hợi; tuvinamphai.vn bảng khác hẳn (Mùi miếu). lasotuvi không có bảng."
+    },
+    "Văn Xương": {
+      "theo_chi": {
+        "Thìn": "Đ",
+        "Tuất": "Đ",
+        "Sửu": "Đ",
+        "Mùi": "Đ",
+        "Tỵ": "Đ",
+        "Hợi": "Đ",
+        "Dần": "H",
+        "Ngọ": "H",
+        "Tý": "B",
+        "Mão": "B",
+        "Thân": "B",
+        "Dậu": "B"
+      },
+      "do_tin_cay": "mot_phan",
+      "phieu": "Đắc 6 cung Thìn Tuất Sửu Mùi Tỵ Hợi: TTL (theo TNT), CH, bài đầu thread LS. Hãm Dần Ngọ: Đại Toàn + ayen + Ralos (Ngọ).",
+      "nghi_van": [
+        "Tý, Mão, Thân, Dậu: không nguồn nào khớp nhau → đặt Bình",
+        "Tuất: TTL Đắc, Đại Toàn/ayen Hãm → theo TTL"
+      ],
+      "sua_so_voi_lasotuvi": "Thìn H→Đ, Mão Đ→B, Dậu H→B, Tý/Thân H→B (nghi), Tuất giữ Đ"
+    },
+    "Văn Khúc": {
+      "theo_chi": {
+        "Thìn": "Đ",
+        "Tuất": "Đ",
+        "Sửu": "Đ",
+        "Mùi": "Đ",
+        "Tỵ": "Đ",
+        "Hợi": "Đ",
+        "Tý": "H",
+        "Dần": "H",
+        "Ngọ": "H",
+        "Thân": "H",
+        "Mão": "B",
+        "Dậu": "B"
+      },
+      "do_tin_cay": "mot_phan",
+      "phieu": "Đắc 6 cung: TTL + CH. Hãm Tý Dần Ngọ Thân: CH; Dần Ngọ có thêm Đại Toàn.",
+      "nghi_van": [
+        "Mão, Dậu: Việt Viêm Tử cho Khúc vượng Mão, miếu Dậu; nguồn khác không nói → đặt Bình"
+      ],
+      "sua_so_voi_lasotuvi": "Thìn H→Đ, Mão Đ→B, Dậu H→B"
+    },
+    "Tử Vi": {
+      "theo_chi": {
+        "Tỵ": "M",
+        "Ngọ": "M",
+        "Dần": "M",
+        "Thân": "M",
+        "Thìn": "V",
+        "Tuất": "V",
+        "Sửu": "Đ",
+        "Mùi": "Đ",
+        "Tý": "B",
+        "Hợi": "B",
+        "Mão": "B",
+        "Dậu": "B"
+      },
+      "do_tin_cay": "dong_thuan",
+      "phieu": "L + TA + TV (tracuulasotuvi, lyso.vn) đều Bình ở Tý Hợi. HV ghi Đắc → thiểu số.",
+      "di_ban": "HV: Đắc ở Tý Hợi; cohoc bảng cũ: Vượng Tý."
+    }
+  },
+  "ket_qua_doi_chieu_14_chinh_tinh": "lasotuvi vs HV: khớp toàn bộ 12 ô của Vũ Khúc, Thiên Tướng, Thất Sát, Phá Quân, Liêm Trinh, Tham Lang, Thái Âm, Thiên Đồng, Thiên Lương, Cự Môn, Thái Dương (HV gộp Miếu/Vượng nên chỉ kiểm được tới mức M/V). → 11 sao này nâng lên 'dong_thuan'.",
+  "phu_tinh": "Truyền thống VN chỉ ghi đắc/hãm cho sát tinh và vài sao (Mã, Hình, Riêu, Khốc Hư, Hao, Kỵ). Cát tinh như Tả Hữu, Khôi Việt, Lộc Tồn, Tam Thai Bát Tọa... không có thang miếu hãm — đó không phải 'thiếu dữ liệu'. Sát tinh (Kình Đà, Hỏa Linh, Không Kiếp): L khớp mô tả bằng lời của TA; giữ.",
+  "nghi_van_con_lai": [
+    "Thiên Cơ tại Mùi: lasotuvi Đắc, HV Miếu/Vượng — giữ lasotuvi (đối xứng với Sửu = Đắc)."
+  ]
+}
