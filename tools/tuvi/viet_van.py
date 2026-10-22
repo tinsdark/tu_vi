@@ -13,7 +13,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import an_la_so  # noqa: E402
-from tuvi.luan_giai import LuanGiai, bao_cao  # noqa: E402
+from tuvi.luan_giai import HANH_VN, LuanGiai, bao_cao  # noqa: E402
 
 MODEL = "claude-opus-5-5"
 
@@ -76,7 +76,7 @@ def cau(n, tien_to=""):
 def viet_mau(kq):
     """Không dùng LLM: ghép câu từ nhận định nổi bật theo chủ đề."""
     out = ["# Tổng quan", f"Mệnh tại {kq['menh_tai']}, {kq['la_so']['am_duong_nam_nu']}, "
-           f"Bản Mệnh {kq['la_so']['ban_menh']}, Cục {kq['la_so']['cuc']['hanh']} {kq['la_so']['cuc']['so']} [TQ]."]
+           f"Bản Mệnh {HANH_VN[kq['la_so']['ban_menh']]}, Cục {HANH_VN[kq['la_so']['cuc']['hanh']]} {kq['la_so']['cuc']['so']} [TQ]."]
     out += [cau(n) for n in kq["nen"] + kq["than"]["nhan_dinh"]]
     for ten, cd in kq["chu_de"].items():
         out.append(f"\n# {ten}")
