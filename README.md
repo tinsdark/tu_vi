@@ -2,9 +2,13 @@
 
 Web lập & luận giải lá số Tử Vi Đẩu Số: an sao tất định, luận giải theo quy tắc có lý do, tổng hợp đa phái.
 
-Trạng thái: **lịch âm + engine an sao + bộ luận giải (Python) chạy được**, có vẽ lá số SVG và viết văn; chưa có web. Luận giải **chưa được kiểm trên lá số người thật**.
+Trạng thái: **web chạy được** (`web/`, Vite + React + TypeScript, tính toán ngay trên trình duyệt) + engine tham chiếu Python (lịch âm, an sao, luận giải). Hai engine khớp nhau bằng test parity. Luận giải **chưa được kiểm trên lá số người thật**.
 
 ```bash
+# Web
+cd web && npm ci && npm run dev      # xem docs/10-web.md (test, server, triển khai)
+
+# Engine Python
 python3 tools/tuvi/test_lich_am.py         # test lịch âm (Tết, tháng nhuận, múi giờ lịch sử, quy ước giờ)
 python3 tools/tuvi/test_an_sao.py          # test tính chất engine
 python3 tools/tuvi/test_luan_giai.py       # test bất biến bộ luận
@@ -30,6 +34,7 @@ python3 tools/kiem_do_sang.py data/knowledge/do_sang.json data/knowledge/do_sang
 | `docs/07-engine-va-luan-giai.md` | Engine, kết quả so chéo, bộ luận, hạn chế |
 | `docs/08-lich-am.md` | Đổi dương → âm lịch, múi giờ lịch sử, quy ước giờ, kết quả so chéo |
 | `docs/09-doi-chieu-web.md` | Đối chiếu độ sáng, Thiên Giải, Lưu Hà, cách cục với web (toàn văn) |
+| `docs/10-web.md` | Web: cấu trúc, parity TS = Python, API viết văn, triển khai, quyền riêng tư |
 | `docs/vi-du-luan-giai.md`, `vi-du-van-xuoi.md`, `vi-du-la-so.svg` | Ví dụ đầu ra |
 | `data/knowledge/` | Tri thức (JSON là nguồn gốc). Mỗi file có `_meta.trang_thai` |
 | `tools/tuvi/` | `lich_am.py` lịch · `an_sao.py` engine · `luan_giai.py` bộ luận · `viet_van.py` văn xuôi · `ve_la_so.py` SVG · test, hiệu chỉnh, so chéo |

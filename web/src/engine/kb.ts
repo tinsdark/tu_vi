@@ -31,6 +31,17 @@ export class TriThuc {
   phaChung: any = (cachCuc as any)._meta.pha_chung;
   tuHoa: Record<string, string> = (tuHoaLuan as any).to_hop;
   phuCung: Record<string, Record<string, string>> = (phuTinhTaiCungChuc as any).sao;
+  /** `_meta` từng file tri thức (trạng thái, nguồn) — dùng để hiển thị độ tin cậy. */
+  meta = {
+    chinh_tinh: (chinhTinh as any)._meta,
+    chinh_tinh_cung: (chinhTinhTaiCungChuc as any)._meta,
+    bo_sao: (chinhTinhTaiChi as any)._meta,
+    phu_tinh: (phuTinh as any)._meta,
+    phu_cung: (phuTinhTaiCungChuc as any)._meta,
+    tu_hoa: (tuHoaLuan as any)._meta,
+    cach_cuc: (cachCuc as any)._meta,
+    do_sang: (doSangChot as any)._meta,
+  };
   private doSang = new Map<string, Record<string, string | null>>();
 
   constructor() {

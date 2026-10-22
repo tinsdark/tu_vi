@@ -1,8 +1,8 @@
 # Tổng quan
-Mệnh tại Dần, Dương Nam, Bản Mệnh Tho, Cục Tho 5 [TQ].
+Mệnh tại Dần, Dương Nam, Bản Mệnh Thổ, Cục Thổ 5 [TQ].
 Mệnh Cục đồng hành: hài hòa, ổn định [NEN.tuong_hoa].
 Âm dương thuận lý: đời ít trắc trở hơn [NEN.am_duong].
-Tham Lang (Thuy) bị Bản Mệnh khắc — chế ngự được sao [NEN.sao_chu.menh_khac_sao].
+Tham Lang (Thủy) bị Bản Mệnh khắc — chế ngự được sao [NEN.sao_chu.menh_khac_sao].
 Thân cư Tài: coi trọng tiền bạc, hậu vận xoay quanh chuyện kiếm và giữ tiền [THAN.Tài Bạch].
 Tiền vận và hậu vận tương đương [THAN.so_menh].
 

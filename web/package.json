@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "server": "tsx server/index.ts"
+    "server": "tsx server/index.ts",
+    "test:py": "python3 ../tools/tuvi/test_lich_am.py && python3 ../tools/tuvi/test_an_sao.py && python3 ../tools/tuvi/test_luan_giai.py"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",

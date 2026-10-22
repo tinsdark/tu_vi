@@ -12,6 +12,9 @@ export * from "./luanGiai";
 export * from "./nhap";
 export * from "./types";
 export * from "./vietVan";
+export * from "./boCuc";
+export * from "./quyTac";
+export { veLaSo } from "./veLaSo";
 
 export interface KetQuaTinh { lich: KetQuaLich; la_so: LaSo; luan: LuanGiai; bao_cao: BaoCao }
 
