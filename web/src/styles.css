@@ -214,3 +214,13 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 
 .dieu-kien { list-style: none; padding: 0; margin: .3rem 0; display: grid; gap: 3px; } .dieu-kien li::before { content: "• "; color: var(--mo); }
 .khong-ngat { white-space: nowrap; }
+
+/* màu sao theo ngũ hành (mặc định) — bỏ chọn thì dùng xanh/đỏ tốt-xấu */
+.ban-co[data-mau="hanh"] [data-h="Kim"] { color: #6b7280; }
+.ban-co[data-mau="hanh"] [data-h="Moc"] { color: #15803d; }
+.ban-co[data-mau="hanh"] [data-h="Thuy"] { color: #1d4ed8; }
+.ban-co[data-mau="hanh"] [data-h="Hoa"] { color: #dc2626; }
+.ban-co[data-mau="hanh"] [data-h="Tho"] { color: #a16207; }
+.ban-co[data-mau="hanh"] .luu[data-h] { background: none; border: 1px solid currentColor; }
+.o-chan2 { display: flex; justify-content: space-between; font-size: 11px; color: var(--mo); }
+.o-giua p { margin: 2px 0; font-size: 13px; }

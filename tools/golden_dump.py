@@ -17,7 +17,7 @@ PROFILE_BIEN = {k: v for k, v in {
     "tu_hoa_canh": ["am_dong", "dong_am"], "tu_hoa_nham": ["ta_phu", "thien_phu"], "khoi_viet": ["khau_quyet", "lasotuvi"],
     "hoa_linh_ty_dau_suu": ["hoa_mao_linh_tuat", "hoa_tuat_linh_mao"], "pha_toai": ["khau_quyet", "lasotuvi"],
     "thien_giai": ["khong_nhay", "nhay_cung"], "luu_ha": ["thai_thu_lang", "thien_luong", "ngu_hanh"],
-    "thien_tru_quy": ["tuat", "hoi"], "thien_quy": ["nghich", "thuan"]}.items()}
+    "thien_tru_quy": ["tuat", "hoi"], "thien_quy": ["nghich", "thuan"], "luu_nguyet": ["tieu_han", "thai_tue"]}.items()}
 
 
 def profile_ngau_nhien(rnd):

@@ -372,9 +372,10 @@ class LuanGiai:
         ket["luu_nien"] = {"thai_tue_tai": f"{CHI[tt_chi]} ({self.ls['cung_chuc'][tt_chi]})", "xep_loai": k_tt["xep_loai"], "diem": k_tt["diem"],
                            "tu_hoa": {k: f"{v} tại {CHI[self.ls['sao'][v]]}" for k, v in luu_hoa.items()},
                            "sao_luu": {k: f"{CHI[v]} ({self.ls['cung_chuc'][v]})" for k, v in luu.items()}, "ghi_chu": canh_bao}
-        # lưu nguyệt: Đẩu Quân năm xem = từ Thái Tuế năm xem đếm nghịch tháng sinh, thuận giờ sinh; tháng Giêng tại đó
+        # lưu nguyệt: Đẩu Quân năm xem = từ cung gốc (tiểu hạn hoặc Thái Tuế, theo profile) đếm nghịch tháng sinh, thuận giờ sinh; tháng Giêng tại đó
         if thang_xem:
-            dq = mv(tt_chi, -(self.ls["input"]["thang"] - 1) + (CHI.index(self.ls["input"]["gio"]) - 1))
+            goc = th if self.ls["input"]["profile"].get("luu_nguyet", "tieu_han") == "tieu_han" else tt_chi
+            dq = mv(goc, -(self.ls["input"]["thang"] - 1) + (CHI.index(self.ls["input"]["gio"]) - 1))
             thang = [(t, mv(dq, t - 1)) for t in range(1, 13)]
             diem_t = [(t, c, lg_luu.cham_cung("Mệnh", c)["diem"]) for t, c in thang]
             xep = sorted(diem_t, key=lambda x: x[2])

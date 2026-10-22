@@ -96,3 +96,13 @@ CI (`.github/workflows/ci.yml`): test Python, kiểm dữ liệu sinh ra không 
 - Ngày giờ sinh chỉ rời trình duyệt khi người dùng chủ động bấm “Viết lại bằng AI” (server không ghi log dữ liệu, không lưu).
 - Chưa có tài khoản, chưa lưu phía server → chưa chạm nghĩa vụ lưu trữ dữ liệu cá nhân (Nghị định 13/2023). Khi thêm tài khoản/lưu server phải làm chính sách dữ liệu và xin đồng ý.
 - Câu miễn trừ đã có ở chân trang. Web công khai thu phí thì vẫn nên hỏi luật sư (docs/05 Q6).
+
+## Đối chiếu với lá số mẫu tracuutuvi.com (2026-10-22)
+
+So từng ô 12 cung với 1 PDF của tracuutuvi.com (Quý Mùi, 11/5/2003 14:45, nam, xem năm 2026):
+
+- **Vị trí sao: khớp 100%** (chính tinh, phụ tinh, vòng sao, Tuần/Triệt, sao lưu niên).
+- **Sai thật, đã sửa:** lưu nguyệt. Web mẫu khởi tháng Giêng từ **cung tiểu hạn**, engine cũ khởi từ cung Thái Tuế. Nay mặc định `profile.luu_nguyet = "tieu_han"`, dị bản `thai_tue`. Test `thongtin.test.ts` khớp 4 ô `Th.n` của PDF. Mới có 1 lá số đối chiếu.
+- **Thiếu hiển thị, đã thêm** (không đổi luận giải): can chi từng cung, màu sao theo ngũ hành (có công tắc về xanh/đỏ), `(Đ)(H)…` cho mọi sao có độ sáng, sao lưu niên bật mặc định và có trong ảnh PNG/SVG, chi năm tiểu hạn + `Th.n` ở chân ô, ô giữa (nạp âm, quan hệ Cục–Mệnh, can chi tháng/ngày/giờ, chủ mệnh/chủ thân, lai nhân, thân cư).
+- **Chưa chắc:** chủ mệnh (theo chi năm sinh, khớp 1 lá số; bảng truyền thống theo cung Mệnh sẽ cho kết quả khác), cách viết quan hệ Cục–Mệnh khi không phải "sinh".
+- **Còn lệch:** Văn Xương tại Mão (web mẫu: Đắc, ta: Bình, chưa đủ 2 nguồn). **Chưa làm:** cân lượng (thiếu bảng tháng/ngày đã kiểm).

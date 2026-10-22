@@ -148,6 +148,16 @@
       "ghi_chu": "lasotuvi: nghịch (đối xứng với Ân Quang đếm thuận từ Văn Xương). iztro: thuận, khớp 200/200 mẫu với công thức Văn Khúc + (ngày−2). Chưa tìm được trang VN ghi rõ cách an."
     },
     {
+      "id": "luu_nguyet",
+      "mo_ta": "Cung khởi tháng Giêng của lưu nguyệt (Đẩu Quân): từ cung tiểu hạn hay từ cung Thái Tuế năm xem",
+      "phuong_an": [
+        "tieu_han",
+        "thai_tue"
+      ],
+      "chon": "tieu_han",
+      "ghi_chu": "Lá số mẫu của tracuutuvi.com (sinh 2003, xem 2026) khởi lưu nguyệt từ cung tiểu hạn; bản cũ của engine khởi từ Thái Tuế. Hai cung khác nhau mỗi năm nên kết quả lệch. Mới có 1 lá số đối chiếu."
+    },
+    {
       "id": "hoa_linh_chieu",
       "mo_ta": "Chiều an Hỏa/Linh theo giờ",
       "phuong_an": [
