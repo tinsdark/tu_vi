@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "mo_ta": "Sổ đăng ký các điểm các phái/sách/web tính KHÁC nhau. Engine đọc 'profile' để chọn phương án. Mọi khác biệt phát hiện khi test chéo phải được ghi vào đây, không được sửa engine 'cho khớp' mà không ghi lý do.",
+    "trang_thai": "dang_thu_thap"
+  },
+  "diem_khac_biet": [
+    { "id": "tu_hoa_canh", "mo_ta": "Tứ Hóa can Canh: Khoa/Kỵ là Âm/Đồng hay Đồng/Âm", "phuong_an": ["am_dong", "dong_am"], "xem": "tu_hoa.json" },
+    { "id": "tu_hoa_nham", "mo_ta": "Hóa Khoa can Nhâm: Tả Phù hay Thiên Phủ", "phuong_an": ["ta_phu", "thien_phu"], "xem": "tu_hoa.json" },
+    { "id": "thang_nhuan", "mo_ta": "Sinh tháng nhuận an Mệnh/Thân theo tháng nào", "phuong_an": ["nhu_thang_truoc", "nhu_thang_sau", "nua_dau_truoc_nua_sau_sau"], "ghi_chu": "lasotuvi dùng 'nhu_thang_truoc' (bỏ qua cờ nhuận)" },
+    { "id": "gio_ty", "mo_ta": "Sinh 23:00–23:59 tính ngày hôm đó hay ngày hôm sau", "phuong_an": ["ngay_hom_sau", "ngay_hom_do"] },
+    { "id": "mui_gio_lich_su", "mo_ta": "Múi giờ dùng đổi âm lịch: +7 cố định hay theo lịch sử (miền Nam dùng +8 nhiều giai đoạn trước 1975)", "phuong_an": ["utc7_co_dinh", "theo_lich_su_vung"] },
+    { "id": "gio_mat_troi", "mo_ta": "Dùng giờ đồng hồ hay hiệu chỉnh giờ mặt trời thực theo kinh độ nơi sinh", "phuong_an": ["gio_dong_ho", "gio_mat_troi_thuc"] },
+    { "id": "chieu_trang_sinh", "mo_ta": "Chiều vòng Tràng Sinh", "phuong_an": ["duong_nam_am_nu_thuan", "nam_thuan_nu_nghich"], "ghi_chu": "lasotuvi đã đổi sang duong_nam_am_nu_thuan" },
+    { "id": "luu_ha_thien_tru", "mo_ta": "Có an Lưu Hà, Thiên Trù không / an theo bảng nào", "phuong_an": ["co_an", "khong_an"] },
+    { "id": "do_sang", "mo_ta": "Bảng Miếu/Vượng/Đắc/Bình/Hãm", "phuong_an": ["lasotuvi", "thai_thu_lang", "iztro_trung"], "xem": "do_sang.json" }
+  ],
+  "profile": {
+    "mac_dinh_v0": {
+      "mo_ta": "Profile TẠM để chạy được test chéo với lasotuvi — KHÔNG phải lựa chọn đúng. Sẽ thay bằng profile theo sách khi chốt phái (xem docs/05-cau-hoi.md).",
+      "tu_hoa_canh": "dong_am", "tu_hoa_nham": "thien_phu", "thang_nhuan": "nhu_thang_truoc",
+      "gio_ty": "chua_chot", "mui_gio_lich_su": "utc7_co_dinh", "gio_mat_troi": "gio_dong_ho",
+      "chieu_trang_sinh": "duong_nam_am_nu_thuan", "luu_ha_thien_tru": "co_an", "do_sang": "lasotuvi"
+    }
+  }
+}

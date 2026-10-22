@@ -1,0 +1,547 @@
+{
+ "_meta": {
+  "mo_ta": "Độ sáng (đắc tinh) của sao theo 12 địa chi. M=Miếu, V=Vượng, Đ=Đắc, B=Bình hòa, H=Hãm, null=không ghi.",
+  "nguon": "Trích tự động từ doanguyen/lasotuvi, file lasotuvi/DiaBan.py, hàm dacTinhSao (phái Việt, chủ yếu theo cụ Thiên Lương).",
+  "license": "MIT License, Copyright (c) 2016 doanguyen. Xem THIRD_PARTY_NOTICES.md",
+  "trang_thai": "trich_nguon_chua_doi_chieu_sach",
+  "can_lam": "Đối chiếu từng ô với Tử Vi Đẩu Số Tân Biên (Vân Đằng Thái Thứ Lang). Thiên Phủ (id 7) không có trong bảng gốc — cần bổ sung từ sách."
+ },
+ "thu_tu_chi": [
+  "Tý",
+  "Sửu",
+  "Dần",
+  "Mão",
+  "Thìn",
+  "Tỵ",
+  "Ngọ",
+  "Mùi",
+  "Thân",
+  "Dậu",
+  "Tuất",
+  "Hợi"
+ ],
+ "sao": [
+  {
+   "lasotuvi_id": 1,
+   "ten": "Tử vi",
+   "theo_chi": {
+    "Tý": "B",
+    "Sửu": "Đ",
+    "Dần": "M",
+    "Mão": "B",
+    "Thìn": "V",
+    "Tỵ": "M",
+    "Ngọ": "M",
+    "Mùi": "Đ",
+    "Thân": "M",
+    "Dậu": "B",
+    "Tuất": "V",
+    "Hợi": "B"
+   }
+  },
+  {
+   "lasotuvi_id": 2,
+   "ten": "Liêm trinh",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "Đ",
+    "Dần": "V",
+    "Mão": "H",
+    "Thìn": "M",
+    "Tỵ": "H",
+    "Ngọ": "V",
+    "Mùi": "Đ",
+    "Thân": "V",
+    "Dậu": "H",
+    "Tuất": "M",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 3,
+   "ten": "Thiên đồng",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "H",
+    "Dần": "M",
+    "Mão": "Đ",
+    "Thìn": "H",
+    "Tỵ": "Đ",
+    "Ngọ": "H",
+    "Mùi": "H",
+    "Thân": "M",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 4,
+   "ten": "Vũ khúc",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "M",
+    "Dần": "V",
+    "Mão": "Đ",
+    "Thìn": "M",
+    "Tỵ": "H",
+    "Ngọ": "V",
+    "Mùi": "M",
+    "Thân": "V",
+    "Dậu": "Đ",
+    "Tuất": "M",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 5,
+   "ten": "Thái dương",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "Đ",
+    "Dần": "V",
+    "Mão": "V",
+    "Thìn": "V",
+    "Tỵ": "M",
+    "Ngọ": "M",
+    "Mùi": "Đ",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 6,
+   "ten": "Thiên cơ",
+   "theo_chi": {
+    "Tý": "Đ",
+    "Sửu": "Đ",
+    "Dần": "H",
+    "Mão": "M",
+    "Thìn": "M",
+    "Tỵ": "V",
+    "Ngọ": "Đ",
+    "Mùi": "Đ",
+    "Thân": "V",
+    "Dậu": "M",
+    "Tuất": "M",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 8,
+   "ten": "Thái âm",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "Đ",
+    "Dần": "H",
+    "Mão": "H",
+    "Thìn": "H",
+    "Tỵ": "H",
+    "Ngọ": "H",
+    "Mùi": "Đ",
+    "Thân": "V",
+    "Dậu": "M",
+    "Tuất": "M",
+    "Hợi": "M"
+   }
+  },
+  {
+   "lasotuvi_id": 9,
+   "ten": "Tham lang",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "M",
+    "Dần": "Đ",
+    "Mão": "H",
+    "Thìn": "V",
+    "Tỵ": "H",
+    "Ngọ": "H",
+    "Mùi": "M",
+    "Thân": "Đ",
+    "Dậu": "H",
+    "Tuất": "V",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 10,
+   "ten": "Cự môn",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "H",
+    "Dần": "V",
+    "Mão": "M",
+    "Thìn": "H",
+    "Tỵ": "H",
+    "Ngọ": "V",
+    "Mùi": "H",
+    "Thân": "Đ",
+    "Dậu": "M",
+    "Tuất": "H",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 11,
+   "ten": "Thiên tướng",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "Đ",
+    "Dần": "M",
+    "Mão": "H",
+    "Thìn": "V",
+    "Tỵ": "Đ",
+    "Ngọ": "V",
+    "Mùi": "Đ",
+    "Thân": "M",
+    "Dậu": "H",
+    "Tuất": "V",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 12,
+   "ten": "Thiên lương",
+   "theo_chi": {
+    "Tý": "V",
+    "Sửu": "Đ",
+    "Dần": "V",
+    "Mão": "V",
+    "Thìn": "M",
+    "Tỵ": "H",
+    "Ngọ": "M",
+    "Mùi": "Đ",
+    "Thân": "V",
+    "Dậu": "H",
+    "Tuất": "M",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 13,
+   "ten": "Thất sát",
+   "theo_chi": {
+    "Tý": "M",
+    "Sửu": "Đ",
+    "Dần": "M",
+    "Mão": "H",
+    "Thìn": "H",
+    "Tỵ": "V",
+    "Ngọ": "M",
+    "Mùi": "Đ",
+    "Thân": "M",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "V"
+   }
+  },
+  {
+   "lasotuvi_id": 14,
+   "ten": "Phá quân",
+   "theo_chi": {
+    "Tý": "M",
+    "Sửu": "V",
+    "Dần": "H",
+    "Mão": "H",
+    "Thìn": "Đ",
+    "Tỵ": "H",
+    "Ngọ": "M",
+    "Mùi": "V",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "Đ",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 51,
+   "ten": "Đà la",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "Đ",
+    "Dần": "H",
+    "Mão": "H",
+    "Thìn": "Đ",
+    "Tỵ": "H",
+    "Ngọ": "H",
+    "Mùi": "Đ",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "Đ",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 52,
+   "ten": "Kình dương",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "Đ",
+    "Dần": "H",
+    "Mão": "H",
+    "Thìn": "Đ",
+    "Tỵ": "H",
+    "Ngọ": "H",
+    "Mùi": "Đ",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "Đ",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 55,
+   "ten": "Linh tinh",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "H",
+    "Dần": "Đ",
+    "Mão": "Đ",
+    "Thìn": "Đ",
+    "Tỵ": "Đ",
+    "Ngọ": "Đ",
+    "Mùi": "H",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 56,
+   "ten": "Hỏa tinh",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "H",
+    "Dần": "Đ",
+    "Mão": "Đ",
+    "Thìn": "Đ",
+    "Tỵ": "Đ",
+    "Ngọ": "Đ",
+    "Mùi": "H",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "H"
+   }
+  },
+  {
+   "lasotuvi_id": 57,
+   "ten": "Văn xương",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "Đ",
+    "Dần": "H",
+    "Mão": "Đ",
+    "Thìn": "H",
+    "Tỵ": "Đ",
+    "Ngọ": "H",
+    "Mùi": "Đ",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "Đ",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 58,
+   "ten": "Văn khúc",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "Đ",
+    "Dần": "H",
+    "Mão": "Đ",
+    "Thìn": "H",
+    "Tỵ": "Đ",
+    "Ngọ": "H",
+    "Mùi": "Đ",
+    "Thân": "H",
+    "Dậu": "H",
+    "Tuất": "Đ",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 53,
+   "ten": "Địa không",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "H",
+    "Dần": "Đ",
+    "Mão": "H",
+    "Thìn": "H",
+    "Tỵ": "Đ",
+    "Ngọ": "H",
+    "Mùi": "H",
+    "Thân": "Đ",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 54,
+   "ten": "Địa kiếp",
+   "theo_chi": {
+    "Tý": "H",
+    "Sửu": "H",
+    "Dần": "Đ",
+    "Mão": "H",
+    "Thìn": "H",
+    "Tỵ": "Đ",
+    "Ngọ": "H",
+    "Mùi": "H",
+    "Thân": "Đ",
+    "Dậu": "H",
+    "Tuất": "H",
+    "Hợi": "Đ"
+   }
+  },
+  {
+   "lasotuvi_id": 95,
+   "ten": "Hóa kỵ",
+   "theo_chi": {
+    "Tý": null,
+    "Sửu": "Đ",
+    "Dần": null,
+    "Mão": null,
+    "Thìn": "Đ",
+    "Tỵ": null,
+    "Ngọ": null,
+    "Mùi": "Đ",
+    "Thân": null,
+    "Dậu": null,
+    "Tuất": "Đ",
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 36,
+   "ten": "Đại hao",
+   "theo_chi": {
+    "Tý": null,
+    "Sửu": null,
+    "Dần": "Đ",
+    "Mão": "Đ",
+    "Thìn": null,
+    "Tỵ": null,
+    "Ngọ": null,
+    "Mùi": null,
+    "Thân": "Đ",
+    "Dậu": "Đ",
+    "Tuất": null,
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 30,
+   "ten": "Tiểu Hao",
+   "theo_chi": {
+    "Tý": null,
+    "Sửu": null,
+    "Dần": "Đ",
+    "Mão": "Đ",
+    "Thìn": null,
+    "Tỵ": null,
+    "Ngọ": null,
+    "Mùi": null,
+    "Thân": "Đ",
+    "Dậu": "Đ",
+    "Tuất": null,
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 69,
+   "ten": "Thiên khốc",
+   "theo_chi": {
+    "Tý": "Đ",
+    "Sửu": "Đ",
+    "Dần": null,
+    "Mão": "Đ",
+    "Thìn": null,
+    "Tỵ": null,
+    "Ngọ": "Đ",
+    "Mùi": "Đ",
+    "Thân": null,
+    "Dậu": "Đ",
+    "Tuất": null,
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 70,
+   "ten": "Thiên hư",
+   "theo_chi": {
+    "Tý": "Đ",
+    "Sửu": "Đ",
+    "Dần": null,
+    "Mão": "Đ",
+    "Thìn": null,
+    "Tỵ": null,
+    "Ngọ": "Đ",
+    "Mùi": "Đ",
+    "Thân": null,
+    "Dậu": "Đ",
+    "Tuất": null,
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 98,
+   "ten": "Thiên mã",
+   "theo_chi": {
+    "Tý": null,
+    "Sửu": null,
+    "Dần": "Đ",
+    "Mão": null,
+    "Thìn": null,
+    "Tỵ": "Đ",
+    "Ngọ": null,
+    "Mùi": null,
+    "Thân": null,
+    "Dậu": null,
+    "Tuất": null,
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 73,
+   "ten": "Thiên Hình",
+   "theo_chi": {
+    "Tý": null,
+    "Sửu": null,
+    "Dần": "Đ",
+    "Mão": "Đ",
+    "Thìn": null,
+    "Tỵ": null,
+    "Ngọ": null,
+    "Mùi": null,
+    "Thân": "Đ",
+    "Dậu": "Đ",
+    "Tuất": null,
+    "Hợi": null
+   }
+  },
+  {
+   "lasotuvi_id": 74,
+   "ten": "Thiên riêu",
+   "theo_chi": {
+    "Tý": null,
+    "Sửu": null,
+    "Dần": "Đ",
+    "Mão": "Đ",
+    "Thìn": null,
+    "Tỵ": null,
+    "Ngọ": null,
+    "Mùi": null,
+    "Thân": null,
+    "Dậu": "Đ",
+    "Tuất": "Đ",
+    "Hợi": null
+   }
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+  "_meta": {
+    "mo_ta": "Tứ Hóa theo thiên can năm sinh: [Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ]. Bảng 'chuan' = phương án đa số; chỗ có dị bản ghi trong 'di_ban' và trong bien_the.json.",
+    "nguon": "Đối chiếu từ code lasotuvi/App.py (theo Thiên Lương) và iztro (mặc định phái Trung).",
+    "trang_thai": "trich_nguon_chua_doi_chieu_sach"
+  },
+  "chuan": {
+    "Giáp": ["liem_trinh", "pha_quan", "vu_khuc", "thai_duong"],
+    "Ất":   ["thien_co", "thien_luong", "tu_vi", "thai_am"],
+    "Bính": ["thien_dong", "thien_co", "van_xuong", "liem_trinh"],
+    "Đinh": ["thai_am", "thien_dong", "thien_co", "cu_mon"],
+    "Mậu":  ["tham_lang", "thai_am", "huu_bat", "thien_co"],
+    "Kỷ":   ["vu_khuc", "tham_lang", "thien_luong", "van_khuc"],
+    "Canh": ["thai_duong", "vu_khuc", "thai_am", "thien_dong"],
+    "Tân":  ["cu_mon", "thai_duong", "van_khuc", "van_xuong"],
+    "Nhâm": ["thien_luong", "tu_vi", "ta_phu", "vu_khuc"],
+    "Quý":  ["pha_quan", "cu_mon", "thai_am", "tham_lang"]
+  },
+  "di_ban": [
+    { "can": "Canh", "phuong_an": ["thai_duong", "vu_khuc", "thien_dong", "thai_am"], "nguon": "lasotuvi (theo Thiên Lương)", "ghi_chu": "Đổi chỗ Khoa/Kỵ giữa Thái Âm và Thiên Đồng" },
+    { "can": "Nhâm", "phuong_an": ["thien_luong", "tu_vi", "thien_phu", "vu_khuc"], "nguon": "lasotuvi (theo Thiên Lương)", "ghi_chu": "Hóa Khoa ở Thiên Phủ thay vì Tả Phù" }
+  ],
+  "can_xac_minh": "Thái Thứ Lang dùng phương án nào cho Canh/Nhâm — tao chưa có bản sách để xác nhận, KHÔNG đoán."
+}

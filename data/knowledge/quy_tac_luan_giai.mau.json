@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "mo_ta": "MẪU định dạng quy tắc luận giải — đây là trái tim của database. Mỗi quy tắc = điều kiện máy kiểm được + kết luận + nguồn. Bộ luận giải chạy toàn bộ quy tắc trên lá số đã an, gom các quy tắc khớp, rồi mới đưa cho LLM viết thành văn (LLM KHÔNG được thêm kết luận ngoài danh sách khớp).",
+    "trang_thai": "mau_draft_ai",
+    "dsl": {
+      "pham_vi": "menh | than | cung:<id> | tam_phuong:<id> | xung:<id> | giap:<id> | dai_han | luu_nien",
+      "dieu_kien": {
+        "sao": "có sao (id) trong phạm vi",
+        "sao_bat_ky": "có ít nhất 1 trong danh sách",
+        "dem_toi_thieu": "{ nhom: [...], so: n } — đếm số sao thuộc nhóm có trong phạm vi",
+        "do_sang": "sao X có độ sáng thuộc danh sách",
+        "chi": "cung đặt tại địa chi thuộc danh sách",
+        "tuan_triet": "cung bị Tuần/Triệt",
+        "all / any / none": "kết hợp logic"
+      },
+      "muc_do": "-3..+3 (âm = xấu)",
+      "trong_so": "0..1, độ tin cậy/ưu tiên khi các quy tắc mâu thuẫn"
+    }
+  },
+  "quy_tac": [
+    {
+      "id": "CC.TU_PHU_DONG_CUNG", "ten": "Tử Phủ đồng cung",
+      "pham_vi": "menh",
+      "dieu_kien": { "all": [ { "sao": "tu_vi" }, { "sao": "thien_phu" } ] },
+      "ket_luan": "Cách quý hiển, có khả năng quản lý và tích lũy; cần Tả Hữu/Xương Khúc hội mới phát mạnh.",
+      "muc_do": 2, "trong_so": 0.7,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "CC.SAT_PHA_THAM", "ten": "Sát Phá Tham thủ/chiếu Mệnh",
+      "pham_vi": "tam_phuong:menh",
+      "dieu_kien": { "dem_toi_thieu": { "nhom": ["that_sat", "pha_quan", "tham_lang"], "so": 3 } },
+      "ket_luan": "Đời nhiều biến động, hợp môi trường cạnh tranh, kinh doanh, quân sự; thành bại lớn.",
+      "muc_do": 0, "trong_so": 0.7,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "CC.CO_NGUYET_DONG_LUONG", "ten": "Cơ Nguyệt Đồng Lương",
+      "pham_vi": "tam_phuong:menh",
+      "dieu_kien": { "dem_toi_thieu": { "nhom": ["thien_co", "thai_am", "thien_dong", "thien_luong"], "so": 3 } },
+      "ket_luan": "Hợp công việc ổn định, hành chính, chuyên môn; ít hợp mạo hiểm.",
+      "muc_do": 1, "trong_so": 0.6,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "CC.NHAT_NGUYET_TINH_MINH", "ten": "Nhật Nguyệt tịnh minh",
+      "pham_vi": "tam_phuong:menh",
+      "dieu_kien": { "all": [
+        { "sao": "thai_duong", "do_sang": ["M", "V"] },
+        { "sao": "thai_am",    "do_sang": ["M", "V"] }
+      ] },
+      "ket_luan": "Thông minh, danh tiếng sáng, được người trên và người dưới giúp.",
+      "muc_do": 2, "trong_so": 0.6,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "CC.LOC_MA_GIAO_TRI", "ten": "Lộc Mã giao trì",
+      "pham_vi": "tam_phuong:menh",
+      "dieu_kien": { "all": [ { "sao_bat_ky": ["loc_ton", "hoa_loc"] }, { "sao": "thien_ma" } ] },
+      "ket_luan": "Kiếm tiền nhờ di chuyển, buôn bán, làm xa.",
+      "muc_do": 2, "trong_so": 0.6,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "CC.KINH_DA_GIAP_MENH", "ten": "Kình Đà giáp Mệnh",
+      "pham_vi": "giap:menh",
+      "dieu_kien": { "all": [ { "sao": "kinh_duong" }, { "sao": "da_la" } ] },
+      "ket_luan": "Bị kẹp áp lực, dễ gặp trở ngại, thị phi từ hai phía.",
+      "muc_do": -2, "trong_so": 0.6,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "CC.KHONG_KIEP_MENH", "ten": "Không Kiếp thủ Mệnh",
+      "pham_vi": "menh",
+      "dieu_kien": { "any": [ { "sao": "dia_khong" }, { "sao": "dia_kiep" } ] },
+      "ket_luan": "Đời có những cú phá/hao bất ngờ; tốt khi đắc địa (Dần Thân Tỵ Hợi) thì phát nhanh nhưng khó bền.",
+      "muc_do": -1, "trong_so": 0.5,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    },
+    {
+      "id": "TT.TRIET_MENH", "ten": "Triệt tại Mệnh",
+      "pham_vi": "menh",
+      "dieu_kien": { "tuan_triet": "triet" },
+      "ket_luan": "Giảm lực sao trong cung (tốt giảm tốt, xấu giảm xấu); ảnh hưởng mạnh giai đoạn đầu đời.",
+      "muc_do": 0, "trong_so": 0.5,
+      "nguon": [], "phai": ["chung"], "trang_thai": "draft_ai"
+    }
+  ]
+}

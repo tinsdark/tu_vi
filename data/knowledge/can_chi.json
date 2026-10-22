@@ -1,0 +1,49 @@
+{
+  "_meta": {
+    "mo_ta": "Thiên can, địa chi, tam hợp, xung chiếu. Dữ kiện nền, không phụ thuộc phái.",
+    "trang_thai": "da_kiem_tra",
+    "quy_uoc_index": "Địa chi index 1..12 = Tý..Hợi (khớp lasotuvi). Thiên can index 1..10 = Giáp..Quý."
+  },
+  "thien_can": [
+    { "id": 1,  "ten": "Giáp", "am_duong": "duong", "ngu_hanh": "Moc" },
+    { "id": 2,  "ten": "Ất",   "am_duong": "am",    "ngu_hanh": "Moc" },
+    { "id": 3,  "ten": "Bính", "am_duong": "duong", "ngu_hanh": "Hoa" },
+    { "id": 4,  "ten": "Đinh", "am_duong": "am",    "ngu_hanh": "Hoa" },
+    { "id": 5,  "ten": "Mậu",  "am_duong": "duong", "ngu_hanh": "Tho" },
+    { "id": 6,  "ten": "Kỷ",   "am_duong": "am",    "ngu_hanh": "Tho" },
+    { "id": 7,  "ten": "Canh", "am_duong": "duong", "ngu_hanh": "Kim" },
+    { "id": 8,  "ten": "Tân",  "am_duong": "am",    "ngu_hanh": "Kim" },
+    { "id": 9,  "ten": "Nhâm", "am_duong": "duong", "ngu_hanh": "Thuy" },
+    { "id": 10, "ten": "Quý",  "am_duong": "am",    "ngu_hanh": "Thuy" }
+  ],
+  "dia_chi": [
+    { "id": 1,  "ten": "Tý",   "am_duong": "duong", "ngu_hanh": "Thuy", "gio": "23:00-00:59" },
+    { "id": 2,  "ten": "Sửu",  "am_duong": "am",    "ngu_hanh": "Tho",  "gio": "01:00-02:59" },
+    { "id": 3,  "ten": "Dần",  "am_duong": "duong", "ngu_hanh": "Moc",  "gio": "03:00-04:59" },
+    { "id": 4,  "ten": "Mão",  "am_duong": "am",    "ngu_hanh": "Moc",  "gio": "05:00-06:59" },
+    { "id": 5,  "ten": "Thìn", "am_duong": "duong", "ngu_hanh": "Tho",  "gio": "07:00-08:59" },
+    { "id": 6,  "ten": "Tỵ",   "am_duong": "am",    "ngu_hanh": "Hoa",  "gio": "09:00-10:59" },
+    { "id": 7,  "ten": "Ngọ",  "am_duong": "duong", "ngu_hanh": "Hoa",  "gio": "11:00-12:59" },
+    { "id": 8,  "ten": "Mùi",  "am_duong": "am",    "ngu_hanh": "Tho",  "gio": "13:00-14:59" },
+    { "id": 9,  "ten": "Thân", "am_duong": "duong", "ngu_hanh": "Kim",  "gio": "15:00-16:59" },
+    { "id": 10, "ten": "Dậu",  "am_duong": "am",    "ngu_hanh": "Kim",  "gio": "17:00-18:59" },
+    { "id": 11, "ten": "Tuất", "am_duong": "duong", "ngu_hanh": "Tho",  "gio": "19:00-20:59" },
+    { "id": 12, "ten": "Hợi",  "am_duong": "am",    "ngu_hanh": "Thuy", "gio": "21:00-22:59" }
+  ],
+  "tam_hop": [
+    { "chi": [9, 1, 5],  "ten": "Thân Tý Thìn", "hanh": "Thuy" },
+    { "chi": [3, 7, 11], "ten": "Dần Ngọ Tuất", "hanh": "Hoa" },
+    { "chi": [6, 10, 2], "ten": "Tỵ Dậu Sửu",   "hanh": "Kim" },
+    { "chi": [12, 4, 8], "ten": "Hợi Mão Mùi",  "hanh": "Moc" }
+  ],
+  "quy_tac_vi_tri": {
+    "xung_chieu": "cung đối diện = chi + 6 (mod 12)",
+    "tam_phuong_tu_chinh": "cung gốc + 2 cung tam hợp (±4) + cung xung chiếu (+6)",
+    "giap": "2 cung kề hai bên (±1) — dùng cho các cách 'giáp' như Kình Đà giáp, Tả Hữu giáp"
+  },
+  "ngu_hanh": {
+    "tuong_sinh": ["Moc>Hoa", "Hoa>Tho", "Tho>Kim", "Kim>Thuy", "Thuy>Moc"],
+    "tuong_khac": ["Moc>Tho", "Tho>Thuy", "Thuy>Hoa", "Hoa>Kim", "Kim>Moc"],
+    "cuc_so": { "Thuy": 2, "Moc": 3, "Kim": 4, "Tho": 5, "Hoa": 6 }
+  }
+}

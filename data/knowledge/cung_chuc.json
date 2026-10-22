@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "mo_ta": "12 cung chức. offset_tu_menh tính theo chiều THUẬN địa bàn (Tý→Sửu→Dần...), khớp lasotuvi: Phụ Mẫu = Mệnh+1, Huynh Đệ = Mệnh+11. 'linh_vuc' là từ khóa để bộ luận giải chọn quy tắc.",
+    "trang_thai": "draft_ai_chua_doi_chieu",
+    "ghi_chu": "Nội dung 'linh_vuc' là tóm tắt phổ thông, viết lại bằng lời mình, chưa trích sách."
+  },
+  "cung": [
+    { "id": "menh",      "ten": "Mệnh",      "offset_tu_menh": 0,  "linh_vuc": ["tính cách", "năng lực gốc", "khuynh hướng cả đời"] },
+    { "id": "phu_mau",   "ten": "Phụ Mẫu",   "offset_tu_menh": 1,  "linh_vuc": ["cha mẹ", "cấp trên", "giấy tờ, học hành sớm"] },
+    { "id": "phuc_duc",  "ten": "Phúc Đức",  "offset_tu_menh": 2,  "linh_vuc": ["phúc dòng họ", "đời sống tinh thần", "tuổi thọ"] },
+    { "id": "dien_trach","ten": "Điền Trạch","offset_tu_menh": 3,  "linh_vuc": ["nhà cửa", "đất đai", "tài sản cố định"] },
+    { "id": "quan_loc",  "ten": "Quan Lộc",  "offset_tu_menh": 4,  "linh_vuc": ["sự nghiệp", "công việc", "địa vị"] },
+    { "id": "no_boc",    "ten": "Nô Bộc",    "offset_tu_menh": 5,  "linh_vuc": ["bạn bè", "cấp dưới", "đối tác"] },
+    { "id": "thien_di",  "ten": "Thiên Di",  "offset_tu_menh": 6,  "linh_vuc": ["ra ngoài xã hội", "đi xa", "cách người khác nhìn mình"] },
+    { "id": "tat_ach",   "ten": "Tật Ách",   "offset_tu_menh": 7,  "linh_vuc": ["sức khỏe", "bệnh tật", "tai nạn"] },
+    { "id": "tai_bach",  "ten": "Tài Bạch",  "offset_tu_menh": 8,  "linh_vuc": ["tiền bạc", "cách kiếm và giữ tiền"] },
+    { "id": "tu_tuc",    "ten": "Tử Tức",    "offset_tu_menh": 9,  "linh_vuc": ["con cái", "học trò", "sáng tạo"] },
+    { "id": "phu_the",   "ten": "Phu Thê",   "offset_tu_menh": 10, "linh_vuc": ["hôn nhân", "người phối ngẫu"] },
+    { "id": "huynh_de",  "ten": "Huynh Đệ",  "offset_tu_menh": 11, "linh_vuc": ["anh chị em", "người ngang hàng"] }
+  ],
+  "cung_than": {
+    "mo_ta": "Thân cư một trong 6 cung: Mệnh, Phúc Đức, Quan Lộc, Thiên Di, Tài Bạch, Phu Thê. Thân ảnh hưởng mạnh từ khoảng trung niên.",
+    "trang_thai": "draft_ai_chua_doi_chieu"
+  }
+}
