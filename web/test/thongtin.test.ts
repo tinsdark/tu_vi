@@ -61,6 +61,7 @@ describe("cân lượng khớp 3 lá số mẫu tracuutuvi.com", () => {
     [[10, 8, 4, 11, 8, "nam"], "3 lượng 3 chỉ"],
     [[10, 8, 2, 26, 8, "nam"], "4 lượng 0 chỉ"],
     [[10, 8, 11, 12, 2, "nu"], "3 lượng 9 chỉ"],
+    [[1, 9, 12, 2, 4, "nu"], "3 lượng 0 chỉ"],
   ] as const)("%j", (a, kq) => {
     expect(canLuong(anLaSo(a[0], a[1], a[2], a[3], a[4], a[5]))).toBe(kq);
   });
@@ -78,5 +79,16 @@ describe("lá số nữ (Quý Mùi, 5/12/2003 2:30 — tiểu hạn nghịch)", 
     expect([t["Hợi"], t["Tý"]]).toEqual([7, 8]);
     expect(chiNamTieuHan(kq.la_so, 12)).toBe("Dậu");
     expect(dungOCung(kq.la_so)[10].tot.find((s) => s.ten === "Văn Xương")?.muc).toBe("Đ");
+  });
+});
+
+describe("lá số dương nữ Giáp Thân (11/1/2005 6:30)", () => {
+  const ls = anLaSo(1, 9, 12, 2, 4, "nu");
+  it("nạp âm, chủ mệnh/thân, quan hệ khắc, lai nhân, tiểu hạn nghịch", () => {
+    expect(tenNapAm(1, 9)).toBe("Tuyền Trung Thủy");
+    expect([chuMenh(ls), chuThan(ls)]).toEqual(["Liêm Trinh", "Thiên Lương"]);
+    expect(quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)).toBe("Mệnh Thủy khắc Cục Hỏa");
+    expect(laiNhan(ls)).toBe("Mệnh");
+    expect(canChiCung(ls, 11)).toBe("G.Tuất");
   });
 });

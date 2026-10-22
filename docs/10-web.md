@@ -114,3 +114,7 @@ Vị trí sao khớp 100%; can chi cung, chi năm tiểu hạn, `Th.n` của c�
 ### Lá số mẫu thứ 3 (nữ, Quý Mùi, 5/12/2003 2:30) và cân lượng
 
 Vị trí sao, can chi cung, chi năm tiểu hạn (nữ nghịch), `Th.n`, lai nhân (Mệnh), quan hệ Cục–Mệnh: khớp hết. Đã thêm **cân lượng** (bảng tracuutuvi.com): khớp cả 3 lá số mẫu (3 lượng 3 chỉ, 4 lượng 0 chỉ, 3 lượng 9 chỉ). Văn Xương tại Dậu đặt lại Đắc theo web mẫu (1 nguồn). Nhãn độ sáng web mẫu có mà ta chưa có (Tang Môn, Thiên Hình, Hóa Lộc/Quyền/Kỵ, Thiên Riêu Hợi) được ghi lại ở `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`, chưa dùng chấm điểm.
+
+### Lá số mẫu thứ 4 (dương nữ, Giáp Thân, 11/1/2005 6:30 = 2/12/2004 âm)
+
+Khớp: vị trí sao, can chi cung, chi năm tiểu hạn, `Th.n`, lai nhân (Mệnh), chủ mệnh Liêm Trinh và chủ thân Thiên Lương (theo chi năm sinh Thân — xác nhận chủ mệnh theo chi năm, không theo cung Mệnh), "Mệnh Thủy khắc Cục Hỏa", cân lượng 3 lượng 0 chỉ (cân lượng nay khớp 4/4, có cả năm Giáp). Còn lệch chỉ ở nhãn độ sáng, đã ghi vào `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`: Thiên Hình web mẫu ghi Hãm ở Thân (lasotuvi: Đắc), Thiên Hư Dần Hãm, Hóa Kỵ luôn Hãm, Hóa Quyền Đắc ở Tuất nhưng Hãm ở Tý/Thân.
