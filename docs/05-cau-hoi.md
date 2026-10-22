@@ -1,10 +1,15 @@
 # 05 — Câu hỏi cần mày trả lời
 
-> **Cập nhật 2026-10-22**: Q1 đã chốt = **tổng hợp đa phái** (engine dùng profile `tong_hop_v1`, chỗ bất đồng giữ cả hai phương án). Q4 đã chốt = **không có sách**, tri thức lấy từ web + kiến thức AI, gắn nhãn độ tin cậy. Câu hỏi mới ở cuối file.
+> **Cập nhật 2026-10-22**
+> - Q1 **đã chốt = tổng hợp đa phái** (đề xuất Thái Thứ Lang bên dưới không còn áp dụng). Mặc định theo phương án phổ biến nhất ở VN; chỗ bất đồng giữ cả hai trong `bien_the.json`.
+> - Q4 **đã chốt = không có sách**; tri thức lấy từ web + kiến thức AI, gắn nhãn độ tin cậy.
+> - Q9 **đã làm theo mặc định đa số**, đổi được qua `quy_uoc` (xem `docs/08`). Mày muốn khác thì nói.
+> - Q11 **đã xong** (mạng mở, đọc toàn văn được — kết quả ở `docs/09`).
+> - Còn chờ mày: **Q12 (lá số người thật) quan trọng nhất**, Q5 (stack web), Q2, Q3, Q6, Q7, Q8, Q10, Q13.
 
 Xếp theo mức ảnh hưởng. Mỗi câu có đề xuất của tao.
 
-### Q1. Lấy phái nào làm chuẩn mặc định?
+### Q1. Lấy phái nào làm chuẩn mặc định? — ĐÃ CHỐT: tổng hợp đa phái
 Thái Thứ Lang (phổ biến nhất VN) / Thiên Lương / Bắc phái Tứ Hóa phi tinh / tự tổng hợp?
 **Đề xuất**: mặc định Thái Thứ Lang, có nút đổi profile. Không "tự tổng hợp" ở v1 vì khi lệch không biết bám vào đâu.
 
@@ -32,7 +37,7 @@ Rule do AI trích từ sách vẫn phải có người hiểu tử vi duyệt. M
 ### Q8. Ngân sách LLM?
 Dùng API trả phí (Claude) cho: trích quy tắc từ sách (1 lần, vài chục USD), viết văn luận giải (mỗi lá số vài cent), đọc ảnh. Chấp nhận không? Hay muốn v1 chạy không cần LLM (luận giải ghép từ quy tắc, văn kém mượt hơn)?
 
-### Q9. Quy ước giờ/lịch (cần mày chốt hoặc cho người dùng chọn)
+### Q9. Quy ước giờ/lịch — ĐÃ LÀM theo mặc định đa số, chờ mày xác nhận
 - Sinh 23:00–23:59: tính ngày hôm sau (phổ biến) hay hôm đó?
 - Sinh tháng nhuận: an như tháng trước, tháng sau, hay chia nửa tháng?
 - Người sinh ở miền Nam trước 1975 (dùng UTC+8 nhiều giai đoạn): có hiệu chỉnh múi giờ lịch sử không? Ảnh hưởng tới cả giờ sinh lẫn ngày âm lịch một số năm.
@@ -46,7 +51,7 @@ Dùng API trả phí (Claude) cho: trích quy tắc từ sách (1 lần, vài ch
 
 ## Câu hỏi mới (sau vòng 2)
 
-### Q11. Mở mạng cho môi trường để tao đọc được các web tử vi?
+### Q11. Mở mạng cho môi trường để tao đọc được các web tử vi? — ĐÃ XONG
 Hiện proxy của môi trường chặn hết các site tử vi (tuvi.cohoc.net, hoc.kabala.vn, hocvienlyso.org, thaiam.vn…) — tao chỉ đọc được phần trích trong kết quả tìm kiếm. Nếu mày thêm các domain đó vào **Allowed domains** của environment (Network access), tao đọc được toàn văn bài để đối chiếu từng quy tắc, chất lượng dữ liệu tăng rõ.
 
 ### Q12. Bộ lá số người thật để kiểm luận giải

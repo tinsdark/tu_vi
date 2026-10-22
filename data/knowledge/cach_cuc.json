@@ -2,7 +2,7 @@
   "_meta": {
     "mo_ta": "Cách cục = tổ hợp sao trên nhiều cung → một kết luận ưu tiên hơn luận từng sao. Mỗi cách có điều kiện THÀNH và (nếu có) điều kiện PHÁ. Điều kiện viết bằng DSL mà tools/tuvi/luan_giai.py chạy được.",
     "dsl": {
-      "o": "ban_cung | xung | tam_hop | tam_phuong (= bản + 2 tam hợp + xung) | giap — mặc định ban_cung, tính từ cung trong pham_vi",
+      "o": "ban_cung | xung | tam_hop | tam_phuong (= bản + 2 tam hợp + xung) | giap — mặc định ban_cung, tính từ cung trong pham_vi | tam_hop_ca_ban (bản cung + 2 tam hợp, không xung) | than (cung an Thân) | ban_xung (bản cung + xung chiếu)",
       "co / co_ca / co_mot / khong_co": "sao hoặc danh sách sao có mặt trong vùng 'o'",
       "dem": "{dem: [sao...], toi_thieu: n, o: ...}",
       "nhom": "tên nhóm trong phu_tinh.json → nhom (VD luc_sat, tu_sat) dùng thay danh sách",
@@ -12,182 +12,1961 @@
       "sao_tai_chi": "{sao: X, chi: [...]} — vị trí tuyệt đối",
       "tuan_triet": "cung bị Tuần hoặc Triệt",
       "can_nam": "danh sách can năm sinh",
-      "all / any / not": "logic"
+      "all / any / not": "logic",
+      "vung_trung": "[o1, o2] — hai vùng trùng nhau (VD Mệnh = Thân)"
     },
     "nguon": "Tên cách và ý nghĩa: kiến thức phổ thông tử vi (AI tổng hợp). xac_nhan_web = có trang web tiếng Việt nêu tên/điều kiện cách này (link kèm theo); false = chỉ từ kiến thức tự có, cần đối chiếu.",
-    "trang_thai": "draft_ai_tong_hop"
+    "trang_thai": "da_gan_nguon_mot_phan",
+    "pha_chung": {
+      "ap_dung": "cách loai=cat chưa có điều kiện 'pha' riêng",
+      "dieu_kien": {
+        "dem": {
+          "nhom": "hung_pha",
+          "toi_thieu": 2,
+          "o": "ban_xung"
+        }
+      },
+      "he_so_diem": 0.3,
+      "nguon": "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi",
+      "ghi_chu": "Nguồn: cách tốt 'gặp tứ sát, Kiếp, Không, Kỵ hội chiếu' thường thành phá cách. Thử trên 3.000 lá số: đếm cả tam phương với ngưỡng 2 thì 60–90% cách tốt bị phá (trung bình tam phương có ~2,3 sao hung) → vô nghĩa. Chọn: ≥2 sao hung ở bản cung + xung chiếu (nghĩa hẹp của 'xung phá'). Đây là lựa chọn mô hình, cần kiểm trên lá số thật."
+    },
+    "doi_chieu_2026_10_22": "Đọc toàn văn sonchu.vn (dịch Tử Vi Đẩu Số Cách Cục Luận), cohoc, lyso, tracuutuvi. Xem doi_chieu từng cách."
   },
   "cach": [
-    { "id": "CC01", "ten": "Tử Phủ đồng cung", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Tử Vi", "Thiên Phủ"] },
-      "pha": { "dem": { "nhom": "luc_sat", "toi_thieu": 2, "o": "tam_phuong" } },
-      "diem": 2, "diem_pha": 0, "linh_vuc": ["tinh_cach", "su_nghiep", "tai"],
-      "ket_luan": "Phúc hậu, có uy có của, giỏi quản trị; đời ổn định.", "ket_luan_pha": "Có nền tốt nhưng bị sát tinh quấy, thành bại thất thường.",
-      "xac_nhan_web": false },
-    { "id": "CC02", "ten": "Quân Thần Khánh Hội", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Tử Vi" }, { "co_ca": ["Tả Phù", "Hữu Bật"], "o": "tam_phuong" }] },
-      "pha": { "any": [{ "dem": { "nhom": "tu_sat", "toi_thieu": 1 } }, { "co_mot": ["Địa Không", "Địa Kiếp"] }] },
-      "diem": 3, "diem_pha": 0, "linh_vuc": ["su_nghiep", "quyen"],
-      "ket_luan": "Vua có bầy tôi: lãnh đạo được người, không đại quý cũng đại phú.", "ket_luan_pha": "Gặp sát tinh/Không Kiếp: không hợp cách, có danh mà thiếu thực.",
-      "xac_nhan_web": true, "web": ["https://hoc.kabala.vn/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach/"] },
-    { "id": "CC03", "ten": "Tử Vi cô quân", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Tử Vi" }, { "khong_co": ["Tả Phù", "Hữu Bật", "Văn Xương", "Văn Khúc", "Thiên Khôi", "Thiên Việt"], "o": "tam_phuong" }] },
-      "diem": -1, "linh_vuc": ["tinh_cach", "su_nghiep"],
-      "ket_luan": "Đế tinh không phụ tá: tự cao, cô độc, việc lớn khó thành vì thiếu người giúp.", "xac_nhan_web": false },
-    { "id": "CC04", "ten": "Phủ Tướng triều viên", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Thiên Phủ", "Thiên Tướng"], "o": "tam_phuong" }, { "khong_co": ["Thiên Phủ", "Thiên Tướng"] }] },
-      "pha": { "dem": { "nhom": "luc_sat", "toi_thieu": 2, "o": "tam_phuong" } },
-      "diem": 2, "diem_pha": 0, "linh_vuc": ["su_nghiep", "tai"],
-      "ket_luan": "Phủ Tướng chầu về Mệnh: được nâng đỡ, có địa vị và tài sản.", "ket_luan_pha": "Bị sát tinh phá: được việc nhưng bấp bênh.",
-      "xac_nhan_web": true, "web": ["https://hoc.kabala.vn/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach/"] },
-    { "id": "CC05", "ten": "Sát Phá Tham", "loai": "trung", "pham_vi": "Mệnh",
-      "thanh": { "co_mot": ["Thất Sát", "Phá Quân", "Tham Lang"] },
-      "diem": 0, "linh_vuc": ["tinh_cach", "su_nghiep"],
-      "ket_luan": "Ba sao Sát–Phá–Tham luôn hợp thành tam phương: đời nhiều biến động, hợp cạnh tranh, kinh doanh, quân sự; thành bại lớn.", "xac_nhan_web": false },
-    { "id": "CC06", "ten": "Cơ Nguyệt Đồng Lương", "loai": "trung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_mot": ["Thiên Cơ", "Thái Âm", "Thiên Đồng", "Thiên Lương"] }, { "dem": { "dem": ["Thiên Cơ", "Thái Âm", "Thiên Đồng", "Thiên Lương"], "toi_thieu": 3, "o": "tam_phuong" } }] },
-      "diem": 1, "linh_vuc": ["su_nghiep"],
-      "ket_luan": "Hợp công việc ổn định: hành chính, chuyên môn, nghiên cứu, công chức; ít hợp mạo hiểm.", "xac_nhan_web": false },
-    { "id": "CC07", "ten": "Nhật Nguyệt tịnh minh", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Thái Dương", "Thái Âm"], "o": "tam_phuong" }, { "sang": { "sao": "Thái Dương", "thuoc": ["M", "V"] } }, { "sang": { "sao": "Thái Âm", "thuoc": ["M", "V"] } }] },
-      "diem": 2, "linh_vuc": ["tinh_cach", "danh"],
-      "ket_luan": "Nhật Nguyệt cùng sáng chiếu Mệnh: thông minh, danh rạng, được cả người trên kẻ dưới giúp.", "xac_nhan_web": false },
-    { "id": "CC08", "ten": "Nhật Nguyệt phản bối", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Thái Dương", "Thái Âm"], "o": "tam_phuong" }, { "sang": { "sao": "Thái Dương", "thuoc": ["H"] } }, { "sang": { "sao": "Thái Âm", "thuoc": ["H"] } }] },
-      "diem": -1, "linh_vuc": ["tinh_cach", "gia_dao"],
-      "ket_luan": "Nhật Nguyệt cùng hãm: vất vả, ít nhờ cha mẹ; nếu có Hóa Lộc/Quyền/Khoa hoặc Tuần Triệt thì lại thành cách 'phản bối' phát muộn.", "xac_nhan_web": false },
-    { "id": "CC09", "ten": "Minh Châu Xuất Hải", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "vcd": true }, { "chi": ["Mùi"] }, { "sao_tai_chi": { "sao": "Thái Dương", "chi": ["Mão"] } }, { "sao_tai_chi": { "sao": "Thái Âm", "chi": ["Hợi"] } }] },
-      "pha": { "all": [{ "khong_co": ["Tả Phù", "Hữu Bật", "Văn Xương", "Văn Khúc"], "o": "tam_phuong" }, { "co_mot": ["Kình Dương", "Đà La", "Hóa Kỵ"], "o": "tam_phuong" }] },
-      "diem": 3, "diem_pha": 0, "linh_vuc": ["danh", "su_nghiep"],
-      "ket_luan": "Ngọc sáng ra biển: Mệnh trống nhưng được Nhật Nguyệt sáng chiếu — tài hoa, hiển đạt.", "ket_luan_pha": "Thiếu cát tinh lại gặp Kình Đà Kỵ: chỉ có hư danh.",
-      "xac_nhan_web": true, "web": ["https://hoc.kabala.vn/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach/"] },
-    { "id": "CC10", "ten": "Nhật lệ trung thiên", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thái Dương" }, { "chi": ["Ngọ"] }] },
-      "diem": 2, "linh_vuc": ["danh", "quyen"], "ket_luan": "Mặt trời giữa trưa: danh tiếng lớn, có quyền; cần tránh quá cương.", "xac_nhan_web": false },
-    { "id": "CC11", "ten": "Nguyệt lãng thiên môn", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thái Âm" }, { "chi": ["Hợi"] }] },
-      "diem": 2, "linh_vuc": ["tai", "tinh_cach"], "ket_luan": "Trăng sáng cửa trời: giàu có, thanh cao, tinh tế.", "xac_nhan_web": false },
-    { "id": "CC12", "ten": "Nhật chiếu lôi môn", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thái Dương" }, { "chi": ["Mão"] }] },
-      "diem": 2, "linh_vuc": ["danh", "su_nghiep"], "ket_luan": "Mặt trời mọc ở cửa sấm (Mão, cùng Thiên Lương): hiển đạt, danh vọng.", "xac_nhan_web": false },
-    { "id": "CC13", "ten": "Dương Lương Xương Lộc", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Thái Dương", "Thiên Lương", "Văn Xương"], "o": "tam_phuong" }, { "co_mot": ["Lộc Tồn", "Hóa Lộc"], "o": "tam_phuong" }] },
-      "diem": 3, "linh_vuc": ["hoc", "su_nghiep", "tai"], "ket_luan": "Thi cử đỗ đạt, tài và quan đều tốt.",
-      "xac_nhan_web": true, "web": ["https://mytour.vn/vi/blog/bai-viet/bat-tu-co-sao-van-xuong-con-duong-su-nghiep-mo-rong.html"] },
-    { "id": "CC14", "ten": "Thạch trung ẩn ngọc", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Cự Môn" }, { "chi": ["Tý", "Ngọ"] }] },
-      "pha": { "co_mot": ["Hóa Kỵ", "Kình Dương", "Đà La"] },
-      "diem": 2, "diem_pha": -1, "linh_vuc": ["su_nghiep", "danh"],
-      "ket_luan": "Ngọc trong đá: thuở nhỏ không nổi, càng về sau càng quý; hợp nghề dùng lời nói. Có Hóa Lộc/Quyền càng tốt.", "ket_luan_pha": "Gặp Kỵ/Kình/Đà: ngọc bị vùi, thị phi nhiều.",
-      "xac_nhan_web": false },
-    { "id": "CC15", "ten": "Cự Nhật đồng cung (Dần)", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Cự Môn", "Thái Dương"] }, { "chi": ["Dần"] }] },
-      "diem": 2, "linh_vuc": ["danh", "su_nghiep"], "ket_luan": "Mặt trời mọc soi tan ám tinh: danh tiếng nhờ ngôn luận, 'quan phong tam đại'.", "xac_nhan_web": false },
-    { "id": "CC16", "ten": "Thất Sát triều đẩu / ngưỡng đẩu", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thất Sát" }, { "chi": ["Dần", "Thân", "Tý", "Ngọ"] }] },
-      "pha": { "dem": { "nhom": "tu_sat", "toi_thieu": 2, "o": "tam_phuong" } },
-      "diem": 2, "diem_pha": -1, "linh_vuc": ["su_nghiep", "quyen"], "ket_luan": "Phú: 'Thất Sát Dần Thân Tý Ngọ, nhất sinh tước lộc vinh xương' — có quyền chức, thành đạt bằng bản lĩnh.", "ket_luan_pha": "Gặp nhiều sát tinh: cương quá hóa gãy, tai nạn.",
-      "xac_nhan_web": false },
-    { "id": "CC17", "ten": "Anh tinh nhập miếu", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Phá Quân" }, { "chi": ["Tý", "Ngọ"] }] },
-      "diem": 2, "linh_vuc": ["su_nghiep", "quyen"], "ket_luan": "Phá Quân miếu tại Tý Ngọ: anh hùng, dám làm việc lớn.", "xac_nhan_web": false },
-    { "id": "CC18", "ten": "Thọ tinh nhập miếu", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thiên Lương" }, { "chi": ["Ngọ"] }] },
-      "diem": 2, "linh_vuc": ["tinh_cach", "danh"], "ket_luan": "Thiên Lương tại Ngọ: chính trực, được trọng vọng, thọ.", "xac_nhan_web": false },
-    { "id": "CC19", "ten": "Tham Vũ đồng hành", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_mot": ["Vũ Khúc", "Tham Lang"] }, { "co_ca": ["Vũ Khúc", "Tham Lang"], "o": "tam_phuong" }, { "chi": ["Thìn", "Tuất", "Sửu", "Mùi"] }] },
-      "diem": 1, "linh_vuc": ["tai"], "ket_luan": "'Tham Vũ bất phát thiếu niên nhân': phát muộn (sau 30) mà giàu.", "xac_nhan_web": false },
-    { "id": "CC20", "ten": "Hỏa Tham / Linh Tham", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Tham Lang" }, { "co_mot": ["Hỏa Tinh", "Linh Tinh"] }, { "sang": { "sao": "Tham Lang", "thuoc": ["M", "V", "Đ"] } }] },
-      "diem": 2, "linh_vuc": ["tai", "su_nghiep"], "ket_luan": "Phát nhanh, bất ngờ (đặc biệt về tiền, võ nghiệp).", "xac_nhan_web": false },
-    { "id": "CC21", "ten": "Lộc Mã giao trì", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_mot": ["Lộc Tồn", "Hóa Lộc"], "o": "tam_phuong" }, { "co": "Thiên Mã", "o": "tam_phuong" }] },
-      "pha": { "tuan_triet": true },
-      "diem": 2, "diem_pha": 0, "linh_vuc": ["tai", "di_chuyen"], "ket_luan": "Tiền đến nhờ di chuyển, buôn bán, làm xa.", "ket_luan_pha": "Mã gặp Tuần Triệt: muốn đi mà vướng.", "xac_nhan_web": false },
-    { "id": "CC22", "ten": "Song Lộc", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Lộc Tồn", "Hóa Lộc"], "o": "tam_phuong" },
-      "diem": 2, "linh_vuc": ["tai"], "ket_luan": "Hai Lộc hội: tài lộc dồi dào.", "xac_nhan_web": false },
-    { "id": "CC23", "ten": "Tam Hóa liên châu (Tam kỳ gia hội)", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Hóa Lộc", "Hóa Quyền", "Hóa Khoa"], "o": "tam_phuong" },
-      "pha": { "co": "Hóa Kỵ", "o": "tam_phuong" },
-      "diem": 3, "diem_pha": 1, "linh_vuc": ["su_nghiep", "tai", "danh"], "ket_luan": "Lộc Quyền Khoa cùng hội: có tiền, có quyền, có danh.", "ket_luan_pha": "Có cả Hóa Kỵ: thành công kèm thị phi.", "xac_nhan_web": false },
-    { "id": "CC24", "ten": "Tả Hữu giáp Mệnh", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Tả Phù", "Hữu Bật"], "o": "giap" },
-      "diem": 1, "linh_vuc": ["quy_nhan"], "ket_luan": "Được người hai bên phò trợ.", "xac_nhan_web": false },
-    { "id": "CC25", "ten": "Xương Khúc giáp Mệnh", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Văn Xương", "Văn Khúc"], "o": "giap" },
-      "diem": 1, "linh_vuc": ["hoc", "danh"], "ket_luan": "Văn chương, học vấn được hỗ trợ.", "xac_nhan_web": false },
-    { "id": "CC26", "ten": "Tọa quý hướng quý (Khôi Việt)", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Thiên Khôi", "Thiên Việt"], "o": "tam_phuong" },
-      "diem": 2, "linh_vuc": ["quy_nhan", "danh"], "ket_luan": "Có quý nhân cả trong lẫn ngoài, gặp thời cơ.", "xac_nhan_web": false },
-    { "id": "CC27", "ten": "Văn Quế Văn Hoa", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Văn Xương", "Văn Khúc"] }, { "chi": ["Sửu", "Mùi"] }] },
-      "diem": 2, "linh_vuc": ["hoc", "nghe_thuat"], "ket_luan": "Xương Khúc đồng cung Sửu Mùi: văn tài xuất chúng.", "xac_nhan_web": false },
-    { "id": "CC28", "ten": "Tài Ấm giáp Ấn", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thiên Tướng" }, { "co_mot": ["Hóa Lộc", "Lộc Tồn"], "o": "giap" }] },
-      "diem": 2, "linh_vuc": ["quy_nhan", "tai"], "ket_luan": "Thiên Tướng (ấn) được Lộc (tài) và Thiên Lương (ấm) giáp: được che chở, có của.", "xac_nhan_web": false },
-    { "id": "CC29", "ten": "Hình Kỵ giáp Ấn", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Thiên Tướng" }, { "co": "Hóa Kỵ", "o": "giap" }, { "co_mot": ["Kình Dương", "Thiên Hình"], "o": "giap" }] },
-      "diem": -2, "linh_vuc": ["kien_tung"], "ket_luan": "Ấn bị Hình và Kỵ kẹp: dễ bị liên lụy, kiện tụng.", "xac_nhan_web": false },
-    { "id": "CC30", "ten": "Kình Đà giáp Mệnh", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Kình Dương", "Đà La"], "o": "giap" },
-      "diem": -1, "linh_vuc": ["tai_nan", "thi_phi"], "ket_luan": "Bị kẹp hai phía: áp lực, trở ngại. (Luôn xảy ra khi Lộc Tồn thủ Mệnh — Lộc bị giáp nên giữ của mà vất vả.)", "xac_nhan_web": false },
-    { "id": "CC31", "ten": "Không Kiếp giáp Mệnh", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Địa Không", "Địa Kiếp"], "o": "giap" },
-      "diem": -2, "linh_vuc": ["hao"], "ket_luan": "Không Kiếp kẹp Mệnh: hao tán, khó giữ thành quả.", "xac_nhan_web": false },
-    { "id": "CC32", "ten": "Không Kiếp thủ Mệnh đắc địa", "loai": "trung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_mot": ["Địa Không", "Địa Kiếp"] }, { "chi": ["Dần", "Thân", "Tỵ", "Hợi"] }] },
-      "diem": 0, "linh_vuc": ["tinh_cach", "tai"], "ket_luan": "Không Kiếp đắc địa: tư duy đột phá, phát nhanh nhưng khó bền; hợp nghề sáng tạo, rủi ro cao.", "xac_nhan_web": false },
-    { "id": "CC33", "ten": "Không Kiếp thủ Mệnh hãm", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_mot": ["Địa Không", "Địa Kiếp"] }, { "not": { "chi": ["Dần", "Thân", "Tỵ", "Hợi"] } }] },
-      "diem": -2, "linh_vuc": ["hao", "tai_nan"], "ket_luan": "Hao tán, đời có cú ngã bất ngờ; cần tránh đầu cơ.", "xac_nhan_web": false },
-    { "id": "CC34", "ten": "Linh Xương Đà Vũ", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Linh Tinh", "Văn Xương", "Đà La", "Vũ Khúc"], "o": "tam_phuong" },
-      "diem": -2, "linh_vuc": ["tai_nan"], "ket_luan": "Phú: 'Linh Xương Đà Vũ, hạn chí đầu hà' — hạn tới dễ gặp nạn lớn (cổ nói 'gieo mình xuống sông').", "xac_nhan_web": false },
-    { "id": "CC35", "ten": "Mã đầu đới kiếm", "loai": "trung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Kình Dương" }, { "chi": ["Ngọ"] }] },
-      "diem": 0, "linh_vuc": ["quyen", "tai_nan"], "ket_luan": "Kình Dương tại Ngọ: uy trấn biên cương (võ nghiệp) nhưng hung hiểm; không có cát tinh thì tai nạn.", "xac_nhan_web": false },
-    { "id": "CC36", "ten": "Cự Hỏa Kình Dương", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Cự Môn", "o": "tam_phuong" }, { "co": "Hỏa Tinh", "o": "tam_phuong" }, { "co": "Kình Dương", "o": "tam_phuong" }, { "co_mot": ["Cự Môn", "Hỏa Tinh", "Kình Dương"] }] },
-      "diem": -2, "linh_vuc": ["thi_phi", "tai_nan"], "ket_luan": "Thị phi, tranh chấp dẫn tới tai họa.", "xac_nhan_web": false },
-    { "id": "CC37", "ten": "Tứ sát hội Mệnh", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "dem": { "nhom": "tu_sat", "toi_thieu": 3, "o": "tam_phuong" } },
-      "diem": -2, "linh_vuc": ["tai_nan", "tinh_cach"], "ket_luan": "Nhiều sát tinh: tính cương, đời nhiều va chạm; cần chính tinh sáng mới chế được.", "xac_nhan_web": false },
-    { "id": "CC38", "ten": "Vô Chính Diệu đắc Tam Không", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "vcd": true }, { "any": [
-        { "all": [{ "tuan_triet": true }, { "co_ca": ["Thiên Không", "Địa Không"], "o": "tam_phuong" }] },
-        { "all": [{ "tuan_triet": true }, { "co_mot": ["Thiên Không", "Địa Không"] }] }
-      ] }] },
-      "diem": 2, "linh_vuc": ["tinh_cach", "tai"], "ket_luan": "'Vô chính diệu đắc Tam Không, phú quý khả kỳ': Mệnh trống gặp các sao Không lại phát bất ngờ.", "xac_nhan_web": true, "web": ["https://tuvi.cohoc.net/tuan-triet-iii-nid-2747.html"] },
-    { "id": "CC39", "ten": "Khốc Hư Tý Ngọ", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Thiên Khốc", "Thiên Hư"] }, { "chi": ["Tý", "Ngọ"] }] },
-      "diem": 1, "linh_vuc": ["danh"], "ket_luan": "Khốc Hư đắc địa Tý Ngọ: tiền vận vất vả, về sau có danh tiếng (hợp nghề dùng giọng nói).", "xac_nhan_web": false },
-    { "id": "CC40", "ten": "Đào hoa hội Mệnh", "loai": "trung", "pham_vi": "Mệnh",
-      "thanh": { "dem": { "nhom": "dao_hoa", "toi_thieu": 3, "o": "tam_phuong" } },
-      "diem": 0, "linh_vuc": ["tinh_cam"], "ket_luan": "Duyên dáng, nhiều người để ý; gặp Tham Lang/Liêm Trinh hãm hoặc sát tinh thì dễ lụy tình.", "xac_nhan_web": false },
-    { "id": "CC41", "ten": "Hình Kình hội Mệnh", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "co_ca": ["Thiên Hình", "Kình Dương"], "o": "tam_phuong" },
-      "diem": -1, "linh_vuc": ["tai_nan", "kien_tung"], "ket_luan": "Dễ gặp dao kéo, phẫu thuật, kiện tụng; hợp ngành y ngoại khoa, luật, quân đội.", "xac_nhan_web": false },
-    { "id": "CC42", "ten": "Hóa Kỵ thủ Mệnh", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co": "Hóa Kỵ" }, { "not": { "chi": ["Sửu", "Thìn", "Mùi", "Tuất"] } }] },
-      "diem": -1, "linh_vuc": ["tinh_cach", "thi_phi"], "ket_luan": "Hay ôm chấp, dễ bị hiểu lầm, thị phi theo người.", "xac_nhan_web": false },
-    { "id": "CC43", "ten": "Lộc Tồn thủ Mệnh", "loai": "cat", "pham_vi": "Mệnh",
-      "thanh": { "co": "Lộc Tồn" },
-      "diem": 1, "linh_vuc": ["tai", "tinh_cach"], "ket_luan": "Giữ của, cẩn trọng, có tài lộc bền; nhưng hay lo, hơi cô độc.", "xac_nhan_web": false },
-    { "id": "CC44", "ten": "Liêm Tham Tỵ Hợi", "loai": "hung", "pham_vi": "Mệnh",
-      "thanh": { "all": [{ "co_ca": ["Liêm Trinh", "Tham Lang"] }, { "chi": ["Tỵ", "Hợi"] }] },
-      "pha": { "any": [{ "tuan_triet": true }, { "co": "Hóa Lộc" }] },
-      "diem": -2, "diem_pha": 0, "linh_vuc": ["tinh_cam", "kien_tung"], "ket_luan": "Hai sao hãm: dễ sa đà tửu sắc, cờ bạc, vướng pháp luật.", "ket_luan_pha": "Có Tuần Triệt hoặc Hóa Lộc: cái xấu giảm mạnh, thành người khéo giao tế.", "xac_nhan_web": false },
-    { "id": "CC45", "ten": "Tài Bạch có Vũ Khúc/Thái Âm sáng gặp Lộc", "loai": "cat", "pham_vi": "Tài Bạch",
-      "thanh": { "all": [{ "co_mot": ["Vũ Khúc", "Thái Âm", "Thiên Phủ"] }, { "co_mot": ["Lộc Tồn", "Hóa Lộc"], "o": "tam_phuong" }] },
-      "diem": 2, "linh_vuc": ["tai"], "ket_luan": "Tài tinh ở cung Tài gặp Lộc: giàu có, giữ được của.", "xac_nhan_web": false },
-    { "id": "CC46", "ten": "Phu Thê có Sát Phá Tham", "loai": "hung", "pham_vi": "Phu Thê",
-      "thanh": { "co_mot": ["Thất Sát", "Phá Quân", "Tham Lang"] },
-      "pha": { "tuan_triet": true },
-      "diem": -1, "diem_pha": 0, "linh_vuc": ["hon_nhan"], "ket_luan": "Hôn nhân nhiều biến động; nên kết hôn muộn.", "ket_luan_pha": "Có Tuần Triệt: biến động giảm.", "xac_nhan_web": false },
-    { "id": "CC47", "ten": "Quan Lộc có Tử Phủ/ Vũ/ Nhật sáng", "loai": "cat", "pham_vi": "Quan Lộc",
-      "thanh": { "all": [{ "co_mot": ["Tử Vi", "Thiên Phủ", "Vũ Khúc", "Thái Dương"] }, { "dem": { "nhom": "luc_cat", "toi_thieu": 2, "o": "tam_phuong" } }] },
-      "diem": 2, "linh_vuc": ["su_nghiep"], "ket_luan": "Sự nghiệp vững, có địa vị.", "xac_nhan_web": false }
+    {
+      "id": "CC01",
+      "ten": "Tử Phủ đồng cung",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Tử Vi",
+          "Thiên Phủ"
+        ]
+      },
+      "pha": {
+        "dem": {
+          "nhom": "luc_sat",
+          "toi_thieu": 2,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 2,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cach",
+        "su_nghiep",
+        "tai"
+      ],
+      "ket_luan": "Phúc hậu, có uy có của, giỏi quản trị; đời ổn định.",
+      "ket_luan_pha": "Có nền tốt nhưng bị sát tinh quấy, thành bại thất thường.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC02",
+      "ten": "Quân Thần Khánh Hội",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Tử Vi"
+          },
+          {
+            "co_ca": [
+              "Tả Phù",
+              "Hữu Bật"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "pha": {
+        "any": [
+          {
+            "dem": {
+              "nhom": "tu_sat",
+              "toi_thieu": 1
+            }
+          },
+          {
+            "co_mot": [
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          }
+        ]
+      },
+      "diem": 3,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "su_nghiep",
+        "quyen"
+      ],
+      "ket_luan": "Vua có bầy tôi: lãnh đạo được người, không đại quý cũng đại phú.",
+      "ket_luan_pha": "Gặp sát tinh/Không Kiếp: không hợp cách, có danh mà thiếu thực.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://hoc.kabala.vn/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach/",
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC03",
+      "ten": "Tử Vi cô quân",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Tử Vi"
+          },
+          {
+            "khong_co": [
+              "Tả Phù",
+              "Hữu Bật",
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "tinh_cach",
+        "su_nghiep"
+      ],
+      "ket_luan": "Đế tinh không phụ tá: tự cao, cô độc, việc lớn khó thành vì thiếu người giúp.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC04",
+      "ten": "Phủ Tướng triều viên",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Thiên Phủ",
+          "Thiên Tướng"
+        ],
+        "o": "tam_phuong"
+      },
+      "pha": {
+        "dem": {
+          "nhom": "luc_sat",
+          "toi_thieu": 2,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 2,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "su_nghiep",
+        "tai"
+      ],
+      "ket_luan": "Phủ Tướng chầu về Mệnh: được nâng đỡ, có địa vị và tài sản.",
+      "ket_luan_pha": "Bị sát tinh phá: được việc nhưng bấp bênh.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://hoc.kabala.vn/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach/",
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Sửa: nguồn cho phép Phủ/Tướng đóng ngay Mệnh, cái kia ở Tài/Quan (bản cũ loại trường hợp này)."
+    },
+    {
+      "id": "CC05",
+      "ten": "Sát Phá Tham",
+      "loai": "trung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_mot": [
+          "Thất Sát",
+          "Phá Quân",
+          "Tham Lang"
+        ]
+      },
+      "diem": 0,
+      "linh_vuc": [
+        "tinh_cach",
+        "su_nghiep"
+      ],
+      "ket_luan": "Ba sao Sát–Phá–Tham luôn hợp thành tam phương: đời nhiều biến động, hợp cạnh tranh, kinh doanh, quân sự; thành bại lớn.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC06",
+      "ten": "Cơ Nguyệt Đồng Lương",
+      "loai": "trung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "dem": {
+          "dem": [
+            "Thiên Cơ",
+            "Thái Âm",
+            "Thiên Đồng",
+            "Thiên Lương"
+          ],
+          "toi_thieu": 4,
+          "o": "tam_hop_ca_ban"
+        }
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "su_nghiep"
+      ],
+      "ket_luan": "Hợp công việc ổn định: hành chính, chuyên môn, nghiên cứu, công chức; ít hợp mạo hiểm.",
+      "xac_nhan_web": true,
+      "doi_chieu": "Sửa: nguồn yêu cầu đủ 4 sao tại Mệnh–Tài–Quan (không tính xung chiếu); bản cũ chỉ cần 3 trong tam phương.",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC07",
+      "ten": "Nhật Nguyệt tịnh minh",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Thiên Lương"
+              },
+              {
+                "chi": [
+                  "Sửu"
+                ]
+              },
+              {
+                "sao_tai_chi": {
+                  "sao": "Thái Dương",
+                  "chi": [
+                    "Tỵ"
+                  ]
+                }
+              },
+              {
+                "sao_tai_chi": {
+                  "sao": "Thái Âm",
+                  "chi": [
+                    "Dậu"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "vcd": true
+              },
+              {
+                "chi": [
+                  "Ngọ"
+                ]
+              },
+              {
+                "sao_tai_chi": {
+                  "sao": "Thái Dương",
+                  "chi": [
+                    "Dần"
+                  ]
+                }
+              },
+              {
+                "sao_tai_chi": {
+                  "sao": "Thái Âm",
+                  "chi": [
+                    "Tý"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tinh_cach",
+        "danh"
+      ],
+      "ket_luan": "Nhật Nguyệt cùng sáng chiếu Mệnh: thông minh, danh rạng, được cả người trên kẻ dưới giúp.",
+      "xac_nhan_web": true,
+      "doi_chieu": "Sửa: nguồn chỉ có 2 trường hợp cụ thể (Lương thủ Mệnh Sửu, Nhật Tỵ Nguyệt Dậu; hoặc Mệnh Ngọ VCD, Nhật Dần, Nguyệt Tý). Bản cũ 'Nhật Nguyệt sáng trong tam phương' là tự suy rộng.",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC08",
+      "ten": "Nhật Nguyệt phản bối",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Thái Dương",
+              "Thái Âm"
+            ],
+            "o": "tam_phuong"
+          },
+          {
+            "sang": {
+              "sao": "Thái Dương",
+              "thuoc": [
+                "H"
+              ]
+            }
+          },
+          {
+            "sang": {
+              "sao": "Thái Âm",
+              "thuoc": [
+                "H"
+              ]
+            }
+          }
+        ]
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "tinh_cach",
+        "gia_dao"
+      ],
+      "ket_luan": "Nhật Nguyệt cùng hãm: vất vả, ít nhờ cha mẹ; nếu có Hóa Lộc/Quyền/Khoa hoặc Tuần Triệt thì lại thành cách 'phản bối' phát muộn.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC09",
+      "ten": "Minh Châu Xuất Hải",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "vcd": true
+          },
+          {
+            "chi": [
+              "Mùi"
+            ]
+          },
+          {
+            "sao_tai_chi": {
+              "sao": "Thái Dương",
+              "chi": [
+                "Mão"
+              ]
+            }
+          },
+          {
+            "sao_tai_chi": {
+              "sao": "Thái Âm",
+              "chi": [
+                "Hợi"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "all": [
+          {
+            "khong_co": [
+              "Tả Phù",
+              "Hữu Bật",
+              "Văn Xương",
+              "Văn Khúc"
+            ],
+            "o": "tam_phuong"
+          },
+          {
+            "co_mot": [
+              "Kình Dương",
+              "Đà La",
+              "Hóa Kỵ"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": 3,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "danh",
+        "su_nghiep"
+      ],
+      "ket_luan": "Ngọc sáng ra biển: Mệnh trống nhưng được Nhật Nguyệt sáng chiếu — tài hoa, hiển đạt.",
+      "ket_luan_pha": "Thiếu cát tinh lại gặp Kình Đà Kỵ: chỉ có hư danh.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://hoc.kabala.vn/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach/",
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC10",
+      "ten": "Nhật lệ trung thiên",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thái Dương"
+          },
+          {
+            "chi": [
+              "Ngọ"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "danh",
+        "quyen"
+      ],
+      "ket_luan": "Mặt trời giữa trưa: danh tiếng lớn, có quyền; cần tránh quá cương.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn gộp vào 'Kim sán quang huy' (Thái Dương thủ Mệnh Ngọ + cát tinh)."
+    },
+    {
+      "id": "CC11",
+      "ten": "Nguyệt lãng thiên môn",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thái Âm"
+          },
+          {
+            "chi": [
+              "Hợi"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai",
+        "tinh_cach"
+      ],
+      "ket_luan": "Trăng sáng cửa trời: giàu có, thanh cao, tinh tế.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn thêm: sinh ban đêm, có cát tinh gia hội; sát tinh tại Mệnh là phá. Engine chưa xét giờ ngày/đêm.",
+      "pha": {
+        "co_mot": [
+          "Kình Dương",
+          "Đà La",
+          "Hỏa Tinh",
+          "Linh Tinh",
+          "Địa Không",
+          "Địa Kiếp"
+        ]
+      },
+      "diem_pha": 0,
+      "ket_luan_pha": "Sát tinh đóng Mệnh: phá cách, chỉ còn hư danh."
+    },
+    {
+      "id": "CC12",
+      "ten": "Nhật chiếu lôi môn",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thái Dương"
+          },
+          {
+            "chi": [
+              "Mão"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "danh",
+        "su_nghiep"
+      ],
+      "ket_luan": "Mặt trời mọc ở cửa sấm (Mão, cùng Thiên Lương): hiển đạt, danh vọng.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn: Nhật Lương thủ Mệnh Mão (Thái Dương ở Mão luôn đồng cung Thiên Lương), ưa sinh ban ngày; gặp sát tinh là phá."
+    },
+    {
+      "id": "CC13",
+      "ten": "Dương Lương Xương Lộc",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Thái Dương",
+              "Thiên Lương",
+              "Văn Xương"
+            ],
+            "o": "tam_phuong"
+          },
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": 3,
+      "linh_vuc": [
+        "hoc",
+        "su_nghiep",
+        "tai"
+      ],
+      "ket_luan": "Thi cử đỗ đạt, tài và quan đều tốt.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://mytour.vn/vi/blog/bai-viet/bat-tu-co-sao-van-xuong-con-duong-su-nghiep-mo-rong.html",
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn chặt hơn: Nhật Lương ở Mão, tuổi Ất, Lộc Tồn + Văn Xương ngay tại Mệnh. Giữ bản lỏng (tam phương) theo cách dùng phổ biến VN — ghi nhận khác biệt."
+    },
+    {
+      "id": "CC14",
+      "ten": "Thạch trung ẩn ngọc",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Cự Môn"
+          },
+          {
+            "chi": [
+              "Tý",
+              "Ngọ"
+            ]
+          },
+          {
+            "any": [
+              {
+                "can_nam": [
+                  "Tân",
+                  "Quý"
+                ]
+              },
+              {
+                "co_mot": [
+                  "Hóa Lộc",
+                  "Hóa Quyền"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "co_mot": [
+          "Hóa Kỵ",
+          "Kình Dương",
+          "Đà La"
+        ]
+      },
+      "diem": 2,
+      "diem_pha": -1,
+      "linh_vuc": [
+        "su_nghiep",
+        "danh"
+      ],
+      "ket_luan": "Ngọc trong đá: thuở nhỏ không nổi, càng về sau càng quý; hợp nghề dùng lời nói. Có Hóa Lộc/Quyền càng tốt.",
+      "ket_luan_pha": "Gặp Kỵ/Kình/Đà: ngọc bị vùi, thị phi nhiều.",
+      "xac_nhan_web": true,
+      "doi_chieu": "Sửa: nguồn: 'chỉ người sinh năm Tân, Quý mới hợp cách' (Tân: Cự hóa Lộc, Quý: Cự hóa Quyền).",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC15",
+      "ten": "Cự Nhật đồng cung (Dần)",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Cự Môn",
+              "Thái Dương"
+            ]
+          },
+          {
+            "chi": [
+              "Dần"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "danh",
+        "su_nghiep"
+      ],
+      "ket_luan": "Mặt trời mọc soi tan ám tinh: danh tiếng nhờ ngôn luận, 'quan phong tam đại'.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn: Cự Nhật đồng cung ở Dần hoặc Thân (Dần tốt hơn). Engine chỉ nhận Dần."
+    },
+    {
+      "id": "CC16",
+      "ten": "Thất Sát triều đẩu / ngưỡng đẩu",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thất Sát"
+          },
+          {
+            "chi": [
+              "Dần",
+              "Thân",
+              "Tý",
+              "Ngọ"
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "dem": {
+          "nhom": "tu_sat",
+          "toi_thieu": 2,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 2,
+      "diem_pha": -1,
+      "linh_vuc": [
+        "su_nghiep",
+        "quyen"
+      ],
+      "ket_luan": "Phú: 'Thất Sát Dần Thân Tý Ngọ, nhất sinh tước lộc vinh xương' — có quyền chức, thành đạt bằng bản lĩnh.",
+      "ket_luan_pha": "Gặp nhiều sát tinh: cương quá hóa gãy, tai nạn.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC17",
+      "ten": "Anh tinh nhập miếu",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Phá Quân"
+          },
+          {
+            "chi": [
+              "Tý",
+              "Ngọ"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "su_nghiep",
+        "quyen"
+      ],
+      "ket_luan": "Phá Quân miếu tại Tý Ngọ: anh hùng, dám làm việc lớn.",
+      "xac_nhan_web": true,
+      "pha": {
+        "can_nam": [
+          "Bính",
+          "Mậu"
+        ]
+      },
+      "diem_pha": 0,
+      "ket_luan_pha": "Sinh năm Bính, Mậu: theo sách là khốn khó, không hợp cách.",
+      "doi_chieu": "Thêm phá: 'sinh năm Bính, Mậu chủ về khốn khó nên không hợp cách'.",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC18",
+      "ten": "Thọ tinh nhập miếu",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Lương"
+          },
+          {
+            "chi": [
+              "Ngọ"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tinh_cach",
+        "danh"
+      ],
+      "ket_luan": "Thiên Lương tại Ngọ: chính trực, được trọng vọng, thọ.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC19",
+      "ten": "Tham Vũ đồng hành",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Vũ Khúc",
+              "Tham Lang"
+            ]
+          },
+          {
+            "co_ca": [
+              "Vũ Khúc",
+              "Tham Lang"
+            ],
+            "o": "tam_phuong"
+          },
+          {
+            "chi": [
+              "Thìn",
+              "Tuất",
+              "Sửu",
+              "Mùi"
+            ]
+          }
+        ]
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "'Tham Vũ bất phát thiếu niên nhân': phát muộn (sau 30) mà giàu.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC20",
+      "ten": "Hỏa Tham / Linh Tham",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Tham Lang"
+          },
+          {
+            "co_mot": [
+              "Hỏa Tinh",
+              "Linh Tinh"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai",
+        "su_nghiep"
+      ],
+      "ket_luan": "Phát nhanh, bất ngờ (đặc biệt về tiền, võ nghiệp).",
+      "xac_nhan_web": true,
+      "doi_chieu": "Sửa: nguồn 'Tam hợp Hỏa Tham / Tham Linh triều viên': Hỏa/Linh ở Mệnh hoặc tam phương đều thành cách (đồng cung tốt nhất); bỏ điều kiện độ sáng tự đặt.",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC21",
+      "ten": "Lộc Mã giao trì",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc"
+            ],
+            "o": "tam_phuong"
+          },
+          {
+            "co": "Thiên Mã",
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 2,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai",
+        "di_chuyen"
+      ],
+      "ket_luan": "Tiền đến nhờ di chuyển, buôn bán, làm xa.",
+      "ket_luan_pha": "Mã gặp Tuần Triệt: muốn đi mà vướng.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC22",
+      "ten": "Song Lộc",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Lộc Tồn",
+          "Hóa Lộc"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Hai Lộc hội: tài lộc dồi dào.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC23",
+      "ten": "Tam Hóa liên châu (Tam kỳ gia hội)",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Hóa Lộc",
+          "Hóa Quyền",
+          "Hóa Khoa"
+        ],
+        "o": "tam_phuong"
+      },
+      "pha": {
+        "co": "Hóa Kỵ",
+        "o": "tam_phuong"
+      },
+      "diem": 3,
+      "diem_pha": 1,
+      "linh_vuc": [
+        "su_nghiep",
+        "tai",
+        "danh"
+      ],
+      "ket_luan": "Lộc Quyền Khoa cùng hội: có tiền, có quyền, có danh.",
+      "ket_luan_pha": "Có cả Hóa Kỵ: thành công kèm thị phi.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC24",
+      "ten": "Tả Hữu giáp Mệnh",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Tả Phù",
+          "Hữu Bật"
+        ],
+        "o": "giap"
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Được người hai bên phò trợ.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC25",
+      "ten": "Xương Khúc giáp Mệnh",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Văn Xương",
+          "Văn Khúc"
+        ],
+        "o": "giap"
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "hoc",
+        "danh"
+      ],
+      "ket_luan": "Văn chương, học vấn được hỗ trợ.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC26",
+      "ten": "Tọa quý hướng quý (Thiên Ất củng mệnh)",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co_mot": [
+                  "Thiên Khôi",
+                  "Thiên Việt"
+                ]
+              },
+              {
+                "co_mot": [
+                  "Thiên Khôi",
+                  "Thiên Việt"
+                ],
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co_mot": [
+                  "Thiên Khôi",
+                  "Thiên Việt"
+                ]
+              },
+              {
+                "co_mot": [
+                  "Thiên Khôi",
+                  "Thiên Việt"
+                ],
+                "o": "than"
+              },
+              {
+                "not": {
+                  "vung_trung": [
+                    "ban_cung",
+                    "than"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "quy_nhan",
+        "danh"
+      ],
+      "ket_luan": "Có quý nhân cả trong lẫn ngoài, gặp thời cơ.",
+      "xac_nhan_web": true,
+      "doi_chieu": "Sửa: nguồn: Khôi/Việt một sao ở Mệnh, một sao ở Thân hoặc Thiên Di. Bản cũ 'cả hai trong tam phương' sai.",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC27",
+      "ten": "Văn Quế Văn Hoa",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Văn Xương",
+              "Văn Khúc"
+            ]
+          },
+          {
+            "chi": [
+              "Sửu",
+              "Mùi"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "hoc",
+        "nghe_thuat"
+      ],
+      "ket_luan": "Xương Khúc đồng cung Sửu Mùi: văn tài xuất chúng.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC28",
+      "ten": "Tài Ấm giáp Ấn",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Tướng"
+          },
+          {
+            "co_mot": [
+              "Hóa Lộc",
+              "Lộc Tồn"
+            ],
+            "o": "giap"
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "quy_nhan",
+        "tai"
+      ],
+      "ket_luan": "Thiên Tướng (ấn) được Lộc (tài) và Thiên Lương (ấm) giáp: được che chở, có của.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC29",
+      "ten": "Hình Kỵ giáp Ấn",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Tướng"
+          },
+          {
+            "co": "Hóa Kỵ",
+            "o": "giap"
+          },
+          {
+            "co_mot": [
+              "Kình Dương",
+              "Thiên Hình"
+            ],
+            "o": "giap"
+          }
+        ]
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "kien_tung"
+      ],
+      "ket_luan": "Ấn bị Hình và Kỵ kẹp: dễ bị liên lụy, kiện tụng.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC30",
+      "ten": "Kình Đà giáp Mệnh",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Kình Dương",
+          "Đà La"
+        ],
+        "o": "giap"
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "tai_nan",
+        "thi_phi"
+      ],
+      "ket_luan": "Bị kẹp hai phía: áp lực, trở ngại. (Luôn xảy ra khi Lộc Tồn thủ Mệnh — Lộc bị giáp nên giữ của mà vất vả.)",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC31",
+      "ten": "Không Kiếp giáp Mệnh",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Địa Không",
+          "Địa Kiếp"
+        ],
+        "o": "giap"
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "hao"
+      ],
+      "ket_luan": "Không Kiếp kẹp Mệnh: hao tán, khó giữ thành quả.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn nêu 'Không Kiếp giáp' như mẫu hung cách (giáp sát)."
+    },
+    {
+      "id": "CC32",
+      "ten": "Không Kiếp thủ Mệnh đắc địa",
+      "loai": "trung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "chi": [
+              "Dần",
+              "Thân",
+              "Tỵ",
+              "Hợi"
+            ]
+          }
+        ]
+      },
+      "diem": 0,
+      "linh_vuc": [
+        "tinh_cach",
+        "tai"
+      ],
+      "ket_luan": "Không Kiếp đắc địa: tư duy đột phá, phát nhanh nhưng khó bền; hợp nghề sáng tạo, rủi ro cao.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC33",
+      "ten": "Không Kiếp thủ Mệnh hãm",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "not": {
+              "chi": [
+                "Dần",
+                "Thân",
+                "Tỵ",
+                "Hợi"
+              ]
+            }
+          }
+        ]
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "hao",
+        "tai_nan"
+      ],
+      "ket_luan": "Hao tán, đời có cú ngã bất ngờ; cần tránh đầu cơ.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC34",
+      "ten": "Linh Xương Đà Vũ",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Linh Tinh",
+          "Văn Xương",
+          "Đà La",
+          "Vũ Khúc"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "tai_nan"
+      ],
+      "ket_luan": "Phú: 'Linh Xương Đà Vũ, hạn chí đầu hà' — hạn tới dễ gặp nạn lớn (cổ nói 'gieo mình xuống sông').",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC35",
+      "ten": "Mã đầu đới tiễn",
+      "loai": "trung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Kình Dương"
+          },
+          {
+            "chi": [
+              "Ngọ"
+            ]
+          },
+          {
+            "co_mot": [
+              "Thái Âm",
+              "Tham Lang"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "quyen",
+        "tai_nan"
+      ],
+      "ket_luan": "Kình Dương ở Ngọ cùng Đồng Âm hoặc Tham Lang (tuổi Bính, Mậu): hiển phát võ nghiệp, uy trấn một phương.",
+      "xac_nhan_web": true,
+      "doi_chieu": "Sửa: tên đúng là 'Mã đầu đới tiễn'; nguồn yêu cầu Đồng Âm hoặc Tham Lang thủ Mệnh Ngọ có Kình Dương (Kình ở Ngọ chỉ xảy ra tuổi Bính, Mậu).",
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC36",
+      "ten": "Cự Hỏa Kình Dương",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Cự Môn",
+            "o": "tam_phuong"
+          },
+          {
+            "co": "Hỏa Tinh",
+            "o": "tam_phuong"
+          },
+          {
+            "co": "Kình Dương",
+            "o": "tam_phuong"
+          },
+          {
+            "co_mot": [
+              "Cự Môn",
+              "Hỏa Tinh",
+              "Kình Dương"
+            ]
+          }
+        ]
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "thi_phi",
+        "tai_nan"
+      ],
+      "ket_luan": "Thị phi, tranh chấp dẫn tới tai họa.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC37",
+      "ten": "Tứ sát hội Mệnh",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "dem": {
+          "nhom": "tu_sat",
+          "toi_thieu": 3,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "tai_nan",
+        "tinh_cach"
+      ],
+      "ket_luan": "Nhiều sát tinh: tính cương, đời nhiều va chạm; cần chính tinh sáng mới chế được.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC38",
+      "ten": "Vô Chính Diệu đắc Tam Không",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "vcd": true
+          },
+          {
+            "any": [
+              {
+                "all": [
+                  {
+                    "tuan_triet": true
+                  },
+                  {
+                    "co_ca": [
+                      "Thiên Không",
+                      "Địa Không"
+                    ],
+                    "o": "tam_phuong"
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "tuan_triet": true
+                  },
+                  {
+                    "co_mot": [
+                      "Thiên Không",
+                      "Địa Không"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tinh_cach",
+        "tai"
+      ],
+      "ket_luan": "'Vô chính diệu đắc Tam Không, phú quý khả kỳ': Mệnh trống gặp các sao Không lại phát bất ngờ.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://tuvi.cohoc.net/tuan-triet-iii-nid-2747.html"
+      ]
+    },
+    {
+      "id": "CC39",
+      "ten": "Khốc Hư Tý Ngọ",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Thiên Khốc",
+              "Thiên Hư"
+            ]
+          },
+          {
+            "chi": [
+              "Tý",
+              "Ngọ"
+            ]
+          }
+        ]
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "danh"
+      ],
+      "ket_luan": "Khốc Hư đắc địa Tý Ngọ: tiền vận vất vả, về sau có danh tiếng (hợp nghề dùng giọng nói).",
+      "xac_nhan_web": true,
+      "web": [
+        "https://lyso.vn/xem-tu-vi/cac-dang-cach-cuc-tong-hop-t91498/"
+      ],
+      "doi_chieu": "Chỉ thấy nhắc trong thảo luận, chưa có định nghĩa rõ."
+    },
+    {
+      "id": "CC40",
+      "ten": "Đào hoa hội Mệnh",
+      "loai": "trung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "dem": {
+          "nhom": "dao_hoa",
+          "toi_thieu": 3,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 0,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Duyên dáng, nhiều người để ý; gặp Tham Lang/Liêm Trinh hãm hoặc sát tinh thì dễ lụy tình.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC41",
+      "ten": "Hình Kình hội Mệnh",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Thiên Hình",
+          "Kình Dương"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "tai_nan",
+        "kien_tung"
+      ],
+      "ket_luan": "Dễ gặp dao kéo, phẫu thuật, kiện tụng; hợp ngành y ngoại khoa, luật, quân đội.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC42",
+      "ten": "Hóa Kỵ thủ Mệnh",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Hóa Kỵ"
+          },
+          {
+            "not": {
+              "chi": [
+                "Sửu",
+                "Thìn",
+                "Mùi",
+                "Tuất"
+              ]
+            }
+          }
+        ]
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "tinh_cach",
+        "thi_phi"
+      ],
+      "ket_luan": "Hay ôm chấp, dễ bị hiểu lầm, thị phi theo người.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC43",
+      "ten": "Lộc Tồn thủ Mệnh",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co": "Lộc Tồn"
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "tai",
+        "tinh_cach"
+      ],
+      "ket_luan": "Giữ của, cẩn trọng, có tài lộc bền; nhưng hay lo, hơi cô độc.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/tu-vi-dau-so-cach-cuc-luan-phan-cat-cach"
+      ]
+    },
+    {
+      "id": "CC44",
+      "ten": "Liêm Tham Tỵ Hợi",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Liêm Trinh",
+              "Tham Lang"
+            ]
+          },
+          {
+            "chi": [
+              "Tỵ",
+              "Hợi"
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "any": [
+          {
+            "tuan_triet": true
+          },
+          {
+            "co": "Hóa Lộc"
+          }
+        ]
+      },
+      "diem": -2,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cam",
+        "kien_tung"
+      ],
+      "ket_luan": "Hai sao hãm: dễ sa đà tửu sắc, cờ bạc, vướng pháp luật.",
+      "ket_luan_pha": "Có Tuần Triệt hoặc Hóa Lộc: cái xấu giảm mạnh, thành người khéo giao tế.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC45",
+      "ten": "Tài Bạch có Vũ Khúc/Thái Âm sáng gặp Lộc",
+      "loai": "cat",
+      "pham_vi": "Tài Bạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Vũ Khúc",
+              "Thái Âm",
+              "Thiên Phủ"
+            ]
+          },
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Tài tinh ở cung Tài gặp Lộc: giàu có, giữ được của.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC46",
+      "ten": "Phu Thê có Sát Phá Tham",
+      "loai": "hung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "co_mot": [
+          "Thất Sát",
+          "Phá Quân",
+          "Tham Lang"
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "hon_nhan"
+      ],
+      "ket_luan": "Hôn nhân nhiều biến động; nên kết hôn muộn.",
+      "ket_luan_pha": "Có Tuần Triệt: biến động giảm.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC47",
+      "ten": "Quan Lộc có Tử Phủ/ Vũ/ Nhật sáng",
+      "loai": "cat",
+      "pham_vi": "Quan Lộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Tử Vi",
+              "Thiên Phủ",
+              "Vũ Khúc",
+              "Thái Dương"
+            ]
+          },
+          {
+            "dem": {
+              "nhom": "luc_cat",
+              "toi_thieu": 2,
+              "o": "tam_phuong"
+            }
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "su_nghiep"
+      ],
+      "ket_luan": "Sự nghiệp vững, có địa vị.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC48",
+      "ten": "Nguyệt sinh thương hải (Điền Trạch)",
+      "loai": "cat",
+      "pham_vi": "Điền Trạch",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Thiên Đồng",
+              "Thái Âm"
+            ]
+          },
+          {
+            "chi": [
+              "Tý"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Đồng Âm ở Điền Trạch tại Tý: nhà cửa, tài sản tích lũy tốt nếu Mệnh cũng có cát tinh.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ],
+      "doi_chieu": "Nguồn nêu biến thể Đồng Âm Tý tại Điền Trạch."
+    },
+    {
+      "id": "CC49",
+      "ten": "Nhật Nguyệt chiếu bích",
+      "loai": "cat",
+      "pham_vi": "Điền Trạch",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Thái Dương",
+              "Thái Âm"
+            ]
+          },
+          {
+            "chi": [
+              "Sửu",
+              "Mùi"
+            ]
+          },
+          {
+            "dem": {
+              "nhom": "cat_tinh",
+              "toi_thieu": 2,
+              "o": "tam_phuong"
+            }
+          }
+        ]
+      },
+      "pha": {
+        "dem": {
+          "nhom": "hung_pha",
+          "toi_thieu": 2,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 3,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Nhật Nguyệt ở Điền Trạch Sửu/Mùi có cát tinh: giàu về nhà đất, được thừa kế.",
+      "ket_luan_pha": "Gặp hung sát: điền trạch có sao tốt cũng không phát.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC50",
+      "ten": "Lộc hợp uyên ương",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "co_ca": [
+          "Lộc Tồn",
+          "Hóa Lộc"
+        ]
+      },
+      "diem": 3,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Lộc Tồn và Hóa Lộc cùng ở Mệnh: tài vận hanh thông, dễ thành cự phú.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC51",
+      "ten": "Cực hướng Ly minh",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Tử Vi"
+          },
+          {
+            "chi": [
+              "Ngọ"
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "co_mot": [
+          "Kình Dương",
+          "Đà La",
+          "Hỏa Tinh",
+          "Linh Tinh",
+          "Địa Không",
+          "Địa Kiếp"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": 3,
+      "diem_pha": 1,
+      "linh_vuc": [
+        "quyen",
+        "danh"
+      ],
+      "ket_luan": "Tử Vi thủ Mệnh tại Ngọ: dù ít cát tinh vẫn phú quý; gặp cát tinh thì hiển đạt.",
+      "ket_luan_pha": "Có sát tinh trong tam phương: giảm, không còn là cách thượng.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC52",
+      "ten": "Văn Lương chấn kỷ",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Lương"
+          },
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc"
+            ]
+          },
+          {
+            "sang": {
+              "sao": "Thiên Lương",
+              "thuoc": [
+                "M",
+                "V"
+              ]
+            }
+          },
+          {
+            "dem": {
+              "nhom": "cat_tinh",
+              "toi_thieu": 2,
+              "o": "tam_phuong"
+            }
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "quyen",
+        "hoc"
+      ],
+      "ket_luan": "Lương gặp Xương/Khúc ở Mệnh, miếu vượng, có cát tinh: hợp chính trị, kỷ cương, quyền cao.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC53",
+      "ten": "Cự Cơ đồng lâm",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_ca": [
+              "Cự Môn",
+              "Thiên Cơ"
+            ]
+          },
+          {
+            "chi": [
+              "Mão"
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "hoc",
+        "tai"
+      ],
+      "ket_luan": "Cự Cơ ở Mão: học vấn cao, ham nghiên cứu; tốt thì đại phú quý. Ở Dậu không thành cách.",
+      "xac_nhan_web": true,
+      "web": [
+        "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
+      ]
+    },
+    {
+      "id": "CC54",
+      "ten": "Lộc Mã ở Thiên Di",
+      "loai": "cat",
+      "pham_vi": "Thiên Di",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Mã"
+          },
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc"
+            ],
+            "o": "tam_phuong"
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "tai",
+        "su_nghiep"
+      ],
+      "ket_luan": "Ra ngoài, đi xa hoặc làm ăn xa phát tài.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC55",
+      "ten": "Đào Hồng Hỷ hội Phu Thê",
+      "loai": "trung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "dem": {
+          "dem": [
+            "Đào Hoa",
+            "Hồng Loan",
+            "Thiên Hỷ"
+          ],
+          "toi_thieu": 2,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": 1,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Duyên đến sớm, dễ có người để ý; gặp sát tinh thì dễ đa tình, lận đận.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC56",
+      "ten": "Sát tinh hội Tật Ách",
+      "loai": "hung",
+      "pham_vi": "Tật Ách",
+      "thanh": {
+        "dem": {
+          "nhom": "luc_sat",
+          "toi_thieu": 3,
+          "o": "tam_phuong"
+        }
+      },
+      "diem": -2,
+      "linh_vuc": [
+        "suc_khoe",
+        "tai_nan"
+      ],
+      "ket_luan": "Nhiều sát tinh chiếu Tật Ách: đề phòng tai nạn, phẫu thuật, bệnh cấp tính.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC57",
+      "ten": "Phúc thọ (Lương/Phủ miếu ở Phúc Đức)",
+      "loai": "cat",
+      "pham_vi": "Phúc Đức",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Thiên Lương"
+              },
+              {
+                "sang": {
+                  "sao": "Thiên Lương",
+                  "thuoc": [
+                    "M",
+                    "V"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Thiên Phủ"
+              },
+              {
+                "sang": {
+                  "sao": "Thiên Phủ",
+                  "thuoc": [
+                    "M",
+                    "V"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "diem": 2,
+      "linh_vuc": [
+        "phuc",
+        "an_khang"
+      ],
+      "ket_luan": "Phúc dày, sống thọ, tinh thần an ổn.",
+      "xac_nhan_web": false
+    }
   ]
 }

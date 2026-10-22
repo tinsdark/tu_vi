@@ -121,78 +121,181 @@
     "so_mau": 3000,
     "theo_cung": {
       "Mệnh": {
-        "rat_tot": 17.06,
-        "tot": 11.82,
-        "trung_binh": 4.47,
-        "xau": -0.15
+        "rat_tot": 14.49,
+        "tot": 8.67,
+        "trung_binh": 0.47,
+        "xau": -4.78
       },
       "Phụ Mẫu": {
-        "rat_tot": 13.52,
-        "tot": 8.98,
-        "trung_binh": 3.51,
-        "xau": -0.28
+        "rat_tot": 11.73,
+        "tot": 6.67,
+        "trung_binh": 0.13,
+        "xau": -3.98
       },
       "Phúc Đức": {
-        "rat_tot": 14.31,
-        "tot": 10.0,
-        "trung_binh": 4.18,
-        "xau": 0.26
+        "rat_tot": 12.78,
+        "tot": 7.73,
+        "trung_binh": 0.98,
+        "xau": -3.43
       },
       "Điền Trạch": {
-        "rat_tot": 13.65,
-        "tot": 9.64,
-        "trung_binh": 4.05,
-        "xau": 0.42
+        "rat_tot": 12.24,
+        "tot": 7.15,
+        "trung_binh": 0.79,
+        "xau": -3.47
       },
       "Quan Lộc": {
-        "rat_tot": 14.57,
-        "tot": 10.53,
-        "trung_binh": 4.45,
-        "xau": 0.41
+        "rat_tot": 12.63,
+        "tot": 7.5,
+        "trung_binh": 0.84,
+        "xau": -3.37
       },
       "Nô Bộc": {
-        "rat_tot": 13.71,
-        "tot": 9.08,
-        "trung_binh": 3.5,
-        "xau": -0.33
+        "rat_tot": 11.71,
+        "tot": 6.89,
+        "trung_binh": 0.13,
+        "xau": -3.72
       },
       "Thiên Di": {
-        "rat_tot": 13.6,
-        "tot": 9.74,
-        "trung_binh": 4.33,
-        "xau": 0.4
+        "rat_tot": 12.03,
+        "tot": 7.42,
+        "trung_binh": 1.18,
+        "xau": -3.4
       },
       "Tật Ách": {
-        "rat_tot": 12.64,
-        "tot": 8.63,
-        "trung_binh": 3.67,
-        "xau": -0.15
+        "rat_tot": 10.99,
+        "tot": 6.25,
+        "trung_binh": -0.56,
+        "xau": -5.09
       },
       "Tài Bạch": {
-        "rat_tot": 14.2,
-        "tot": 10.11,
-        "trung_binh": 4.25,
-        "xau": 0.18
+        "rat_tot": 12.35,
+        "tot": 7.49,
+        "trung_binh": 0.88,
+        "xau": -3.41
       },
       "Tử Tức": {
-        "rat_tot": 13.56,
-        "tot": 9.32,
-        "trung_binh": 3.82,
-        "xau": -0.12
+        "rat_tot": 11.87,
+        "tot": 6.82,
+        "trung_binh": 0.69,
+        "xau": -3.51
       },
       "Phu Thê": {
-        "rat_tot": 12.96,
-        "tot": 9.02,
-        "trung_binh": 3.54,
-        "xau": -0.22
+        "rat_tot": 11.86,
+        "tot": 6.89,
+        "trung_binh": 0.56,
+        "xau": -3.68
       },
       "Huynh Đệ": {
-        "rat_tot": 13.08,
-        "tot": 9.09,
-        "trung_binh": 3.33,
-        "xau": -0.47
+        "rat_tot": 11.23,
+        "tot": 6.86,
+        "trung_binh": 0.11,
+        "xau": -4.05
       }
     }
   },
-  "he_so_phu_tinh_nho": 0.4
+  "he_so_phu_tinh_nho": 0.4,
+  "phi_tuyen": {
+    "K": 4.0,
+    "sao_pha": [
+      "Kình Dương",
+      "Đà La",
+      "Hỏa Tinh",
+      "Linh Tinh",
+      "Địa Không",
+      "Địa Kiếp",
+      "Hóa Kỵ",
+      "Thiên Hình"
+    ],
+    "vung": "ban_xung",
+    "ghi_chu": "Điểm cung = tổng tốt × 1/(1 + nặng/K) + tổng xấu; 'nặng' = độ lớn điểm âm của sao phá ở bản cung + xung chiếu. Mô phỏng 'một sao xấu phá cả cung': càng nhiều sát tinh hãm ở bản/xung thì phần tốt càng mất tác dụng. K là tham số mô hình, chưa kiểm trên lá số thật."
+  },
+  "he_so_sao_luu": {
+    "Lưu": 0.6,
+    "ĐH": 0.8,
+    "ghi_chu": "Sao lưu niên / Tứ Hóa đại hạn chồng lên lá số gốc: lấy điểm phụ tinh gốc × hệ số này."
+  },
+  "than_cu": {
+    "Mệnh": "Thân cư Mệnh: tính cách trước sau như một, tự lập, đời người chịu ảnh hưởng chính từ bản thân.",
+    "Phúc Đức": "Thân cư Phúc: hậu vận dựa vào phúc đức họ hàng, coi trọng đời sống tinh thần, hưởng thụ.",
+    "Quan Lộc": "Thân cư Quan: sau ~30 tuổi lấy sự nghiệp làm trọng, dồn sức cho công việc.",
+    "Thiên Di": "Thân cư Di: hay đi xa, thay đổi chỗ ở/việc làm; thành bại gắn với môi trường bên ngoài.",
+    "Tài Bạch": "Thân cư Tài: coi trọng tiền bạc, hậu vận xoay quanh chuyện kiếm và giữ tiền.",
+    "Phu Thê": "Thân cư Phu Thê: hậu vận chịu ảnh hưởng lớn từ vợ/chồng; hôn nhân là trục của đời sống.",
+    "nguon": "Kiến thức phổ thông tử vi VN, viết lại bằng lời mình (draft_ai_tong_hop)."
+  },
+  "chu_de": {
+    "Tính cách": {
+      "cung": {
+        "Mệnh": 1.0,
+        "Phúc Đức": 0.3
+      },
+      "linh_vuc": [
+        "tinh_cach",
+        "danh"
+      ]
+    },
+    "Sự nghiệp": {
+      "cung": {
+        "Quan Lộc": 1.0,
+        "Mệnh": 0.5,
+        "Thiên Di": 0.3
+      },
+      "linh_vuc": [
+        "su_nghiep",
+        "quyen",
+        "danh",
+        "hoc",
+        "quy_nhan"
+      ]
+    },
+    "Tài chính": {
+      "cung": {
+        "Tài Bạch": 1.0,
+        "Điền Trạch": 0.5,
+        "Phúc Đức": 0.2
+      },
+      "linh_vuc": [
+        "tai",
+        "hao"
+      ]
+    },
+    "Tình cảm – hôn nhân": {
+      "cung": {
+        "Phu Thê": 1.0,
+        "Phúc Đức": 0.2
+      },
+      "linh_vuc": [
+        "tinh_cam",
+        "co_doc"
+      ]
+    },
+    "Sức khỏe": {
+      "cung": {
+        "Tật Ách": 1.0,
+        "Mệnh": 0.3
+      },
+      "linh_vuc": [
+        "suc_khoe",
+        "tai_nan",
+        "an_khang",
+        "giai_ach"
+      ]
+    },
+    "Gia đình": {
+      "cung": {
+        "Phụ Mẫu": 0.5,
+        "Huynh Đệ": 0.5,
+        "Tử Tức": 0.5
+      },
+      "linh_vuc": []
+    },
+    "ghi_chu": "Trọng số cung cho từng chủ đề: mô hình của mình."
+  },
+  "han": {
+    "tu_hoa_dai_han": true,
+    "ghi_chu": "Tứ Hóa đại hạn (can cung đại hạn) là kỹ thuật Bắc phái/Tứ Hóa phái; phái Thái Thứ Lang không dùng. Tắt = chỉ xét sao gốc + sao lưu.",
+    "tieu_han": "Khởi theo tam hợp chi năm sinh (Thân Tý Thìn → Tuất, Dần Ngọ Tuất → Thìn, Tỵ Dậu Sửu → Mùi, Hợi Mão Mùi → Sửu), 1 tuổi tại cung khởi, nam thuận nữ nghịch.",
+    "luu_nguyet": "Đẩu Quân năm xem: từ cung Thái Tuế năm xem đếm nghịch tới tháng sinh, rồi thuận tới giờ sinh → tháng Giêng; các tháng sau đi thuận."
+  }
 }

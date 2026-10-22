@@ -67,10 +67,22 @@
     },
     {
       "id": "luu_ha_thien_tru",
-      "mo_ta": "Có an Lưu Hà, Thiên Trù không / an theo bảng nào",
+      "mo_ta": "Bảng an Lưu Hà (theo can năm) và Thiên Trù can Quý",
       "phuong_an": [
-        "co_an",
-        "khong_an"
+        "luu_ha: thai_thu_lang | thien_luong | ngu_hanh",
+        "thien_tru_quy: tuat | hoi"
+      ],
+      "chon": {
+        "luu_ha": "thai_thu_lang",
+        "thien_tru_quy": "tuat"
+      },
+      "ghi_chu": "Lưu Hà lệch ở Đinh/Canh/Tân: Thái Thứ Lang (lasotuvi, phần mềm lyso.vn) Đinh Thìn, Canh Thân, Tân Mão; Thiên Lương & Việt Viêm Tử Đinh Thân, Canh Thìn; Trình Minh Đức (cách Ngũ Hành) Đinh Thân, Canh Mão, Tân Thìn. Thiên Trù: lasotuvi Quý → Tuất, iztro Quý → Hợi; 9 can còn lại khớp nhau.",
+      "nguon": [
+        "https://lyso.vn/xem-tu-vi/lai-mot-van-de-tranh-cai-trong-tu-vi-lan-nay-la-cach-an-luu-ha-voi-tuoi-dinh-va-canh-t102897/",
+        "https://tuvisonkhiem.vn/thu-vien/sao/luu-ha/",
+        "https://hoc.kabala.vn/luan-ve-luu-ha-thien-tru/",
+        "lasotuvi AmDuong.timLuuTru",
+        "iztro 2.6.3"
       ]
     },
     {
@@ -90,7 +102,7 @@
         "khau_quyet",
         "lasotuvi"
       ],
-      "ghi_chu": "Khẩu quyết phổ biến 'Giáp Mậu Ngưu Dương, Ất Kỷ Thử Hầu, Bính Đinh Trư Kê, Nhâm Quý Thỏ Xà, Canh Tân Mã Hổ'. lasotuvi lệch ở Đinh, Mậu, Canh, Nhâm (khớp 60%). Chọn khẩu quyết."
+      "ghi_chu": "Khẩu quyết phổ biến 'Giáp Mậu Ngưu Dương, Ất Kỷ Thử Hầu, Bính Đinh Trư Kê, Nhâm Quý Thỏ Xà, Canh Tân Mã Hổ'. lasotuvi lệch ở Đinh, Mậu, Canh, Nhâm (khớp 60%). Chọn khẩu quyết. iztro (Trung Hoa) dùng 'Giáp Mậu Canh Ngưu Dương' → Canh ở Sửu/Mùi, khớp ta 9/10 can."
     },
     {
       "id": "hoa_linh_ty_dau_suu",
@@ -117,7 +129,33 @@
         "khong_nhay",
         "nhay_cung"
       ],
-      "ghi_chu": "Chính tác giả lasotuvi ghi trong code là không chắc. Chưa có căn cứ quyết định."
+      "ghi_chu": "Chính tác giả lasotuvi ghi trong code là không chắc. Chưa có căn cứ quyết định.",
+      "chon": "khong_nhay",
+      "ket_luan_2026_10_22": "Chốt 'khong_nhay': hocvienlyso.org (Tự học tử vi bài 13) và tuvi.cohoc.net (nid-7000) đều an 'Thân là tháng Giêng, đếm thuận tới tháng sinh', không nhắc nhảy cung. Bản nhảy cung chỉ thấy trong lasotuvi. Giữ làm dị bản.",
+      "nguon": [
+        "https://hocvienlyso.org/tu-hoc-tu-vi-dau-bai-13-cac-sao-theo-thang-sinh.html",
+        "https://tuvi.cohoc.net/sao-thien-giai-dia-giai-y-nghia-tai-menh-va-cung-khac-nid-7000.html"
+      ]
+    },
+    {
+      "id": "thien_quy",
+      "mo_ta": "Thiên Quý: từ Văn Khúc (mùng 1) đếm nghịch hay thuận tới ngày sinh, rồi lùi 1",
+      "phuong_an": [
+        "nghich",
+        "thuan"
+      ],
+      "chon": "nghich",
+      "ghi_chu": "lasotuvi: nghịch (đối xứng với Ân Quang đếm thuận từ Văn Xương). iztro: thuận, khớp 200/200 mẫu với công thức Văn Khúc + (ngày−2). Chưa tìm được trang VN ghi rõ cách an."
+    },
+    {
+      "id": "hoa_linh_chieu",
+      "mo_ta": "Chiều an Hỏa/Linh theo giờ",
+      "phuong_an": [
+        "theo_am_duong_nam_nu",
+        "luon_thuan"
+      ],
+      "chon": "theo_am_duong_nam_nu",
+      "ghi_chu": "Phái VN (lasotuvi): Dương Nam/Âm Nữ Hỏa thuận Linh nghịch, ngược lại thì đảo. iztro (Trung Hoa): cả hai luôn thuận — khớp 200/200 mẫu. Chưa làm profile, chỉ ghi nhận."
     }
   ],
   "profile": {

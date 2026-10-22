@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1040" font-family="Be Vietnam Pro, Arial, sans-serif">
+<style>.k{fill:#fff;stroke:#555}.t{font-size:13px}.ct{font-size:15px;font-weight:700}.tot{fill:#1a7f37}.xau{fill:#b42318}.trung{fill:#444}.nho{font-size:11px;fill:#666}.cc{font-size:14px;font-weight:700;fill:#1f3a8a}.tt{font-size:12px;font-weight:700;fill:#fff}</style>
+<rect x="0" y="0" width="1000" height="1040" fill="#fafafa"/>
+<rect class="k" x="0" y="0" width="250" height="260"/>
+<text class="cc" x="125.0" y="18" text-anchor="middle">ĐIỀN TRẠCH</text>
+<text class="nho" x="6" y="18">Tỵ</text>
+<text class="nho" x="244" y="18" text-anchor="end">35</text>
+<text class="ct xau" x="125.0" y="40" text-anchor="middle">Thiên Lương (H)</text>
+<text class="t tot" x="8.0" y="75">Thiên Y</text>
+<text class="t xau" x="133.0" y="75">Đại Hao</text>
+<text class="t xau" x="133.0" y="90">Trực Phù</text>
+<text class="t xau" x="133.0" y="105">Hỏa Tinh</text>
+<text class="t xau" x="133.0" y="120">Thiên Riêu</text>
+<text class="t xau" x="133.0" y="135">Phá Toái</text>
+<text class="nho" x="125.0" y="252" text-anchor="middle">Tuyệt</text>
+<rect class="k" x="250" y="0" width="250" height="260"/>
+<text class="cc" x="375.0" y="18" text-anchor="middle">QUAN LỘC</text>
+<text class="nho" x="256" y="18">Ngọ</text>
+<text class="nho" x="494" y="18" text-anchor="end">45</text>
+<text class="ct tot" x="375.0" y="40" text-anchor="middle">Thất Sát (M)</text>
+<text class="t tot" x="258.0" y="75">Văn Xương (H)</text>
+<text class="t tot" x="258.0" y="90">Phong Cáo</text>
+<text class="t tot" x="258.0" y="105">Hữu Bật</text>
+<text class="t tot" x="258.0" y="120">Thiên Khôi</text>
+<text class="t tot" x="258.0" y="135">Thiên Phúc</text>
+<text class="t xau" x="383.0" y="75">Phục Binh</text>
+<text class="t xau" x="383.0" y="90">Thái Tuế</text>
+<text class="nho" x="258" y="150">Đẩu Quân</text>
+<text class="nho" x="375.0" y="252" text-anchor="middle">Thai</text>
+<rect x="448" y="236" width="46" height="17" rx="3" fill="#111"/><text class="tt" x="471" y="249" text-anchor="middle">Triệt</text>
+<rect class="k" x="500" y="0" width="250" height="260"/>
+<text class="cc" x="625.0" y="18" text-anchor="middle">NÔ BỘC</text>
+<text class="nho" x="506" y="18">Mùi</text>
+<text class="nho" x="744" y="18" text-anchor="end">55</text>
+<text class="t tot" x="508.0" y="56">Thiếu Dương</text>
+<text class="t tot" x="508.0" y="71">Ân Quang</text>
+<text class="t tot" x="508.0" y="86">Thiên Quý</text>
+<text class="t xau" x="633.0" y="56">Đà La</text>
+<text class="t xau" x="633.0" y="71">Quan Phủ</text>
+<text class="t xau" x="633.0" y="86">Thiên Không</text>
+<text class="t xau" x="633.0" y="101">Địa Không (H)</text>
+<text class="t xau" x="633.0" y="116">Thiên Thương</text>
+<text class="nho" x="625.0" y="252" text-anchor="middle">Dưỡng</text>
+<rect x="698" y="236" width="46" height="17" rx="3" fill="#111"/><text class="tt" x="721" y="249" text-anchor="middle">Triệt</text>
+<rect class="k" x="750" y="0" width="250" height="260"/>
+<text class="cc" x="875.0" y="18" text-anchor="middle">THIÊN DI</text>
+<text class="nho" x="756" y="18">Thân</text>
+<text class="nho" x="994" y="18" text-anchor="end">65</text>
+<text class="ct tot" x="875.0" y="40" text-anchor="middle">Liêm Trinh (V)</text>
+<text class="t tot" x="758.0" y="75">Lộc Tồn</text>
+<text class="t tot" x="758.0" y="90">Bác Sĩ</text>
+<text class="t tot" x="758.0" y="105">Văn Khúc (H)</text>
+<text class="t tot" x="758.0" y="120">Tả Phù</text>
+<text class="t tot" x="758.0" y="135">Thiên Mã</text>
+<text class="t tot" x="758.0" y="150">Thiên Tài</text>
+<text class="t xau" x="883.0" y="75">Tang Môn</text>
+<text class="t xau" x="883.0" y="90">Cô Thần</text>
+<text class="nho" x="758" y="165">Lưu Hà</text>
+<text class="nho" x="875.0" y="252" text-anchor="middle">Tràng Sinh</text>
+<rect class="k" x="0" y="260" width="250" height="260"/>
+<text class="cc" x="125.0" y="278" text-anchor="middle">PHÚC ĐỨC</text>
+<text class="nho" x="6" y="278">Thìn</text>
+<text class="nho" x="244" y="278" text-anchor="end">25</text>
+<text class="ct tot" x="125.0" y="300" text-anchor="middle">Tử Vi (V)</text>
+<text class="ct tot" x="125.0" y="319" text-anchor="middle">Thiên Tướng (V)</text>
+<text class="t tot" x="8.0" y="354">Bát Tọa</text>
+<text class="t tot" x="8.0" y="369">Quốc Ấn</text>
+<text class="t tot" x="8.0" y="384">Phượng Các</text>
+<text class="t tot" x="8.0" y="399">Giải Thần</text>
+<text class="t tot" x="8.0" y="414">Thiên Thọ</text>
+<text class="t xau" x="133.0" y="354">Bệnh Phù</text>
+<text class="t xau" x="133.0" y="369">Điếu Khách</text>
+<text class="t xau" x="133.0" y="384">Quả Tú</text>
+<text class="t xau" x="133.0" y="399">Thiên La</text>
+<text class="nho" x="125.0" y="512" text-anchor="middle">Mộ</text>
+<rect class="k" x="750" y="260" width="250" height="260"/>
+<text class="cc" x="875.0" y="278" text-anchor="middle">TẬT ÁCH</text>
+<text class="nho" x="756" y="278">Dậu</text>
+<text class="nho" x="994" y="278" text-anchor="end">75</text>
+<text class="t tot" x="758.0" y="316">Lực Sĩ</text>
+<text class="t tot" x="758.0" y="331">Thiếu Âm</text>
+<text class="t tot" x="758.0" y="346">Hồng Loan</text>
+<text class="t xau" x="883.0" y="316">Kình Dương (H)</text>
+<text class="t xau" x="883.0" y="331">Thiên Sứ</text>
+<text class="nho" x="875.0" y="512" text-anchor="middle">Mộc Dục</text>
+<rect class="k" x="0" y="520" width="250" height="260"/>
+<text class="cc" x="125.0" y="538" text-anchor="middle">PHỤ MẪU</text>
+<text class="nho" x="6" y="538">Mão</text>
+<text class="nho" x="244" y="538" text-anchor="end">15</text>
+<text class="ct tot" x="125.0" y="560" text-anchor="middle">Thiên Cơ (M)</text>
+<text class="ct tot" x="125.0" y="579" text-anchor="middle">Cự Môn (M)</text>
+<text class="t tot" x="8.0" y="614">Hỷ Thần</text>
+<text class="t tot" x="8.0" y="629">Phúc Đức</text>
+<text class="t tot" x="8.0" y="644">Thiên Đức</text>
+<text class="t tot" x="8.0" y="659">Thiên Hỷ</text>
+<text class="t tot" x="8.0" y="674">Đào Hoa</text>
+<text class="t xau" x="133.0" y="614">Địa Kiếp (H)</text>
+<text class="nho" x="125.0" y="772" text-anchor="middle">Tử</text>
+<rect class="k" x="750" y="520" width="250" height="260"/>
+<text class="cc" x="875.0" y="538" text-anchor="middle">TÀI BẠCH · THÂN</text>
+<text class="nho" x="756" y="538">Tuất</text>
+<text class="nho" x="994" y="538" text-anchor="end">85</text>
+<text class="ct tot" x="875.0" y="560" text-anchor="middle">Phá Quân (Đ)</text>
+<text class="t tot" x="758.0" y="595">Thanh Long</text>
+<text class="t tot" x="758.0" y="610">Thai Phụ</text>
+<text class="t tot" x="758.0" y="625">Tam Thai</text>
+<text class="t tot" x="758.0" y="640">Long Trì</text>
+<text class="t tot" x="758.0" y="655">Hoa Cái</text>
+<text class="t xau" x="883.0" y="595">Quan Phù</text>
+<text class="t xau" x="883.0" y="610">Địa Võng</text>
+<text class="nho" x="875.0" y="772" text-anchor="middle">Quan Đới</text>
+<rect x="948" y="756" width="46" height="17" rx="3" fill="#111"/><text class="tt" x="971" y="769" text-anchor="middle">Tuần</text>
+<rect class="k" x="0" y="780" width="250" height="260"/>
+<text class="cc" x="125.0" y="798" text-anchor="middle">MỆNH</text>
+<text class="nho" x="6" y="798">Dần</text>
+<text class="nho" x="244" y="798" text-anchor="end">5</text>
+<text class="ct tot" x="125.0" y="820" text-anchor="middle">Tham Lang (Đ)</text>
+<text class="t tot" x="8.0" y="855">Thiên Việt</text>
+<text class="t xau" x="133.0" y="855">Phi Liêm</text>
+<text class="t xau" x="133.0" y="870">Bạch Hổ</text>
+<text class="nho" x="8" y="885">Thiên Trù</text>
+<text class="nho" x="125.0" y="1032" text-anchor="middle">Bệnh</text>
+<rect class="k" x="250" y="780" width="250" height="260"/>
+<text class="cc" x="375.0" y="798" text-anchor="middle">HUYNH ĐỆ</text>
+<text class="nho" x="256" y="798">Sửu</text>
+<text class="nho" x="494" y="798" text-anchor="end">115</text>
+<text class="ct tot" x="375.0" y="820" text-anchor="middle">Thái Dương (Đ) · Lộc</text>
+<text class="ct tot" x="375.0" y="839" text-anchor="middle">Thái Âm (Đ) · Khoa</text>
+<text class="t tot" x="258.0" y="874">Tấu Thư</text>
+<text class="t tot" x="258.0" y="889">Long Đức</text>
+<text class="t tot" x="258.0" y="904">Đường Phù</text>
+<text class="t xau" x="383.0" y="874">Thiên Hình</text>
+<text class="nho" x="375.0" y="1032" text-anchor="middle">Suy</text>
+<rect class="k" x="500" y="780" width="250" height="260"/>
+<text class="cc" x="625.0" y="798" text-anchor="middle">PHU THÊ</text>
+<text class="nho" x="506" y="798">Tý</text>
+<text class="nho" x="744" y="798" text-anchor="end">105</text>
+<text class="ct tot" x="625.0" y="820" text-anchor="middle">Vũ Khúc (V) · Quyền</text>
+<text class="ct tot" x="625.0" y="839" text-anchor="middle">Thiên Phủ (M)</text>
+<text class="t tot" x="508.0" y="874">Tướng Quân</text>
+<text class="t tot" x="508.0" y="889">Thiên Giải</text>
+<text class="t xau" x="633.0" y="874">Tuế Phá</text>
+<text class="t xau" x="633.0" y="889">Thiên Khốc</text>
+<text class="t xau" x="633.0" y="904">Thiên Hư</text>
+<text class="nho" x="625.0" y="1032" text-anchor="middle">Đế Vượng</text>
+<rect class="k" x="750" y="780" width="250" height="260"/>
+<text class="cc" x="875.0" y="798" text-anchor="middle">TỬ TỨC</text>
+<text class="nho" x="756" y="798">Hợi</text>
+<text class="nho" x="994" y="798" text-anchor="end">95</text>
+<text class="ct tot" x="875.0" y="820" text-anchor="middle">Thiên Đồng (Đ) · Kỵ</text>
+<text class="t tot" x="758.0" y="855">Nguyệt Đức</text>
+<text class="t tot" x="758.0" y="870">Địa Giải</text>
+<text class="t tot" x="758.0" y="885">Thiên Quan</text>
+<text class="t tot" x="758.0" y="900">Văn Tinh</text>
+<text class="t xau" x="883.0" y="855">Tiểu Hao</text>
+<text class="t xau" x="883.0" y="870">Tử Phù</text>
+<text class="t xau" x="883.0" y="885">Linh Tinh (H)</text>
+<text class="t xau" x="883.0" y="900">Kiếp Sát</text>
+<text class="nho" x="875.0" y="1032" text-anchor="middle">Lâm Quan</text>
+<rect x="948" y="1016" width="46" height="17" rx="3" fill="#111"/><text class="tt" x="971" y="1029" text-anchor="middle">Tuần</text>
+<text x="500" y="320" text-anchor="middle" font-size="22" font-weight="700">Lá số Tử Vi</text>
+<text x="500" y="350" text-anchor="middle" font-size="16">Năm Canh Ngọ · tháng 5 · ngày 15 · giờ Thìn</text>
+<text x="500" y="380" text-anchor="middle" font-size="16">Dương Nam</text>
+<text x="500" y="410" text-anchor="middle" font-size="16">Bản Mệnh: Thổ · Cục: Thổ 5</text>
+<text x="500" y="440" text-anchor="middle" font-size="16">Mệnh tại Dần · Thân tại Tuất</text>
+<text x="500" y="470" text-anchor="middle" font-size="16">Tứ Hóa: Thái Dương Lộc, Vũ Khúc Quyền</text>
+<text x="500" y="500" text-anchor="middle" font-size="16">Thái Âm Khoa, Thiên Đồng Kỵ</text>
+<text x="500" y="530" text-anchor="middle" font-size="16">Màu: xanh = sao tốt / sáng, đỏ = sao xấu / hãm</text>
+<text x="500" y="560" text-anchor="middle" font-size="16">Số góc phải mỗi ô: tuổi bắt đầu đại hạn</text>
+</svg>
