@@ -396,7 +396,7 @@ INSERT dbo.TV_DoSang VALUES (N'chot',N'thiên phủ',12,N'Đ',N'dong_thuan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',1,N'B',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',2,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',3,N'H',N'mot_phan');
-INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',4,N'B',N'mot_phan');
+INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',4,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',5,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',6,N'Đ',N'mot_phan');
 INSERT dbo.TV_DoSang VALUES (N'chot',N'văn xương',7,N'H',N'mot_phan');

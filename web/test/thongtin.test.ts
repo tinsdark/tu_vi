@@ -38,3 +38,20 @@ describe("lưu nguyệt khởi từ tiểu hạn (đối chiếu Th.n trên lá 
     expect([t["Hợi"], t["Tý"], t["Mùi"], t["Tuất"]]).toEqual([8, 9, 4, 7]);
   });
 });
+
+describe("lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam — tracuutuvi.com)", () => {
+  it("lai nhân, quan hệ Cục–Mệnh, can chi, chân ô, độ sáng Văn Xương", async () => {
+    const { tinhLaSo, chuanHoaNhap, dungOCung } = await import("../src/engine");
+    const r = chuanHoaNhap({ nam: 2003, thang: 3, ngay: 28, gio: 13, phut: 45, gioi_tinh: "nam", mien: "bac", nam_xem: 2026 });
+    if (!r.ok) throw new Error(r.loi.join());
+    const kq = tinhLaSo(r.nhap);
+    const ls = kq.la_so;
+    expect(laiNhan(ls)).toBe("Điền Trạch");
+    expect(quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)).toBe("Cục Mộc bình hòa Mệnh Mộc");
+    expect(canChiCung(ls, 4)).toBe("Ấ.Mão");
+    expect(chiNamTieuHan(ls, 4)).toBe("Dậu");
+    const t = Object.fromEntries(kq.bao_cao.han!.luu_nguyet.map((m) => [m.chi, m.thang]));
+    expect([t["Tý"], t["Thân"], t["Mão"]]).toEqual([7, 3, 10]);
+    expect(dungOCung(ls)[4].tot.find((s) => s.ten === "Văn Xương")?.muc).toBe("Đ");
+  });
+});

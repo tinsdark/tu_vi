@@ -106,3 +106,7 @@ So từng ô 12 cung với 1 PDF của tracuutuvi.com (Quý Mùi, 11/5/2003 14:4
 - **Thiếu hiển thị, đã thêm** (không đổi luận giải): can chi từng cung, màu sao theo ngũ hành (có công tắc về xanh/đỏ), `(Đ)(H)…` cho mọi sao có độ sáng, sao lưu niên bật mặc định và có trong ảnh PNG/SVG, chi năm tiểu hạn + `Th.n` ở chân ô, ô giữa (nạp âm, quan hệ Cục–Mệnh, can chi tháng/ngày/giờ, chủ mệnh/chủ thân, lai nhân, thân cư).
 - **Chưa chắc:** chủ mệnh (theo chi năm sinh, khớp 1 lá số; bảng truyền thống theo cung Mệnh sẽ cho kết quả khác), cách viết quan hệ Cục–Mệnh khi không phải "sinh".
 - **Còn lệch:** Văn Xương tại Mão (web mẫu: Đắc, ta: Bình, chưa đủ 2 nguồn). **Chưa làm:** cân lượng (thiếu bảng tháng/ngày đã kiểm).
+
+### Lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam)
+
+Vị trí sao khớp 100%; can chi cung, chi năm tiểu hạn, `Th.n` của cả 12 cung khớp; lai nhân (Điền Trạch) khớp. Hai chỗ sửa sau lần này: Văn Xương tại Mão đặt lại **Đắc** (lasotuvi và 2 lá số mẫu cùng ghi), quan hệ cùng hành viết "bình hòa". Còn lệch về độ sáng: web mẫu có thêm nhãn cho Tang Môn (Đ ở Dậu), Thiên Hình (Đ ở Tuất), Hóa Lộc/Quyền (Đ), Hóa Kỵ (H ở Dậu), và không ghi Thiên Hư ở Sửu (lasotuvi: Đắc). Mỗi ô mới có 1 điểm dữ liệu, chưa đủ dựng bảng. Cân lượng: 2 lá số mẫu (3 lượng 3 chỉ; 4 lượng 0 chỉ) cùng tuổi Quý Mùi giờ Mùi, khác tháng/ngày — chưa đủ để suy bảng.

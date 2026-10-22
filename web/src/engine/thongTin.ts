@@ -25,7 +25,7 @@ const VN: Record<string, string> = { Kim: "Kim", Moc: "Mộc", Thuy: "Thủy", H
 /** "Cục Thủy sinh Mệnh Mộc"... Cục = ngũ hành của cục, Mệnh = bản mệnh (nạp âm năm sinh). */
 export function quanHeCucMenh(cuc: string, menh: string): string {
   const c = `Cục ${VN[cuc]}`, m = `Mệnh ${VN[menh]}`;
-  if (cuc === menh) return `${c} hòa ${m}`;
+  if (cuc === menh) return `${c} bình hòa ${m}`;
   if (SINH[cuc] === menh) return `${c} sinh ${m}`;
   if (SINH[menh] === cuc) return `${m} sinh ${c}`;
   if (KHAC[cuc] === menh) return `${c} khắc ${m}`;
