@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  kiem-tra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Test engine Python (tham chiếu)
+        run: |
+          python3 tools/tuvi/test_lich_am.py
+          python3 tools/tuvi/test_an_sao.py
+          python3 tools/tuvi/test_luan_giai.py
+      - name: Dữ liệu sinh ra không lệch so với JSON
+        run: |
+          python3 tools/sinh_sql.py
+          python3 tools/sinh_mui_gio.py
+          git diff --exit-code -- db/du_lieu.sql web/src/data/mui_gio_vn.json
+      - name: Cài web
+        working-directory: web
+        run: npm ci
+      - name: Typecheck
+        working-directory: web
+        run: npm run typecheck
+      - name: Test web (parity TS = Python, server, giao diện)
+        working-directory: web
+        run: npm test
+      - name: Build
+        working-directory: web
+        run: npm run build
+        env:
+          BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name == 'push' && vars.DEPLOY_PAGES == 'true'
+        with:
+          path: web/dist
+
+  trien-khai-pages:
+    # Chỉ chạy khi đã bật GitHub Pages (Settings → Pages → Source: GitHub Actions) và đặt biến repo DEPLOY_PAGES=true.
+    # Web tĩnh trên Pages không có API: nút "Viết lại bằng AI" tự ẩn, văn xuôi dùng bản ghép theo mẫu.
+    needs: kiem-tra
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && vars.DEPLOY_PAGES == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.dep.outputs.page_url }}
+    steps:
+      - id: dep
+        uses: actions/deploy-pages@v4

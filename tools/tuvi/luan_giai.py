@@ -15,6 +15,7 @@ CHINH_TINH = ["Tử Vi", "Thiên Cơ", "Thái Dương", "Vũ Khúc", "Thiên Đ�
               "Thái Âm", "Tham Lang", "Cự Môn", "Thiên Tướng", "Thiên Lương", "Thất Sát", "Phá Quân"]
 SINH = {"Moc": "Hoa", "Hoa": "Tho", "Tho": "Kim", "Kim": "Thuy", "Thuy": "Moc"}
 KHAC = {"Moc": "Tho", "Tho": "Thuy", "Thuy": "Hoa", "Hoa": "Kim", "Kim": "Moc"}
+HANH_VN = {"Kim": "Kim", "Moc": "Mộc", "Thuy": "Thủy", "Hoa": "Hỏa", "Tho": "Thổ"}   # tên hành để HIỂN THỊ (mã nội bộ không dấu)
 
 
 def nap(ten):
@@ -136,7 +137,7 @@ class LuanGiai:
         else:
             k = "cuc_khac_menh"
         ket = [{"nhan_dinh": cfg[k]["luan"], "diem": cfg[k]["diem"],
-                "ly_do": f"Bản Mệnh {menh}, Cục {cuc} ({k})", "id": f"NEN.{k}"}]
+                "ly_do": f"Bản Mệnh {HANH_VN[menh]}, Cục {HANH_VN[cuc]} ({k})", "id": f"NEN.{k}"}]
         ly = self.ls["am_duong_nam_nu"]
         thuan = ly in ("Dương Nam", "Âm Nữ")
         ket.append({"nhan_dinh": "Âm dương thuận lý: đời ít trắc trở hơn." if thuan else "Âm dương nghịch lý: hay gặp việc trái ý, phải bền chí.",
@@ -150,7 +151,7 @@ class LuanGiai:
             luan = {"dong_hanh": "đồng hành với Bản Mệnh — phát huy tốt", "sao_sinh_menh": "sinh Bản Mệnh — được sao nâng đỡ",
                     "menh_sinh_sao": "được Bản Mệnh sinh — mình hao sức nuôi sao", "sao_khac_menh": "khắc Bản Mệnh — giảm cái tốt của sao",
                     "menh_khac_sao": "bị Bản Mệnh khắc — chế ngự được sao"}[k]
-            ket.append({"nhan_dinh": f"{s} ({h}) {luan}.", "diem": bang[k], "ly_do": f"Hành sao {h}, Bản Mệnh {menh}", "id": f"NEN.sao_chu.{k}"})
+            ket.append({"nhan_dinh": f"{s} ({HANH_VN[h]}) {luan}.", "diem": bang[k], "ly_do": f"Hành sao {HANH_VN[h]}, Bản Mệnh {HANH_VN[menh]}", "id": f"NEN.sao_chu.{k}"})
         return ket
 
     # ---------- Lớp 2-3: chấm 1 cung
@@ -167,9 +168,9 @@ class LuanGiai:
 
         def cong(d, sao=None, c=None):
             tong["tot" if d > 0 else "xau"] += d
-            if d < 0 and sao in pt["sao_pha"] or (sao or "").partition(" ")[2] in pt["sao_pha"]:
-                if c in vung_pha:
-                    tong["nang"] += -d
+            ten_goc = sao if sao in pt["sao_pha"] else (sao or "").partition(" ")[2]   # 'Lưu Kình Dương' tính như Kình Dương
+            if d < 0 and ten_goc in pt["sao_pha"] and c in vung_pha:
+                tong["nang"] += -d
 
         chinh = self.chinh_tinh(chi)
         chu, he_so_vcd, chi_chu = chinh, 1.0, chi
@@ -466,7 +467,7 @@ def in_bao_cao(lg, nam_sinh=None, nam_xem=None):
 
     out = ["# Luận giải (prototype)\n",
            f"{ls['input']['can_nam']} {ls['input']['chi_nam']} · tháng {ls['input']['thang']} · ngày {ls['input']['ngay']} · giờ {ls['input']['gio']} · {ls['am_duong_nam_nu']}",
-           f"Bản Mệnh: {ls['ban_menh']} · Cục: {ls['cuc']['hanh']} {ls['cuc']['so']} · Mệnh tại {CHI[ls['menh']]} · Thân tại {CHI[ls['than']]} ({ls['cung_chuc'][ls['than']]})\n",
+           f"Bản Mệnh: {HANH_VN[ls['ban_menh']]} · Cục: {HANH_VN[ls['cuc']['hanh']]} {ls['cuc']['so']} · Mệnh tại {CHI[ls['menh']]} · Thân tại {CHI[ls['than']]} ({ls['cung_chuc'][ls['than']]})\n",
            "## Tổng hợp theo chủ đề", "", "| Chủ đề | Xếp loại | Phân vị | Cung xét |", "|---|---|---|---|"]
     for ten, cd in kq["chu_de"].items():
         out.append(f"| {ten} | {cd['xep_loai']} | {cd['phan_vi']} | {', '.join(f'{c}: {x}' for c, x in cd['cung'].items())} |")

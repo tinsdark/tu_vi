@@ -1,0 +1,64 @@
+import { type BaoCao } from "../engine";
+import { ChuThichTinCay, DanhSachNhanDinh, Khoi } from "./chung";
+
+const MAU: Record<string, string> = { "Rất tốt": "rt", Tốt: "t", "Trung bình": "tb", Xấu: "x", "Rất xấu": "rx" };
+
+export function TabHan({ bc, namXem, onDoiNam }: { bc: BaoCao; namXem: number; onDoiNam: (n: number) => void }) {
+  const h = bc.han;
+  if (!h) return <p className="mo">Chưa có dữ liệu hạn.</p>;
+  const d = h.dai_han;
+  const diemMax = Math.max(...h.luu_nguyet.map((m) => Math.abs(m.diem)), 1);
+  return (
+    <div className="tab-noi-dung">
+      <div className="chon-nam" role="group" aria-label="Năm xem hạn">
+        <button type="button" className="nut" onClick={() => onDoiNam(namXem - 1)} aria-label="Năm trước">‹</button>
+        <label>Năm <input type="number" value={namXem} onChange={(e) => Number.isFinite(e.currentTarget.valueAsNumber) && onDoiNam(e.currentTarget.valueAsNumber)} /></label>
+        <button type="button" className="nut" onClick={() => onDoiNam(namXem + 1)} aria-label="Năm sau">›</button>
+        <span className="mo">Tuổi âm {h.tuoi_am}</span>
+      </div>
+      <ChuThichTinCay />
+
+      <Khoi tieuDe="Đại hạn 10 năm" ghiChu="Chấm lại 5 cung theo tam phương của cung đại hạn, có chồng Tứ Hóa đại hạn (kỹ thuật Bắc phái — mặc định bật).">
+        {d ? (
+          <>
+            <p><b>Tuổi {d.tu_tuoi}–{d.tu_tuoi + 9}</b> · đại hạn tại <b>{d.chi}</b> (cung {d.cung_goc} trên lá số gốc) · can {d.can}</p>
+            <p className="mo">Tứ Hóa đại hạn: {Object.entries(d.tu_hoa).map(([k, v]) => `${k} → ${v}`).join("; ")}</p>
+            <div className="luoi-dai-han">
+              {Object.entries(d.danh_gia).map(([ten, v]) => (
+                <article key={ten} className={`the-dh the-dh-${MAU[v.xep_loai]}`}>
+                  <h4>{ten} đại hạn <small>({v.chi})</small></h4>
+                  <p className="xep">{v.xep_loai} <small>(điểm {v.diem})</small></p>
+                  <DanhSachNhanDinh ds={v.noi_bat} />
+                </article>
+              ))}
+            </div>
+          </>
+        ) : <p className="mo">Tuổi này nằm ngoài các đại hạn đã tính (trên 120 tuổi).</p>}
+      </Khoi>
+
+      <Khoi tieuDe={`Năm ${namXem}`}>
+        <p>Tiểu hạn tại <b>{h.tieu_han.chi}</b> (cung {h.tieu_han.cung_goc} gốc): <b>{h.tieu_han.xep_loai}</b></p>
+        <p>Lưu Thái Tuế tại <b>{h.luu_nien.thai_tue_tai}</b>: <b>{h.luu_nien.xep_loai}</b></p>
+        <p className="mo">Tứ Hóa năm: {Object.entries(h.luu_nien.tu_hoa).map(([k, v]) => `${k} → ${v}`).join("; ")}</p>
+        {h.luu_nien.ghi_chu.length > 0 ? <DanhSachNhanDinh ds={h.luu_nien.ghi_chu} /> : <p className="mo">Không có sao lưu nổi bật rơi vào tam phương cung Thái Tuế.</p>}
+        <details className="phu-luc">
+          <summary>Vị trí các sao lưu niên</summary>
+          <ul className="sao-luu">{Object.entries(h.luu_nien.sao_luu).map(([k, v]) => <li key={k}><b>{k}</b> {v}</li>)}</ul>
+        </details>
+      </Khoi>
+
+      <Khoi tieuDe="Lưu nguyệt (12 tháng âm)" ghiChu="Chấm cung tháng như một cung Mệnh nhỏ. Chỉ so các tháng trong cùng năm với nhau: 2 tháng cao nhất và 2 tháng thấp nhất được đánh dấu.">
+        <ol className="luu-nguyet">
+          {h.luu_nguyet.map((m) => (
+            <li key={m.thang} className={m.nhan_xet === "tốt nhất năm" ? "ln-tot" : m.nhan_xet ? "ln-xau" : ""}>
+              <span className="ln-thang">Tháng {m.thang}</span>
+              <span className="ln-thanh"><span style={{ width: `${Math.max(4, ((m.diem + diemMax) / (2 * diemMax)) * 100)}%` }} /></span>
+              <span className="ln-cung">{m.chi} · {m.cung_goc}</span>
+              <span className="ln-nhan">{m.nhan_xet}</span>
+            </li>
+          ))}
+        </ol>
+      </Khoi>
+    </div>
+  );
+}

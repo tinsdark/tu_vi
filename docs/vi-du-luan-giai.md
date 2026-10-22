@@ -1,7 +1,7 @@
 # Luận giải (prototype)
 
 Canh Ngọ · tháng 5 · ngày 15 · giờ Thìn · Dương Nam
-Bản Mệnh: Tho · Cục: Tho 5 · Mệnh tại Dần · Thân tại Tuất (Tài Bạch)
+Bản Mệnh: Thổ · Cục: Thổ 5 · Mệnh tại Dần · Thân tại Tuất (Tài Bạch)
 
 ## Tổng hợp theo chủ đề
 
@@ -47,9 +47,9 @@ Bản Mệnh: Tho · Cục: Tho 5 · Mệnh tại Dần · Thân tại Tuất (T
 - Cha mẹ gặp trở ngại.  `[PT.Địa Kiếp.Phụ Mẫu -3.0]` — _Địa Kiếp thủ Phụ Mẫu tại Mão_
 
 ## Nền
-- Mệnh Cục đồng hành: hài hòa, ổn định.  `[NEN.tuong_hoa +1]` — _Bản Mệnh Tho, Cục Tho (tuong_hoa)_
+- Mệnh Cục đồng hành: hài hòa, ổn định.  `[NEN.tuong_hoa +1]` — _Bản Mệnh Thổ, Cục Thổ (tuong_hoa)_
 - Âm dương thuận lý: đời ít trắc trở hơn.  `[NEN.am_duong +1]` — _Dương Nam_
-- Tham Lang (Thuy) bị Bản Mệnh khắc — chế ngự được sao.  `[NEN.sao_chu.menh_khac_sao +0]` — _Hành sao Thuy, Bản Mệnh Tho_
+- Tham Lang (Thủy) bị Bản Mệnh khắc — chế ngự được sao.  `[NEN.sao_chu.menh_khac_sao +0]` — _Hành sao Thủy, Bản Mệnh Thổ_
 
 ## Thân cư Tài Bạch (Tuất) — Tốt
 - Thân cư Tài: coi trọng tiền bạc, hậu vận xoay quanh chuyện kiếm và giữ tiền.  `[THAN.Tài Bạch +0]` — _Thân cư Tài Bạch tại Tuất_
@@ -175,11 +175,11 @@ Tứ Hóa năm: Hóa Lộc → Thiên Đồng tại Hợi; Hóa Quyền → Thi�
 | 2 | Mùi (Nô Bộc) | 1.16 |  |
 | 3 | Thân (Thiên Di) | 8.62 |  |
 | 4 | Dậu (Tật Ách) | -1.52 |  |
-| 5 | Tuất (Tài Bạch) | 12.5 | tốt nhất năm |
+| 5 | Tuất (Tài Bạch) | 11.3 | tốt nhất năm |
 | 6 | Hợi (Tử Tức) | -7.3 |  |
 | 7 | Tý (Phu Thê) | 10.89 |  |
 | 8 | Sửu (Huynh Đệ) | 0.6 |  |
 | 9 | Dần (Mệnh) | 11.06 |  |
 | 10 | Mão (Phụ Mẫu) | -9.62 | cần thận trọng |
-| 11 | Thìn (Phúc Đức) | 21.05 | tốt nhất năm |
+| 11 | Thìn (Phúc Đức) | 18.67 | tốt nhất năm |
 | 12 | Tỵ (Điền Trạch) | -9.56 | cần thận trọng |

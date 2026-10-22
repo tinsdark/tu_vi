@@ -11,7 +11,7 @@ Thời gian ước lượng cho 1 dev (mày) + tao hỗ trợ, làm bán thời 
 > | 0 Chốt hướng | 🟡 Q1 (tổng hợp đa phái), Q4 (không sách), Q9 (mặc định đa số), Q11 (mở mạng) đã xong. **Thiếu bộ lá số người thật** và Q2, Q3, Q5–Q8, Q10, Q12, Q13 |
 > | 1 Lịch âm | ✅ `lich_am.py`; khớp amlich 100% 1968–2053, giải thích hết chỗ lệch 1900–2100 |
 > | 2 Engine | 🟡 ~110 sao, so chéo lasotuvi (518.400 lá) + iztro; mọi chỗ lệch có giải thích. Chưa có comment dẫn sách+trang (không có sách) |
-> | 3 Hiển thị | 🟡 SVG lá số (`ve_la_so.py`). Chưa có web, form, lưu |
+> | 3 Hiển thị | ✅ Web (`web/`, `docs/10`): form, lá số 12 cung, 4 tab, bấm sao/cung/quy tắc, lưu trong máy, chia sẻ link, PNG/SVG/in, sáng/tối, điện thoại. Chưa có tài khoản/lưu phía server |
 > | 4 Tri thức | 🟡 Độ sáng chốt theo web; 40/57 cách có nguồn; ~500 quy tắc (57 cách cục, 168 chính tinh × cung, 216 phụ tinh × cung, 40 Tứ Hóa…), phần lớn vẫn `draft_ai`. Chưa có công cụ admin duyệt |
 > | 5 Luận giải | 🟡 Rule engine + phi tuyến + hạn đủ lớp + chủ đề + viết văn có hậu kiểm. **Chưa đánh giá trên lá số thật**; nhánh LLM chưa chạy thật |
 > | 6 Đọc ảnh | ⬜ |
