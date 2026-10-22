@@ -32,7 +32,16 @@ Hai engine viết độc lập mà khớp gần như toàn bộ phần lõi → 
 
 iztro (npm, engine Trung Hoa viết độc lập, phái Toàn Thư/Trung Châu) — nguồn so thứ hai sau lasotuvi. Mẫu ngẫu nhiên, năm âm 1924–2043, ngày 1–29.
 
-@@IZTRO@@
+5.000 lá số: **90 / 96 mục khớp 100%**: 14 chính tinh, Mệnh, Thân, Cục, đại hạn, Tuần, Triệt, vòng Bác Sĩ, vòng Tràng Sinh, vòng Thái Tuế (tên Trung Hoa, cùng thứ tự), lục cát (trừ Khôi Việt), Kình Đà, Không Kiếp, Lộc Mã, và các sao theo tháng, ngày, chi năm.
+
+| Sao | Khớp | Nguyên nhân (đã kiểm bằng công thức trên 200/200 mẫu) | Xử lý |
+|---|---|---|---|
+| Thiên Quý | 17% | iztro: Văn Khúc + (ngày−2) **thuận**; ta (theo lasotuvi): nghịch | Dị bản `profile.thien_quy` |
+| Hỏa Tinh, Linh Tinh | 58–59% | iztro: cả hai **luôn thuận** theo giờ; phái VN đổi chiều theo âm dương nam nữ | Ghi trong `bien_the.json` |
+| Thiên Khôi, Việt | 90% | Can Canh: iztro Sửu/Mùi ("Giáp Mậu Canh Ngưu Dương"), ta Ngọ/Dần ("Canh Tân Mã Hổ") | Khác khẩu quyết |
+| Thiên Trù | 90% | Can Quý: iztro Hợi, ta Tuất (lasotuvi) | Dị bản `profile.thien_tru_quy` |
+
+→ Không có chỗ lệch nào là lỗi engine; tất cả là khác phái Việt–Trung. Lần chạy 30.000 lá số bị dừng vì vượt giới hạn thời gian (iztro mất khoảng 68 ms một lá).
 
 ## 3. Bộ luận giải (`tools/tuvi/luan_giai.py`)
 
