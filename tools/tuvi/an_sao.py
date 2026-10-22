@@ -21,6 +21,7 @@ PROFILE_MAC_DINH = {
     "thien_giai": "khong_nhay",     # Thân thuận theo tháng; dị bản: nhay_cung (lasotuvi theo Thiên Lương)
     "luu_ha": "thai_thu_lang",      # Đinh Thìn, Canh Thân, Tân Mão; dị bản: thien_luong (Đinh Thân, Canh Thìn), ngu_hanh (Đinh Thân, Canh Mão, Tân Thìn)
     "thien_tru_quy": "tuat",        # Quý → Tuất (lasotuvi); dị bản: hoi (iztro, khẩu quyết Trung Hoa)
+    "luu_nguyet": "tieu_han",       # tháng Giêng lưu nguyệt khởi từ cung tiểu hạn (tracuutuvi.com); dị bản: thai_tue (từ cung Thái Tuế)
     "thien_quy": "nghich",          # từ Văn Khúc đếm nghịch (lasotuvi); dị bản: thuan (iztro, phái Trung Hoa)
 }
 

@@ -378,9 +378,10 @@ export class LuanGiai {
     const saoLuuTxt: Record<string, string> = {};
     for (const [k, v] of Object.entries(luu)) saoLuuTxt[k] = `${CHI[v]} (${this.ls.cung_chuc[v]})`;
     ket.luu_nien = { thai_tue_tai: `${CHI[ttChi]} (${this.ls.cung_chuc[ttChi]})`, xep_loai: kTt.xep_loai, diem: kTt.diem, tu_hoa: tuHoaNam, sao_luu: saoLuuTxt, ghi_chu: canhBao };
-    // lưu nguyệt: Đẩu Quân năm xem = từ Thái Tuế năm xem đếm nghịch tháng sinh, thuận giờ sinh; tháng Giêng tại đó
+    // lưu nguyệt: Đẩu Quân năm xem = từ cung gốc (tiểu hạn hoặc Thái Tuế, theo profile) đếm nghịch tháng sinh, thuận giờ sinh; tháng Giêng tại đó
     if (thangXem) {
-      const dq = mv(ttChi, -(this.ls.input.thang - 1) + (CHI.indexOf(this.ls.input.gio) - 1));
+      const goc = (this.ls.input.profile.luu_nguyet ?? "tieu_han") === "tieu_han" ? th : ttChi;
+      const dq = mv(goc, -(this.ls.input.thang - 1) + (CHI.indexOf(this.ls.input.gio) - 1));
       const diemT = Array.from({ length: 12 }, (_, i) => {
         const c = mv(dq, i);
         return { t: i + 1, c, d: lgLuu.chamCung("Mệnh", c).diem };

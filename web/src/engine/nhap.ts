@@ -27,6 +27,7 @@ export const LUA_CHON_PROFILE: { [K in keyof Profile]: { gia_tri: Profile[K][]; 
   luu_ha: { gia_tri: ["thai_thu_lang", "thien_luong", "ngu_hanh"], nhan: "Lưu Hà (tuổi Đinh, Canh, Tân)", mo_ta: "Thái Thứ Lang / Thiên Lương / cách Ngũ Hành" },
   thien_tru_quy: { gia_tri: ["tuat", "hoi"], nhan: "Thiên Trù tuổi Quý", mo_ta: "Tuất (lasotuvi) hay Hợi (iztro)" },
   thien_quy: { gia_tri: ["nghich", "thuan"], nhan: "Thiên Quý", mo_ta: "Từ Văn Khúc đếm nghịch (lasotuvi) hay thuận (iztro)" },
+  luu_nguyet: { gia_tri: ["tieu_han", "thai_tue"], nhan: "Lưu nguyệt", mo_ta: "Tháng Giêng khởi từ cung tiểu hạn (tracuutuvi.com) hay từ cung Thái Tuế" },
 };
 
 export const LUA_CHON_QUY_UOC = {

@@ -29,7 +29,8 @@ export function App() {
   const [nganKeo, setNganKeo] = useState<NoiDungNganKeo | null>(null);
   const [daLuu, setDaLuu] = useState<LaSoDaLuu[]>(() => docLuu());
   const [giaoDien, setGiaoDien] = useState<GiaoDien>(() => docGiaoDien());
-  const [hienSaoLuu, setHienSaoLuu] = useState(false);
+  const [hienSaoLuu, setHienSaoLuu] = useState(true);
+  const [mauHanh, setMauHanh] = useState(true);
   const [thongBao, setThongBao] = useState("");
   const [moForm, setMoForm] = useState(false);
 
@@ -120,8 +121,8 @@ export function App() {
                 <button type="button" className="nut" onClick={() => setMoForm((v) => !v)} aria-expanded={moForm}>{moForm ? "Ẩn form" : "Sửa thông tin"}</button>
                 <button type="button" className="nut" onClick={() => { setDaLuu(luuLaSo(nhap)); baoTam("Đã lưu lá số trong trình duyệt này."); }}>Lưu</button>
                 <button type="button" className="nut" onClick={async () => { try { await navigator.clipboard.writeText(location.href); baoTam("Đã chép liên kết (không chứa họ tên)."); } catch { baoTam("Hãy chép liên kết từ thanh địa chỉ."); } }}>Chép liên kết</button>
-                <button type="button" className="nut" onClick={() => taiPng(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten), tenFile).catch((e) => baoTam(String(e.message)))}>Tải ảnh PNG</button>
-                <button type="button" className="nut" onClick={() => taiSvg(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten), tenFile)}>Tải SVG</button>
+                <button type="button" className="nut" onClick={() => taiPng(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile).catch((e) => baoTam(String(e.message)))}>Tải ảnh PNG</button>
+                <button type="button" className="nut" onClick={() => taiSvg(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile)}>Tải SVG</button>
                 <button type="button" className="nut" onClick={() => window.print()}>In / PDF</button>
               </div>
             </section>
@@ -141,7 +142,8 @@ export function App() {
               {tab === "la_so" && (
                 <>
                   <label className="chon chon-dong"><input type="checkbox" checked={hienSaoLuu} onChange={(e) => setHienSaoLuu(e.target.checked)} /> Hiện sao lưu niên của năm {nhap.nam_xem}</label>
-                  <BanCo kq={kq} hienSaoLuu={hienSaoLuu} />
+                  <label className="chon chon-dong"><input type="checkbox" checked={mauHanh} onChange={(e) => setMauHanh(e.target.checked)} /> Tô màu sao theo ngũ hành (bỏ chọn: xanh = tốt, đỏ = xấu)</label>
+                  <BanCo kq={kq} hienSaoLuu={hienSaoLuu} mauHanh={mauHanh} />
                   <p className="mo">Bấm vào tên cung để xem luận cung, bấm vào tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn. Chữ “H” cạnh sao là sao hãm.</p>
                 </>
               )}

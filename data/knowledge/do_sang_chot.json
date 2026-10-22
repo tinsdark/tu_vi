@@ -45,17 +45,17 @@
         "Dần": "H",
         "Ngọ": "H",
         "Tý": "B",
-        "Mão": "B",
+        "Mão": "Đ",
         "Thân": "B",
-        "Dậu": "B"
+        "Dậu": "Đ"
       },
       "do_tin_cay": "mot_phan",
       "phieu": "Đắc 6 cung Thìn Tuất Sửu Mùi Tỵ Hợi: TTL (theo TNT), CH, bài đầu thread LS. Hãm Dần Ngọ: Đại Toàn + ayen + Ralos (Ngọ).",
       "nghi_van": [
-        "Tý, Mão, Thân, Dậu: không nguồn nào khớp nhau → đặt Bình",
+        "Tý, Thân: không nguồn nào khớp nhau; Dậu: Đắc theo lá số mẫu tracuutuvi.com (1 nguồn, lasotuvi ghi Hãm)",
         "Tuất: TTL Đắc, Đại Toàn/ayen Hãm → theo TTL"
       ],
-      "sua_so_voi_lasotuvi": "Thìn H→Đ, Mão Đ→B, Dậu H→B, Tý/Thân H→B (nghi), Tuất giữ Đ"
+      "sua_so_voi_lasotuvi": "Thìn H→Đ, Mão giữ Đ (lasotuvi + 2 lá số mẫu tracuutuvi.com cùng ghi Đ), Dậu H→B, Tý/Thân H→B (nghi), Tuất giữ Đ"
     },
     "Văn Khúc": {
       "theo_chi": {

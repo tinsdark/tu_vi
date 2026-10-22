@@ -96,3 +96,25 @@ CI (`.github/workflows/ci.yml`): test Python, kiểm dữ liệu sinh ra không 
 - Ngày giờ sinh chỉ rời trình duyệt khi người dùng chủ động bấm “Viết lại bằng AI” (server không ghi log dữ liệu, không lưu).
 - Chưa có tài khoản, chưa lưu phía server → chưa chạm nghĩa vụ lưu trữ dữ liệu cá nhân (Nghị định 13/2023). Khi thêm tài khoản/lưu server phải làm chính sách dữ liệu và xin đồng ý.
 - Câu miễn trừ đã có ở chân trang. Web công khai thu phí thì vẫn nên hỏi luật sư (docs/05 Q6).
+
+## Đối chiếu với lá số mẫu tracuutuvi.com (2026-10-22)
+
+So từng ô 12 cung với 1 PDF của tracuutuvi.com (Quý Mùi, 11/5/2003 14:45, nam, xem năm 2026):
+
+- **Vị trí sao: khớp 100%** (chính tinh, phụ tinh, vòng sao, Tuần/Triệt, sao lưu niên).
+- **Sai thật, đã sửa:** lưu nguyệt. Web mẫu khởi tháng Giêng từ **cung tiểu hạn**, engine cũ khởi từ cung Thái Tuế. Nay mặc định `profile.luu_nguyet = "tieu_han"`, dị bản `thai_tue`. Test `thongtin.test.ts` khớp 4 ô `Th.n` của PDF. Mới có 1 lá số đối chiếu.
+- **Thiếu hiển thị, đã thêm** (không đổi luận giải): can chi từng cung, màu sao theo ngũ hành (có công tắc về xanh/đỏ), `(Đ)(H)…` cho mọi sao có độ sáng, sao lưu niên bật mặc định và có trong ảnh PNG/SVG, chi năm tiểu hạn + `Th.n` ở chân ô, ô giữa (nạp âm, quan hệ Cục–Mệnh, can chi tháng/ngày/giờ, chủ mệnh/chủ thân, lai nhân, thân cư).
+- **Chưa chắc:** chủ mệnh (theo chi năm sinh, khớp 1 lá số; bảng truyền thống theo cung Mệnh sẽ cho kết quả khác), cách viết quan hệ Cục–Mệnh khi không phải "sinh".
+- **Còn lệch:** Văn Xương tại Mão (web mẫu: Đắc, ta: Bình, chưa đủ 2 nguồn). **Chưa làm:** cân lượng (thiếu bảng tháng/ngày đã kiểm).
+
+### Lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam)
+
+Vị trí sao khớp 100%; can chi cung, chi năm tiểu hạn, `Th.n` của cả 12 cung khớp; lai nhân (Điền Trạch) khớp. Hai chỗ sửa sau lần này: Văn Xương tại Mão đặt lại **Đắc** (lasotuvi và 2 lá số mẫu cùng ghi), quan hệ cùng hành viết "bình hòa". Còn lệch về độ sáng: web mẫu có thêm nhãn cho Tang Môn (Đ ở Dậu), Thiên Hình (Đ ở Tuất), Hóa Lộc/Quyền (Đ), Hóa Kỵ (H ở Dậu), và không ghi Thiên Hư ở Sửu (lasotuvi: Đắc). Mỗi ô mới có 1 điểm dữ liệu, chưa đủ dựng bảng. Cân lượng: 2 lá số mẫu (3 lượng 3 chỉ; 4 lượng 0 chỉ) cùng tuổi Quý Mùi giờ Mùi, khác tháng/ngày — chưa đủ để suy bảng.
+
+### Lá số mẫu thứ 3 (nữ, Quý Mùi, 5/12/2003 2:30) và cân lượng
+
+Vị trí sao, can chi cung, chi năm tiểu hạn (nữ nghịch), `Th.n`, lai nhân (Mệnh), quan hệ Cục–Mệnh: khớp hết. Đã thêm **cân lượng** (bảng tracuutuvi.com): khớp cả 3 lá số mẫu (3 lượng 3 chỉ, 4 lượng 0 chỉ, 3 lượng 9 chỉ). Văn Xương tại Dậu đặt lại Đắc theo web mẫu (1 nguồn). Nhãn độ sáng web mẫu có mà ta chưa có (Tang Môn, Thiên Hình, Hóa Lộc/Quyền/Kỵ, Thiên Riêu Hợi) được ghi lại ở `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`, chưa dùng chấm điểm.
+
+### Lá số mẫu thứ 4 (dương nữ, Giáp Thân, 11/1/2005 6:30 = 2/12/2004 âm)
+
+Khớp: vị trí sao, can chi cung, chi năm tiểu hạn, `Th.n`, lai nhân (Mệnh), chủ mệnh Liêm Trinh và chủ thân Thiên Lương (theo chi năm sinh Thân — xác nhận chủ mệnh theo chi năm, không theo cung Mệnh), "Mệnh Thủy khắc Cục Hỏa", cân lượng 3 lượng 0 chỉ (cân lượng nay khớp 4/4, có cả năm Giáp). Còn lệch chỉ ở nhãn độ sáng, đã ghi vào `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`: Thiên Hình web mẫu ghi Hãm ở Thân (lasotuvi: Đắc), Thiên Hư Dần Hãm, Hóa Kỵ luôn Hãm, Hóa Quyền Đắc ở Tuất nhưng Hãm ở Tý/Thân.

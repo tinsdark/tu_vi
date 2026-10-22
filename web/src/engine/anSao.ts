@@ -21,6 +21,7 @@ export interface Profile {
   luu_ha: "thai_thu_lang" | "thien_luong" | "ngu_hanh";
   thien_tru_quy: "tuat" | "hoi";
   thien_quy: "nghich" | "thuan";
+  luu_nguyet: "tieu_han" | "thai_tue";
 }
 
 export const PROFILE_MAC_DINH: Profile = {
@@ -33,6 +34,7 @@ export const PROFILE_MAC_DINH: Profile = {
   luu_ha: "thai_thu_lang",
   thien_tru_quy: "tuat",
   thien_quy: "nghich",
+  luu_nguyet: "tieu_han",
 };
 
 export type GioiTinh = "nam" | "nu";
