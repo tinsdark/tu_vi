@@ -6,11 +6,22 @@ import { ChamTinCay } from "./chung";
 
 function CauChu({ cau }: { cau: string }) {
   const mo = useNganKeo();
+  const manh = tachMa(cau);
   return (
     <>
-      {tachMa(cau).map((m, i) =>
-        m.ma ? <ChamMa key={i} ma={m.ma} onMo={() => mo({ loai: "quy_tac", id: m.ma! })} /> : <span key={i}>{m.text}</span>,
-      )}
+      {manh.map((m, i) => {
+        if (!m.ma) {
+          // dấu câu ngay sau chấm màu đã được gắn vào chấm (không cho rớt xuống dòng riêng)
+          const sauCham = i > 0 && manh[i - 1].ma ? /^[.;,]/.exec(m.text)?.[0] ?? "" : "";
+          return <span key={i}>{m.text.slice(sauCham.length)}</span>;
+        }
+        const dauCau = manh[i + 1] && !manh[i + 1].ma ? /^[.;,]/.exec(manh[i + 1].text)?.[0] ?? "" : "";
+        return (
+          <span key={i} className="khong-ngat">
+            <ChamMa ma={m.ma} onMo={() => mo({ loai: "quy_tac", id: m.ma! })} />{dauCau}
+          </span>
+        );
+      })}
     </>
   );
 }
@@ -66,9 +77,8 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
             {ai.ky === "dang_tai" ? "Đang viết…" : ai.ky === "xong" && ai.che_do === "llm" ? "Viết lại bằng AI" : "Viết lại bằng AI cho mượt"}
           </button>
         )}
-        <span className="mo">{hien.che_do === "llm" ? `Do AI viết lại, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Bản ghép theo mẫu, chưa qua AI."}</span>
+        <span className="mo">{hien.che_do === "llm" ? `Do AI viết lại, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Văn do web tự ghép từ các nhận định ở trên, không dùng AI."}</span>
       </div>
-      {coAi === false && <p className="mo">Máy chủ này chưa bật AI viết văn; bạn đang xem bản ghép theo mẫu.</p>}
       {hien.ly_do && <p className="canh-bao" role="status">{hien.ly_do}</p>}
       <HienVan van={hien.van} />
     </Khoi>

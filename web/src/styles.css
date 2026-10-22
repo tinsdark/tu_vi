@@ -213,3 +213,4 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 @media (prefers-reduced-motion: no-preference) { .nut, .tab { transition: border-color .15s, color .15s; } }
 
 .dieu-kien { list-style: none; padding: 0; margin: .3rem 0; display: grid; gap: 3px; } .dieu-kien li::before { content: "• "; color: var(--mo); }
+.khong-ngat { white-space: nowrap; }

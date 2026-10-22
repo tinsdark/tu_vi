@@ -52,29 +52,50 @@ export function hauKiem(van: string, ids: Set<string>): [string, number] {
   return [giu.join("\n"), bo];
 }
 
-/** Một nhận định → một câu kết thúc bằng mã (dấu chấm giữa câu đổi thành chấm phẩy). */
-export function cau(n: NhanDinh, tienTo = ""): string {
+/** Một nhận định → 'nội dung [mã]' (dấu chấm giữa câu đổi thành chấm phẩy; ngoặc vuông chỉ dành cho mã). */
+export function ve(n: NhanDinh): string {
   let txt = n.nhan_dinh.trim().replace(/\.\s+/g, "; ").replace(/\.+$/, "");
-  txt = txt.replace(/\[([^[\]]+)\]/g, "«$1»"); // ngoặc vuông chỉ dành cho mã
-  return `${tienTo}${txt} [${n.id}].`;
+  txt = txt.replace(/\[([^[\]]+)\]/g, "«$1»");
+  return `${txt} [${n.id}]`;
 }
 
-/** Không dùng LLM: ghép câu từ nhận định nổi bật theo chủ đề. */
+/** Một nhận định → một câu kết thúc bằng mã. */
+export const cau = (n: NhanDinh, tienTo = ""): string => `${tienTo}${ve(n)}.`;
+
+/** Nhiều nhận định → MỘT câu 'Tiền tố: A [mã]; B [mã].'; `daDung` để bỏ nhận định đã nêu ở mục trước. */
+export function gop(ds: NhanDinh[], tienTo: string, daDung?: Set<string>): string {
+  const muc: string[] = [];
+  for (const n of ds) {
+    if (daDung) {
+      const khoa = JSON.stringify([n.id, n.nhan_dinh]); // cùng mã nhưng khác nội dung vẫn là ý khác nhau
+      if (daDung.has(khoa)) continue;
+      daDung.add(khoa);
+    }
+    muc.push(ve(n));
+  }
+  return muc.length ? `${tienTo}${muc.join("; ")}.` : "";
+}
+
+const soSanh = (pv: number): string => (pv >= 50 ? `cao hơn khoảng ${pv}% lá số khác` : `thấp hơn khoảng ${100 - pv}% lá số khác`);
+
+/** Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục). */
 export function vietMau(kq: BaoCao): string {
   const l = kq.la_so;
-  const out: string[] = ["# Tổng quan", `Mệnh tại ${kq.menh_tai}, ${l.am_duong_nam_nu}, Bản Mệnh ${HANH_VN[l.ban_menh]}, Cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so} [TQ].`];
-  out.push(...[...kq.nen, ...kq.than.nhan_dinh].map((n) => cau(n)));
+  const tong = [`Mệnh tại ${kq.menh_tai}, ${l.am_duong_nam_nu}, Bản Mệnh ${HANH_VN[l.ban_menh]}, Cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so} [TQ].`,
+    ...[gop(kq.nen, "Nền lá số: "), gop(kq.than.nhan_dinh, "Cung Thân: ")].filter(Boolean)];
+  const out: string[] = ["# Tổng quan", tong.join(" ")];
+  const daDung = new Set<string>();
   for (const [ten, cd] of Object.entries(kq.chu_de)) {
     out.push(`\n# ${ten}`);
-    out.push(`Nhìn chung ${cd.xep_loai.toLowerCase()} (khoảng top ${100 - cd.phan_vi}% nếu so với mọi lá số) [CD.${ten}].`);
-    out.push(...cd.diem_manh.map((n) => cau(n, "Điểm mạnh: ")));
-    out.push(...cd.diem_yeu.map((n) => cau(n, "Cần lưu ý: ")));
+    const dong = [`Nhìn chung ${cd.xep_loai.toLowerCase()} (${soSanh(cd.phan_vi)}) [CD.${ten}].`,
+      ...[gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean)];
+    out.push(dong.join(" "));
   }
   if (kq.han?.dai_han) {
     const d = kq.han.dai_han;
     out.push(`\n# Hạn năm ${kq.han.nam_xem}`);
-    out.push(`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`);
-    out.push(...kq.han.luu_nien.ghi_chu.map((n) => cau(n)));
+    const luu = gop(kq.han.luu_nien.ghi_chu, `Trong năm ${kq.han.nam_xem}: `);
+    out.push([`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`, ...(luu ? [luu] : [])].join(" "));
   }
   return out.join("\n");
 }

@@ -66,28 +66,53 @@ def hau_kiem(van, ids):
     return "\n".join(giu), bo
 
 
-def cau(n, tien_to=""):
-    """Một nhận định → một câu kết thúc bằng mã (dấu chấm giữa câu đổi thành chấm phẩy)."""
+def ve(n):
+    """Một nhận định → 'nội dung [mã]' (dấu chấm giữa câu đổi thành chấm phẩy; ngoặc vuông chỉ dành cho mã)."""
     txt = re.sub(r"\.\s+", "; ", n["nhan_dinh"].strip()).rstrip(".")
-    txt = re.sub(r"\[([^\[\]]+)\]", r"«\1»", txt)       # ngoặc vuông chỉ dành cho mã
-    return f"{tien_to}{txt} [{n['id']}]."
+    txt = re.sub(r"\[([^\[\]]+)\]", r"«\1»", txt)
+    return f"{txt} [{n['id']}]"
+
+
+def cau(n, tien_to=""):
+    """Một nhận định → một câu kết thúc bằng mã."""
+    return f"{tien_to}{ve(n)}."
+
+
+def gop(ds, tien_to, da_dung=None):
+    """Nhiều nhận định → MỘT câu 'Tiền tố: A [mã]; B [mã].'. `da_dung` (tập khóa) để bỏ nhận định đã nêu ở mục trước."""
+    muc = []
+    for n in ds:
+        if da_dung is not None:
+            khoa = (n["id"], n["nhan_dinh"])      # cùng mã nhưng khác nội dung (VD PHI_TUYEN của cung khác nhau) vẫn là ý khác nhau
+            if khoa in da_dung:
+                continue
+            da_dung.add(khoa)
+        muc.append(ve(n))
+    return f"{tien_to}{'; '.join(muc)}." if muc else ""
+
+
+def so_sanh(phan_vi):
+    return f"cao hơn khoảng {phan_vi}% lá số khác" if phan_vi >= 50 else f"thấp hơn khoảng {100 - phan_vi}% lá số khác"
 
 
 def viet_mau(kq):
-    """Không dùng LLM: ghép câu từ nhận định nổi bật theo chủ đề."""
-    out = ["# Tổng quan", f"Mệnh tại {kq['menh_tai']}, {kq['la_so']['am_duong_nam_nu']}, "
-           f"Bản Mệnh {HANH_VN[kq['la_so']['ban_menh']]}, Cục {HANH_VN[kq['la_so']['cuc']['hanh']]} {kq['la_so']['cuc']['so']} [TQ]."]
-    out += [cau(n) for n in kq["nen"] + kq["than"]["nhan_dinh"]]
+    """Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục)."""
+    la = kq["la_so"]
+    tong = [f"Mệnh tại {kq['menh_tai']}, {la['am_duong_nam_nu']}, Bản Mệnh {HANH_VN[la['ban_menh']]}, Cục {HANH_VN[la['cuc']['hanh']]} {la['cuc']['so']} [TQ]."]
+    tong += [c for c in (gop(kq["nen"], "Nền lá số: "), gop(kq["than"]["nhan_dinh"], "Cung Thân: ")) if c]
+    out = ["# Tổng quan", " ".join(tong)]
+    da_dung = set()
     for ten, cd in kq["chu_de"].items():
         out.append(f"\n# {ten}")
-        out.append(f"Nhìn chung {cd['xep_loai'].lower()} (khoảng top {100 - cd['phan_vi']}% nếu so với mọi lá số) [CD.{ten}].")
-        out += [cau(n, "Điểm mạnh: ") for n in cd["diem_manh"]]
-        out += [cau(n, "Cần lưu ý: ") for n in cd["diem_yeu"]]
+        dong = [f"Nhìn chung {cd['xep_loai'].lower()} ({so_sanh(cd['phan_vi'])}) [CD.{ten}]."]
+        dong += [c for c in (gop(cd["diem_manh"], "Điểm sáng: ", da_dung), gop(cd["diem_yeu"], "Cần lưu ý: ", da_dung)) if c]
+        out.append(" ".join(dong))
     if "han" in kq and kq["han"]["dai_han"]:
         d = kq["han"]["dai_han"]
         out.append(f"\n# Hạn năm {kq['han']['nam_xem']}")
-        out.append(f"Đang ở đại hạn {d['tu_tuoi']}–{d['tu_tuoi'] + 9} tuổi tại {d['chi']}; Mệnh đại hạn {d['danh_gia']['Mệnh']['xep_loai'].lower()} [DH].")
-        out += [cau(n) for n in kq["han"]["luu_nien"]["ghi_chu"]]
+        dong = [f"Đang ở đại hạn {d['tu_tuoi']}–{d['tu_tuoi'] + 9} tuổi tại {d['chi']}; Mệnh đại hạn {d['danh_gia']['Mệnh']['xep_loai'].lower()} [DH]."]
+        luu = gop(kq["han"]["luu_nien"]["ghi_chu"], f"Trong năm {kq['han']['nam_xem']}: ")
+        out.append(" ".join(dong + ([luu] if luu else [])))
     return "\n".join(out)
 
 

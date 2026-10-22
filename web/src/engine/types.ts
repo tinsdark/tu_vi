@@ -7,6 +7,8 @@ export interface NhanDinh {
   ly_do?: string;
   linh_vuc?: string[];
   cung?: string;
+  /** Sát tinh đắc địa: điểm bị lật dương nhưng câu luận vẫn mô tả mặt xấu → không xếp vào điểm mạnh/yếu. */
+  dao_dau?: boolean;
 }
 
 export interface KetQuaCung {

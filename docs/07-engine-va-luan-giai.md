@@ -60,9 +60,10 @@ Quy trình `docs/06`: nền → chủ tinh → độ sáng → tam phương tứ
 | Lưu nguyệt | Đẩu Quân năm xem → 12 cung tháng, chấm từng cung, đánh dấu 2 tháng tốt nhất / 2 tháng cần thận trọng (so trong năm) |
 | **Chủ đề** | Tính cách, Sự nghiệp, Tài chính, Tình cảm, Sức khỏe, Gia đình: trung bình phân vị các cung liên quan theo trọng số, lấy ≤ 3 điểm mạnh/yếu có lĩnh vực khớp |
 | Xếp loại | Phân vị trên 3.000 lá số ngẫu nhiên, riêng từng cung (`hieu_chinh.py`); phân vị nội suy liên tục 1–99 |
-| **Viết văn** (`viet_van.py`) | Gửi báo cáo JSON cho Claude (`claude-opus-5-5`), yêu cầu mỗi câu kết thúc bằng [ID]. Hậu kiểm: câu không có ID hợp lệ bị bỏ. Không có credential → chế độ mẫu (ghép câu, không gọi API) |
+| **Văn mẫu** (`viet_van.py`, không cần AI) | Mỗi mục là MỘT đoạn: 'Nhìn chung … (cao/thấp hơn khoảng X% lá số khác). Điểm sáng: A; B. Cần lưu ý: C.', mỗi ý kèm mã quy tắc; ý (mã + nội dung) đã nêu ở mục trước thì bỏ. Sát tinh đắc địa (điểm bị lật dương nhưng câu luận vẫn nói mặt xấu) gắn cờ `dao_dau` và không vào điểm mạnh/yếu của chủ đề |
+| **Viết văn bằng AI** (`viet_van.py`, tùy chọn) | Gửi báo cáo JSON cho Claude (`claude-opus-5-5`), yêu cầu mỗi câu kết thúc bằng [ID]. Hậu kiểm: câu không có ID hợp lệ bị bỏ. Không có credential → chế độ mẫu (ghép câu, không gọi API) |
 
-Test: `test_luan_giai.py` — 150 lá số ngẫu nhiên không lỗi, phân vị trong 1–99, mọi nhận định có ID, văn mẫu qua hậu kiểm 0 câu bị bỏ, phi tuyến làm giảm điểm khi thêm sát tinh.
+Test: `test_luan_giai.py` — 150 lá số ngẫu nhiên không lỗi, phân vị trong 1–99, mọi nhận định có ID, văn mẫu qua hậu kiểm 0 câu bị bỏ, phi tuyến làm giảm điểm khi thêm sát tinh, sát tinh đắc địa không lọt vào điểm mạnh/yếu, văn mẫu so sánh phân vị đúng chiều và không lặp ý.
 
 ## 4. Hạn chế — nói thẳng
 
