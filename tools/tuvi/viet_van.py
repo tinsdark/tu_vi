@@ -22,7 +22,7 @@ HUONG_DAN = """Bạn là người viết lời luận cho một lá số Tử Vi
 Quy tắc bắt buộc (hậu kiểm tự động sẽ bỏ câu vi phạm):
 1. Chỉ dùng ý có trong JSON. Không thêm sao, cung, nhận định, con số, dự đoán hay lời khuyên nào không có trong đó.
 2. Mỗi câu kết thúc bằng mã trong ngoặc vuông đúng như trường "id" trong JSON, ví dụ [CT.Tử Vi.Mệnh]. Câu gộp nhiều ý thì ghi nhiều mã: [CC21][PT.Lộc Tồn]. Mã đặc biệt: [TQ] thông tin chung lá số; [CD.<tên chủ đề>] xếp loại một chủ đề; [DH] đại hạn hiện tại.
-3. Mỗi mục CHỈ được trích mã thuộc mục đó: mục chủ đề dùng các mã trong "diem_manh", "diem_yeu", "luu_y", "trung_tinh" của đúng chủ đề đó (cộng [CD.<chủ đề>]); mục Tổng quan dùng mã trong "nen", "than", [TQ]; mục Hạn năm dùng mã trong "han". Không kéo sao của mục này sang mục khác.
+3. Mỗi mục CHỈ được trích mã thuộc mục đó: mục chủ đề dùng các mã trong "diem_manh", "diem_yeu", "luu_y", "trung_tinh", "sao_nho" của đúng chủ đề đó (cộng [CD.<chủ đề>]); mục Tổng quan dùng mã trong "nen", "than", [TQ]; mục Hạn năm dùng mã trong "han". Không kéo sao của mục này sang mục khác.
 4. Sao ở cung khác chỉ được nêu đúng như JSON ghi (ví dụ 'X từ cung Y xung chiếu Z → ...'): không viết như thể sao nằm tại cung đang luận.
 5. Điểm là "điểm nội tại /100" (tương quan giữa các cung của chính lá số này). Nói bằng lời thường kèm bậc ("khoảng 60/100, mức khá"). TUYỆT ĐỐI không nói "cao/thấp hơn X% lá số khác", không nói percentile.
 6. Giữ đúng chiều: câu nào JSON xếp 'diem_manh' thì là điểm sáng, 'diem_yeu' là điểm cần lưu ý. Khi có "cau_dan" (chủ đề vừa tốt vừa hung) dùng nó làm câu mở trước khi nêu hai mặt. Khi có "luu_y" (Tuần/Triệt, vô chính diệu) và "trung_tinh" (chính tinh/nhận định trung tính) phải nhắc, vì đó là khung của cung.
@@ -99,7 +99,7 @@ def muc_cho_phep(kq):
         return r
     cho = {"Tổng quan": {"TQ", "DH"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["nen"]) | ids(kq["than"])}
     for t, cd in kq["chu_de"].items():
-        cho[t] = {f"CD.{t}"} | ids({k: cd[k] for k in ("diem_manh", "diem_yeu", "luu_y", "trung_tinh")})
+        cho[t] = {f"CD.{t}"} | ids({k: cd[k] for k in ("diem_manh", "diem_yeu", "luu_y", "trung_tinh", "sao_nho")})
         if TOPIC_THAN.get(kq["than"]["cu"]) == t:
             cho[t].add(f"THAN.{kq['than']['cu']}")        # câu 'cung này cũng là cung Thân cư'
 
@@ -180,6 +180,9 @@ def doan_chu_de(ten, cd, kq, da_dung):
         manh = gop(cd["diem_manh"], "Điểm sáng: ", da_dung)
         yeu = gop(cd["diem_yeu"], "Tuy nhiên, cần lưu ý: " if manh else "Cần lưu ý: ", da_dung)
         dong += [c for c in (manh, yeu) if c]
+    nho = gop(cd["sao_nho"][:2], "Sao phụ khác đáng chú ý: ", da_dung)
+    if nho:
+        dong.append(nho)
     return " ".join(dong)
 
 

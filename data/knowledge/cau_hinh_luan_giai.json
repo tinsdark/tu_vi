@@ -128,6 +128,14 @@
     "Dưỡng": 0.05
   },
   "he_so_phu_tinh_nho": 0.4,
+  "sao_nho": {
+    "_ghi_chu": "Phụ tinh có |điểm| = 1 (Thiên Mã, Thiên Khốc, Thiên Diêu, Thiên Hình, Hoa Cái…) vẫn được CHẤM điểm nhưng trước đây không hiện câu luận. Nay hiện thành 'sao phụ khác' (nho: true) — KHÔNG tính vào điểm mạnh/yếu và phép đếm §4.8, nên điểm không đổi. Hai vòng nền Bác Sĩ và Thái Tuế chỉ là nền (nghĩa chung chung) nên bỏ qua. uu_tien: sao đứng trước được hiện trước khi cắt theo toi_da_moi_cung ở thẻ chủ đề (tab 12 cung luôn hiện đủ).",
+    "bo_qua": ["Bác Sĩ", "Lực Sĩ", "Thanh Long", "Tiểu Hao", "Tướng Quân", "Tấu Thư", "Phi Liêm", "Hỷ Thần", "Bệnh Phù", "Phục Binh", "Quan Phủ",
+              "Thái Tuế", "Thiếu Dương", "Thiếu Âm", "Quan Phù", "Tử Phù", "Tuế Phá", "Long Đức", "Phúc Đức", "Điếu Khách", "Trực Phù"],
+    "uu_tien": ["Thiên Mã", "Thiên Hư", "Thiên Khốc", "Thiên Diêu", "Thiên Hình", "Hoa Cái", "Đào Hoa", "Hồng Loan", "Thiên Hỷ", "Cô Thần", "Quả Tú",
+               "Phá Toái", "Thiên Thương", "Thiên Sứ", "Thiên Không", "Địa Võng", "Thiên La", "Long Trì", "Phượng Các", "Thiên Y", "Thiên Giải", "Địa Giải", "Giải Thần"],
+    "toi_da_moi_cung": 5
+  },
   "phi_tuyen": {
     "K": null,
     "sao_pha": [

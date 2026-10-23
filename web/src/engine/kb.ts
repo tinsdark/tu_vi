@@ -22,7 +22,7 @@ export interface CachCuc {
   linh_vuc?: string[]; ket_luan: string; ket_luan_pha?: string; xac_nhan_web?: boolean; web?: string[]; doi_chieu?: string;
 }
 
-export interface TrucLuan { id: string; ten: string; duong: { nhan: string; cau: string[] }; am: { nhan: string; cau: string[] } }
+export interface TrucLuan { id: string; ten: string; xd?: string; duong: { nhan: string; cau: string[] }; am: { nhan: string; cau: string[] } }
 
 export class TriThuc {
   cfg: any = cauHinh;

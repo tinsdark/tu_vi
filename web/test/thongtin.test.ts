@@ -15,7 +15,7 @@ describe("thông tin hiển thị (đối chiếu lá số mẫu tracuutuvi.com:
   it("lai nhân, chủ mệnh/thân, quan hệ cục-mệnh", () => {
     expect(laiNhan(ls)).toBe("Phụ Mẫu");
     expect(ls.cung_chuc[ls.than]).toBe("Phúc Đức");
-    expect(chuMenh(ls)).toBe("Vũ Khúc");
+    expect(chuMenh(ls)).toBe("Lộc Tồn"); // Mệnh tại Tuất → Lộc Tồn (iztro). tracuutuvi.com tra theo chi năm Mùi → Vũ Khúc: hai nguồn bất đồng
     expect(chuThan(ls)).toBe("Thiên Tướng");
     expect(quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)).toBe("Cục Thủy sinh Mệnh Mộc");
   });
@@ -86,9 +86,23 @@ describe("lá số dương nữ Giáp Thân (11/1/2005 6:30)", () => {
   const ls = anLaSo(1, 9, 12, 2, 4, "nu");
   it("nạp âm, chủ mệnh/thân, quan hệ khắc, lai nhân, tiểu hạn nghịch", () => {
     expect(tenNapAm(1, 9)).toBe("Tuyền Trung Thủy");
-    expect([chuMenh(ls), chuThan(ls)]).toEqual(["Liêm Trinh", "Thiên Lương"]);
+    expect([chuMenh(ls), chuThan(ls)]).toEqual(["Lộc Tồn", "Thiên Lương"]); // Mệnh tại Tuất (iztro); tracuutuvi.com: Liêm Trinh theo chi năm Thân
     expect(quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)).toBe("Mệnh Thủy khắc Cục Hỏa");
     expect(laiNhan(ls)).toBe("Mệnh");
     expect(canChiCung(ls, 11)).toBe("G.Tuất");
+  });
+});
+
+describe("chủ mệnh theo cung Mệnh, chủ thân theo chi năm (đối chiếu iztro)", () => {
+  // Lá số Quý Mùi 14/12/2003 22:00 nữ: Mệnh Sửu → iztro cho Chủ mệnh Cự Môn, Chủ thân Thiên Tướng (không phải chính tinh thủ Mệnh Thái Dương/Thái Âm)
+  it("Mệnh Sửu → Cự Môn; Mệnh Dần → Lộc Tồn; Mệnh Tý → Tham Lang", () => {
+    const sửu = anLaSo(10, 8, 11, 21, 12, "nu");
+    expect(CHI[sửu.menh]).toBe("Sửu");
+    expect([chuMenh(sửu), chuThan(sửu)]).toEqual(["Cự Môn", "Thiên Tướng"]);
+    const bang: Record<string, string> = { Tý: "Tham Lang", Sửu: "Cự Môn", Dần: "Lộc Tồn", Mão: "Văn Khúc", Thìn: "Liêm Trinh", Tỵ: "Vũ Khúc", Ngọ: "Phá Quân", Mùi: "Vũ Khúc", Thân: "Liêm Trinh", Dậu: "Văn Khúc", Tuất: "Lộc Tồn", Hợi: "Cự Môn" };
+    for (let g = 1; g <= 12; g++) for (const t of [1, 6, 12]) {
+      const l = anLaSo(10, 8, t, 5, g, "nam");
+      expect(chuMenh(l), `Mệnh ${CHI[l.menh]}`).toBe(bang[CHI[l.menh]]);
+    }
   });
 });

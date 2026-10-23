@@ -328,3 +328,16 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
   .cung-chi-tiet > summary::after { margin-left: .2rem; order: 3; }
   .cung-sao { order: 8; flex-basis: 100%; font-size: .9rem; }
 }
+
+/* sao phụ ±1: nhẹ hơn nhận định chính */
+.nd-nho { border-left-color: var(--vien) !important; }
+.sao-phu { margin-top: .6rem; }
+.sao-phu > summary { cursor: pointer; color: var(--mo); font-size: .9rem; padding: .2rem 0; }
+.sao-phu[open] > summary { margin-bottom: .4rem; }
+
+/* bảng "Vì sao ra con số này?" */
+.cach-tinh { margin: .5rem 0; }
+.cach-tinh > summary { cursor: pointer; color: var(--thong); font-size: .9rem; }
+.cach-tinh dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 4px 12px; margin: .5rem 0; font-size: .9rem; }
+.cach-tinh dt { color: var(--mo); } .cach-tinh dd { margin: 0; }
+@media (max-width: 760px) { .cach-tinh dl { grid-template-columns: 1fr; } .cach-tinh dt { margin-top: .4rem; } }

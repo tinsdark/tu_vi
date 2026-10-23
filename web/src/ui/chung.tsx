@@ -29,18 +29,32 @@ export function ChuThichTinCay() {
 }
 
 export function DanhSachNhanDinh({ ds: tatCa, rong }: { ds: NhanDinh[]; rong?: boolean }) {
-  const ds = tatCa.filter((n) => !n.an); // câu đã gộp vào câu "trái chiều" (XD.*) không hiện lại
-  if (!ds.length) return <p className="mo">Không có nhận định nào nổi bật.</p>;
-  return (
+  const hien = tatCa.filter((n) => !n.an); // câu đã gộp vào câu "trái chiều" (XD.*) không hiện lại
+  if (!hien.length) return <p className="mo">Không có nhận định nào nổi bật.</p>;
+  const chinh = hien.filter((n) => !n.nho);
+  const phu = hien.filter((n) => n.nho); // phụ tinh ±1: không tính điểm, gập lại để không át nhận định chính
+  const danh = (ds: NhanDinh[]) => (
     <ul className={`nhan-dinh${rong ? " nhan-dinh-rong" : ""}`}>
       {ds.map((n, i) => (
-        <li key={`${n.id}-${i}`} className={n.dao_dau ? "nd-trung" : n.diem > 0 ? "nd-tot" : n.diem < 0 ? "nd-xau" : "nd-trung"}>
+        <li key={`${n.id}-${i}`} className={n.dao_dau ? "nd-trung" : n.nho ? "nd-nho" : n.diem > 0 ? "nd-tot" : n.diem < 0 ? "nd-xau" : "nd-trung"}>
           <ChamTinCay id={n.id} />
           <span className="nd-van">{n.nhan_dinh}</span>
           {n.ly_do && <span className="nd-ly-do">{n.ly_do}</span>}
         </li>
       ))}
     </ul>
+  );
+  if (!chinh.length) return danh(phu);
+  return (
+    <>
+      {danh(chinh)}
+      {phu.length > 0 && (
+        <details className="sao-phu">
+          <summary>Sao phụ khác ({phu.length})</summary>
+          {danh(phu)}
+        </details>
+      )}
+    </>
   );
 }
 

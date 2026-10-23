@@ -262,6 +262,7 @@
       "Người bạn đời hỗ trợ bạn một cách thầm lặng; chỉ cần cẩn thận chuyện tái hợp hoặc đi hai lần đò nếu gặp thêm sao xấu.",
       "Người bạn đời là người giúp đỡ đắc lực cho bạn; nếu gặp thêm yếu tố đào hoa thì cần để ý chuyện người thứ ba.",
       "Người bạn đời lịch sự, hôn nhân êm đềm.",
+      "Người bạn đời quan tâm, chăm sóc bạn; có thể làm nghề y hoặc chăm sóc.",
       "Người bạn đời quý trọng bạn, hôn nhân êm ấm.",
       "Người bạn đời thanh lịch, hôn nhân êm đềm."
      ]
@@ -270,18 +271,24 @@
      "nhan": "sóng gió, xung đột",
      "cau": [
       "Hôn nhân của bạn có va chạm; nên đề phòng tai nạn và mổ xẻ.",
+      "Hôn nhân của bạn dễ bị người ngoài xen vào ngầm.",
       "Hôn nhân của bạn dễ có cảm giác hụt hẫng vì kỳ vọng và thực tế chênh nhau.",
       "Hôn nhân của bạn dễ có hiểu lầm và vướng mắc.",
       "Hôn nhân của bạn dễ cứng nhắc, lạnh nhạt hoặc xung khắc; kết hôn muộn thì thường bền hơn.",
       "Hôn nhân của bạn dễ lạnh nhạt và khó nói chuyện với nhau.",
       "Hôn nhân của bạn dễ va chạm, cần nhường nhịn.",
+      "Hôn nhân của bạn nhiều buồn lo và ít chia sẻ; cần chủ động trò chuyện.",
       "Hôn nhân của bạn nhiều sóng gió.",
+      "Hôn nhân của bạn nhiều đam mê nhưng dễ bị người khác xen vào; cần chân thành và minh bạch.",
+      "Hôn nhân dễ có người thứ ba xen vào, nên giữ sự chân thành và minh bạch.",
       "Hôn nhân dễ lạnh nhạt và xa cách, nên cần chủ động chia sẻ.",
       "Tình cảm của bạn có chuyện buồn lo và xa cách.",
       "Tình cảm của bạn dễ va chạm và có thể chia ly.",
       "Tình duyên của bạn muộn hoặc lạnh nhạt; hôn nhân cần nhiều quan tâm và chia sẻ.",
       "Vợ chồng bạn hay to tiếng với nhau.",
-      "Vợ chồng bạn hay xung đột."
+      "Vợ chồng bạn hay xung đột.",
+      "[Phu Thê có từ 2 tứ sát (Kình/Đà/Hỏa/Linh) đồng cung — PHÁ CÁCH] Có Tuần/Triệt: sát khí giảm bớt, trắc trở nhẹ hơn nhưng vẫn nên kết hôn muộn và chọn người kỹ.",
+      "[Phu Thê có từ 2 tứ sát (Kình/Đà/Hỏa/Linh) đồng cung] Phu Thê đồng cung từ 2 sát tinh (Kình/Đà/Hỏa/Linh): tình duyên dễ trắc trở, đến muộn, hay sóng gió hoặc phải qua một lần dang dở rồi mới yên; nên kết hôn muộn và chọn người kỹ."
      ]
     }
    },
@@ -298,9 +305,12 @@
      "nhan": "đến muộn, chậm",
      "cau": [
       "Hôn nhân của bạn có thể đến muộn hoặc nhiều thay đổi.",
+      "Hôn nhân của bạn dây dưa và kéo dài.",
       "Hôn nhân của bạn muộn thì mới bền.",
       "Hôn nhân của bạn nên đến muộn.",
-      "Hôn nhân của bạn đến muộn."
+      "Hôn nhân của bạn đến muộn.",
+      "[Phu Thê có từ 2 tứ sát (Kình/Đà/Hỏa/Linh) đồng cung — PHÁ CÁCH] Có Tuần/Triệt: sát khí giảm bớt, trắc trở nhẹ hơn nhưng vẫn nên kết hôn muộn và chọn người kỹ.",
+      "[Phu Thê có từ 2 tứ sát (Kình/Đà/Hỏa/Linh) đồng cung] Phu Thê đồng cung từ 2 sát tinh (Kình/Đà/Hỏa/Linh): tình duyên dễ trắc trở, đến muộn, hay sóng gió hoặc phải qua một lần dang dở rồi mới yên; nên kết hôn muộn và chọn người kỹ."
      ]
     }
    },
@@ -432,7 +442,8 @@
       "Nhà đất của bạn khó giữ, dễ hao hụt hoặc mua bán không thành.",
       "Nhà đất của bạn khó giữ, dễ hư hao.",
       "Nhà đất của bạn trắc trở, dễ có tranh chấp, và giữ của khó.",
-      "Nhà đất dễ hao tán."
+      "Nhà đất dễ hao tán.",
+      "[Lộc Tồn ngộ Không/Kiếp/Tuần/Triệt (Điền Trạch)] Lộc Tồn đồng cung Địa Không/Địa Kiếp hoặc bị Tuần/Triệt: tài sản dễ thất thoát, giữ của khó; làm giấy tờ nhà đất thật chặt chẽ, tránh mua bán nóng vội."
      ]
     }
    },
@@ -485,7 +496,8 @@
       "Tiền dễ hao tán.",
       "Tiền đi nhanh, nên bạn cần giữ nhịp chi tiêu.",
       "Tiền đến bộc phát rồi cũng dễ tan.",
-      "Tiền đến rồi đi và khó giữ; bạn nên tránh đầu cơ."
+      "Tiền đến rồi đi và khó giữ; bạn nên tránh đầu cơ.",
+      "[Lộc Tồn ngộ Không/Kiếp/Tuần/Triệt (Tài Bạch)] Lộc Tồn đồng cung Địa Không/Địa Kiếp hoặc bị Tuần/Triệt: lộc bị cắt hoặc phá, tiền vào có nhưng khó giữ; nên tránh đầu cơ và hùn vốn."
      ]
     }
    },
@@ -592,10 +604,12 @@
      "nhan": "thất thường, thăng trầm",
      "cau": [
       "Bạn dễ thay đổi công việc liên tục.",
+      "Bạn dễ đổi việc nhiều lần.",
       "Công việc của bạn bộc phát, nhanh lên nhanh xuống.",
       "Công việc của bạn dễ thất thường.",
       "Sự nghiệp của bạn lên xuống mạnh.",
-      "Sự nghiệp của bạn thăng trầm, hợp nghề sáng tạo, công nghệ hoặc tâm linh."
+      "Sự nghiệp của bạn thăng trầm, hợp nghề sáng tạo, công nghệ hoặc tâm linh.",
+      "[Thiên Lương hãm gặp Thiên Mã (Lương Mã phiêu đãng)] Thiên Lương hãm gặp Thiên Mã: nghề hay biến động, di chuyển, đổi việc, dễ làm xa; hợp công việc linh hoạt (đi lại, tư vấn, chuyên môn) hơn nghề cố định, phát muộn và cần chọn đúng hướng."
      ]
     }
    }
@@ -752,7 +766,8 @@
       "Bạn nóng nảy, dễ bộc phát; khi sao mạnh thì quyết đoán, gặp Tham Lang thì phát nhanh.",
       "Cá tính bạn quyết liệt; nên đề phòng thương tích và miệng tiếng."
      ]
-    }
+    },
+    "xd": "Tính cách vừa {duong} ({sao_duong}) vừa {am} ({sao_am}): cương nhu kiêm bị, tùy hoàn cảnh mà nét nào trội; nên luyện cách tiết chế nét nóng."
    },
    {
     "id": "doi_moi",
@@ -771,7 +786,8 @@
       "Bạn dễ cứng nhắc và hơi lạnh lùng với người xung quanh.",
       "Bạn tự chủ, quyết đoán, thích nắm quyền nhưng dễ cứng nhắc."
      ]
-    }
+    },
+    "xd": "Vừa {duong} ({sao_duong}) vừa {am} ({sao_am}): dám bứt phá nhưng dễ cứng nhắc khi đã chọn hướng; nên giữ sự linh hoạt."
    },
    {
     "id": "giu_cua",
@@ -780,7 +796,8 @@
      "nhan": "biết giữ của, tài lộc bền",
      "cau": [
       "Bạn cẩn thận, biết giữ của và tài lộc bền, nhưng hơi cô độc và bảo thủ.",
-      "Bạn ổn định, phúc hậu và biết giữ của."
+      "Bạn ổn định, phúc hậu và biết giữ của.",
+      "[Lộc Tồn thủ Mệnh] Giữ của, cẩn trọng, có tài lộc bền; nhưng hay lo, hơi cô độc."
      ]
     },
     "am": {
@@ -789,7 +806,9 @@
       "Bạn dễ hao tán và tiêu xài vượt kế hoạch.",
       "Bạn liều lĩnh và dễ hao tán; khi sao mạnh thì dám làm mà thành.",
       "Bạn ngang ngạnh, hay làm ngược lại và dễ hao tán; nên kiềm chế bản thân.",
-      "Cuộc đời bạn dễ thăng trầm và dễ hao tán."
+      "Cuộc đời bạn dễ thăng trầm và dễ hao tán.",
+      "[Không Kiếp giáp Mệnh] Không Kiếp kẹp Mệnh: hao tán, khó giữ thành quả.",
+      "[Không Kiếp thủ Mệnh hãm] Hao tán, đời có cú ngã bất ngờ; cần tránh đầu cơ."
      ]
     }
    }

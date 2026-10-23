@@ -21,6 +21,8 @@ export interface NhanDinh {
   dao_dau?: boolean;
   /** Câu đã được gộp vào một câu "trái chiều" (id XD.*) vì nói ngược với câu khác cùng trục: còn trong danh sách để điểm không đổi, không hiển thị. */
   an?: boolean;
+  /** Phụ tinh ±1 (Thiên Mã, Thiên Khốc…): hiện câu luận nhưng KHÔNG tính vào điểm mạnh/yếu hay phép đếm §4.8. */
+  nho?: boolean;
 }
 
 export interface KhoanSao { sao: string; cung: string; vi_tri: string; diem: number }
@@ -82,6 +84,8 @@ export interface KetQuaChuDe {
   luu_y: NhanDinh[];
   /** Chính tinh/phụ tinh của cung chủ có điểm đúng 0 (vẫn phải được luận, không xếp sáng/hung). */
   trung_tinh: NhanDinh[];
+  /** Phụ tinh ±1 của cung chủ (đã sắp theo ưu tiên và cắt): không tính điểm, chỉ để luận đủ. */
+  sao_nho: NhanDinh[];
   cung: Record<string, string>;
 }
 
