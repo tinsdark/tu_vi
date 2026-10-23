@@ -353,3 +353,4 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
   .bang-12-cung li { grid-template-columns: 4.6rem 1fr 6.5rem; }
   .dong-dai-han li { grid-template-columns: 4.2rem 1fr; } .dong-dai-han .ddh-xep { grid-column: 1 / -1; }
 }
+.dong-dai-han .ddh-nhat { opacity: .75; }

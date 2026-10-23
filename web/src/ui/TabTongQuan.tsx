@@ -119,11 +119,16 @@ export function TabTongQuan({ bc, nc }: { bc: BaoCao; nc: KetQuaNangCao }) {
               <p className="mo">Dựa trên: {Object.entries(cd.cung).map(([c, x]) => `${c} (${x})`).join(" · ")}</p>
               <p className="mo">{cd.khung}</p>
               {cd.cau_dan && <p className="cau-dan">{cd.cau_dan}</p>}
-              {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} /></>)}
-              {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} /></>)}
-              {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} /></>)}
-              {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} /></>)}
-              {cd.sao_nho.length > 0 && (<><h4>Sao phụ đáng chú ý</h4><DanhSachNhanDinh ds={cd.sao_nho} /></>)}
+              {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} toiDa={3} /></>)}
+              {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} toiDa={3} /></>)}
+              {cd.luu_y.length + cd.trung_tinh.length + cd.sao_nho.length > 0 && (
+                <details className="sao-phu">
+                  <summary>Thêm chi tiết ({cd.luu_y.length + cd.trung_tinh.length + cd.sao_nho.length})</summary>
+                  {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} toiDa={3} /></>)}
+                  {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} toiDa={3} /></>)}
+                  {cd.sao_nho.length > 0 && (<><h4>Sao phụ đáng chú ý</h4><DanhSachNhanDinh ds={cd.sao_nho} toiDa={3} /></>)}
+                </details>
+              )}
             </div>
           </details>
         ))}

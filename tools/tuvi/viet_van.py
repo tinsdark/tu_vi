@@ -219,7 +219,19 @@ def dong_hoi_dap(kq):
             cd = kq["chu_de"].get(q["ten"])
             if not cd:
                 continue
-            dong = [_cau(_dien(vp["chu_de"], hoi=q["hoi"], nhan=cd["xep_loai"].lower(), d=cd["diem100"], ten=q["ten"]), f"CD.{q['ten']}")]     # chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
+            # một dòng chắt: mức + điểm, rồi tên sao/cách làm nên mặt mạnh và mặt cần lưu ý (không nhắc lại câu đã có ở mục chủ đề)
+            def ten(n):
+                m = re.match(r"\[(.+?)(?: — PHÁ CÁCH)?\]", n["nhan_dinh"])
+                return [f"«{m.group(1)}»"] if re.fullmatch(r"CC\d+", n["id"]) and m else [x for x in n.get("nhan", []) if x != "vô chính diệu"]
+
+            def tom_tat(ds, dau):
+                dung = sorted(ds, key=lambda n: dau * -n["diem"])[:2]
+                return list(dict.fromkeys(x for n in dung for x in ten(n)))[:3], [n["id"] for n in dung]
+            tm, im = tom_tat(cd["diem_manh"], 1)
+            ty, iy = tom_tat(cd["diem_yeu"], -1)
+            phan = [p for p in (f"mạnh nhờ {', '.join(tm)}" if tm else "", f"cần lưu ý {', '.join(ty)}" if ty else "") if p]
+            dong = [_cau(_dien(vp["chu_de"], hoi=q["hoi"], nhan=cd["xep_loai"].lower(), d=cd["diem100"], chi_tiet=f" — {'; '.join(phan)}" if phan else ""),
+                         f"CD.{q['ten']}", *(im + iy if phan else []))]
         elif q["loai"] == "so_cung":
             n = next((x for x in kq["so_cung"] if x["id"] == f"SC.{q['a']}.{q['b']}"), None)
             if not n:

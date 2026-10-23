@@ -198,6 +198,18 @@ describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
 });
 
 describe("cô đọng (doc11 §8c)", () => {
+  it("đoạn chủ đề (trừ Gia đình có ba tiểu mục) không quá 7 câu: chắt lọc ý chính, không trải mọi sao", () => {
+    const cauCua = (d: string) => d.split(/(?<=[\].!?])\s+/).filter(Boolean);
+    for (let i = 0; i < 100; i++) {
+      const kq = mau(i);
+      const dong = vietMau(kq).split("\n# Tổng kết")[0].split("\n").filter((d) => d.trim() && !d.startsWith("#"));
+      Object.keys(kq.chu_de).forEach((ten, k) => {
+        if (ten === "Gia đình") return;
+        expect(cauCua(dong[1 + k]).length, `lá ${i} ${ten}: ${dong[1 + k]}`).toBeLessThanOrEqual(7);
+      });
+    }
+  });
+
   it("mỗi cung tối đa 2 câu sao → người, và không còn hai câu hiển thị giống hệt nhau trong cùng một cung", () => {
     for (let i = 0; i < 60; i++) {
       const kq = mau(i);
