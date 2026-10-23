@@ -4,7 +4,8 @@ import { NHAN_TIN_CAY, tinCay, type NhanDinh } from "../engine";
 export type NoiDungNganKeo =
   | { loai: "quy_tac"; id: string }
   | { loai: "sao"; ten: string; chi?: number }
-  | { loai: "cung"; ten: string };
+  | { loai: "cung"; ten: string }
+  | { loai: "nen"; id: import("../engine").NenId };
 
 export const NganKeoCtx = createContext<(n: NoiDungNganKeo) => void>(() => {});
 export const useNganKeo = () => useContext(NganKeoCtx);

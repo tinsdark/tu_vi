@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { CHI, CUNG_CHUC, dungOCung, duongSangAm, HANH_VN, VI_TRI_LUOI, canChiCung, canLuong, chiNamTieuHan, chuMenh, chuThan, hanhSao, laiNhan, quanHeCucMenh, tenNapAm, CAN, type KetQuaTinh, type OCung } from "../engine";
+import { useMemo, type ReactNode } from "react";
+import { CHI, CUNG_CHUC, dungOCung, duongSangAm, HANH_VN, VI_TRI_LUOI, canChiCung, canLuong, chiNamTieuHan, chuMenh, chuThan, hanhSao, laiNhan, quanHeCucMenh, tenNapAm, CAN, type KetQuaTinh, type NenId, type OCung } from "../engine";
 import { useNganKeo } from "./chung";
 
 function Sao({ ten, muc, chi, lop }: { ten: string; muc?: string | null; chi: number; lop: string }) {
@@ -58,6 +58,12 @@ function Cung({ c, daiHan, thaiTue, luuSao, canChi, tieuHan, thangLuu }: { c: OC
   );
 }
 
+/** Một mục ở ô giữa: bấm để xem lời luận trong ngăn kéo. */
+function Nen({ id, children, className }: { id: NenId; children: ReactNode; className?: string }) {
+  const mo = useNganKeo();
+  return <button type="button" className={`gua-nut${className ? ` ${className}` : ""}`} onClick={() => mo({ loai: "nen", id })} title="Bấm để xem luận">{children}</button>;
+}
+
 export function BanCo({ kq, hienSaoLuu, mauHanh }: { kq: KetQuaTinh; hienSaoLuu: boolean; mauHanh: boolean }) {
   const { la_so: ls, bao_cao: bc, lich } = kq;
   const o = useMemo(() => dungOCung(ls), [ls]);
@@ -94,14 +100,14 @@ export function BanCo({ kq, hienSaoLuu, mauHanh }: { kq: KetQuaTinh; hienSaoLuu:
         <h2>{i.can_nam} {i.chi_nam}</h2>
         <p className="gua-lich">Âm lịch: ngày <b>{lich.am_lich.ngay}</b> tháng <b>{lich.am_lich.thang}{lich.am_lich.nhuan ? " nhuận" : ""}</b> năm <b>{lich.am_lich.nam}</b></p>
         <p>Năm <b>{lich.can_chi.nam}</b> · tháng <b>{lich.can_chi.thang}</b> · ngày <b>{lich.can_chi.ngay}</b> · giờ <b>{lich.can_chi.gio}</b></p>
-        <p>Âm dương: <b>{ls.am_duong_nam_nu}</b></p>
-        <p>Bản mệnh: <b>{tenNapAm(canNam, CHI.indexOf(i.chi_nam))}</b></p>
-        <p>Cục mệnh: <b>{HANH_VN[ls.cuc.hanh]} {["", "", "nhị", "tam", "tứ", "ngũ", "lục"][ls.cuc.so]} cục</b> <span className="mo">({quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)})</span></p>
-        <p>Chủ mệnh: <b>{chuMenh(ls)}</b> · Chủ thân: <b>{chuThan(ls)}</b></p>
-        <p>Cân lượng: <b>{canLuong(ls)}</b></p>
-        <p>Lai nhân: cung <b>{laiNhan(ls)}</b> · Thân cư: <b>{ls.cung_chuc[ls.than]}</b></p>
+        <p>Âm dương: <Nen id="am_duong"><b>{ls.am_duong_nam_nu}</b></Nen></p>
+        <p>Bản mệnh: <Nen id="ban_menh"><b>{tenNapAm(canNam, CHI.indexOf(i.chi_nam))}</b></Nen></p>
+        <p>Cục mệnh: <Nen id="cuc"><b>{HANH_VN[ls.cuc.hanh]} {["", "", "nhị", "tam", "tứ", "ngũ", "lục"][ls.cuc.so]} cục</b></Nen> <span className="mo">({quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)})</span></p>
+        <p>Chủ mệnh: <Nen id="chu_menh"><b>{chuMenh(ls)}</b></Nen> · Chủ thân: <Nen id="chu_than"><b>{chuThan(ls)}</b></Nen></p>
+        <p>Cân lượng: <Nen id="can_luong"><b>{canLuong(ls)}</b></Nen></p>
+        <p>Lai nhân: cung <Nen id="lai_nhan"><b>{laiNhan(ls)}</b></Nen> · Thân cư: <Nen id="than_cu"><b>{ls.cung_chuc[ls.than]}</b></Nen></p>
         <p className="mo">Xem thêm: nguyệt vận tháng {hn.thang} · tiểu vận năm {han?.nam_xem ?? ""}</p>
-        <p className="gua-hoa">{Object.entries(ls.tu_hoa).map(([h, s]) => <span key={h} className={h === "Hóa Kỵ" ? "tx-ky" : "tx-tot"}>{h.replace("Hóa ", "")}: {s}</span>)}</p>
+        <p className="gua-hoa">{Object.entries(ls.tu_hoa).map(([h, s]) => <Nen key={h} id="tu_hoa" className={h === "Hóa Kỵ" ? "tx-ky" : "tx-tot"}>{h.replace("Hóa ", "")}: {s}</Nen>)}</p>
       </div>
     </div>
   );

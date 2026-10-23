@@ -214,7 +214,7 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
 }
 
 // ---------- tổng quan
-const NEN_CUC: Record<string, string> = {
+export const NEN_CUC: Record<string, string> = {
   cuc_sinh_menh: "Cục sinh cho Mệnh, nghĩa là hoàn cảnh nâng đỡ và bạn dễ phát huy được năng lực.",
   tuong_hoa: "Mệnh và Cục cùng hành, nghĩa là nền lá số thuận hòa và ổn định.",
   menh_sinh_cuc: "Mệnh sinh cho Cục, nghĩa là bạn hao sức cho hoàn cảnh nên dễ làm nhiều hưởng ít.",

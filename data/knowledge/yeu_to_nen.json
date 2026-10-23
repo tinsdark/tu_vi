@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "mo_ta": "Lời luận cho các yếu tố nền hiện ở ô giữa lá số: nạp âm bản mệnh, cục, chủ mệnh, chủ thân, cân lượng, lai nhân, Tứ Hóa theo cung. Chỉ web TypeScript đọc (hiển thị), không tham gia chấm điểm.",
+    "nguon": "AI tổng hợp từ kiến thức phổ thông, chưa đối chiếu sách. Cân lượng là phép luận dân gian (cân xương): bảng dưới chỉ chia theo mức nặng nhẹ, KHÔNG phải lời đoán gốc của từng mức.",
+    "trang_thai": "draft_ai_tong_hop"
+  },
+  "nap_am": {
+    "Hải Trung Kim": "Vàng dưới đáy biển: bạn có tài năng tiềm ẩn, kín đáo, cần thời gian và dịp thuận lợi để được nhìn thấy giá trị.",
+    "Lô Trung Hỏa": "Lửa trong lò: bạn nhiệt huyết nhưng cần môi trường phù hợp để cháy đúng chỗ; chịu rèn luyện thì thành đạt.",
+    "Đại Lâm Mộc": "Cây trong rừng lớn: bạn phóng khoáng, có chí lớn và cần không gian rộng để phát triển.",
+    "Lộ Bàng Thổ": "Đất ven đường: bạn thực tế, gần gũi, hiền hậu, dễ làm quen và hay giúp đỡ người xung quanh.",
+    "Kiếm Phong Kim": "Vàng mũi kiếm: bạn sắc sảo, quyết liệt và có chí; chỉ cần để ý đừng quá cứng.",
+    "Sơn Đầu Hỏa": "Lửa trên đỉnh núi: bạn nổi bật, tự tin, có hoài bão và thích được nhìn thấy.",
+    "Giản Hạ Thủy": "Nước khe suối: bạn hiền hòa, kiên trì, đi từ nhỏ đến lớn một cách đều đặn.",
+    "Thành Đầu Thổ": "Đất đầu thành: bạn vững chãi, có trách nhiệm, đáng tin và hay đứng ra bảo vệ người khác.",
+    "Bạch Lạp Kim": "Vàng sáp trắng: bạn tinh tế, mềm dẻo, còn nhiều tiềm năng cần được rèn giũa để thành hình.",
+    "Dương Liễu Mộc": "Gỗ cây liễu: bạn mềm mại, linh hoạt, giàu tình cảm và dễ thích nghi; hơi chịu ảnh hưởng của môi trường quanh mình.",
+    "Tuyền Trung Thủy": "Nước trong suối: bạn trong sáng, nhẹ nhàng, nhìn xa và có tấm lòng thanh khiết.",
+    "Ốc Thượng Thổ": "Đất trên mái nhà: bạn coi trọng tổ ấm, thích che chở gia đình và cuộc sống ổn định.",
+    "Tích Lịch Hỏa": "Lửa sấm sét: bạn mạnh mẽ, bộc phát, làm việc theo từng đợt; nóng nhanh nhưng cũng nguôi nhanh.",
+    "Tùng Bách Mộc": "Cây tùng bách: bạn kiên cường, bền bỉ, chính trực và càng gặp khó càng vững.",
+    "Trường Lưu Thủy": "Nước chảy dài: bạn bền bỉ, rộng lượng, nhẫn nại và đi được đường xa.",
+    "Sa Trung Kim": "Vàng trong cát: bạn có giá trị thật nhưng phải qua sàng lọc; kiên nhẫn thì thành công.",
+    "Sơn Hạ Hỏa": "Lửa dưới chân núi: bạn ôn hòa, ấm áp và dễ hòa hợp với nhóm.",
+    "Bình Địa Mộc": "Cây trên đất bằng: bạn thích hợp môi trường ổn định, quan hệ rộng và sống hòa đồng.",
+    "Bích Thượng Thổ": "Đất trên vách tường: bạn trầm ổn, kín đáo, hay che chở và biết giữ gìn.",
+    "Kim Bạch Kim": "Vàng bạch kim: bạn có phẩm chất cao, tinh khiết và quý giá; chỉ cần để ý đừng quá kiêu.",
+    "Phúc Đăng Hỏa": "Lửa ngọn đèn: bạn tỏa sáng thầm lặng, soi đường cho người khác và cần được che gió.",
+    "Thiên Hà Thủy": "Nước sông trên trời: bạn rộng lớn, mơ mộng, có lý tưởng cao và thích nghĩ xa.",
+    "Đại Trạch Thổ": "Đất nền rộng: bạn rộng rãi, bao dung và có sức chịu đựng tốt.",
+    "Thoa Xuyến Kim": "Vàng trang sức: bạn tinh tế, có óc thẩm mỹ và thích sự đẹp đẽ; cần được trân trọng.",
+    "Tang Đố Mộc": "Cây dâu: bạn cần mẫn, thực tế và quen nuôi dưỡng, chăm lo người khác.",
+    "Đại Khê Thủy": "Nước suối lớn: bạn phóng khoáng, năng động và yêu tự do.",
+    "Sa Trung Thổ": "Đất trong cát: bạn linh hoạt, dễ thích nghi, nhưng đôi khi thiếu sự cố định.",
+    "Thiên Thượng Hỏa": "Lửa trên trời: bạn rực rỡ, cao quý, có hoài bão lớn.",
+    "Thạch Lựu Mộc": "Cây thạch lựu: bạn có sức hút, đầy đặn, vừa cứng cỏi vừa mềm mại.",
+    "Đại Hải Thủy": "Nước biển lớn: bạn bao la, sâu rộng, tầm nhìn lớn và cảm xúc sâu."
+  },
+  "cuc": {
+    "Thuy": "Thủy nhị cục: nghiêng về trí tuệ, linh hoạt, dễ thích nghi. Đại hạn đầu tiên đến sớm, từ 2 tuổi, nên nhịp đời thay đổi sớm.",
+    "Moc": "Mộc tam cục: nghiêng về sinh trưởng, phát triển dần, giàu tình cảm và hướng thượng. Đại hạn đầu tiên từ 3 tuổi.",
+    "Kim": "Kim tứ cục: nghiêng về kỷ luật, nguyên tắc, quyết đoán. Đại hạn đầu tiên từ 4 tuổi.",
+    "Tho": "Thổ ngũ cục: nghiêng về vững chãi, kiên nhẫn, bền bỉ, đôi khi hơi chậm. Đại hạn đầu tiên từ 5 tuổi.",
+    "Hoa": "Hỏa lục cục: nghiêng về nhiệt huyết, nhanh nhạy, hay bộc phát. Đại hạn đầu tiên đến muộn nhất, từ 6 tuổi."
+  },
+  "chu_menh": {
+    "Tham Lang": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Tham Lang: đa tài, giao tế giỏi, nhiều ham muốn và tham vọng; cần giữ mình trước cám dỗ.",
+    "Cự Môn": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Cự Môn: ăn nói sắc sảo, hay phân tích, hay soi xét; dễ vướng thị phi nếu nói quá thẳng.",
+    "Lộc Tồn": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Lộc Tồn: cẩn thận, biết giữ của, sống chừng mực; hơi bảo thủ.",
+    "Văn Khúc": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Văn Khúc: khéo léo, có năng khiếu nghệ thuật, ăn nói có duyên.",
+    "Liêm Trinh": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Liêm Trinh: có nguyên tắc, kỷ luật, có chí; hơi cứng và dễ nóng.",
+    "Vũ Khúc": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Vũ Khúc: quyết đoán, thực tế, giỏi chuyện tiền bạc; đôi khi cứng nhắc và hơi cô đơn.",
+    "Phá Quân": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Phá Quân: tiên phong, dám đổi mới, dám phá cách; đời hay nhiều thăng trầm."
+  },
+  "chu_than": {
+    "Linh Tinh": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Linh Tinh: âm thầm, cố chấp, quyết liệt khi cần; hãy giữ tinh thần thoải mái.",
+    "Thiên Tướng": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Thiên Tướng: trọng nghĩa, phúc hậu, thích giúp người; về sau càng được tin cậy.",
+    "Thiên Lương": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Thiên Lương: chính trực, hay che chở, có phúc; về sau thiên về giúp đỡ và dẫn dắt.",
+    "Thiên Đồng": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Thiên Đồng: hiền hòa, thích hưởng thụ, sống an nhàn; hậu vận nhẹ nhàng nếu biết giữ chí.",
+    "Văn Xương": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Văn Xương: thiên về học vấn, văn chương, chữ nghĩa; càng về sau càng có tiếng nhờ kiến thức.",
+    "Thiên Cơ": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Thiên Cơ: mưu trí, linh hoạt, hay suy nghĩ; hậu vận nhiều ý tưởng nhưng dễ lo.",
+    "Hỏa Tinh": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Hỏa Tinh: nóng nảy, bộc phát, làm việc nhanh; nên học cách giữ bình tĩnh."
+  },
+  "can_luong": [
+    { "den": 29, "text": "Dưới 3 lượng: cuộc sống nhiều vất vả, phải tự thân vận động; kết quả đến chậm nhưng bền nếu kiên trì." },
+    { "den": 39, "text": "Từ 3 đến dưới 4 lượng: tiền vận hơi vất vả, hậu vận khá hơn; cần chăm chỉ và tích lũy dần." },
+    { "den": 49, "text": "Từ 4 đến dưới 5 lượng: cuộc sống ở mức trung bình, no đủ nếu biết giữ gìn; có lúc thăng trầm." },
+    { "den": 59, "text": "Từ 5 đến dưới 6 lượng: nền khá vững, có cơ hội gây dựng và được người giúp nếu biết nắm bắt." },
+    { "den": 69, "text": "Từ 6 đến dưới 7 lượng: khá thuận lợi, có phúc, dễ gặp quý nhân, đời sống ổn định và đầy đủ." },
+    { "den": 999, "text": "Từ 7 lượng trở lên: rất thuận lợi, phúc dày và sự nghiệp vững; càng cần giữ đức để giữ phúc." }
+  ],
+  "lai_nhan": {
+    "Mệnh": "Lai nhân tại Mệnh: nhân duyên gốc đến từ chính bản thân bạn, bạn tự mình dựng nên con đường.",
+    "Phụ Mẫu": "Lai nhân tại Phụ Mẫu: gốc rễ đến từ cha mẹ và dòng dõi, bạn chịu ảnh hưởng lớn của nền nếp gia đình.",
+    "Phúc Đức": "Lai nhân tại Phúc Đức: gốc rễ đến từ phúc đức tổ tiên và họ hàng; đời sống tinh thần có nhiều ảnh hưởng.",
+    "Điền Trạch": "Lai nhân tại Điền Trạch: gốc rễ gắn với nhà đất, tài sản gia đình và nơi chốn bạn lớn lên.",
+    "Quan Lộc": "Lai nhân tại Quan Lộc: gốc rễ gắn với công danh, sự nghiệp; việc làm là trục chính của đời bạn.",
+    "Nô Bộc": "Lai nhân tại Nô Bộc: gốc rễ gắn với bạn bè và các quan hệ xã hội; bạn nhờ và cũng vì người khác nhiều.",
+    "Thiên Di": "Lai nhân tại Thiên Di: gốc rễ gắn với bên ngoài, đi xa và môi trường; nhân duyên đến từ nơi xa quê.",
+    "Tật Ách": "Lai nhân tại Tật Ách: gốc rễ gắn với sức khỏe và những trải nghiệm vất vả; bạn trưởng thành qua thử thách.",
+    "Tài Bạch": "Lai nhân tại Tài Bạch: gốc rễ gắn với tiền bạc và nghề kiếm sống; chuyện tài chính là bài học lớn.",
+    "Tử Tức": "Lai nhân tại Tử Tức: gốc rễ gắn với con cái và người nhỏ tuổi hơn; bạn có duyên chăm lo, dạy dỗ.",
+    "Phu Thê": "Lai nhân tại Phu Thê: gốc rễ gắn với hôn nhân và tình duyên; mối quan hệ gần gũi là trục của đời bạn.",
+    "Huynh Đệ": "Lai nhân tại Huynh Đệ: gốc rễ gắn với anh chị em và người đồng hành; bạn nhờ tình thân cùng thế hệ."
+  },
+  "tu_hoa": {
+    "Hóa Lộc": "Lộc là nơi thuận lợi: bạn dễ có tiền bạc, cơ hội và duyên ở lĩnh vực của cung {cung}.",
+    "Hóa Quyền": "Quyền là nơi bạn chủ động: bạn muốn nắm quyền và dám tranh đấu ở lĩnh vực của cung {cung}.",
+    "Hóa Khoa": "Khoa là nơi bạn có danh tiếng: bạn được giúp đỡ và hay gặp dữ hóa lành ở lĩnh vực của cung {cung}.",
+    "Hóa Kỵ": "Kỵ là nơi dễ vướng mắc: bạn dễ lo nghĩ, thiếu hụt hoặc gặp thị phi ở lĩnh vực của cung {cung}, đây cũng là chỗ bạn để tâm nhiều nhất."
+  },
+  "am_duong": {
+    "Dương Nam": "Dương Nam là thuận lý: đại hạn của bạn đi theo chiều thuận. Đây là đặc điểm kỹ thuật của lá số; một số trường phái cho là đời ít trắc trở hơn.",
+    "Âm Nữ": "Âm Nữ là thuận lý: đại hạn của bạn đi theo chiều thuận. Đây là đặc điểm kỹ thuật của lá số; một số trường phái cho là đời ít trắc trở hơn.",
+    "Âm Nam": "Âm Nam là nghịch lý: đại hạn của bạn đi theo chiều nghịch. Đây chỉ là đặc điểm kỹ thuật, không có nghĩa cuộc đời nghịch cảnh.",
+    "Dương Nữ": "Dương Nữ là nghịch lý: đại hạn của bạn đi theo chiều nghịch. Đây chỉ là đặc điểm kỹ thuật, không có nghĩa cuộc đời nghịch cảnh."
+  }
+}

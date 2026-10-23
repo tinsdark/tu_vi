@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { CHI, moTaDieuKien, NHAN_TIN_CAY, quyTac, thongTinSao, triThuc, HANH_VN, type BaoCao } from "../engine";
+import { CHI, luanNen, moTaDieuKien, NHAN_TIN_CAY, quyTac, thongTinSao, triThuc, HANH_VN, type BaoCao, type LaSo, type NenId } from "../engine";
 import { DanhSachNhanDinh, ThanhDiem, type NoiDungNganKeo } from "./chung";
 
 const MUC: Record<string, string> = { M: "Miếu", V: "Vượng", "Đ": "Đắc", B: "Bình", H: "Hãm" };
@@ -82,6 +82,19 @@ function NoiDungSao({ ten, chi, bc }: { ten: string; chi?: number; bc: BaoCao | 
   );
 }
 
+function NoiDungNen({ id, ls, bc }: { id: NenId; ls: LaSo; bc: BaoCao | null }) {
+  const l = luanNen(id, ls, bc);
+  return (
+    <>
+      <h2>{l.tieu_de}</h2>
+      <p className="mo">Lá số của bạn: <b>{l.du_kien}</b></p>
+      {l.doan.map((d, i) => <p key={i}>{d}</p>)}
+      {l.ghi_chu && <p className="mo">{l.ghi_chu}</p>}
+      <p className="mo"><span className="cham cham-xam cham-tinh" aria-hidden="true" /> <b>Chưa đối chiếu</b>: lời luận do AI tổng hợp từ kiến thức phổ thông, chưa đối chiếu sách.</p>
+    </>
+  );
+}
+
 function NoiDungCung({ ten, bc }: { ten: string; bc: BaoCao }) {
   const k = bc.cung[ten];
   return (
@@ -94,7 +107,7 @@ function NoiDungCung({ ten, bc }: { ten: string; bc: BaoCao }) {
   );
 }
 
-export function NganKeo({ noiDung, bc, dong }: { noiDung: NoiDungNganKeo | null; bc: BaoCao | null; dong: () => void }) {
+export function NganKeo({ noiDung, bc, laSo, dong }: { noiDung: NoiDungNganKeo | null; bc: BaoCao | null; laSo: LaSo | null; dong: () => void }) {
   const nutDong = useRef<HTMLButtonElement>(null);
   const truoc = useRef<Element | null>(null);
   useEffect(() => {
@@ -117,6 +130,7 @@ export function NganKeo({ noiDung, bc, dong }: { noiDung: NoiDungNganKeo | null;
         {noiDung.loai === "quy_tac" && <NoiDungQuyTac id={noiDung.id} />}
         {noiDung.loai === "sao" && <NoiDungSao ten={noiDung.ten} chi={noiDung.chi} bc={bc} />}
         {noiDung.loai === "cung" && bc && <NoiDungCung ten={noiDung.ten} bc={bc} />}
+        {noiDung.loai === "nen" && laSo && <NoiDungNen id={noiDung.id} ls={laSo} bc={bc} />}
         {noiDung.loai === "quy_tac" && <p className="mo">Độ tin cậy là nhãn của dữ liệu (đã đối chiếu mấy nguồn), không phải xác suất đúng.</p>}
       </aside>
     </>
