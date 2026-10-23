@@ -417,40 +417,40 @@
   "mau_theo_nhom": {
     "_ghi_chu": "Câu riêng theo NHÓM cung cho phụ tinh chưa có câu riêng ở phu_tinh_tai_cung_chuc.json — tránh dùng một câu generic cho cả 12 cung. Do tác giả (AI) soạn, chưa đối chiếu sách.",
     "Tang Môn": {
-      "menh_phuc": "Hay buồn lo, đời sống tinh thần nhiều mất mát; đề phòng tang sự trong họ.",
-      "tai_dien": "Hao tài vì hiếu hỉ/tang sự, chi phí đột xuất; nên có quỹ dự phòng.",
-      "quan_no": "Công việc/quan hệ cấp dưới nhiều lo toan, dễ gặp chuyện buồn phải xử lý.",
-      "phu_huynh": "Người thân có chuyện buồn; lưu ý đau ốm, tang sự của người thân.",
-      "di_tat": "Đề phòng đau yếu, buồn phiền, nhất là khi ra ngoài.",
-      "phu": "Tình cảm có chuyện buồn lo, xa cách.",
-      "tu": "Con cái có chuyện buồn lo, xa cách."
+      "menh_phuc": "Bạn hay buồn lo, đời sống tinh thần dễ có mất mát; nên đề phòng tang sự trong họ.",
+      "tai_dien": "Bạn dễ hao tài vì hiếu hỉ hoặc tang sự và chi phí đột xuất; nên có quỹ dự phòng.",
+      "quan_no": "Công việc và quan hệ với cấp dưới của bạn nhiều lo toan, dễ gặp chuyện buồn phải xử lý.",
+      "phu_huynh": "Người thân của bạn có chuyện buồn; nên lưu ý đau ốm hoặc tang sự trong gia đình.",
+      "di_tat": "Bạn nên đề phòng đau yếu và buồn phiền, nhất là khi ra ngoài.",
+      "phu": "Tình cảm của bạn dễ có chuyện buồn lo và xa cách.",
+      "tu": "Con cái của bạn dễ có chuyện buồn lo và xa cách."
     },
     "Bạch Hổ": {
-      "menh_phuc": "Cá tính quyết liệt; đề phòng thương tích, miệng tiếng.",
-      "tai_dien": "Tiền bạc/nhà đất dễ tranh chấp, hao vì kiện tụng, tai nạn.",
-      "quan_no": "Cạnh tranh gay gắt, va chạm, thị phi nơi làm việc và trong quan hệ.",
-      "phu_huynh": "Quan hệ với người thân dễ va chạm; đề phòng tang sự.",
-      "di_tat": "Đề phòng tai nạn, thương tích, mổ xẻ.",
-      "phu": "Hôn nhân có va chạm; đề phòng tai nạn, mổ xẻ.",
-      "tu": "Con cái hay va chạm, đau yếu; đề phòng tai nạn, mổ xẻ."
+      "menh_phuc": "Cá tính bạn quyết liệt; nên đề phòng thương tích và miệng tiếng.",
+      "tai_dien": "Tiền bạc và nhà đất của bạn dễ tranh chấp, và có thể hao vì kiện tụng hoặc tai nạn.",
+      "quan_no": "Bạn dễ gặp cạnh tranh gay gắt, va chạm và thị phi nơi làm việc cũng như trong các mối quan hệ.",
+      "phu_huynh": "Quan hệ của bạn với người thân dễ va chạm; nên đề phòng chuyện tang sự.",
+      "di_tat": "Bạn nên đề phòng tai nạn, thương tích và mổ xẻ.",
+      "phu": "Hôn nhân của bạn dễ có va chạm; nên đề phòng tai nạn và mổ xẻ.",
+      "tu": "Con cái của bạn hay va chạm và đau yếu; nên đề phòng tai nạn và mổ xẻ."
     },
     "Đại Hao": {
-      "menh_phuc": "Dễ hao tán, tiêu xài vượt kế hoạch.",
-      "tai_dien": "Hao tán lớn, tiền ra nhanh hơn vào.",
-      "quan_no": "Hao công sức, hao vì quan hệ/cấp dưới.",
-      "phu_huynh": "Tốn kém vì người thân.",
-      "di_tat": "Hao sức khi ra ngoài hoặc khi đau yếu.",
-      "phu": "Tốn kém cho tình cảm.",
-      "tu": "Tốn kém cho con cái."
+      "menh_phuc": "Bạn dễ hao tán và tiêu xài vượt kế hoạch.",
+      "tai_dien": "Bạn dễ hao tán lớn, tiền ra nhanh hơn tiền vào.",
+      "quan_no": "Bạn dễ hao công sức và tốn kém vì các mối quan hệ, cấp dưới.",
+      "phu_huynh": "Bạn dễ tốn kém vì người thân.",
+      "di_tat": "Bạn dễ hao sức khi ra ngoài hoặc khi đau yếu.",
+      "phu": "Bạn dễ tốn kém cho chuyện tình cảm.",
+      "tu": "Bạn dễ tốn kém cho con cái."
     },
     "Kiếp Sát": {
-      "menh_phuc": "Tính quyết đoán cứng; đề phòng tai nạn, xung đột.",
-      "tai_dien": "Dễ mất của vì lừa/cướp, tranh chấp.",
-      "quan_no": "Cạnh tranh gay gắt, dễ bị lấn át.",
-      "phu_huynh": "Người thân dễ xung đột.",
-      "di_tat": "Đề phòng tai nạn, phẫu thuật.",
-      "phu": "Tình cảm dễ va chạm, chia ly.",
-      "tu": "Con cái dễ va chạm, xa cách."
+      "menh_phuc": "Tính bạn quyết đoán và hơi cứng; nên đề phòng tai nạn và xung đột.",
+      "tai_dien": "Bạn dễ mất của vì bị lừa, bị cướp hoặc tranh chấp.",
+      "quan_no": "Bạn dễ gặp cạnh tranh gay gắt và bị lấn át.",
+      "phu_huynh": "Người thân của bạn dễ xung đột với nhau.",
+      "di_tat": "Bạn nên đề phòng tai nạn và phẫu thuật.",
+      "phu": "Tình cảm của bạn dễ va chạm và chia ly.",
+      "tu": "Con cái của bạn dễ va chạm và xa cách."
     }
   },
   "mien_cung": {
