@@ -292,3 +292,14 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .the-chu-de-than { margin-top: 10px; border-top: 1px solid var(--vien); padding-top: 8px; }
 .the-chu-de[open] { grid-column: 1 / -1; }
 @media (max-width: 760px) { .the-chu-de[open] { grid-column: auto; } }
+
+/* bản đọc thành văn: mỗi mục một khối thu gọn */
+.van-xuoi .van-che-do { margin: 0; }
+.muc-van { border-top: 1px solid var(--vien); }
+.muc-van > summary { cursor: pointer; list-style: none; padding: .55rem 0; }
+.muc-van > summary::-webkit-details-marker { display: none; }
+.muc-van > summary h4 { margin: 0; display: flex; justify-content: space-between; align-items: center; }
+.muc-van > summary h4::after { content: "▾"; color: var(--mo); }
+.muc-van[open] > summary h4::after { content: "▴"; }
+.muc-van > summary:hover h4 { text-decoration: underline; }
+.muc-van-than { padding-bottom: .4rem; }

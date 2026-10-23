@@ -34,30 +34,50 @@ function ChamMa({ ma, onMo }: { ma: string; onMo: () => void }) {
 
 /** Mặc định đọc liền mạch (không chấm giữa câu); mỗi đoạn có một hàng "Cơ sở" gom các mã đã dùng. Bật "chấm theo từng câu" để thấy mã ngay sau câu. */
 function HienVan({ van }: { van: string }) {
-  const dong = van.split("\n");
   const [theoCau, setTheoCau] = useState(false);
   const mo = useNganKeo();
+  // tách theo dòng "# Tiêu đề": mỗi mục là một khối thu gọn; dòng đứng trước tiêu đề đầu tiên không thuộc mục nào
+  const muc: { tieuDe: string | null; dong: string[] }[] = [];
+  for (const d of van.split("\n")) {
+    if (d.startsWith("# ")) muc.push({ tieuDe: d.slice(2), dong: [] });
+    else if (d.trim()) { if (!muc.length) muc.push({ tieuDe: null, dong: [] }); muc[muc.length - 1].dong.push(d); }
+  }
+  const [dangMo, setDangMo] = useState<Set<string>>(() => new Set(muc[0]?.tieuDe ? [muc[0].tieuDe] : []));
+  const dsTen = muc.flatMap((m) => (m.tieuDe ? [m.tieuDe] : []));
+  const moTat = dsTen.length > 0 && dsTen.every((t) => dangMo.has(t));
+  const doi = (t: string, m: boolean) => setDangMo((c) => { const n = new Set(c); if (m) n.add(t); else n.delete(t); return n; });
+
+  const veDong = (d: string, i: number) => {
+    if (theoCau) return <p key={i}><CauChu cau={d} /></p>;
+    const ma = [...new Set(tachMa(d).flatMap((m) => (m.ma ? [m.ma] : [])))];
+    const chu = tachMa(d).filter((m) => !m.ma).map((m) => m.text).join("").replace(/\s+([.;,])/g, "$1").replace(/\s{2,}/g, " ");
+    return (
+      <div key={i} className="doan-van">
+        <p>{chu}</p>
+        <details className="co-so mo">
+          <summary>Căn cứ của đoạn này ({ma.length} quy tắc)</summary>
+          <ul>{ma.map((m) => <li key={m}><ChamMa ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} /> {quyTac(m).tieu_de}</li>)}</ul>
+        </details>
+      </div>
+    );
+  };
+
   return (
     <div className="van-xuoi">
-      <label className="mo van-che-do">
-        <input type="checkbox" checked={theoCau} onChange={(e) => setTheoCau(e.currentTarget.checked)} /> Hiện chấm căn cứ sau từng câu
-      </label>
-      {dong.map((d, i) => {
-        if (d.startsWith("# ")) return <h4 key={i}>{d.slice(2)}</h4>;
-        if (!d.trim()) return null;
-        if (theoCau) return <p key={i}><CauChu cau={d} /></p>;
-        const ma = [...new Set(tachMa(d).flatMap((m) => (m.ma ? [m.ma] : [])))];
-        const chu = tachMa(d).filter((m) => !m.ma).map((m) => m.text).join("").replace(/\s+([.;,])/g, "$1").replace(/\s{2,}/g, " ");
-        return (
-          <div key={i} className="doan-van">
-            <p>{chu}</p>
-            <details className="co-so mo">
-              <summary>Căn cứ của đoạn này ({ma.length} quy tắc)</summary>
-              <ul>{ma.map((m) => <li key={m}><ChamMa ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} /> {quyTac(m).tieu_de}</li>)}</ul>
-            </details>
-          </div>
-        );
-      })}
+      <div className="hang-nut hang-nut-trai">
+        <button type="button" className="nut" onClick={() => setDangMo(moTat ? new Set() : new Set(dsTen))}>{moTat ? "Thu gọn tất cả" : "Mở tất cả"}</button>
+        <label className="mo van-che-do">
+          <input type="checkbox" checked={theoCau} onChange={(e) => setTheoCau(e.currentTarget.checked)} /> Hiện chấm căn cứ sau từng câu
+        </label>
+      </div>
+      {muc.map((m, k) => m.tieuDe === null
+        ? <div key={k}>{m.dong.map(veDong)}</div>
+        : (
+          <details key={k} className="muc-van" open={dangMo.has(m.tieuDe)} onToggle={(e) => doi(m.tieuDe!, e.currentTarget.open)}>
+            <summary><h4>{m.tieuDe}</h4></summary>
+            <div className="muc-van-than">{m.dong.map(veDong)}</div>
+          </details>
+        ))}
     </div>
   );
 }
