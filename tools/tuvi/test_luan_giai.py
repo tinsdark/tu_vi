@@ -205,9 +205,10 @@ def test_boi_canh_hoa_tang_mon_o_tai_la_hao_tai():
         nam, ls = la_so_ngau_nhien(rnd)
         for ten, k in bao_cao(LuanGiai(ls, tt))["cung"].items():
             for n in k["nhan_dinh"]:
-                if n["id"] == "PT.Tang Môn" and ten == "Tài Bạch":
+                if n["id"].startswith("PT.Tang Môn") and ten == "Tài Bạch":
                     thay += 1
-                    assert "hao tài" in n["nhan_dinh"].lower() and "buồn" not in n["nhan_dinh"].lower()
+                    txt = n["nhan_dinh"].lower()           # Tang Môn ở Tài Bạch nói về hao tiền, không nói chuyện buồn chung chung
+                    assert "hao" in txt and "tiền" in txt and "buồn" not in txt
                 if n["id"] == "PT.Hóa Kỵ.Phụ Mẫu":
                     assert "tình cảm" not in n["nhan_dinh"].lower()
                 if n["id"] == "PT.Hóa Lộc.Tử Tức":

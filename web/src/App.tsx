@@ -160,7 +160,7 @@ export function App() {
         <p><b>Lưu ý.</b> Tử vi là hệ thống luận đoán truyền thống, kết quả chỉ để tham khảo và giải trí, không thay cho tư vấn y tế, pháp lý, tài chính. Phần an sao đã đối chiếu với hai engine độc lập (lasotuvi, iztro); phần luận giải còn nhiều nội dung do AI tổng hợp chưa đối chiếu sách — xem chấm màu từng câu và <a href="https://github.com/tinsdark/tu_vi/blob/claude/tender-hawking-log6bb/docs/07-engine-va-luan-giai.md" target="_blank" rel="noreferrer noopener">mô tả hạn chế</a>.</p>
       </footer>
 
-      <NganKeo noiDung={nganKeo} bc={kq?.bao_cao ?? null} dong={dong} />
+      <NganKeo noiDung={nganKeo} bc={kq?.bao_cao ?? null} laSo={kq?.la_so ?? null} dong={dong} />
     </NganKeoCtx.Provider>
   );
 }

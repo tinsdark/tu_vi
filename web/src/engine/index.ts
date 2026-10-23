@@ -11,6 +11,7 @@ export * from "./kb";
 export * from "./lichAm";
 export * from "./luanGiai";
 export * from "./nangCao";
+export * from "./luanNen";
 export * from "./nhap";
 export * from "./types";
 export * from "./vietVan";
