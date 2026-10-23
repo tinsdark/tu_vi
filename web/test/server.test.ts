@@ -4,6 +4,7 @@ import type { AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+import { mucChoPhep } from "../src/engine";
 import { taoUngDung, type TuyChon } from "../server/app";
 
 const NHAP = { nam: 1990, thang: 6, ngay: 8, gio: 8, phut: 30, gioi_tinh: "nam", mien: "nam", nam_xem: 2026 };
@@ -58,6 +59,23 @@ describe("API viết văn", () => {
     expect(j2.cache).toBe(true);
     expect(goi).toBe(1);
     expect(JSON.stringify(prompt)).not.toContain("Nguyễn Văn A");
+  });
+
+  it("hậu kiểm theo mục: LLM kéo sao mục khác sang bị bỏ; prompt đã rút gọn và có quy tắc theo mục", async () => {
+    let prompt: any;
+    const { post } = await khoiDong({
+      vietLlm: async (bc) => {
+        prompt = bc;
+        const cho = mucChoPhep(bc as any);
+        const sao = [...cho["Tính cách"]].find((id) => !cho["Tài chính"].has(id))!; // mã chỉ thuộc Tính cách
+        return `# Tài chính\nCâu lấn mục [${sao}]. Câu đúng mục [CD.Tài chính].\n# Tính cách\nCâu đúng mục [${sao}].`;
+      },
+    });
+    const j = await (await post(NHAP)).json();
+    expect(j.van).toContain("Câu đúng mục [CD.Tài chính].");
+    expect(j.van).not.toContain("Câu lấn mục");
+    expect(j.bo).toBe(1);
+    expect(JSON.stringify(prompt)).toContain("chu_de");
   });
 
   it.each([

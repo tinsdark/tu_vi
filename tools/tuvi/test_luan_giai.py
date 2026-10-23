@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import CUNG_CHUC, an_la_so, mv  # noqa: E402
 from tuvi.lich_am import tu_duong_lich  # noqa: E402
 from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao  # noqa: E402
-from tuvi.viet_van import viet, viet_mau, ve  # noqa: E402
+from tuvi.viet_van import hau_kiem_theo_muc, rut_gon_cho_llm, viet, viet_mau, ve  # noqa: E402
 
 BAC = {"Rất thấp", "Thấp", "Trung bình", "Khá", "Tốt", "Rất tốt"}
 
@@ -299,6 +299,24 @@ def test_vo_chinh_dieu_khong_vuot_tran():
                 thay += 1
                 assert k["diem100"] <= tran, k["cung"]
     assert thay > 100
+
+
+def test_hau_kiem_theo_muc():
+    # văn mẫu không bao giờ bị bỏ câu; LLM kéo sao mục khác sang mục này thì bị bỏ; payload gửi LLM đã rút gọn mà vẫn đủ mã
+    tt, rnd = TriThuc(), random.Random(41)
+    for _ in range(80):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt), nam, nam + rnd.randint(1, 60))
+        van = viet_mau(kq)
+        assert hau_kiem_theo_muc(van, kq) == (van, 0)
+        ten = list(kq["chu_de"])
+        ma = next((n["id"] for n in kq["chu_de"][ten[0]]["diem_manh"] + kq["chu_de"][ten[0]]["diem_yeu"]), None)
+        if ma and not any(ma == n["id"] for cd in (kq["chu_de"][ten[2]],) for n in cd["diem_manh"] + cd["diem_yeu"] + cd["luu_y"] + cd["trung_tinh"]):
+            fake = f"# {ten[2]}\nCâu lấn mục [{ma}]. Câu đúng [CD.{ten[2]}]."
+            assert hau_kiem_theo_muc(fake, kq) == (f"# {ten[2]}\nCâu đúng [CD.{ten[2]}].", 1)
+        gon = rut_gon_cho_llm(kq)
+        assert all("nhan_dinh" not in k and "chi_tiet_diem" not in k for k in gon["cung"].values())
+        assert gon["chu_de"] == kq["chu_de"] and gon["nen"] == kq["nen"]
 
 
 def test_tu_duong_lich_toi_luan():

@@ -79,7 +79,11 @@ Thiết kế an toàn:
 
 Biến môi trường: `ANTHROPIC_API_KEY`, `PORT`, `TUVI_MODEL`, `TUVI_GIOI_HAN_MOI_GIO`, `TUVI_TIN_CAY_PROXY=1` (sau reverse proxy), `TUVI_CORS_ORIGIN` (khi web ở host khác), và phía build web `VITE_API_BASE` (địa chỉ API khi web và API khác origin).
 
-**Chưa kiểm:** nhánh gọi Claude thật (môi trường dev không có API key). Đã kiểm chữ ký SDK bằng `tsc` và toàn bộ luồng quanh nó bằng LLM giả trong `test/server.test.ts`.
+**Hậu kiểm theo mục:** mỗi câu LLM viết phải có mã hợp lệ VÀ mã đó phải thuộc đúng mục đang viết (mục Tài chính chỉ được trích mã của Tài chính; Tổng quan: nền/Thân/xếp loại; Hạn năm: mã hạn). LLM kéo sao mục khác sang thì câu bị bỏ — chặn đúng lỗi gán sai cung. Payload gửi LLM đã rút gọn (`rutGonChoLlm`), prompt (`HUONG_DAN`) mô tả cấu trúc JSON và quy tắc theo mục. Parity Python = TS cho phần này nằm trong `parity.test.ts`.
+
+**Kiểm bằng Claude thật:** `ANTHROPIC_API_KEY=... npm run kiem:llm [số lá số]` gọi Claude trên vài lá số mẫu, in tỉ lệ câu bị bỏ, mục thiếu, câu chứa lời cấm (percentile…), thoát mã 1 nếu vượt ngưỡng.
+
+**Chưa kiểm:** nhánh gọi Claude thật (môi trường dev không có API key; chất lượng văn AI chưa được đánh giá). Đã kiểm chữ ký SDK bằng `tsc` và toàn bộ luồng quanh nó bằng LLM giả trong `test/server.test.ts`; chạy `npm run kiem:llm` khi có key.
 
 ## 6. Triển khai
 

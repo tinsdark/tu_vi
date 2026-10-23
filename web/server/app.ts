@@ -5,7 +5,7 @@ import { createReadStream } from "node:fs";
 import { stat } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { extname, join, normalize, resolve } from "node:path";
-import { chuanHoaNhap, hauKiem, tapId, tinhLaSo, vietVanMau, type BaoCao } from "../src/engine";
+import { chuanHoaNhap, hauKiemTheoMuc, tinhLaSo, vietVanMau, type BaoCao } from "../src/engine";
 
 export type VietLlm = (bc: BaoCao) => Promise<string>;
 
@@ -105,7 +105,7 @@ export function taoUngDung(opt: TuyChon = {}) {
     if (dangChay >= dongThoiToiDa) return guiJson(res, 503, { ...mau(), ly_do: "Máy chủ đang bận; hiển thị bản ghép theo mẫu." }, { "Retry-After": "30" });
     dangChay += 1;
     try {
-      const [van, bo] = hauKiem(await opt.vietLlm(bc), tapId(bc));
+      const [van, bo] = hauKiemTheoMuc(await opt.vietLlm(bc), bc);
       if (!van.trim()) throw new Error("Văn rỗng sau hậu kiểm");
       boNho.set(khoa, { van, bo });
       if (boNho.size > 500) boNho.delete(boNho.keys().next().value as string);
