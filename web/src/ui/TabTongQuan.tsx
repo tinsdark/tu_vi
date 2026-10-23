@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { hauKiemDayDu, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type KetQuaNangCao, type NhapLieu } from "../engine";
 import { API_BASE } from "../lib/api";
+import { HIEN_AI } from "../lib/tinhNang";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
 
@@ -115,13 +116,14 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
   return (
     <Khoi tieuDe="Bản đọc thành văn" ghiChu="Mỗi đoạn có hàng “Cơ sở” gồm các chấm màu — bấm để xem quy tắc đứng sau và nguồn của nó. Câu nào không truy được về quy tắc đều bị loại.">
       <div className="hang-nut hang-nut-trai">
-        {coAi !== false && (
+        {HIEN_AI && coAi !== false && (
           <button type="button" className="nut" onClick={viet} disabled={ai.ky === "dang_tai"}>
             {ai.ky === "dang_tai" ? "Đang viết…" : ai.ky === "xong" && ai.che_do === "llm" ? "Viết lại bằng AI" : "Viết lại bằng AI cho mượt"}
           </button>
         )}
         <span className="mo">{hien.che_do === "llm" ? `Do AI viết, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Văn do web tự ghép từ các nhận định ở trên, không dùng AI."}</span>
       </div>
+      {HIEN_AI && (
       <details className="phu-luc dan-tay">
         <summary>Dùng AI khác (ChatGPT, Gemini, Claude… — không cần API)</summary>
         <ol className="mo">
@@ -137,6 +139,7 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
           {loiDan && <span className="canh-bao" role="status">{loiDan}</span>}
         </div>
       </details>
+      )}
       {hien.ly_do && <p className="canh-bao" role="status">{hien.ly_do}</p>}
       <HienVan van={hien.van} />
     </Khoi>

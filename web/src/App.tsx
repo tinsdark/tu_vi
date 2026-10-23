@@ -1,3 +1,4 @@
+import { HIEN_AI } from "./lib/tinhNang";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { chuanHoaNhap, tinhLaSo, veLaSo, type KetQuaTinh, type NhapLieu } from "./engine";
 import { docGiaoDien, docLuu, ghiGiaoDien, giaiMaNhap, luuLaSo, maHoaNhap, xoaLaSo, type GiaoDien, type LaSoDaLuu } from "./lib/luuTru";
@@ -89,7 +90,7 @@ export function App() {
           <section className="gioi-thieu">
             <h1>Lập lá số Tử Vi</h1>
             <p>Nhập ngày giờ sinh dương lịch; web tự đổi sang âm lịch, an sao và luận giải. Mỗi nhận định đều dẫn về quy tắc đứng sau nó, kèm nhãn độ tin cậy của dữ liệu.</p>
-            <p className="mo">Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy trừ khi bạn bấm “Viết lại bằng AI” (khi đó chỉ gửi ngày giờ sinh, không gửi tên).</p>
+            <p className="mo">{HIEN_AI ? "Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy trừ khi bạn bấm “Viết lại bằng AI” (khi đó chỉ gửi ngày giờ sinh, không gửi tên)." : "Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy bạn."}</p>
           </section>
         )}
 
