@@ -544,6 +544,48 @@ def test_cach_cuc_nhieu_cung():
     ids = lambda cung: {n["id"] for n in lg.cham_cung(cung)["nhan_dinh"]}
     assert "CC64" in ids("Huynh Đệ") and "CC64" in ids("Nô Bộc")
     assert "CC65" in ids("Điền Trạch") and "CC65" in ids("Tử Tức")
+    # pham_vi "*": cách chạy ở mọi cung, câu điền đúng tên cung và cung xung
+    nd = next(n for n in lg.cham_cung("Huynh Đệ")["nhan_dinh"] if n["id"] == "CC64")
+    assert "{" not in nd["nhan_dinh"] and "CC64" == nd["id"]
+
+
+def test_luan_lien_cung_chay_cho_moi_cung():
+    """doc11 lô B: bảng Tuần/Triệt theo cung, sao → người, so cung chạy cho mọi cung/sao có trong bảng, không đổi điểm."""
+    tt = TriThuc()
+    lc = tt.lien_cung
+    # (1) mọi cung có câu Tuần và Triệt riêng
+    assert set(lc["tuan_triet_theo_cung"]) == set(CUNG_CHUC)
+    assert all(set(v) == {"Tuần", "Triệt"} for v in lc["tuan_triet_theo_cung"].values())
+    rnd = random.Random(5)
+    thay = {"tt": set(), "vai": set(), "hoa": set(), "sc": set()}
+    for _ in range(300):
+        _, ls = la_so_ngau_nhien(rnd)
+        lg = LuanGiai(ls, tt)
+        kq = bao_cao(lg)
+        for ten, k in kq["cung"].items():
+            for n in k["nhan_dinh"]:
+                if n["id"] == "TT" and len(k["tuan_triet"]) == 1:
+                    assert n["nhan_dinh"] == lc["tuan_triet_theo_cung"][ten][k["tuan_triet"][0]]
+                    thay["tt"].add(ten)
+                if n["id"].startswith("LC.vai."):
+                    assert n["diem"] == 0 and n["cung_nguon"] == ten and "{" not in n["nhan_dinh"]
+                    thay["vai"].add(n["id"])
+                if n["id"].startswith("LC.tt_hoa."):
+                    assert "{" not in n["nhan_dinh"]
+                    thay["hoa"].add(n["id"])
+        for n in kq["so_cung"]:
+            assert n["id"].startswith("SC.") and n["diem"] == 0 and "{" not in n["nhan_dinh"]
+            thay["sc"].add(n["id"])
+    assert len(thay["tt"]) >= 10 and len(thay["vai"]) >= 2 and len(thay["hoa"]) >= 2 and len(thay["sc"]) >= 4, thay
+
+
+def test_dsl_xuyen_cung():
+    tt = TriThuc()
+    lg = LuanGiai(an_la_so(1, 1, 1, 5, 4, "nam"), tt)
+    chi_ql = lg.chi_cua["Quan Lộc"]
+    sao = next(s for s in lg.cung[chi_ql] if s in tt.phu)
+    assert lg.khop({"cung_chuc": "Quan Lộc", "dk": {"co": sao}}, lg.chi_cua["Mệnh"])
+    assert not lg.khop({"cung_chuc": "Quan Lộc", "dk": {"co": "không có sao này"}}, lg.chi_cua["Mệnh"])
 
 
 if __name__ == "__main__":

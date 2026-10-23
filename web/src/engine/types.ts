@@ -116,5 +116,7 @@ export interface BaoCao {
   than: KetQuaThan;
   cung: Record<string, KetQuaCung>;
   chu_de: Record<string, KetQuaChuDe>;
+  /** So cung với cung (doc11 L4): cặp cung chênh điểm từ ngưỡng. */
+  so_cung: NhanDinh[];
   han?: KetQuaHan;
 }

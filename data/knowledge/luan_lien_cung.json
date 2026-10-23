@@ -1,0 +1,153 @@
+{
+  "_meta": {
+    "trang_thai": "draft_ai_tong_hop",
+    "ghi_chu": "doc11 lô B: dữ liệu do AI soạn, chưa review; mọi câu hiện nhãn xám. Mỗi bảng chạy cho MỌI cung/sao có trong bảng; thêm dòng mới là engine tự áp dụng, không cần sửa code."
+  },
+  "tuan_triet_theo_cung": {
+    "Mệnh": {
+      "Tuần": "Tuần án Mệnh: đường đời nhiều đoạn chậm, tự mình tìm hướng đi; rõ hơn từ ~30 tuổi.",
+      "Triệt": "Triệt án Mệnh: nửa đầu đời (trước ~30 tuổi) dễ gặp bước cản lớn, sau đó thế mở dần."
+    },
+    "Phụ Mẫu": {
+      "Tuần": "Tuần án Phụ Mẫu: dễ cách trở hoặc ít gần gũi cha mẹ, việc nhờ vả giấy tờ chậm.",
+      "Triệt": "Triệt án Phụ Mẫu: dễ xa cha mẹ sớm hoặc thiếu sự nâng đỡ lúc nhỏ."
+    },
+    "Phúc Đức": {
+      "Tuần": "Tuần án Phúc Đức: phúc phần đến chậm, việc thờ tự, họ hàng dễ gián đoạn.",
+      "Triệt": "Triệt án Phúc Đức: phúc phần bị cắt khúc, tâm khó yên trong nửa đầu đời."
+    },
+    "Điền Trạch": {
+      "Tuần": "Tuần án Điền Trạch: nhà đất đến chậm, khó giữ được di sản.",
+      "Triệt": "Triệt án Điền Trạch: nhà đất dễ đứt đoạn, nhất là lúc còn trẻ; nên tự tạo lập hơn là chờ thừa hưởng."
+    },
+    "Quan Lộc": {
+      "Tuần": "Tuần án Quan Lộc: sự nghiệp tiến chậm, hay phải đổi hướng.",
+      "Triệt": "Triệt án Quan Lộc: việc đang thuận dễ bị đứt giữa chừng, nhất là nửa đầu đời."
+    },
+    "Nô Bộc": {
+      "Tuần": "Tuần án Nô Bộc: bạn bè, cấp dưới ít bền, hợp tác lâu dài khó.",
+      "Triệt": "Triệt án Nô Bộc: người giúp dễ rời đi lúc cần, nên tự lực."
+    },
+    "Thiên Di": {
+      "Tuần": "Tuần án Thiên Di: ra ngoài chậm gặp thuận, quan hệ xã giao ít sâu.",
+      "Triệt": "Triệt án Thiên Di: đi xa hoặc ra ngoài dễ vấp cản trở lúc đầu."
+    },
+    "Tật Ách": {
+      "Tuần": "Tuần án Tật Ách: bệnh nhẹ dễ kéo dài, cần theo dõi đều đặn.",
+      "Triệt": "Triệt án Tật Ách: sức khỏe có lúc chùng bất ngờ, nên khám sớm khi có dấu hiệu."
+    },
+    "Tài Bạch": {
+      "Tuần": "Tuần án Tài Bạch: tiền đến chậm, khoản thu dễ bị trì hoãn.",
+      "Triệt": "Triệt án Tài Bạch: nguồn tiền dễ đứt giữa chừng, nửa đầu đời khó tích lũy."
+    },
+    "Tử Tức": {
+      "Tuần": "Tuần án Tử Tức: chuyện con cái đến muộn hoặc ít gần gũi.",
+      "Triệt": "Triệt án Tử Tức: con cái dễ muộn hoặc có khoảng cách, cần kiên nhẫn."
+    },
+    "Phu Thê": {
+      "Tuần": "Tuần án Phu Thê: hôn nhân đến muộn hoặc chậm ổn định.",
+      "Triệt": "Triệt án Phu Thê: tình cảm dễ đứt đoạn lúc đầu, nên cân nhắc kết hôn muộn."
+    },
+    "Huynh Đệ": {
+      "Tuần": "Tuần án Huynh Đệ: anh chị em ít gắn bó, giúp đỡ nhau chậm.",
+      "Triệt": "Triệt án Huynh Đệ: anh chị em dễ xa cách hoặc ít nương tựa nhau."
+    }
+  },
+  "tuan_triet_hoa": {
+    "Hóa Lộc": "Hóa Lộc gặp {tt} tại {cung}: lộc có nhưng đến chậm hoặc bị cắt khúc.",
+    "Hóa Quyền": "Hóa Quyền gặp {tt} tại {cung}: quyền có nhưng khó phát huy trọn vẹn.",
+    "Hóa Khoa": "Hóa Khoa gặp {tt} tại {cung}: danh tiếng, sự giúp đỡ đến chậm hoặc ít ai biết.",
+    "Hóa Kỵ": "Hóa Kỵ gặp {tt} tại {cung}: sức cản của Kỵ bớt đi, nhưng việc ở cung này vẫn dễ lắt léo."
+  },
+  "vai_nguoi": {
+    "ghi_chu": "Sao → người trong đời. Sao hãm hoặc mang Hóa Kỵ thì nói thêm ở cung của vai người đó (chỉ khi cung ấy khác cung chứa sao). Thêm sao/vai mới chỉ cần thêm dòng.",
+    "sao": {
+      "Thái Dương": [
+        [
+          "cha",
+          "Phụ Mẫu"
+        ],
+        [
+          "sếp hoặc cấp trên nam",
+          "Quan Lộc"
+        ],
+        [
+          "con trai",
+          "Tử Tức"
+        ]
+      ],
+      "Thái Âm": [
+        [
+          "mẹ",
+          "Phụ Mẫu"
+        ],
+        [
+          "người vợ hoặc người nữ gần gũi",
+          "Phu Thê"
+        ],
+        [
+          "con gái",
+          "Tử Tức"
+        ]
+      ]
+    },
+    "tinh_trang": {
+      "ky": "{sao} mang Hóa Kỵ ở {cung_sao} ({chi}) → quan hệ với {vai} dễ có hiểu lầm, va chạm hoặc xa cách.",
+      "ham": "{sao} hãm ở {cung_sao} ({chi}) → {vai} khó nâng đỡ được nhiều, bạn dựa vào chính mình hơn."
+    }
+  },
+  "so_cung": {
+    "nguong": 25,
+    "ghi_chu": "Hai cung chênh nhau từ ngưỡng (cau_hinh so_cung.nguong, điểm /100) thì nói cung nào trội. Không đổi điểm.",
+    "cap": [
+      {
+        "a": "Nô Bộc",
+        "b": "Quan Lộc",
+        "a_hon": "Nô Bộc mạnh hơn Quan Lộc rõ rệt → làm nhờ hợp tác, nhờ người giúp (tá lực nhi thành) thuận hơn tự đứng một mình.",
+        "b_hon": "Quan Lộc mạnh hơn Nô Bộc rõ rệt → tự đi, tự làm chủ việc của mình thuận hơn dựa vào người khác."
+      },
+      {
+        "a": "Nô Bộc",
+        "b": "Huynh Đệ",
+        "a_hon": "Nô Bộc mạnh hơn Huynh Đệ → hợp tác với bạn bè thuận hơn với anh chị em ruột.",
+        "b_hon": "Huynh Đệ mạnh hơn Nô Bộc → anh chị em đáng tin hơn bạn bè."
+      },
+      {
+        "a": "Quan Lộc",
+        "b": "Tài Bạch",
+        "a_hon": "Quan Lộc mạnh hơn Tài Bạch → danh vị, công việc đi trước tiền bạc.",
+        "b_hon": "Tài Bạch mạnh hơn Quan Lộc → tiền bạc dễ khá hơn địa vị."
+      },
+      {
+        "a": "Mệnh",
+        "b": "Thiên Di",
+        "a_hon": "Mệnh mạnh hơn Thiên Di → ở nhà, ở nơi quen thuộc phát huy tốt hơn ra ngoài.",
+        "b_hon": "Thiên Di mạnh hơn Mệnh → ra ngoài, đi xa, môi trường mới thuận hơn ở yên một chỗ."
+      },
+      {
+        "a": "Mệnh",
+        "b": "Phúc Đức",
+        "a_hon": "Mệnh mạnh hơn Phúc Đức → bản lĩnh cá nhân hơn nền phúc ấm của dòng họ.",
+        "b_hon": "Phúc Đức mạnh hơn Mệnh → được nền phúc dòng họ che chở nhiều hơn sức mình."
+      },
+      {
+        "a": "Tài Bạch",
+        "b": "Điền Trạch",
+        "a_hon": "Tài Bạch mạnh hơn Điền Trạch → kiếm tiền khá hơn giữ của.",
+        "b_hon": "Điền Trạch mạnh hơn Tài Bạch → giữ của, tích lũy nhà đất khá hơn kiếm tiền."
+      },
+      {
+        "a": "Phu Thê",
+        "b": "Tử Tức",
+        "a_hon": "Phu Thê mạnh hơn Tử Tức → đường hôn nhân thuận hơn chuyện con cái.",
+        "b_hon": "Tử Tức mạnh hơn Phu Thê → con cái là chỗ dựa tình cảm hơn vợ chồng."
+      },
+      {
+        "a": "Phụ Mẫu",
+        "b": "Phúc Đức",
+        "a_hon": "Phụ Mẫu mạnh hơn Phúc Đức → được cha mẹ, người trên nâng đỡ hơn nền phúc chung.",
+        "b_hon": "Phúc Đức mạnh hơn Phụ Mẫu → phúc phần chung khá hơn sự nâng đỡ trực tiếp của cha mẹ."
+      }
+    ]
+  }
+}

@@ -2168,10 +2168,7 @@
       "id": "CC64",
       "ten": "Tả Hữu đối xung",
       "loai": "cat",
-      "pham_vi": [
-        "Huynh Đệ",
-        "Nô Bộc"
-      ],
+      "pham_vi": "*",
       "thanh": {
         "any": [
           {
@@ -2210,7 +2207,7 @@
       "linh_vuc": [
         "quy_nhan"
       ],
-      "ket_luan": "Tả Phù, Hữu Bật đứng hai đầu trục Huynh Đệ–Nô Bộc: được người giúp từ hai phía, anh em lẫn bạn bè.",
+      "ket_luan": "Tả Phù, Hữu Bật đứng hai đầu trục {cung}–{cung_xung}: được người giúp từ hai phía ở việc thuộc cung này.",
       "ket_luan_pha": "Gặp Không/Kiếp: người giúp có nhưng không bền.",
       "xac_nhan_web": false
     },
@@ -2218,10 +2215,7 @@
       "id": "CC65",
       "ten": "Không Kiếp đối xung",
       "loai": "hung",
-      "pham_vi": [
-        "Điền Trạch",
-        "Tử Tức"
-      ],
+      "pham_vi": "*",
       "thanh": {
         "any": [
           {
@@ -2251,14 +2245,243 @@
       "pha": {
         "tuan_triet": true
       },
-      "diem": -1,
+      "diem": 0,
       "diem_pha": 0,
       "linh_vuc": [
         "tai"
       ],
-      "ket_luan": "Địa Không, Địa Kiếp đứng hai đầu trục Điền Trạch–Tử Tức: của cải dễ hao hụt, chuyện con cái nhiều lo toan.",
+      "ket_luan": "Địa Không, Địa Kiếp đứng hai đầu trục {cung}–{cung_xung}: việc thuộc cung này dễ hao hụt, nhiều lo toan.",
       "ket_luan_pha": "Có Tuần Triệt: sức xung giảm.",
+      "xac_nhan_web": false,
+      "ghi_chu_diem": "Điểm 0: sát tinh/sao liên quan đã bị công thức v3 trừ ở bản cung/xung chiếu, cộng thêm sẽ tính đôi; cách chỉ để luận."
+    },
+    {
+      "id": "CC66",
+      "ten": "Xương Khúc đối xung",
+      "loai": "cat",
+      "pham_vi": "*",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Văn Xương"
+              },
+              {
+                "co": "Văn Khúc",
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Văn Khúc"
+              },
+              {
+                "co": "Văn Xương",
+                "o": "xung"
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "co_mot": [
+          "Địa Không",
+          "Địa Kiếp"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "danh"
+      ],
+      "ket_luan": "Văn Xương, Văn Khúc đứng hai đầu trục {cung}–{cung_xung}: có tài văn nhã, dễ được tiếng ở việc thuộc cung này.",
+      "ket_luan_pha": "Gặp Không/Kiếp: tài có nhưng khó thành danh.",
       "xac_nhan_web": false
+    },
+    {
+      "id": "CC67",
+      "ten": "Khôi Việt đối xung",
+      "loai": "cat",
+      "pham_vi": "*",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Thiên Khôi"
+              },
+              {
+                "co": "Thiên Việt",
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Thiên Việt"
+              },
+              {
+                "co": "Thiên Khôi",
+                "o": "xung"
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "co_mot": [
+          "Địa Không",
+          "Địa Kiếp"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Thiên Khôi, Thiên Việt đứng hai đầu trục {cung}–{cung_xung}: gặp quý nhân đỡ đầu ở việc thuộc cung này.",
+      "ket_luan_pha": "Gặp Không/Kiếp: quý nhân đến rồi lại lỡ dịp.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC68",
+      "ten": "Kình Đà đối xung",
+      "loai": "hung",
+      "pham_vi": "*",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Kình Dương"
+              },
+              {
+                "co": "Đà La",
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Đà La"
+              },
+              {
+                "co": "Kình Dương",
+                "o": "xung"
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 0,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cach"
+      ],
+      "ket_luan": "Kình Dương, Đà La đứng hai đầu trục {cung}–{cung_xung}: việc thuộc cung này vừa nóng vội vừa trì trệ, dễ vướng thị phi.",
+      "ket_luan_pha": "Có Tuần Triệt: sức xung giảm.",
+      "xac_nhan_web": false,
+      "ghi_chu_diem": "Điểm 0: sát tinh/sao liên quan đã bị công thức v3 trừ ở bản cung/xung chiếu, cộng thêm sẽ tính đôi; cách chỉ để luận."
+    },
+    {
+      "id": "CC69",
+      "ten": "Hỏa Linh đối xung",
+      "loai": "hung",
+      "pham_vi": "*",
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Hỏa Tinh"
+              },
+              {
+                "co": "Linh Tinh",
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Linh Tinh"
+              },
+              {
+                "co": "Hỏa Tinh",
+                "o": "xung"
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 0,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cach"
+      ],
+      "ket_luan": "Hỏa Tinh, Linh Tinh đứng hai đầu trục {cung}–{cung_xung}: việc thuộc cung này dễ biến động đột ngột, nóng nảy.",
+      "ket_luan_pha": "Có Tuần Triệt: sức xung giảm.",
+      "xac_nhan_web": false,
+      "ghi_chu_diem": "Điểm 0: sát tinh/sao liên quan đã bị công thức v3 trừ ở bản cung/xung chiếu, cộng thêm sẽ tính đôi; cách chỉ để luận."
+    },
+    {
+      "id": "CC70",
+      "ten": "Trong lạnh ngoài ấm",
+      "loai": "hung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thái Âm"
+          },
+          {
+            "sang": {
+              "sao": "Thái Âm",
+              "thuoc": [
+                "H"
+              ]
+            }
+          },
+          {
+            "cung_chuc": "Quan Lộc",
+            "dk": {
+              "co": "Đào Hoa"
+            }
+          },
+          {
+            "cung_chuc": "Tài Bạch",
+            "dk": {
+              "co": "Thiên Diêu"
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 0,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "hon_nhan",
+        "tinh_cam"
+      ],
+      "ket_luan": "Thái Âm hãm ở Phu Thê mà Đào Hoa ở Quan Lộc, Thiên Diêu ở Tài Bạch: trong nhà lạnh, ngoài đường ấm; cần cảnh giác người thứ ba.",
+      "ket_luan_pha": "Có Tuần Triệt: thế giảm.",
+      "xac_nhan_web": false,
+      "ghi_chu_diem": "Điểm 0: sát tinh/sao liên quan đã bị công thức v3 trừ ở bản cung/xung chiếu, cộng thêm sẽ tính đôi; cách chỉ để luận."
     }
   ]
 }

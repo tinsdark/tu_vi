@@ -222,6 +222,7 @@ export function TabTongQuan({ bc, nhap, nc }: { bc: BaoCao; nhap: NhapLieu; nc: 
             </li>
           ))}
         </ol>
+        {bc.so_cung.length > 0 && (<><h4>So cung với cung</h4><DanhSachNhanDinh ds={bc.so_cung} /></>)}
       </Khoi>
       <Khoi tieuDe="Nền của lá số" ghiChu="Mệnh – Cục, âm dương và chính tinh thủ Mệnh.">
         <DanhSachNhanDinh ds={bc.nen} />

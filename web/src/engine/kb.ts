@@ -9,6 +9,7 @@ import keChuyen from "@kb/ke_chuyen.json";
 import doSangChot from "@kb/do_sang_chot.json";
 import phuTinh from "@kb/phu_tinh.json";
 import phuTinhTaiCungChuc from "@kb/phu_tinh_tai_cung_chuc.json";
+import lienCung from "@kb/luan_lien_cung.json";
 import trucLuan from "@kb/truc_luan.json";
 import tuHoaLuan from "@kb/tu_hoa_luan.json";
 import { CHI } from "./anSao";
@@ -36,6 +37,8 @@ export class TriThuc {
   tuHoa: Record<string, string> = (tuHoaLuan as any).to_hop;
   /** Trục luận từng cung (tools/sinh_truc_luan.py): phát hiện các câu của cùng một cung nói ngược nhau. */
   truc: Record<string, TrucLuan[]> = (trucLuan as any).truc;
+  /** Luận liên cung (doc11 lô B): Tuần/Triệt theo cung, sao → người, so cung với cung. Dữ liệu chạy cho mọi cung/sao có trong bảng. */
+  lienCung: any = lienCung;
   /** Bảng kể chuyện cho văn xuôi (chỉ web dùng): hình dạng chủ đề + "việc nên làm". */
   keChuyen: any = keChuyen;
   phuCung: Record<string, Record<string, string>> = (phuTinhTaiCungChuc as any).sao;

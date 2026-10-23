@@ -34,6 +34,8 @@ const TINH: Record<string, [string, string]> = {
   XD: ["Tín hiệu trái chiều trong cung", "Khi các sao của một cung nói ngược nhau về cùng một mặt (VD số lượng anh chị em: có sao báo đông, có sao báo ít), web không chọn bên nào mà gộp thành một câu và liệt kê sao đã báo từng hướng. Các câu gốc được ghi ở dòng \"Câu gốc được gộp\", không ảnh hưởng điểm. Danh sách trục nằm ở data/knowledge/truc_luan.json (sinh bởi tools/sinh_truc_luan.py), hiện là bản AI soạn, cần người review."],
   CAT_XH: ["Cát tinh từ xung/hội chiếu", "Cát tinh ở cung xung chiếu/tam hợp được nêu thành câu riêng khi tổng lực đủ lớn, để nhãn điểm khớp với nội dung người đọc thấy (đối xứng với câu sát tinh)."],
   XC: ["Sát tinh từ cung xung/hội chiếu", "Sao nằm ở cung khác nhưng xung/hội chiếu cung của chủ đề: luôn ghi rõ cung nguồn và quan hệ, nói hệ quả gián tiếp — không bao giờ viết như sao nằm tại chính cung chủ đề."],
+  LC: ["Luận liên cung", "Câu nối giữa các cung (data/knowledge/luan_lien_cung.json): sao hãm hoặc mang Hóa Kỵ nói thêm ở cung của người ứng với sao đó (Thái Dương → cha, Thái Âm → mẹ…); Hóa đi cùng Tuần/Triệt trong một cung. Câu nêu rõ sao và cung gốc của nó. Không đổi điểm. Bảng do AI soạn, cần người review."],
+  SC: ["So cung với cung", "Hai cung chênh nhau từ ngưỡng điểm /100 (luan_lien_cung.json → so_cung) thì nói cung nào trội, từ điểm có sẵn. Không đổi điểm; ngưỡng là hằng số khởi điểm cần tune."],
   HAN: ["Kết luận hạn năm", "Gom lưu sát tinh theo cung gốc bị chiếu → nên/tránh theo lĩnh vực của cung đó; mặt thuận lấy từ Hóa Lộc/Quyền/Khoa đại hạn và lưu cát tinh. Lời khuyên là bảng tham số của tác giả (cau_hinh_luan_giai.json → han.khuyen_nghi)."],
   LN: ["Lưu niên", "Sao lưu theo can chi năm xem (Lưu Thái Tuế, Lộc Tồn, Kình, Đà, Mã, Tứ Hóa...) rơi vào tam phương cung Thái Tuế của năm."],
   CD: ["Tổng hợp theo chủ đề", "Điểm /100 của cung chủ đề theo công thức v3: START 50 + chính tinh bản cung + cát − sát, nén Tuần/Triệt về giữa, sàn khi chính tinh miếu/vượng; bảng nhãn công khai. Không phải percentile so với lá số khác. Ép khớp nội dung (§4.8)."],
@@ -139,6 +141,7 @@ export function moTaDieuKien(dk: Record<string, any>, cap = 0): { cap: number; t
   if (dk.sang) return L(`${dk.sang.sao} có độ sáng ${(dk.sang.thuoc as string[]).join("/")}`);
   if (dk.sao_tai_chi) return L(`${dk.sao_tai_chi.sao} đóng ở ${(dk.sao_tai_chi.chi as string[]).join(", ")}`);
   if ("tuan_triet" in dk) return L(dk.tuan_triet ? "cung bị Tuần hoặc Triệt" : "cung không bị Tuần/Triệt");
+  if (dk.cung_chuc) return [{ cap, text: `Tại cung ${dk.cung_chuc}:` }, ...moTaDieuKien(dk.dk, cap + 1)];
   if (dk.can_nam) return L(`sinh năm can ${(dk.can_nam as string[]).join(", ")}`);
   if (dk.vung_trung) return L(`cung đó trùng cung ${(dk.vung_trung as string[]).slice(1).join("/")}`);
   return L(JSON.stringify(dk));

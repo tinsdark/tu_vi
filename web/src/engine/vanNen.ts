@@ -126,11 +126,11 @@ function nenChu(cung: string, kq: BaoCao): string {
   return ds.length ? `${noi(ds)} ở cung ${cung}` : `cung ${cung}`;
 }
 
-/** Lưu ý cấu trúc đưa vào văn xuôi: bỏ VCD (đã nói ở câu mở) và VCD_TT (lời lưu ý về điểm số, chỉ hiện ở thẻ), chỉ giữ 1 câu "trái chiều" (XD.*) để đoạn không phình (R7). */
+/** Lưu ý cấu trúc đưa vào văn xuôi: bỏ VCD (đã nói ở câu mở), VCD_TT (lời lưu ý về điểm số, chỉ hiện ở thẻ) và LC.* (câu liên cung, chỉ chen vào khi đoạn còn chỗ — xem cauLienCung), chỉ giữ 1 câu "trái chiều" (XD.*) để đoạn không phình (R7). */
 function khungVan(cd: KetQuaChuDe, daDung: Set<string>): NhanDinh[] {
   let xd = 0;
   return cd.luu_y.filter((n) => {
-    if (n.id === "VCD" || n.id === "VCD_TT" || daDung.has(n.id + n.nhan_dinh)) return false;
+    if (n.id === "VCD" || n.id === "VCD_TT" || n.id.startsWith("LC.") || daDung.has(n.id + n.nhan_dinh)) return false;
     return !n.id.startsWith("XD.") || ++xd <= 1;
   });
 }
@@ -235,6 +235,9 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
   sang.forEach((n, i) => s.push(cau(i ? `Ngoài ra, ${thuong(menhDe(n))}` : menhDe(n), n.id)));
   hung.forEach((n, i) => s.push(cau(`${i ? "Bên cạnh đó" : sang.length ? "Tuy nhiên" : "Cần lưu ý"}, ${thuong(menhDe(n))}`, n.id)));
   s.push(...cauSaoNho(cd, daDung)); // sao phụ nêu trước; câu hòa giải luôn là câu cuối đoạn
+  // câu liên cung (sao → người, Hóa × Tuần/Triệt): ưu tiên thấp nhất, chỉ 1 câu và chỉ khi đoạn còn chỗ (R7); đầy đủ vẫn hiện ở thẻ chủ đề
+  const lienCung = cd.luu_y.find((n) => n.id.startsWith("LC.") && !daDung.has(n.id + n.nhan_dinh));
+  if (lienCung && s.length < 10) { daDung.add(lienCung.id + lienCung.nhan_dinh); s.push(cau(cauLuuY(lienCung), lienCung.id)); }
   if (sang.length && hung.length) s.push(cau(hoaGiai(ten, kq), ma)); // hòa giải đặt SAU khi đã nêu cả hai mặt
   return s.join(" ");
 }
