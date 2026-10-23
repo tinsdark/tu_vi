@@ -49,7 +49,7 @@ def test_phi_tuyen_giam_phan_tot():
 
 
 def test_sat_tinh_dac_dia_khong_la_diem_manh():
-    # sát tinh đắc địa được lật điểm dương nhưng câu luận vẫn nói mặt xấu → phải gắn dao_dau và không vào điểm mạnh/yếu của chủ đề
+    # sát tinh đắc địa: giảm hại (điểm vẫn âm) nhưng câu luận nói cả hai mặt → gắn dao_dau, không vào điểm mạnh/yếu của chủ đề
     tt, rnd, thay = TriThuc(), random.Random(11), 0
     for _ in range(300):
         nam = rnd.randint(1930, 2020)
@@ -57,7 +57,7 @@ def test_sat_tinh_dac_dia_khong_la_diem_manh():
         kq = bao_cao(LuanGiai(ls, tt))
         for k in kq["cung"].values():
             thay += sum(1 for n in k["nhan_dinh"] if n.get("dao_dau"))
-            assert all(n["diem"] > 0 for n in k["nhan_dinh"] if n.get("dao_dau"))
+            assert all(n["diem"] < 0 for n in k["nhan_dinh"] if n.get("dao_dau"))
         for cd in kq["chu_de"].values():
             assert not any(n.get("dao_dau") for n in cd["diem_manh"] + cd["diem_yeu"])
     assert thay > 20
@@ -194,22 +194,20 @@ def test_tuan_triet_duoc_nhac_dung_cung():
     assert thay > 50
 
 
-def test_boi_canh_hoa_theo_cung():
-    # §12: câu Tứ Hóa/phụ tinh không được mang sắc thái của lĩnh vực khác cung
+def test_boi_canh_hoa_tang_mon_o_tai_la_hao_tai():
     tt, rnd, thay = TriThuc(), random.Random(19), 0
-    for _ in range(400):
+    for _ in range(500):
         nam, ls = la_so_ngau_nhien(rnd)
         for ten, k in bao_cao(LuanGiai(ls, tt))["cung"].items():
             for n in k["nhan_dinh"]:
-                if n["id"].startswith("PT.Hóa "):
-                    for khoa, mien in tt.cfg["tu_hoa_mien"].items():
-                        if khoa.startswith("_") or tt.tu_hoa.get(khoa, "") not in n["nhan_dinh"]:
-                            continue
-                        thay += 1
-                        assert any(ten in tt.cfg["mien_cung"][m] for m in mien), (ten, khoa)
-                if n["id"] == "PT.Tang Môn" and ten in ("Tài Bạch", "Điền Trạch"):
-                    assert "hao tài" in n["nhan_dinh"].lower() and "buồn" not in n["nhan_dinh"].lower().split("hao tài")[0]
-    assert thay > 20
+                if n["id"] == "PT.Tang Môn" and ten == "Tài Bạch":
+                    thay += 1
+                    assert "hao tài" in n["nhan_dinh"].lower() and "buồn" not in n["nhan_dinh"].lower()
+                if n["id"] == "PT.Hóa Kỵ.Phụ Mẫu":
+                    assert "tình cảm" not in n["nhan_dinh"].lower()
+                if n["id"] == "PT.Hóa Lộc.Tử Tức":
+                    assert "phá cũ ra tiền" not in n["nhan_dinh"]
+    assert thay > 5
 
 
 def test_gia_dinh_co_dinh_ba_tieu_muc():
@@ -239,6 +237,68 @@ def test_luu_sat_ngoai_tam_phuong_van_duoc_nhac():
                 assert any(c in n["nhan_dinh"] for c in hc["trong_yeu"])
                 assert any(n["id"].split(".", 1)[1] in x["nhan_dinh"] for x in ln["ket_luan"] if x["id"] == "HAN.rui_ro")
     assert thay > 20
+
+
+def test_them_sat_tinh_khong_bao_gio_lam_tang_diem():
+    # tính đơn điệu: thêm sát tinh vào một cung không được làm điểm cung tăng; thêm cát tinh không được làm giảm
+    from tuvi.an_sao import CHI
+    tt, rnd = TriThuc(), random.Random(7)
+    sat = ["Lưu Kình Dương", "Lưu Đà La", "Lưu Hóa Kỵ", "Lưu Địa Không", "Lưu Địa Kiếp", "Lưu Hỏa Tinh", "Lưu Linh Tinh", "Kình Dương", "Địa Kiếp", "Thiên Hình"]
+    cat = ["Tả Phù", "Hữu Bật", "Văn Xương", "Văn Khúc", "Thiên Khôi", "Thiên Việt", "Lộc Tồn", "Hóa Lộc", "Hóa Quyền", "Hóa Khoa"]
+    for _ in range(600):
+        nam, ls = la_so_ngau_nhien(rnd)
+        cung = rnd.choice(CUNG_CHUC)
+        goc = LuanGiai(ls, tt)
+        chi = goc.chi_cua[cung]
+        d0 = goc.cham_cung(cung)["diem"]
+        s_ = rnd.choice(sat)
+        assert LuanGiai(ls, tt, {chi: [s_]}).cham_cung(cung)["diem"] <= d0 + 1e-9, (cung, s_)
+        c_ = rnd.choice(cat)
+        if c_ not in goc.cung[chi]:
+            assert LuanGiai(ls, tt, {chi: [c_]}).cham_cung(cung)["diem"] >= d0 - 1e-9, (cung, c_)
+
+
+def test_khong_ro_ri_noi_dung_sai_linh_vuc():
+    # câu tổ hợp Tứ Hóa (generic theo sao) và fallback chung chỉ được nói về lĩnh vực thuộc cung đó.
+    # (Câu riêng theo sao × cung được soạn cho đúng cung nên không kiểm ở đây: 'cha mẹ biết làm kinh tế' ở Phụ Mẫu là hợp lệ.)
+    tt, rnd, kiem = TriThuc(), random.Random(2026), 0
+    mien = {k: re.compile(p) for k, p in tt.cfg["mien_tu_khoa"].items() if not k.startswith("_")}
+    generic = {m for v in tt.tu_hoa.values() for m in re.split(r"(?<=[.;])\s+", v)}
+    for _ in range(800):
+        nam, ls = la_so_ngau_nhien(rnd)
+        for cung, k in bao_cao(LuanGiai(ls, tt))["cung"].items():
+            for n in k["nhan_dinh"]:
+                for m in re.split(r"(?<=[.;])\s+", n["nhan_dinh"]):
+                    if m in generic:
+                        kiem += 1
+                        for dm, pat in mien.items():
+                            assert not pat.search(m.lower()) or cung in tt.cfg["mien_cung"][dm], (cung, n["id"], m)
+    assert kiem > 100
+
+
+def test_diem_theo_cau_rieng_trung_tinh():
+    # câu riêng trung tính/hỗn hợp (VD Lộc Tồn ở Huynh Đệ: 'anh em ít') không được tính là điểm sáng
+    tt, rnd, thay = TriThuc(), random.Random(31), 0
+    for _ in range(400):
+        nam, ls = la_so_ngau_nhien(rnd)
+        k = bao_cao(LuanGiai(ls, tt))["cung"]["Huynh Đệ"]
+        for n in k["nhan_dinh"]:
+            if n["id"] == "PT.Lộc Tồn.Huynh Đệ":
+                thay += 1
+                assert n["diem"] == 0
+    assert thay > 5
+
+
+def test_vo_chinh_dieu_khong_vuot_tran():
+    tt, rnd, thay = TriThuc(), random.Random(37), 0
+    tran = tt.cfg["vo_chinh_dieu"]["tran_diem100"]
+    for _ in range(300):
+        nam, ls = la_so_ngau_nhien(rnd)
+        for k in bao_cao(LuanGiai(ls, tt))["cung"].values():
+            if not k["chinh_tinh"]:
+                thay += 1
+                assert k["diem100"] <= tran, k["cung"]
+    assert thay > 100
 
 
 def test_tu_duong_lich_toi_luan():

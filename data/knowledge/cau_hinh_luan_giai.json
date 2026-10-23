@@ -19,7 +19,9 @@
   },
   "vo_chinh_dieu": {
     "muon_xung_chieu": true,
-    "he_so": 0.7
+    "he_so": 0.7,
+    "tran_diem100": 70,
+    "ghi_chu_tran": "Cung vô chính diệu mượn sao xung chiếu 'thiếu trục chính' (đúng như câu luận) nên điểm không được vượt trần này — tránh nhãn 'Tốt' đi kèm câu 'nền thiếu ổn định'. Không áp khi cung có cách Vô Chính Diệu đắc Tam Không (đã có điểm cách cục)."
   },
   "tuan_triet": {
     "he_so_sao_tot": 0.5,
@@ -127,76 +129,76 @@
     "so_mau": 3000,
     "theo_cung": {
       "Mệnh": {
-        "rat_tot": 16.5,
-        "tot": 10.61,
-        "trung_binh": 3.29,
-        "xau": -1.78
+        "rat_tot": 15.09,
+        "tot": 9.13,
+        "trung_binh": 1.88,
+        "xau": -3.24
       },
       "Phụ Mẫu": {
-        "rat_tot": 13.28,
-        "tot": 8.23,
-        "trung_binh": 2.11,
-        "xau": -1.67
+        "rat_tot": 11.77,
+        "tot": 6.76,
+        "trung_binh": 0.77,
+        "xau": -3.18
       },
       "Phúc Đức": {
-        "rat_tot": 14.83,
-        "tot": 9.57,
-        "trung_binh": 3.19,
-        "xau": -1.12
+        "rat_tot": 13.24,
+        "tot": 7.9,
+        "trung_binh": 1.66,
+        "xau": -2.67
       },
       "Điền Trạch": {
-        "rat_tot": 14.24,
-        "tot": 9.27,
-        "trung_binh": 3.27,
-        "xau": -0.9
+        "rat_tot": 12.68,
+        "tot": 7.81,
+        "trung_binh": 1.77,
+        "xau": -2.36
       },
       "Quan Lộc": {
-        "rat_tot": 15.11,
-        "tot": 10.1,
-        "trung_binh": 3.49,
-        "xau": -0.48
+        "rat_tot": 13.5,
+        "tot": 8.66,
+        "trung_binh": 2.12,
+        "xau": -1.78
       },
       "Nô Bộc": {
-        "rat_tot": 12.97,
-        "tot": 8.26,
-        "trung_binh": 2.26,
-        "xau": -1.51
+        "rat_tot": 11.3,
+        "tot": 6.66,
+        "trung_binh": 0.78,
+        "xau": -2.63
       },
       "Thiên Di": {
-        "rat_tot": 13.69,
-        "tot": 9.49,
-        "trung_binh": 3.66,
-        "xau": -0.23
+        "rat_tot": 12.35,
+        "tot": 7.97,
+        "trung_binh": 2.2,
+        "xau": -1.7
       },
       "Tật Ách": {
-        "rat_tot": 11.37,
-        "tot": 7.17,
-        "trung_binh": 1.16,
-        "xau": -2.87
+        "rat_tot": 9.88,
+        "tot": 5.58,
+        "trung_binh": -0.52,
+        "xau": -4.6
       },
       "Tài Bạch": {
-        "rat_tot": 14.44,
-        "tot": 9.66,
-        "trung_binh": 3.23,
-        "xau": -0.77
+        "rat_tot": 12.81,
+        "tot": 8.1,
+        "trung_binh": 1.84,
+        "xau": -2.06
       },
       "Tử Tức": {
-        "rat_tot": 13.1,
-        "tot": 8.38,
-        "trung_binh": 2.73,
-        "xau": -1.16
+        "rat_tot": 11.35,
+        "tot": 6.64,
+        "trung_binh": 1.15,
+        "xau": -2.74
       },
       "Phu Thê": {
-        "rat_tot": 12.58,
-        "tot": 8.19,
-        "trung_binh": 2.39,
-        "xau": -1.54
+        "rat_tot": 10.96,
+        "tot": 6.57,
+        "trung_binh": 0.77,
+        "xau": -3.24
       },
       "Huynh Đệ": {
-        "rat_tot": 12.55,
-        "tot": 8.1,
-        "trung_binh": 2.07,
-        "xau": -2.01
+        "rat_tot": 10.68,
+        "tot": 6.42,
+        "trung_binh": 0.52,
+        "xau": -3.47
       }
     }
   },
@@ -481,8 +483,8 @@
     "Điền Trạch": "tai_dien",
     "Quan Lộc": "quan_no",
     "Nô Bộc": "quan_no",
-    "Phu Thê": "phu_tu",
-    "Tử Tức": "phu_tu",
+    "Phu Thê": "phu",
+    "Tử Tức": "tu",
     "Phụ Mẫu": "phu_huynh",
     "Huynh Đệ": "phu_huynh",
     "Thiên Di": "di_tat",
@@ -494,98 +496,38 @@
       "menh_phuc": "Hay buồn lo, đời sống tinh thần nhiều mất mát; đề phòng tang sự trong họ.",
       "tai_dien": "Hao tài vì hiếu hỉ/tang sự, chi phí đột xuất; nên có quỹ dự phòng.",
       "quan_no": "Công việc/quan hệ cấp dưới nhiều lo toan, dễ gặp chuyện buồn phải xử lý.",
-      "phu_tu": "Tình cảm/con cái có chuyện buồn lo, xa cách.",
-      "phu_huynh": "Người thân có chuyện buồn; lưu ý sức khỏe người thân, tang sự.",
-      "di_tat": "Đề phòng đau ốm, buồn phiền, nhất là khi ra ngoài."
+      "phu_huynh": "Người thân có chuyện buồn; lưu ý đau ốm, tang sự của người thân.",
+      "di_tat": "Đề phòng đau yếu, buồn phiền, nhất là khi ra ngoài.",
+      "phu": "Tình cảm có chuyện buồn lo, xa cách.",
+      "tu": "Con cái có chuyện buồn lo, xa cách."
     },
     "Bạch Hổ": {
       "menh_phuc": "Cá tính quyết liệt; đề phòng thương tích, miệng tiếng.",
       "tai_dien": "Tiền bạc/nhà đất dễ tranh chấp, hao vì kiện tụng, tai nạn.",
       "quan_no": "Cạnh tranh gay gắt, va chạm, thị phi nơi làm việc và trong quan hệ.",
-      "phu_tu": "Hôn nhân/con cái có va chạm; đề phòng tai nạn, mổ xẻ.",
       "phu_huynh": "Quan hệ với người thân dễ va chạm; đề phòng tang sự.",
-      "di_tat": "Đề phòng tai nạn, thương tích, mổ xẻ."
+      "di_tat": "Đề phòng tai nạn, thương tích, mổ xẻ.",
+      "phu": "Hôn nhân có va chạm; đề phòng tai nạn, mổ xẻ.",
+      "tu": "Con cái hay va chạm, đau yếu; đề phòng tai nạn, mổ xẻ."
     },
     "Đại Hao": {
       "menh_phuc": "Dễ hao tán, tiêu xài vượt kế hoạch.",
       "tai_dien": "Hao tán lớn, tiền ra nhanh hơn vào.",
       "quan_no": "Hao công sức, hao vì quan hệ/cấp dưới.",
-      "phu_tu": "Tốn kém cho tình cảm/con cái.",
       "phu_huynh": "Tốn kém vì người thân.",
-      "di_tat": "Hao sức, hao sức khỏe khi ra ngoài hoặc khi bệnh."
+      "di_tat": "Hao sức khi ra ngoài hoặc khi đau yếu.",
+      "phu": "Tốn kém cho tình cảm.",
+      "tu": "Tốn kém cho con cái."
     },
     "Kiếp Sát": {
       "menh_phuc": "Tính quyết đoán cứng; đề phòng tai nạn, xung đột.",
       "tai_dien": "Dễ mất của vì lừa/cướp, tranh chấp.",
       "quan_no": "Cạnh tranh gay gắt, dễ bị lấn át.",
-      "phu_tu": "Tình cảm/con cái dễ va chạm, chia ly.",
       "phu_huynh": "Người thân dễ xung đột.",
-      "di_tat": "Đề phòng tai nạn, phẫu thuật."
+      "di_tat": "Đề phòng tai nạn, phẫu thuật.",
+      "phu": "Tình cảm dễ va chạm, chia ly.",
+      "tu": "Con cái dễ va chạm, xa cách."
     }
-  },
-  "tu_hoa_mien": {
-    "Liêm Trinh|Hóa Lộc": [
-      "tai"
-    ],
-    "Vũ Khúc|Hóa Khoa": [
-      "tai"
-    ],
-    "Thiên Cơ|Hóa Lộc": [
-      "tai"
-    ],
-    "Thiên Đồng|Hóa Lộc": [
-      "tai"
-    ],
-    "Thái Âm|Hóa Lộc": [
-      "tai",
-      "nguoi_nha"
-    ],
-    "Tham Lang|Hóa Lộc": [
-      "tai"
-    ],
-    "Vũ Khúc|Hóa Lộc": [
-      "tai"
-    ],
-    "Thái Dương|Hóa Lộc": [
-      "tai"
-    ],
-    "Cự Môn|Hóa Lộc": [
-      "tai"
-    ],
-    "Thiên Lương|Hóa Lộc": [
-      "tai"
-    ],
-    "Vũ Khúc|Hóa Quyền": [
-      "tai"
-    ],
-    "Vũ Khúc|Hóa Kỵ": [
-      "tai"
-    ],
-    "Phá Quân|Hóa Lộc": [
-      "tai"
-    ],
-    "Thái Âm|Hóa Kỵ": [
-      "tai",
-      "nguoi_nha"
-    ],
-    "Thái Âm|Hóa Quyền": [
-      "tai",
-      "nguoi_nha"
-    ],
-    "Tham Lang|Hóa Kỵ": [
-      "tinh_cam"
-    ],
-    "Thiên Đồng|Hóa Kỵ": [
-      "tinh_cam"
-    ],
-    "Thái Dương|Hóa Kỵ": [
-      "nguoi_nha"
-    ],
-    "Liêm Trinh|Hóa Kỵ": [
-      "suc_khoe",
-      "phap_ly"
-    ],
-    "_ghi_chu": "Câu tổ hợp Tứ Hóa trong tu_hoa_luan.json là câu generic theo sao; combo nào có nội dung theo lĩnh vực (tiền, tình cảm, người nhà, sức khỏe) chỉ được nối vào cung thuộc lĩnh vực đó (mien_cung). Combo không liệt kê = trung tính, dùng được mọi cung. Cung ngoài lĩnh vực chỉ dùng câu riêng của sao tại cung (phu_tinh_tai_cung_chuc.json)."
   },
   "mien_cung": {
     "tai": [
@@ -595,12 +537,33 @@
       "Điền Trạch",
       "Quan Lộc",
       "Nô Bộc",
-      "Thiên Di"
+      "Thiên Di",
+      "Huynh Đệ"
+    ],
+    "nha_dat": [
+      "Mệnh",
+      "Phúc Đức",
+      "Điền Trạch",
+      "Tài Bạch"
     ],
     "tinh_cam": [
       "Mệnh",
       "Phúc Đức",
       "Phu Thê"
+    ],
+    "con_cai": [
+      "Tử Tức"
+    ],
+    "cha_me": [
+      "Phụ Mẫu"
+    ],
+    "anh_em": [
+      "Huynh Đệ"
+    ],
+    "suc_khoe": [
+      "Mệnh",
+      "Phúc Đức",
+      "Tật Ách"
     ],
     "nguoi_nha": [
       "Mệnh",
@@ -610,18 +573,37 @@
       "Phu Thê",
       "Tử Tức",
       "Huynh Đệ"
-    ],
-    "suc_khoe": [
-      "Mệnh",
-      "Phúc Đức",
-      "Tật Ách"
-    ],
-    "phap_ly": [
-      "Mệnh",
-      "Quan Lộc",
-      "Tài Bạch",
-      "Thiên Di",
-      "Phúc Đức"
     ]
+  },
+  "mien_tu_khoa": {
+    "_ghi_chu": "Từ khóa nhận diện lĩnh vực của một mệnh đề. Mệnh đề (tách theo '; ' hoặc '. ') nói về lĩnh vực nào thì CHỈ được nối vào cung thuộc lĩnh vực đó (mien_cung); sai cung thì bỏ mệnh đề. Áp cho câu tổ hợp Tứ Hóa và câu fallback ý nghĩa chung của sao — không áp cho câu riêng theo (sao × cung).",
+    "tai": "tiền|tài lộc|tài sản|hao tài|hao tán|giàu|kiếm|của cải|nợ|kinh tế|vật chất|hùn vốn|tài tích lũy",
+    "nha_dat": "nhà đất|nhà cửa|đất đai",
+    "tinh_cam": "hôn nhân|vợ|chồng|tình cảm|đa tình|cưới",
+    "con_cai": "con cái|chậm con|muộn con|ít con",
+    "cha_me": "cha mẹ",
+    "anh_em": "anh em(?! họ)|anh chị",
+    "suc_khoe": "bệnh|sức khỏe|máu huyết|lưu ý mắt",
+    "nguoi_nha": "người nam trong nhà|người nữ trong nhà"
+  },
+  "phan_cuc_rieng": {
+    "_ghi_chu": "Hệ số nhân điểm cho cặp 'sao|cung' khi câu riêng của cặp đó là TRUNG TÍNH/HỖN HỢP hoặc ngược dấu với điểm chung của sao (VD Lộc Tồn ở Huynh Đệ: 'anh em ít'). 0 = trung tính (vẫn hiện ở tab Từng cung, không vào điểm sáng/lưu ý); hệ số luôn trong [0, 1] để giữ tính đơn điệu (thêm cát tinh không làm điểm giảm). Do tác giả (AI) rà bảng phu_tinh_tai_cung_chuc.json, chưa đối chiếu sách.",
+    "Lộc Tồn|Huynh Đệ": 0,
+    "Lộc Tồn|Tử Tức": 0,
+    "Lộc Tồn|Nô Bộc": 0,
+    "Lộc Tồn|Phu Thê": 0,
+    "Thiên Mã|Phụ Mẫu": 0,
+    "Thiên Mã|Phúc Đức": 0,
+    "Thiên Mã|Điền Trạch": 0,
+    "Thiên Mã|Tử Tức": 0,
+    "Thiên Mã|Phu Thê": 0,
+    "Thiên Mã|Huynh Đệ": 0,
+    "Thiên Mã|Tật Ách": 0,
+    "Hóa Quyền|Tử Tức": 0,
+    "Hóa Quyền|Huynh Đệ": 0,
+    "Hóa Quyền|Phu Thê": 0.5,
+    "Hóa Quyền|Phúc Đức": 0.5,
+    "Hóa Quyền|Tật Ách": 0.5,
+    "Văn Xương|Tật Ách": 0
   }
 }

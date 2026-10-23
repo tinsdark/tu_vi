@@ -152,11 +152,13 @@ export class LuanGiai {
     return (m[tuanTriet.length === 2 ? "ca_hai" : tuanTriet[0]] as string).replace("{cung}", tenCung);
   }
 
-  /** Câu tổ hợp Tứ Hóa có nội dung theo lĩnh vực (tiền, tình cảm...) chỉ được nối vào cung thuộc lĩnh vực đó. */
-  private mienChoPhep(khoa: string, tenCung: string): boolean {
+  /** Bỏ mệnh đề nói về lĩnh vực không thuộc cung (VD 'tình cảm rắc rối' ở Phụ Mẫu). Áp cho câu tổ hợp Tứ Hóa / fallback chung, không áp cho câu riêng (sao × cung). */
+  private locMien(txt: string | undefined, tenCung: string): string {
     const cfg = this.tt.cfg;
-    const mien: string[] | undefined = cfg.tu_hoa_mien[khoa];
-    return !mien || !mien.length || mien.some((m) => (cfg.mien_cung[m] as string[]).includes(tenCung));
+    const giu = (txt ?? "").split(/(?<=[.;])\s+/).filter((m) =>
+      Object.entries<string>(cfg.mien_tu_khoa).every(([k, pat]) => k.startsWith("_") || !new RegExp(pat).test(m.toLowerCase()) || (cfg.mien_cung[k] as string[]).includes(tenCung)));
+    const out = giu.join(" ").replace(/;+$/, "").trimEnd();
+    return !out || ".!?".includes(out[out.length - 1]) ? out : `${out}.`;
   }
 
   // ---------- quan hệ vị trí + metadata nguồn (mỗi nhận định phải truy được sao/cung nào sinh ra nó)
@@ -287,10 +289,11 @@ export class LuanGiai {
         const { p, heSo: heSoLuu } = this.phu(s);
         if (!p) continue;
         let base = p.diem * heSoLuu;
+        if (c === chi) base *= cfg.phan_cuc_rieng[`${p.ten}|${tenCung}`] ?? 1; // câu riêng trung tính/hỗn hợp/ngược dấu thì điểm theo câu
         const dac = (p.dac_dia ?? []).includes(CHI[c]);
-        const daoDau = base < 0 && dac; // sát tinh đắc địa: điểm lật dương nhưng câu luận vẫn mô tả mặt xấu
+        const daoDau = base < 0 && dac; // sát tinh đắc địa: giảm hại nhưng câu luận vẫn mô tả cả hai mặt → không xếp vào điểm mạnh/yếu
         const ham = base > 0 && this.tt.sang(p.ten, c) === "H";
-        if (base < 0 && dac) base = base * -0.3; // sát tinh đắc địa: hết hại, thành lực
+        if (base < 0 && dac) base = base * 0.3; // sát tinh đắc địa: giảm 70% hại (vẫn âm → thêm sát tinh không bao giờ làm điểm tăng)
         else if (ham) base = base * 0.3; // cát tinh hãm địa (VD Xương Khúc): còn ít lực
         if (doi.some((d) => d.includes(s))) base *= cfg.doi_sao_cung_hoi.he_so_nhan;
         else if (Math.abs(p.diem) <= 1) base *= cfg.he_so_phu_tinh_nho;
@@ -308,14 +311,14 @@ export class LuanGiai {
           if (txt === undefined) txt = cfg.mau_theo_nhom[gocTen]?.[cfg.nhom_cung[tenCung]]; // chưa có câu riêng theo cung → câu theo NHÓM cung, không dùng câu generic của cung khác
           if (gocTen.startsWith("Hóa") && s === gocTen) {
             const khoa = `${this.gocHoa[s]}|${s}`;
-            const hop: string | undefined = this.mienChoPhep(khoa, tenCung) ? this.tt.tuHoa[khoa] : undefined;
-            txt = (txt ? `${txt} ` : "") + (hop ?? (txt ? "" : p.y_nghia));
+            const hop = this.locMien(this.tt.tuHoa[khoa], tenCung);
+            txt = (txt ? `${txt} ` : "") + (hop || (txt ? "" : this.locMien(p.y_nghia, tenCung)));
           }
-          const nd = (txt || p.y_nghia).trim();
+          const nd = (txt || this.locMien(p.y_nghia, tenCung) || `${gocTen} tại ${tenCung}: chưa có luận riêng cho cung này.`).trim();
           if (Math.abs(p.diem) >= 2 || gocTen.startsWith("Hóa") || heSoLuu !== 1.0) {
             const nhan: NhanDinh = {
               id: `PT.${s}` + (gocTen in this.tt.phuCung ? `.${tenCung}` : ""), diem: pyRound(d, 2), nhan_dinh: nd,
-              ly_do: `${s} thủ ${tenCung} tại ${CHI[c]}` + (daoDau ? " (đắc địa: bớt hại, có thể thành lực)" : dac ? " (đắc địa)" : ham ? " (hãm địa — lực yếu)" : ""),
+              ly_do: `${s} thủ ${tenCung} tại ${CHI[c]}` + (daoDau ? " (đắc địa: giảm hại)" : dac ? " (đắc địa)" : ham ? " (hãm địa — lực yếu)" : ""),
               ...this.nguon(c, o, [s]),
             };
             if (daoDau) nhan.dao_dau = true;
@@ -380,6 +383,7 @@ export class LuanGiai {
     const san = sangChu.some((m) => m === "M" || m === "V") && satBan.length === 0;
     let dq = quyDoi(diem, nguong);
     if (san) dq = Math.max(dq, dn.san_chinh_tinh_sang);
+    if (muon) dq = Math.min(dq, cfg.vo_chinh_dieu.tran_diem100); // vô chính diệu: sao mượn không làm cung vượt trần
     const d100 = diem100(dq);
     return {
       cung: tenCung, chi: CHI[chi], diem: pyRound(diem, 2), diem100: d100, xep_loai: bac(d100, dn),

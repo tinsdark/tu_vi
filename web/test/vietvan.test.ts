@@ -12,7 +12,7 @@ describe("văn mẫu và phân loại điểm mạnh/yếu", () => {
     let thay = 0;
     for (let i = 0; i < 300; i++) {
       const kq = mau(i);
-      for (const k of Object.values(kq.cung)) for (const n of k.nhan_dinh) if (n.dao_dau) { thay++; expect(n.diem).toBeGreaterThan(0); }
+      for (const k of Object.values(kq.cung)) for (const n of k.nhan_dinh) if (n.dao_dau) { thay++; expect(n.diem).toBeLessThan(0); }
       for (const cd of Object.values(kq.chu_de)) for (const n of [...cd.diem_manh, ...cd.diem_yeu]) expect(n.dao_dau).toBeUndefined();
     }
     expect(thay).toBeGreaterThan(20);

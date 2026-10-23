@@ -6,6 +6,7 @@ Chạy demo: python3 tools/tuvi/luan_giai.py
 import json
 import math
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -171,11 +172,13 @@ class LuanGiai:
         m = self.tt.cfg["tuan_triet"]["mau"]
         return m["ca_hai" if len(tuan_triet) == 2 else tuan_triet[0]].format(cung=ten_cung)
 
-    def mien_cho_phep(self, khoa, ten_cung):
-        """Câu tổ hợp Tứ Hóa có nội dung theo lĩnh vực (tiền, tình cảm...) chỉ được nối vào cung thuộc lĩnh vực đó."""
+    def loc_mien(self, txt, ten_cung):
+        """Bỏ mệnh đề nói về lĩnh vực không thuộc cung (VD 'tình cảm rắc rối' ở Phụ Mẫu). Áp cho câu tổ hợp Tứ Hóa / fallback chung, không áp cho câu riêng (sao × cung)."""
         cfg = self.tt.cfg
-        mien = cfg["tu_hoa_mien"].get(khoa)
-        return not mien or any(ten_cung in cfg["mien_cung"][m] for m in mien)
+        giu = [m for m in re.split(r"(?<=[.;])\s+", txt or "")
+               if all(ten_cung in cfg["mien_cung"][k] for k, pat in cfg["mien_tu_khoa"].items() if not k.startswith("_") and re.search(pat, m.lower()))]
+        out = " ".join(giu).rstrip(";").rstrip()
+        return out if not out or out[-1] in ".!?" else out + "."
 
     # ---------- quan hệ vị trí + metadata nguồn (mỗi nhận định phải truy được sao/cung nào sinh ra nó)
     def quan_he(self, chi_chu, c):
@@ -286,11 +289,13 @@ class LuanGiai:
                 if not p:
                     continue
                 base = p["diem"] * he_so_luu
+                if c == chi:
+                    base *= cfg["phan_cuc_rieng"].get(f"{p['ten']}|{ten_cung}", 1)     # câu riêng trung tính/hỗn hợp/ngược dấu thì điểm theo câu
                 dac = CHI[c] in p.get("dac_dia", [])
-                dao_dau = base < 0 and dac       # sát tinh đắc địa: điểm lật dương nhưng câu luận vẫn mô tả mặt xấu
+                dao_dau = base < 0 and dac       # sát tinh đắc địa: giảm hại nhưng câu luận vẫn mô tả cả hai mặt → không xếp vào điểm mạnh/yếu
                 ham = base > 0 and self.tt.sang(p["ten"], c) == "H"
                 if base < 0 and dac:
-                    base = base * -0.3            # sát tinh đắc địa: hết hại, thành lực
+                    base = base * 0.3             # sát tinh đắc địa: giảm 70% hại (vẫn âm → thêm sát tinh không bao giờ làm điểm tăng)
                 elif ham:
                     base = base * 0.3             # cát tinh hãm địa (VD Xương Khúc): còn ít lực
                 if any(s in d for d in doi):
@@ -315,12 +320,12 @@ class LuanGiai:
                         txt = cfg["mau_theo_nhom"].get(goc_ten, {}).get(cfg["nhom_cung"][ten_cung])
                     if goc_ten.startswith("Hóa") and s == goc_ten:
                         khoa = f"{self.goc_hoa[s]}|{s}"
-                        hop = self.tt.tu_hoa.get(khoa) if self.mien_cho_phep(khoa, ten_cung) else None
-                        txt = (txt + " " if txt else "") + (hop if hop is not None else ("" if txt else p["y_nghia"]))
-                    txt = (txt or p["y_nghia"]).strip()
+                        hop = self.loc_mien(self.tt.tu_hoa.get(khoa), ten_cung)
+                        txt = (txt + " " if txt else "") + (hop if hop else ("" if txt else self.loc_mien(p["y_nghia"], ten_cung)))
+                    txt = (txt or self.loc_mien(p["y_nghia"], ten_cung) or f"{goc_ten} tại {ten_cung}: chưa có luận riêng cho cung này.").strip()
                     if abs(p["diem"]) >= 2 or goc_ten.startswith("Hóa") or he_so_luu != 1.0:
                         nd = {"id": f"PT.{s}" + (f".{ten_cung}" if goc_ten in self.tt.phu_cung else ""), "diem": round(d, 2),
-                              "nhan_dinh": txt, "ly_do": f"{s} thủ {ten_cung} tại {CHI[c]}" + (" (đắc địa: bớt hại, có thể thành lực)" if dao_dau else " (đắc địa)" if dac else " (hãm địa — lực yếu)" if ham else ""),
+                              "nhan_dinh": txt, "ly_do": f"{s} thủ {ten_cung} tại {CHI[c]}" + (" (đắc địa: giảm hại)" if dao_dau else " (đắc địa)" if dac else " (hãm địa — lực yếu)" if ham else ""),
                               **self.nguon(c, o, [s])}
                         if dao_dau:
                             nd["dao_dau"] = True
@@ -374,6 +379,8 @@ class LuanGiai:
         dq = quy_doi(diem, nguong)
         if san:
             dq = max(dq, dn["san_chinh_tinh_sang"])
+        if muon:     # vô chính diệu: sao mượn không làm cung vượt trần
+            dq = min(dq, cfg["vo_chinh_dieu"]["tran_diem100"])
         d100 = diem_100(dq)
         return {"cung": ten_cung, "chi": CHI[chi], "diem": round(diem, 2), "diem100": d100, "xep_loai": bac(d100, dn),
                 "sat_xh": [{"sao": x[0], "cung": self.ls["cung_chuc"][x[1]], "chi": CHI[x[1]], "quan_he": x[2]} for x in sat_xh],
