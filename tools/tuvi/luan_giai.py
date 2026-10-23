@@ -157,7 +157,25 @@ class LuanGiai:
                     "sao_khac_menh": f"{HANH_VN[h]} khắc Bản Mệnh {HANH_VN[menh]} → sao chế ngược Mệnh → cái tốt của sao bị giảm, dễ chịu áp lực từ chính tính chất sao",
                     "menh_khac_sao": f"Bản Mệnh {HANH_VN[menh]} khắc {HANH_VN[h]} → khắc xuất, chế ngự được sao → kiểm soát tốt tính chất của sao, nhưng mặt hưởng thụ bị kìm, hơi khắc khổ"}[k]
             ket.append({"nhan_dinh": f"{s} ({HANH_VN[h]}): {luan}.", "diem": bang[k], "ly_do": f"Hành sao {HANH_VN[h]}, Bản Mệnh {HANH_VN[menh]}", "id": f"NEN.sao_chu.{k}"})
+        # Tuần/Triệt án Mệnh hoặc Thân: ưu tiên cao, luôn nêu ở phần nền
+        uu_tien = self.tt.cfg["tuan_triet"]["mau"]["uu_tien"]
+        for ten, chi in (("Mệnh", self.ls["menh"]), ("Thân", self.ls["than"])):
+            tt = [m for m in ("Tuần", "Triệt") if m in self.cung[chi]]
+            if tt and (ten == "Mệnh" or self.ls["than"] != self.ls["menh"]):
+                ten_cung = "Mệnh" if ten == "Mệnh" else f"cung Thân ({self.ls['cung_chuc'][chi]})"
+                ket.append({"nhan_dinh": self.cau_tuan_triet(ten_cung, tt) + uu_tien, "diem": 0, "ly_do": f"{'/'.join(tt)} tại {CHI[chi]}", "id": f"NEN.tuan_triet.{ten}"})
         return ket
+
+    def cau_tuan_triet(self, ten_cung, tuan_triet):
+        """Câu Tuần/Triệt gắn đúng cung bị án (Triệt cắt mạnh nửa đầu đời, Tuần cản chậm; cả hai thì nói cả hai)."""
+        m = self.tt.cfg["tuan_triet"]["mau"]
+        return m["ca_hai" if len(tuan_triet) == 2 else tuan_triet[0]].format(cung=ten_cung)
+
+    def mien_cho_phep(self, khoa, ten_cung):
+        """Câu tổ hợp Tứ Hóa có nội dung theo lĩnh vực (tiền, tình cảm...) chỉ được nối vào cung thuộc lĩnh vực đó."""
+        cfg = self.tt.cfg
+        mien = cfg["tu_hoa_mien"].get(khoa)
+        return not mien or any(ten_cung in cfg["mien_cung"][m] for m in mien)
 
     # ---------- quan hệ vị trí + metadata nguồn (mỗi nhận định phải truy được sao/cung nào sinh ra nó)
     def quan_he(self, chi_chu, c):
@@ -213,7 +231,7 @@ class LuanGiai:
             chu, he_so_vcd, chi_chu = self.chinh_tinh(mv(chi, 6)), cfg["vo_chinh_dieu"]["he_so"], mv(chi, 6)
             muon = True
             nhan_dinh.append({"id": "VCD", "diem": 0, "luu_y": True,
-                              "nhan_dinh": cfg["vcd_theo_cung"].get(ten_cung, self.tt.bo_sao["vo_chinh_dieu"]["chung"]),
+                              "nhan_dinh": cfg["vcd_theo_cung"].get(ten_cung) or (self.tt.bo_sao["vo_chinh_dieu"]["chung"] if ten_cung == "Mệnh" else cfg["vcd_mac_dinh"].format(cung=ten_cung)),
                               "ly_do": f"{ten_cung} tại {CHI[chi]} không có chính tinh; mượn {' + '.join(chu)} tại {CHI[chi_chu]}",
                               **self.nguon(chi, "ban_cung", ["vô chính diệu"])})
 
@@ -293,8 +311,12 @@ class LuanGiai:
                 if c == chi and abs(p["diem"]) >= 1:
                     goc_ten = p["ten"]
                     txt = self.tt.phu_cung.get(goc_ten, {}).get(ten_cung)
+                    if txt is None:    # chưa có câu riêng theo cung → câu theo NHÓM cung (nếu có), không dùng câu generic của cung khác
+                        txt = cfg["mau_theo_nhom"].get(goc_ten, {}).get(cfg["nhom_cung"][ten_cung])
                     if goc_ten.startswith("Hóa") and s == goc_ten:
-                        txt = (txt + " " if txt else "") + self.tt.tu_hoa.get(f"{self.goc_hoa[s]}|{s}", "" if txt else p["y_nghia"])
+                        khoa = f"{self.goc_hoa[s]}|{s}"
+                        hop = self.tt.tu_hoa.get(khoa) if self.mien_cho_phep(khoa, ten_cung) else None
+                        txt = (txt + " " if txt else "") + (hop if hop is not None else ("" if txt else p["y_nghia"]))
                     txt = (txt or p["y_nghia"]).strip()
                     if abs(p["diem"]) >= 2 or goc_ten.startswith("Hóa") or he_so_luu != 1.0:
                         nd = {"id": f"PT.{s}" + (f".{ten_cung}" if goc_ten in self.tt.phu_cung else ""), "diem": round(d, 2),
@@ -310,9 +332,8 @@ class LuanGiai:
 
         # Tuần Triệt
         if tuan_triet:
-            nhan_dinh.append({"id": "TT", "diem": 0, "ly_do": f"{'/'.join(tuan_triet)} tại {CHI[chi]}",
-                              "nhan_dinh": "Tuần/Triệt làm giảm lực các sao trong cung (tốt giảm tốt, xấu giảm xấu)"
-                                           + ("; Triệt ứng mạnh trước ~30 tuổi." if "Triệt" in tuan_triet else "; Tuần ứng mạnh sau ~30 tuổi."),
+            nhan_dinh.append({"id": "TT", "diem": 0, "luu_y": True, "ly_do": f"{'/'.join(tuan_triet)} tại {CHI[chi]}",
+                              "nhan_dinh": self.cau_tuan_triet(ten_cung, tuan_triet),
                               **self.nguon(chi, "ban_cung", list(tuan_triet))})
 
         # Cách cục
@@ -400,6 +421,8 @@ class LuanGiai:
         for k, nghia in hc["luu_sat"].items():
             if luu[k] in vung_tt:
                 bi.setdefault(cung_goc[luu[k]], []).append((k, luu[k], nghia))
+            elif cung_goc[luu[k]] in hc["trong_yeu"]:      # lớp 2: ngoài tam phương nhưng rơi vào cung trọng yếu
+                bi.setdefault(cung_goc[luu[k]], []).append((k, luu[k], f"{nghia}; ngoài tam phương lưu niên nhưng là cung trọng yếu"))
         if bi:
             ds = "; ".join(f"{c} ({CHI[ds_[0][1]]}): " + ", ".join(f"{k} ({n})" for k, _, n in ds_) for c, ds_ in bi.items())
             bo_3 = {"Mệnh", "Tài Bạch", "Quan Lộc"} <= set(bi)
@@ -467,6 +490,11 @@ class LuanGiai:
         for k in ("Lưu Hóa Lộc", "Lưu Lộc Tồn"):
             if luu[k] in vung_tt:
                 canh_bao.append({"id": f"LN.{k}", "nhan_dinh": f"{k} vào tam phương cung lưu niên → năm có cơ hội tài lộc", "diem": 1})
+        # lớp 2: lưu sát tinh/Kỵ rơi NGOÀI tam phương lưu niên nhưng vào cung trọng yếu vẫn phải nêu
+        for k in cfg["han"]["luu_sat"]:
+            c = self.ls["cung_chuc"][luu[k]]
+            if luu[k] not in vung_tt and c in cfg["han"]["trong_yeu"]:
+                canh_bao.append({"id": f"LN2.{k}", "nhan_dinh": f"{k} rơi vào {c} gốc ({CHI[luu[k]]}) — ngoài tam phương lưu niên nhưng là cung trọng yếu", "diem": -1})
         if dh and luu["Lưu Hóa Kỵ"] == them_vi_tri(them, "ĐH Hóa Kỵ"):
             canh_bao.append({"id": "LN.song_ky", "nhan_dinh": f"Lưu Hóa Kỵ trùng Hóa Kỵ đại hạn tại {CHI[luu['Lưu Hóa Kỵ']]} ({self.ls['cung_chuc'][luu['Lưu Hóa Kỵ']]}): năm cần thận trọng việc thuộc cung này", "diem": -2})
         ket["luu_nien"] = {"thai_tue_tai": f"{CHI[tt_chi]} ({self.ls['cung_chuc'][tt_chi]})", "xep_loai": k_tt["xep_loai"], "diem": k_tt["diem"],
@@ -546,6 +574,14 @@ class LuanGiai:
             tot = sorted(sang, key=lambda n: -n["diem"])[:3]
             xau = sorted(hung, key=lambda n: n["diem"])[:3]
             gt = [x for c in chu_ds for x in self.gian_tiep(cd, c, cham[c])] if len(chu_ds) == 1 else []
+            tot_hien, xau_hien = tot, xau
+            if cd.get("tieu_muc"):       # chủ đề gộp nhiều cung: tách tiểu mục, mỗi câu mang nhãn cung nguồn
+                tot_hien, xau_hien = [], []
+                for c in chu_ds:
+                    nhan_tm = cd["tieu_muc"][c]
+                    cua_c = [n for n in ung_vien if n["cung"] == c]
+                    tot_hien += [dict(n, nhan_dinh=f"{nhan_tm}: {n['nhan_dinh']}") for n in sorted([n for n in cua_c if n["diem"] > 0], key=lambda n: -n["diem"])[:2]]
+                    xau_hien += [dict(n, nhan_dinh=f"{nhan_tm}: {n['nhan_dinh']}") for n in sorted([n for n in cua_c if n["diem"] < 0], key=lambda n: n["diem"])[:2]]
             # nhất quán điểm ↔ nội dung: nhiều điểm sáng hơn điểm hung + chính tinh đắc địa thì không được rơi xuống nhãn thấp
             if len(sang) > len(hung) and any(cham[c]["chinh_tinh_dac"] for c in chu_ds):
                 pv = max(pv, dn["san_chu_de_dac"])
@@ -557,7 +593,7 @@ class LuanGiai:
                                   else f"{' + '.join(n.get('nhan') or [n['id']])} tại {n['cung']}")
                 cau_dan = f"Nền tảng có điểm sáng ({nhan(tot[0])}) nhưng cũng có hạn chế ({nhan(xau[0])}); hai mặt cùng tồn tại nên nhãn tổng nằm ở vùng giữa."
             d100 = diem_100(pv)
-            ket[ten] = {"diem100": d100, "xep_loai": bac(d100, dn), "diem_manh": tot, "diem_yeu": xau + gt, "cau_dan": cau_dan, "luu_y": luu_y,
+            ket[ten] = {"diem100": d100, "xep_loai": bac(d100, dn), "diem_manh": tot_hien, "diem_yeu": xau_hien + gt, "cau_dan": cau_dan, "luu_y": luu_y,
                         "cung": {c: cham[c]["xep_loai"] for c in cd["cung"]}}
         return ket
 

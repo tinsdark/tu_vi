@@ -26,7 +26,13 @@
     "he_so_sao_xau": 0.5,
     "ghi_chu": "Giảm lực cả sao tốt lẫn xấu; vì sao xấu bị giảm nên cung xấu thành đỡ xấu.",
     "triet_manh_truoc_tuoi": 30,
-    "tuan_manh_sau_tuoi": 30
+    "tuan_manh_sau_tuoi": 30,
+    "mau": {
+      "Triệt": "Triệt án {cung}: chặn/cắt mạnh, nhất là nửa đầu đời (trước ~30 tuổi); sao tốt giảm lực, sao xấu cũng bớt hung.",
+      "Tuần": "Tuần án {cung}: cản/làm chậm, nhẹ hơn Triệt, ứng rõ hơn từ ~30 tuổi trở đi; sao tốt giảm lực, sao xấu cũng bớt hung.",
+      "ca_hai": "Tuần và Triệt cùng án {cung}: Triệt chặn mạnh nửa đầu đời (trước ~30 tuổi), Tuần cản chậm ứng rõ hơn từ ~30 tuổi; sao tốt giảm lực, sao xấu cũng bớt hung.",
+      "uu_tien": " Án Mệnh/Thân định hình cả đời nên đặt lên đầu khi đọc lá số."
+    }
   },
   "doi_sao_cung_hoi": {
     "he_so_nhan": 1.5,
@@ -304,12 +310,18 @@
     "Gia đình": {
       "cung": {
         "Phụ Mẫu": 0.5,
-        "Tử Tức": 0.5
+        "Tử Tức": 0.5,
+        "Huynh Đệ": 0.5
       },
       "linh_vuc": [],
-      "ghi_chu": "Gia đình = Phụ Mẫu + Tử Tức (Huynh Đệ xem riêng ở tab Từng cung)."
+      "ghi_chu": "Gia đình = Phụ Mẫu + Tử Tức + Huynh Đệ, luôn tách tiểu mục (Cha mẹ / Con cái / Anh em); mỗi câu mang nhãn tiểu mục = cung nguồn. Không đổi theo lá số.",
+      "tieu_muc": {
+        "Phụ Mẫu": "Cha mẹ",
+        "Tử Tức": "Con cái",
+        "Huynh Đệ": "Anh em"
+      }
     },
-    "ghi_chu": "Mỗi chủ đề lấy ĐÚNG cung chủ (Gia đình = Phụ Mẫu + Tử Tức); sao ở xung chiếu/tam hợp đã được chấm trong tam phương của cung chủ và chỉ được nêu kèm nguồn ('gian_tiep': sao từ cung X xung/hội chiếu cung chủ → hệ quả gián tiếp)."
+    "ghi_chu": "Mỗi chủ đề lấy ĐÚNG cung chủ (Gia đình = Phụ Mẫu + Tử Tức + Huynh Đệ, tách tiểu mục); sao ở xung chiếu/tam hợp đã được chấm trong tam phương của cung chủ và chỉ được nêu kèm nguồn ('gian_tiep': sao từ cung X xung/hội chiếu cung chủ → hệ quả gián tiếp)."
   },
   "han": {
     "tu_hoa_dai_han": true,
@@ -391,7 +403,14 @@
       "Lưu Hóa Khoa",
       "Lưu Lộc Tồn"
     ],
-    "tan_dung": "khởi sự/chuyển đổi có tính toán, ưu tiên bước đi dài hạn hơn nước đi ngắn hạn rủi ro"
+    "tan_dung": "khởi sự/chuyển đổi có tính toán, ưu tiên bước đi dài hạn hơn nước đi ngắn hạn rủi ro",
+    "trong_yeu": [
+      "Mệnh",
+      "Tài Bạch",
+      "Quan Lộc",
+      "Phu Thê",
+      "Tật Ách"
+    ]
   },
   "sat_tinh": {
     "sat": [
@@ -448,8 +467,161 @@
   },
   "vcd_theo_cung": {
     "Tử Tức": "Tử Tức vô chính diệu: mượn sao cung xung chiếu để luận; thường luận con muộn hoặc ít, chất lượng hơn số lượng. Không tự động là xấu — đánh giá theo sao mượn và phụ tinh (Tả/Hữu/Tấu Thư là cát thì nâng).",
-    "Huynh Đệ": "Huynh Đệ vô chính diệu: mượn sao cung xung chiếu để luận; anh chị em thường ít hoặc không gần gũi. Không tự động là xấu — đánh giá theo sao mượn và phụ tinh."
+    "Huynh Đệ": "Huynh Đệ vô chính diệu: mượn sao cung xung chiếu để luận; anh chị em thường ít hoặc không gần gũi. Không tự động là xấu — đánh giá theo sao mượn và phụ tinh.",
+    "Tài Bạch": "Tài Bạch vô chính diệu: nguồn thu thiếu trục chính, nền thu nhập thiếu ổn định; luận theo sao mượn ở cung xung chiếu (cách kiếm tiền) và phụ tinh tại cung.",
+    "Thiên Di": "Thiên Di vô chính diệu: hình ảnh/môi trường bên ngoài thiếu trục chính, dễ thích nghi; luận theo sao mượn ở cung xung chiếu và phụ tinh tại cung."
   },
   "he_so_chinh_tinh_chu": 2.0,
-  "_meta_he_so_chinh_tinh_chu": "Chính tinh là chủ, phụ tinh là khách (docs/06): điểm chính tinh thủ cung (bản cung hoặc mượn khi vô chính diệu) nhân hệ số này để sát tinh ở xa không nuốt được khung chính tinh miếu/vượng."
+  "_meta_he_so_chinh_tinh_chu": "Chính tinh là chủ, phụ tinh là khách (docs/06): điểm chính tinh thủ cung (bản cung hoặc mượn khi vô chính diệu) nhân hệ số này để sát tinh ở xa không nuốt được khung chính tinh miếu/vượng.",
+  "vcd_mac_dinh": "{cung} vô chính diệu: không có chính tinh tại cung, mượn chính tinh cung xung chiếu (giảm lực) để luận; đánh giá theo sao mượn và phụ tinh, không tự động là xấu.",
+  "nhom_cung": {
+    "Mệnh": "menh_phuc",
+    "Phúc Đức": "menh_phuc",
+    "Tài Bạch": "tai_dien",
+    "Điền Trạch": "tai_dien",
+    "Quan Lộc": "quan_no",
+    "Nô Bộc": "quan_no",
+    "Phu Thê": "phu_tu",
+    "Tử Tức": "phu_tu",
+    "Phụ Mẫu": "phu_huynh",
+    "Huynh Đệ": "phu_huynh",
+    "Thiên Di": "di_tat",
+    "Tật Ách": "di_tat"
+  },
+  "mau_theo_nhom": {
+    "_ghi_chu": "Câu riêng theo NHÓM cung cho phụ tinh chưa có câu riêng ở phu_tinh_tai_cung_chuc.json — tránh dùng một câu generic cho cả 12 cung. Do tác giả (AI) soạn, chưa đối chiếu sách.",
+    "Tang Môn": {
+      "menh_phuc": "Hay buồn lo, đời sống tinh thần nhiều mất mát; đề phòng tang sự trong họ.",
+      "tai_dien": "Hao tài vì hiếu hỉ/tang sự, chi phí đột xuất; nên có quỹ dự phòng.",
+      "quan_no": "Công việc/quan hệ cấp dưới nhiều lo toan, dễ gặp chuyện buồn phải xử lý.",
+      "phu_tu": "Tình cảm/con cái có chuyện buồn lo, xa cách.",
+      "phu_huynh": "Người thân có chuyện buồn; lưu ý sức khỏe người thân, tang sự.",
+      "di_tat": "Đề phòng đau ốm, buồn phiền, nhất là khi ra ngoài."
+    },
+    "Bạch Hổ": {
+      "menh_phuc": "Cá tính quyết liệt; đề phòng thương tích, miệng tiếng.",
+      "tai_dien": "Tiền bạc/nhà đất dễ tranh chấp, hao vì kiện tụng, tai nạn.",
+      "quan_no": "Cạnh tranh gay gắt, va chạm, thị phi nơi làm việc và trong quan hệ.",
+      "phu_tu": "Hôn nhân/con cái có va chạm; đề phòng tai nạn, mổ xẻ.",
+      "phu_huynh": "Quan hệ với người thân dễ va chạm; đề phòng tang sự.",
+      "di_tat": "Đề phòng tai nạn, thương tích, mổ xẻ."
+    },
+    "Đại Hao": {
+      "menh_phuc": "Dễ hao tán, tiêu xài vượt kế hoạch.",
+      "tai_dien": "Hao tán lớn, tiền ra nhanh hơn vào.",
+      "quan_no": "Hao công sức, hao vì quan hệ/cấp dưới.",
+      "phu_tu": "Tốn kém cho tình cảm/con cái.",
+      "phu_huynh": "Tốn kém vì người thân.",
+      "di_tat": "Hao sức, hao sức khỏe khi ra ngoài hoặc khi bệnh."
+    },
+    "Kiếp Sát": {
+      "menh_phuc": "Tính quyết đoán cứng; đề phòng tai nạn, xung đột.",
+      "tai_dien": "Dễ mất của vì lừa/cướp, tranh chấp.",
+      "quan_no": "Cạnh tranh gay gắt, dễ bị lấn át.",
+      "phu_tu": "Tình cảm/con cái dễ va chạm, chia ly.",
+      "phu_huynh": "Người thân dễ xung đột.",
+      "di_tat": "Đề phòng tai nạn, phẫu thuật."
+    }
+  },
+  "tu_hoa_mien": {
+    "Liêm Trinh|Hóa Lộc": [
+      "tai"
+    ],
+    "Vũ Khúc|Hóa Khoa": [
+      "tai"
+    ],
+    "Thiên Cơ|Hóa Lộc": [
+      "tai"
+    ],
+    "Thiên Đồng|Hóa Lộc": [
+      "tai"
+    ],
+    "Thái Âm|Hóa Lộc": [
+      "tai",
+      "nguoi_nha"
+    ],
+    "Tham Lang|Hóa Lộc": [
+      "tai"
+    ],
+    "Vũ Khúc|Hóa Lộc": [
+      "tai"
+    ],
+    "Thái Dương|Hóa Lộc": [
+      "tai"
+    ],
+    "Cự Môn|Hóa Lộc": [
+      "tai"
+    ],
+    "Thiên Lương|Hóa Lộc": [
+      "tai"
+    ],
+    "Vũ Khúc|Hóa Quyền": [
+      "tai"
+    ],
+    "Vũ Khúc|Hóa Kỵ": [
+      "tai"
+    ],
+    "Phá Quân|Hóa Lộc": [
+      "tai"
+    ],
+    "Thái Âm|Hóa Kỵ": [
+      "tai",
+      "nguoi_nha"
+    ],
+    "Thái Âm|Hóa Quyền": [
+      "tai",
+      "nguoi_nha"
+    ],
+    "Tham Lang|Hóa Kỵ": [
+      "tinh_cam"
+    ],
+    "Thiên Đồng|Hóa Kỵ": [
+      "tinh_cam"
+    ],
+    "Thái Dương|Hóa Kỵ": [
+      "nguoi_nha"
+    ],
+    "Liêm Trinh|Hóa Kỵ": [
+      "suc_khoe",
+      "phap_ly"
+    ],
+    "_ghi_chu": "Câu tổ hợp Tứ Hóa trong tu_hoa_luan.json là câu generic theo sao; combo nào có nội dung theo lĩnh vực (tiền, tình cảm, người nhà, sức khỏe) chỉ được nối vào cung thuộc lĩnh vực đó (mien_cung). Combo không liệt kê = trung tính, dùng được mọi cung. Cung ngoài lĩnh vực chỉ dùng câu riêng của sao tại cung (phu_tinh_tai_cung_chuc.json)."
+  },
+  "mien_cung": {
+    "tai": [
+      "Mệnh",
+      "Phúc Đức",
+      "Tài Bạch",
+      "Điền Trạch",
+      "Quan Lộc",
+      "Nô Bộc",
+      "Thiên Di"
+    ],
+    "tinh_cam": [
+      "Mệnh",
+      "Phúc Đức",
+      "Phu Thê"
+    ],
+    "nguoi_nha": [
+      "Mệnh",
+      "Phúc Đức",
+      "Điền Trạch",
+      "Phụ Mẫu",
+      "Phu Thê",
+      "Tử Tức",
+      "Huynh Đệ"
+    ],
+    "suc_khoe": [
+      "Mệnh",
+      "Phúc Đức",
+      "Tật Ách"
+    ],
+    "phap_ly": [
+      "Mệnh",
+      "Quan Lộc",
+      "Tài Bạch",
+      "Thiên Di",
+      "Phúc Đức"
+    ]
+  }
 }

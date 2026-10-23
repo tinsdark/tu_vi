@@ -173,6 +173,74 @@ def test_han_co_ket_luan_hanh_dong():
     assert co > 30
 
 
+def test_tuan_triet_duoc_nhac_dung_cung():
+    # §10: cung chủ của chủ đề / Mệnh / Thân bị Tuần-Triệt thì BẮT BUỘC có câu, gắn đúng tên cung
+    tt, rnd, thay = TriThuc(), random.Random(17), 0
+    for _ in range(300):
+        nam, ls = la_so_ngau_nhien(rnd)
+        lg = LuanGiai(ls, tt)
+        kq = bao_cao(lg)
+        for ten, cd in tt.cfg["chu_de"].items():
+            if ten == "ghi_chu":
+                continue
+            bi = [c for c in cd["cung"] if any(m in lg.cung[lg.chi_cua[c]] for m in ("Tuần", "Triệt"))]
+            thay += len(bi)
+            cau = [n["nhan_dinh"] for n in kq["chu_de"][ten]["luu_y"] if n["id"] == "TT"]
+            assert len(cau) == len(bi), (ten, bi)
+            assert all(any(f"án {c}" in x for x in cau) for c in bi)
+        for ten, chi in (("Mệnh", ls["menh"]), ("Thân", ls["than"])):
+            if any(m in lg.cung[chi] for m in ("Tuần", "Triệt")) and (ten == "Mệnh" or ls["than"] != ls["menh"]):
+                assert any(n["id"] == f"NEN.tuan_triet.{ten}" for n in kq["nen"])
+    assert thay > 50
+
+
+def test_boi_canh_hoa_theo_cung():
+    # §12: câu Tứ Hóa/phụ tinh không được mang sắc thái của lĩnh vực khác cung
+    tt, rnd, thay = TriThuc(), random.Random(19), 0
+    for _ in range(400):
+        nam, ls = la_so_ngau_nhien(rnd)
+        for ten, k in bao_cao(LuanGiai(ls, tt))["cung"].items():
+            for n in k["nhan_dinh"]:
+                if n["id"].startswith("PT.Hóa "):
+                    for khoa, mien in tt.cfg["tu_hoa_mien"].items():
+                        if khoa.startswith("_") or tt.tu_hoa.get(khoa, "") not in n["nhan_dinh"]:
+                            continue
+                        thay += 1
+                        assert any(ten in tt.cfg["mien_cung"][m] for m in mien), (ten, khoa)
+                if n["id"] == "PT.Tang Môn" and ten in ("Tài Bạch", "Điền Trạch"):
+                    assert "hao tài" in n["nhan_dinh"].lower() and "buồn" not in n["nhan_dinh"].lower().split("hao tài")[0]
+    assert thay > 20
+
+
+def test_gia_dinh_co_dinh_ba_tieu_muc():
+    # §11: Gia đình luôn = Phụ Mẫu + Tử Tức + Huynh Đệ, mỗi câu mang nhãn tiểu mục
+    tt, rnd = TriThuc(), random.Random(23)
+    nhan = tuple(tt.cfg["chu_de"]["Gia đình"]["tieu_muc"].values())
+    for _ in range(150):
+        nam, ls = la_so_ngau_nhien(rnd)
+        cd = bao_cao(LuanGiai(ls, tt))["chu_de"]["Gia đình"]
+        assert set(cd["cung"]) == {"Phụ Mẫu", "Tử Tức", "Huynh Đệ"}
+        assert all(n["nhan_dinh"].startswith(tuple(f"{x}: " for x in nhan)) for n in cd["diem_manh"] + cd["diem_yeu"])
+
+
+def test_luu_sat_ngoai_tam_phuong_van_duoc_nhac():
+    # §13: lưu sát tinh/Kỵ rơi vào cung trọng yếu dù ngoài tam phương lưu niên vẫn phải nêu (lớp 2) và vào kết luận
+    tt, rnd, thay = TriThuc(), random.Random(29), 0
+    hc = tt.cfg["han"]
+    for _ in range(200):
+        nam, ls = la_so_ngau_nhien(rnd)
+        lg = LuanGiai(ls, tt)
+        h = bao_cao(lg, nam, nam + rnd.randint(1, 80))["han"]
+        ln = h["luu_nien"]
+        ids = {n["id"] for n in ln["ghi_chu"]}
+        for n in ln["ghi_chu"]:
+            if n["id"].startswith("LN2."):
+                thay += 1
+                assert any(c in n["nhan_dinh"] for c in hc["trong_yeu"])
+                assert any(n["id"].split(".", 1)[1] in x["nhan_dinh"] for x in ln["ket_luan"] if x["id"] == "HAN.rui_ro")
+    assert thay > 20
+
+
 def test_tu_duong_lich_toi_luan():
     a = tu_duong_lich(1990, 6, 8, 8, 30, "nam")["an_sao"]
     kq = bao_cao(LuanGiai(an_la_so(**a)), 1990, 2026)

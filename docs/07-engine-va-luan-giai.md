@@ -62,7 +62,10 @@ Quy trình `docs/06`: nền → chủ tinh → độ sáng → tam phương tứ
 | Điểm nội tại | Thang /100 làm tròn bội 5, 6 bậc (Rất thấp/Thấp/Trung bình/Khá/Tốt/Rất tốt). Quy đổi từ điểm cung qua mốc 10/30/70/90 của mẫu ngẫu nhiên (`hieu_chinh.py`) chỉ như THANG đo nội bộ — KHÔNG phải percentile dân số nên cấm câu "cao/thấp hơn X% lá số khác" |
 | Câu sát tinh | Sinh từ dữ liệu thật: sát ở bản cung / ở xung-hội chiếu (ghi cung nguồn) / cả hai; không có sát thì không sinh câu. Sát ở xa trừ ít hơn sát ở bản cung (trọng số bản cung 1.0 > xung 0.5 > tam hợp 0.25) |
 | Vô chính diệu | Mượn sao cung xung chiếu (ghi rõ nguồn), kèm ghi chú theo cung (Tử Tức: con muộn/ít; Huynh Đệ: anh chị em ít gần gũi), không tự động xấu |
-| Hạn năm | Kết luận hành động: trọng tâm rủi ro → nên/tránh theo cung gốc bị lưu sát chiếu → mặt thuận (Hóa Lộc/Quyền/Khoa đại hạn, lưu cát tinh) |
+| Tuần/Triệt | Cung chủ của chủ đề, Mệnh và Thân bị Tuần/Triệt thì BẮT BUỘC có câu gắn đúng tên cung (Triệt: cắt mạnh nửa đầu đời; Tuần: cản chậm, ứng rõ từ ~30 tuổi — theo docs/06). Án Mệnh/Thân luôn nêu ở phần Nền |
+| Bối cảnh hóa | Câu tổ hợp Tứ Hóa theo lĩnh vực (tiền, tình cảm, người nhà…) chỉ nối vào cung thuộc lĩnh vực đó (`tu_hoa_mien`, `mien_cung`); phụ tinh chưa có câu riêng theo cung dùng câu theo NHÓM cung (`mau_theo_nhom`), không mượn câu của cung khác |
+| Gia đình | Luôn = Phụ Mẫu + Tử Tức + Huynh Đệ, tách tiểu mục Cha mẹ / Con cái / Anh em, mỗi câu mang nhãn |
+| Hạn năm | Kết luận hành động: trọng tâm rủi ro → nên/tránh theo cung gốc bị lưu sát chiếu → mặt thuận (Hóa Lộc/Quyền/Khoa đại hạn, lưu cát tinh). Lưu sát tinh/Kỵ rơi ngoài tam phương lưu niên nhưng vào cung trọng yếu (Mệnh/Tài/Quan/Phu/Tật) vẫn được nêu (lớp 2, id `LN2.*`) |
 | **Văn mẫu** (`viet_van.py`, không cần AI) | Mỗi mục là MỘT đoạn: 'Nhìn chung <bậc> (khoảng N/100). [câu dẫn hòa giải]. Điểm sáng: A; B. Cần lưu ý: C.', mỗi ý kèm mã quy tắc; ý (mã + nội dung) đã nêu ở mục trước thì bỏ. Sát tinh đắc địa (điểm bị lật dương nhưng câu luận vẫn nói mặt xấu) gắn cờ `dao_dau` và không vào điểm mạnh/yếu của chủ đề |
 | **Viết văn bằng AI** (`viet_van.py`, tùy chọn) | Gửi báo cáo JSON cho Claude (`claude-opus-5-5`), yêu cầu mỗi câu kết thúc bằng [ID]. Hậu kiểm: câu không có ID hợp lệ bị bỏ. Không có credential → chế độ mẫu (ghép câu, không gọi API) |
 
