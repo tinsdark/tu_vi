@@ -114,10 +114,13 @@ export function NganKeo({ noiDung, bc, laSo, dong }: { noiDung: NoiDungNganKeo |
     if (!noiDung) return;
     truoc.current = document.activeElement;
     nutDong.current?.focus();
+    const cu = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const phim = (e: KeyboardEvent) => { if (e.key === "Escape") dong(); };
     window.addEventListener("keydown", phim);
     return () => {
       window.removeEventListener("keydown", phim);
+      document.body.style.overflow = cu;
       (truoc.current as HTMLElement | null)?.focus?.();
     };
   }, [noiDung, dong]);

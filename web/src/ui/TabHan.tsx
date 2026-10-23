@@ -23,11 +23,13 @@ export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNan
             <p className="mo">Tứ Hóa đại hạn: {Object.entries(d.tu_hoa).map(([k, v]) => `${k} → ${v}`).join("; ")}</p>
             <div className="luoi-dai-han">
               {Object.entries(d.danh_gia).map(([ten, v]) => (
-                <article key={ten} className={`the-dh the-dh-${MAU[v.xep_loai]}`}>
-                  <h4>{ten} đại hạn <small>({v.chi})</small></h4>
-                  <p className="xep">{v.xep_loai} <small>(điểm {v.diem})</small></p>
+                <details key={ten} className={`the-dh the-dh-${MAU[v.xep_loai]}`}>
+                  <summary>
+                    <span className="dh-ten">{ten} đại hạn <small>({v.chi})</small></span>
+                    <span className="dh-xep">{v.xep_loai} <small>({v.diem})</small></span>
+                  </summary>
                   <DanhSachNhanDinh ds={v.noi_bat} />
-                </article>
+                </details>
               ))}
             </div>
           </>

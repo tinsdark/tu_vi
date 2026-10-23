@@ -34,30 +34,50 @@ function ChamMa({ ma, onMo }: { ma: string; onMo: () => void }) {
 
 /** Mặc định đọc liền mạch (không chấm giữa câu); mỗi đoạn có một hàng "Cơ sở" gom các mã đã dùng. Bật "chấm theo từng câu" để thấy mã ngay sau câu. */
 function HienVan({ van }: { van: string }) {
-  const dong = van.split("\n");
   const [theoCau, setTheoCau] = useState(false);
   const mo = useNganKeo();
+  // tách theo dòng "# Tiêu đề": mỗi mục là một khối thu gọn; dòng đứng trước tiêu đề đầu tiên không thuộc mục nào
+  const muc: { tieuDe: string | null; dong: string[] }[] = [];
+  for (const d of van.split("\n")) {
+    if (d.startsWith("# ")) muc.push({ tieuDe: d.slice(2), dong: [] });
+    else if (d.trim()) { if (!muc.length) muc.push({ tieuDe: null, dong: [] }); muc[muc.length - 1].dong.push(d); }
+  }
+  const [dangMo, setDangMo] = useState<Set<string>>(() => new Set(muc[0]?.tieuDe ? [muc[0].tieuDe] : []));
+  const dsTen = muc.flatMap((m) => (m.tieuDe ? [m.tieuDe] : []));
+  const moTat = dsTen.length > 0 && dsTen.every((t) => dangMo.has(t));
+  const doi = (t: string, m: boolean) => setDangMo((c) => { const n = new Set(c); if (m) n.add(t); else n.delete(t); return n; });
+
+  const veDong = (d: string, i: number) => {
+    if (theoCau) return <p key={i}><CauChu cau={d} /></p>;
+    const ma = [...new Set(tachMa(d).flatMap((m) => (m.ma ? [m.ma] : [])))];
+    const chu = tachMa(d).filter((m) => !m.ma).map((m) => m.text).join("").replace(/\s+([.;,])/g, "$1").replace(/\s{2,}/g, " ");
+    return (
+      <div key={i} className="doan-van">
+        <p>{chu}</p>
+        <details className="co-so mo">
+          <summary>Căn cứ của đoạn này ({ma.length} quy tắc)</summary>
+          <ul>{ma.map((m) => <li key={m}><ChamMa ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} /> {quyTac(m).tieu_de}</li>)}</ul>
+        </details>
+      </div>
+    );
+  };
+
   return (
     <div className="van-xuoi">
-      <label className="mo van-che-do">
-        <input type="checkbox" checked={theoCau} onChange={(e) => setTheoCau(e.currentTarget.checked)} /> Hiện chấm căn cứ sau từng câu
-      </label>
-      {dong.map((d, i) => {
-        if (d.startsWith("# ")) return <h4 key={i}>{d.slice(2)}</h4>;
-        if (!d.trim()) return null;
-        if (theoCau) return <p key={i}><CauChu cau={d} /></p>;
-        const ma = [...new Set(tachMa(d).flatMap((m) => (m.ma ? [m.ma] : [])))];
-        const chu = tachMa(d).filter((m) => !m.ma).map((m) => m.text).join("").replace(/\s+([.;,])/g, "$1").replace(/\s{2,}/g, " ");
-        return (
-          <div key={i} className="doan-van">
-            <p>{chu}</p>
-            <details className="co-so mo">
-              <summary>Căn cứ của đoạn này ({ma.length} quy tắc)</summary>
-              <ul>{ma.map((m) => <li key={m}><ChamMa ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} /> {quyTac(m).tieu_de}</li>)}</ul>
-            </details>
-          </div>
-        );
-      })}
+      <div className="hang-nut hang-nut-trai">
+        <button type="button" className="nut" onClick={() => setDangMo(moTat ? new Set() : new Set(dsTen))}>{moTat ? "Thu gọn tất cả" : "Mở tất cả"}</button>
+        <label className="mo van-che-do">
+          <input type="checkbox" checked={theoCau} onChange={(e) => setTheoCau(e.currentTarget.checked)} /> Hiện chấm căn cứ sau từng câu
+        </label>
+      </div>
+      {muc.map((m, k) => m.tieuDe === null
+        ? <div key={k}>{m.dong.map(veDong)}</div>
+        : (
+          <details key={k} className="muc-van" open={dangMo.has(m.tieuDe)} onToggle={(e) => doi(m.tieuDe!, e.currentTarget.open)}>
+            <summary><h4>{m.tieuDe}</h4></summary>
+            <div className="muc-van-than">{m.dong.map(veDong)}</div>
+          </details>
+        ))}
     </div>
   );
 }
@@ -148,23 +168,39 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
 
 export function TabTongQuan({ bc, nhap, nc }: { bc: BaoCao; nhap: NhapLieu; nc: KetQuaNangCao }) {
   const ids = tapId(bc);
+  const tenCd = Object.keys(bc.chu_de);
+  const [mo, setMo] = useState<Set<string>>(() => new Set());
+  const doi = (ten: string, m: boolean) => setMo((c) => { const n = new Set(c); if (m) n.add(ten); else n.delete(ten); return n; });
+  const moTat = mo.size === tenCd.length;
   return (
     <div className="tab-noi-dung">
       <ChuThichTinCay />
-      <p className="mo">Điểm /100 chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này (bội số 5), không so với lá số khác.</p>
+      <p className="mo">Điểm /100 chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này (bội số 5), không so với lá số khác. Bấm vào từng chủ đề để xem chi tiết.</p>
+      <div className="hang-nut hang-nut-trai">
+        <button type="button" className="nut" onClick={() => setMo(moTat ? new Set() : new Set(tenCd))}>{moTat ? "Thu gọn tất cả" : "Mở tất cả"}</button>
+      </div>
       <div className="luoi-chu-de">
         {Object.entries(bc.chu_de).map(([ten, cd]) => (
-          <article key={ten} className="the-chu-de">
-            <h3>{ten}</h3>
-            <ThanhDiem diem100={cd.diem100} xepLoai={cd.xep_loai} />
-            <p className="mo">Dựa trên: {Object.entries(cd.cung).map(([c, x]) => `${c} (${x})`).join(" · ")}</p>
-            <p className="mo">{cd.khung}</p>
-            {cd.cau_dan && <p className="cau-dan">{cd.cau_dan}</p>}
-            {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} /></>)}
-            {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} /></>)}
-            {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} /></>)}
-            {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} /></>)}
-          </article>
+          <details key={ten} className="the-chu-de" open={mo.has(ten)} onToggle={(e) => doi(ten, e.currentTarget.open)}>
+            <summary>
+              <h3>{ten}</h3>
+              <ThanhDiem diem100={cd.diem100} xepLoai={cd.xep_loai} />
+              <span className="tom-tat">
+                {cd.diem_manh.length > 0 && <span className="tot">{cd.diem_manh.length} điểm mạnh</span>}
+                {cd.diem_yeu.length > 0 && <span className="xau">{cd.diem_yeu.length} cần lưu ý</span>}
+                {cd.diem_manh.length + cd.diem_yeu.length === 0 && <span>Không có điểm nổi bật</span>}
+              </span>
+            </summary>
+            <div className="the-chu-de-than">
+              <p className="mo">Dựa trên: {Object.entries(cd.cung).map(([c, x]) => `${c} (${x})`).join(" · ")}</p>
+              <p className="mo">{cd.khung}</p>
+              {cd.cau_dan && <p className="cau-dan">{cd.cau_dan}</p>}
+              {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} /></>)}
+              {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} /></>)}
+              {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} /></>)}
+              {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} /></>)}
+            </div>
+          </details>
         ))}
       </div>
       {nc.bo && (

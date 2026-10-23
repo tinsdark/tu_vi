@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { chuanHoaNhap, LUA_CHON_PROFILE, PROFILE_MAC_DINH, QUY_UOC_MAC_DINH, type NhapLieu, type Profile } from "../engine";
 import type { LaSoDaLuu } from "../lib/luuTru";
+import { HIEN_NANG_CAO } from "../lib/tinhNang";
 
 const homNay = new Date();
 const dinhDangNgay = (n: NhapLieu) => `${n.nam}-${String(n.thang).padStart(2, "0")}-${String(n.ngay).padStart(2, "0")}`;
@@ -58,13 +59,18 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
         </label>
         <fieldset className="truong">
           <legend>Giới tính</legend>
-          <label className="chon"><input type="radio" name="gt" value="nam" checked={gt === "nam"} onChange={() => setGt("nam")} /> Nam</label>
-          <label className="chon"><input type="radio" name="gt" value="nu" checked={gt === "nu"} onChange={() => setGt("nu")} /> Nữ</label>
+          <div className="nhom-chon">
+            <label className="chon"><input type="radio" name="gt" value="nam" checked={gt === "nam"} onChange={() => setGt("nam")} /> Nam</label>
+            <label className="chon"><input type="radio" name="gt" value="nu" checked={gt === "nu"} onChange={() => setGt("nu")} /> Nữ</label>
+          </div>
         </fieldset>
         <fieldset className="truong">
-          <legend>Nơi sinh <em>(chỉ ảnh hưởng người sinh trước 1976)</em></legend>
-          <label className="chon"><input type="radio" name="mien" value="bac" checked={mien === "bac"} onChange={() => setMien("bac")} /> Miền Bắc</label>
-          <label className="chon"><input type="radio" name="mien" value="nam" checked={mien === "nam"} onChange={() => setMien("nam")} /> Miền Nam</label>
+          <legend>Nơi sinh</legend>
+          <div className="nhom-chon">
+            <label className="chon"><input type="radio" name="mien" value="bac" checked={mien === "bac"} onChange={() => setMien("bac")} /> Miền Bắc</label>
+            <label className="chon"><input type="radio" name="mien" value="nam" checked={mien === "nam"} onChange={() => setMien("nam")} /> Miền Nam</label>
+          </div>
+          <em className="goi-y">Chỉ ảnh hưởng người sinh trước 1976.</em>
         </fieldset>
         <label className="truong">
           <span>Năm xem hạn</span>
@@ -72,7 +78,7 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
         </label>
       </div>
 
-      <details className="nang-cao">
+      {HIEN_NANG_CAO && <details className="nang-cao">
         <summary>Tùy chọn nâng cao: quy ước giờ/lịch và phái</summary>
         <div className="nang-cao-noi-dung">
           <h4>Quy ước giờ và lịch</h4>
@@ -116,7 +122,7 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
             </label>
           ))}
         </div>
-      </details>
+      </details>}
 
       {loi.length > 0 && (
         <ul className="loi" role="alert">{loi.map((l) => <li key={l}>{l}</li>)}</ul>
