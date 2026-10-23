@@ -44,7 +44,7 @@ function menhDe(n: NhanDinh): string {
   }
   { // sao mượn hoặc sao hội/xung chiếu: "Sao từ cung X (chi) xung|hội chiếu Y (chi) → hệ quả"
     const m = /^(.+?) từ cung (.+?) \(.+?\) (xung|hội) chiếu .+? \(.+?\) → (.*)$/s.exec(t);
-    if (m) return `${hoa(m[3] === "xung" ? "từ cung đối diện" : "từ cung hội chiếu")} (${m[1]} ở ${m[2]}), ${sach(thuong(m[4]).replace(/\s*\(sao nằm ở cung[^)]*\)/, ""))}`;
+    if (m) return `${hoa(sach(thuong(m[4]).replace(/\s*\(sao nằm ở cung[^)]*\)/, "")))} (do ${m[1]} ở cung ${m[2]} chiếu sang)`; // hệ quả trước, nguồn trong ngoặc
   }
   return sach(t).replace(/\s*\(sao nằm ở cung[^)]*\)/, "");
 }
@@ -93,7 +93,78 @@ export const HOA_GIAI = [
 ];
 const hoaGiai = (ten: string, kq: BaoCao): string => HOA_GIAI[Math.max(0, Object.keys(kq.chu_de).indexOf(ten)) % HOA_GIAI.length];
 
+// ---------- kể chuyện theo "hình dạng" của mục (tầng tổng hợp, không LLM)
+export type HinhDang = "A" | "B" | "C" | "D" | "E";
+
+/** Nhận ra hình dạng của một mục: nền (chính tinh cung chủ) tốt/yếu × mặt thuận/mặt nhiễu có đáng kể không. */
+export function hinhDang(cd: KetQuaChuDe, kq: BaoCao): HinhDang {
+  const cung = Object.keys(cd.cung)[0];
+  const nenTot = kq.cung[cung].chinh_tinh_dac;
+  const cong = cd.diem_manh.reduce((t, n) => t + Math.max(0, n.diem), 0);
+  const tru = cd.diem_yeu.reduce((t, n) => t + Math.abs(Math.min(0, n.diem)), 0);
+  // ngưỡng đo trên 1600 mục ngẫu nhiên: trung vị cộng ≈ 6.8, trừ ≈ 4.6
+  if (nenTot) return tru >= 5 ? "B" : "A";
+  if (cong >= 5) return "C";
+  return tru >= 4 ? "D" : "E";
+}
+
+/** Loại điều cần canh của một nhận định tiêu cực, để tra "việc nên làm". */
+function loaiCanh(n: NhanDinh, nhom: Record<string, string[]>, rieng: Record<string, string> = {}): string {
+  if (n.id.startsWith("XC")) return ({ "Mệnh": "tam_the", "Phúc Đức": "tam_trang", "Thiên Di": "moi_truong" } as Record<string, string>)[n.cung_nguon ?? ""] ?? "chung";
+  const dem = new Map<string, number>();
+  for (const sao of n.nhan ?? []) if (rieng[sao]) { dem.set(rieng[sao], (dem.get(rieng[sao]) ?? 0) + 1); }
+  if (dem.size) return [...dem].sort((a, b) => b[1] - a[1])[0][0];
+  for (const sao of n.nhan ?? []) for (const [loai, ds] of Object.entries(nhom)) if (ds.includes(sao)) dem.set(loai, (dem.get(loai) ?? 0) + 1);
+  return [...dem].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "chung";
+}
+
+/** "Thất Sát miếu" — nền chính tinh của cung chủ, tên sao đặt trong ngoặc ở câu mở (R1). */
+function nenChu(cung: string, kq: BaoCao): string {
+  const k = kq.cung[cung];
+  const ds = k.chinh_tinh_sang.filter(([, m]) => m).map(([s, m]) => `${s} ${MUC_SANG[m!]}`);
+  if (k.muon_tu) return `cung ${cung} không có chính tinh, mượn ${noi(k.chinh_tinh_sang.map(([s]) => s))} từ cung đối diện`;
+  return ds.length ? `${noi(ds)} ở cung ${cung}` : `cung ${cung}`;
+}
+
+function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>): string | null {
+  const bang = triThuc().keChuyen;
+  const kc = bang.chu_de[ten];
+  if (!kc) return null;
+  const ma = `CD.${ten}`;
+  const hd = hinhDang(cd, kq);
+  const cung = Object.keys(cd.cung)[0];
+  const moi = (ds: NhanDinh[]) => ds.filter((n) => {
+    const k = JSON.stringify([n.id, n.nhan_dinh]);
+    if (daDung.has(k)) return false;
+    daDung.add(k);
+    return true;
+  });
+  const nenYeu = hd === "C" || hd === "D" || hd === "E";
+  // mô tả trung tính của chính tinh chỉ đưa vào khi nền tốt (khi nền yếu, câu đó có thể là mặt hạn chế đã được Hóa cát "cứu")
+  const mua = chon(moi(nenYeu ? [...cd.diem_manh] : [...cd.trung_tinh, ...cd.diem_manh]), 2, 1);
+  const canh = chon(moi([...cd.diem_yeu]), 1, -1);
+  const khung = cd.luu_y.filter((n) => n.id !== "VCD" && !daDung.has(n.id + n.nhan_dinh));
+  khung.forEach((n) => daDung.add(n.id + n.nhan_dinh));
+
+  const s: string[] = [cau((kc.mo_dau[hd] as string).replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma)];
+  const diemTua = (tienTo: string) => mua.forEach((n, i) => s.push(cau(i === 0 && !tienTo ? menhDe(n) : i === 0 ? `${tienTo}${thuong(menhDe(n))}` : `Ngoài ra, ${thuong(menhDe(n))}`, n.id)));
+  const canhCau = (tienTo: string) => canh.forEach((n) => s.push(cau(`${tienTo}${thuong(menhDe(n))}`, n.id)));
+
+  if (hd === "A" || hd === "E") { diemTua(""); canhCau("Chỉ cần để ý: "); }
+  else if (hd === "B") { diemTua(""); canhCau("Nhưng cần để ý: "); }
+  else if (hd === "C") { diemTua("Điểm đỡ cho bạn: "); canhCau("Cần để ý: "); }
+  else { canhCau("Cần lưu ý: "); diemTua("Dù vậy vẫn có điểm tựa: "); }
+  for (const n of khung) s.push(cau(cauLuuY(n), n.id));
+
+  const loai = canh[0] ? loaiCanh(canh[0], bang.nhom_sao, kc.nhom_rieng) : "";
+  const viec = canh[0] ? kc.viec_nen_lam[loai] ?? kc.viec_nen_lam.chung : kc.tan_dung;
+  s.push(cau(`${canh[0] ? "Việc nên làm" : "Gợi ý"}: ${viec}`, canh[0]?.id ?? ma));
+  return s.join(" ");
+}
+
 function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>): string {
+  const ke = doanKeChuyen(ten, cd, kq, daDung);
+  if (ke) return ke;
   const ma = `CD.${ten}`;
   const s: string[] = [cau(`Về ${ten.toLowerCase()}, bạn ở mức ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100)`, ma)];
   const nen = cauNen(ten, cd, kq);

@@ -14,6 +14,7 @@ export * from "./nangCao";
 export * from "./nhap";
 export * from "./types";
 export * from "./vietVan";
+export { hinhDang, HOA_GIAI, type HinhDang } from "./vanNen";
 export * from "./boCuc";
 export * from "./quyTac";
 export * from "./thongTin";
