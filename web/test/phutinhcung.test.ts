@@ -17,6 +17,15 @@ describe("ý nghĩa phụ tinh theo từng cung", () => {
     }
   });
 
+  it("14 sao ngoài phu_tinh.json (vòng Tràng Sinh, Lưu Hà, Thiên Trù) cũng có đủ 12 cung và mô tả riêng", () => {
+    const VONG = ["Tràng Sinh", "Mộc Dục", "Quan Đới", "Lâm Quan", "Đế Vượng", "Suy", "Bệnh", "Tử", "Mộ", "Tuyệt", "Thai", "Dưỡng", "Lưu Hà", "Thiên Trù"];
+    for (const ten of VONG) {
+      const t = thongTinSao(ten);
+      expect(Object.keys(t.theo_cung).sort(), ten).toEqual([...CUNG].sort());
+      expect(t.mo_ta, ten).not.toMatch(/^Sao thuộc các vòng an theo/); // không còn câu chung chung
+    }
+  });
+
   it("độ tin cậy: sao có _nguon (đã đối chiếu web) là vàng, sao không có là xám — không nhận nhầm AI tự soạn là đã kiểm", () => {
     expect(quyTac("PT.Văn Khúc.Mệnh").tin_cay).toBe("vang");
     expect(quyTac("PT.Thiên Hình.Mệnh").tin_cay).toBe("xam");

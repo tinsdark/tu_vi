@@ -104,7 +104,7 @@ export function thongTinSao(ten: string, tt: TriThuc = triThuc()): ThongTinSao {
   const pc = tt.phuCung[p?.ten ?? ten];
   const theoCung: Record<string, string> = {};
   if (pc) for (const [k, v] of Object.entries(pc)) if (!k.startsWith("_")) theoCung[k] = v;
-  return { ten, loai: p ? "phu_tinh" : "vong", hanh: p?.hanh, mo_ta: p?.y_nghia ?? "Sao thuộc các vòng an theo can/chi (Bác Sĩ, Thái Tuế, Tràng Sinh...).", do_sang: doSang, theo_cung: theoCung, dac_dia: p?.dac_dia };
+  return { ten, loai: p ? "phu_tinh" : "vong", hanh: p?.hanh, mo_ta: p?.y_nghia ?? (pc?._y_nghia as string | undefined) ?? "Sao thuộc các vòng an theo can/chi (Bác Sĩ, Thái Tuế, Tràng Sinh...).", do_sang: doSang, theo_cung: theoCung, dac_dia: p?.dac_dia };
 }
 
 // ---- Mô tả điều kiện cách cục (DSL trong cach_cuc.json) bằng tiếng Việt cho người đọc
