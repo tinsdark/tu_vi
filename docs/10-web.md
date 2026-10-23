@@ -37,7 +37,7 @@ Hai bản engine được giữ khớp bằng test, không bằng niềm tin: `t
 | `duongSangAm` | 900 ngày ngẫu nhiên + quét liên tục các tháng nhạy cảm (Tết 1968 Bắc/Nam, 2054, 1985, 2057, năm nhuận) | trùng 100% |
 | `tuDuongLich` | 900 ca đủ quy ước, múi giờ lịch sử, giờ mặt trời, cảnh báo + ca quanh các mốc đổi giờ 1943–1975 | trùng toàn bộ kết quả |
 | `anLaSo` | 1.200 lá số, 60% có profile phái ngẫu nhiên | trùng mọi sao, Tứ Hóa, Tuần/Triệt, đại hạn |
-| `baoCao` | 75 lá số (có ca quá 120 tuổi, không đại hạn), mọi profile | trùng cả cây JSON (điểm, phân vị, nhận định, hạn, lưu nguyệt, chủ đề) |
+| `baoCao` | 75 lá số (có ca quá 120 tuổi, không đại hạn), mọi profile | trùng cả cây JSON (điểm nội tại, nhận định, hạn + kết luận nên/tránh, lưu nguyệt, chủ đề) |
 | `vietMau`, `hauKiem`, `tapId` | như trên | trùng từng ký tự |
 
 Lần chạy `GOLDEN_N=2000`: 6.000 ngày + 6.000 ca lịch đầy đủ + 8.000 lá số + 500 báo cáo, đều trùng. Kiểm bằng đột biến: sửa một hằng số bất kỳ trong TS thì test đỏ.
@@ -77,9 +77,19 @@ Thiết kế an toàn:
 - Header an toàn (CSP, nosniff, no-referrer, X-Frame-Options); chặn path traversal khi phục vụ file.
 - Model `claude-opus-5-5` (đổi bằng `TUVI_MODEL`), `effort: medium`, kèm `fallbacks: "default"` (server-side fallback khi classifier từ chối); `stop_reason: refusal` → văn mẫu.
 
-Biến môi trường: `ANTHROPIC_API_KEY`, `PORT`, `TUVI_MODEL`, `TUVI_GIOI_HAN_MOI_GIO`, `TUVI_TIN_CAY_PROXY=1` (sau reverse proxy), `TUVI_CORS_ORIGIN` (khi web ở host khác), và phía build web `VITE_API_BASE` (địa chỉ API khi web và API khác origin).
+Biến môi trường: `TUVI_LLM_BASE_URL`, `TUVI_LLM_MODEL`, `TUVI_LLM_API_KEY`, `ANTHROPIC_API_KEY`, `PORT`, `TUVI_MODEL`, `TUVI_GIOI_HAN_MOI_GIO`, `TUVI_TIN_CAY_PROXY=1` (sau reverse proxy), `TUVI_CORS_ORIGIN` (khi web ở host khác), và phía build web `VITE_API_BASE` (địa chỉ API khi web và API khác origin).
 
-**Chưa kiểm:** nhánh gọi Claude thật (môi trường dev không có API key). Đã kiểm chữ ký SDK bằng `tsc` và toàn bộ luồng quanh nó bằng LLM giả trong `test/server.test.ts`.
+**Không cần Claude:** AI viết văn không gắn với một nhà cung cấp. Có ba đường, đường nào cũng đi qua cùng một hậu kiểm theo mục.
+1. **Dán tay, không cần API** (trong web, tab Tổng quan → “Dùng AI khác”): sao chép lời nhắc (quy tắc + dữ liệu lá số, không có tên) → dán vào ChatGPT/Gemini/Claude… → dán văn trả lời lại web → web bỏ câu không có mã hoặc lấn mục. Chạy hoàn toàn trên trình duyệt.
+2. **API kiểu OpenAI** (OpenAI, Gemini qua endpoint tương thích, DeepSeek, Groq, OpenRouter, Ollama chạy máy mình…): `TUVI_LLM_BASE_URL`, `TUVI_LLM_MODEL`, `TUVI_LLM_API_KEY` (Ollama không cần key). Ví dụ Ollama: `TUVI_LLM_BASE_URL=http://localhost:11434/v1 TUVI_LLM_MODEL=qwen2.5:14b npm run server`.
+3. **Claude:** `ANTHROPIC_API_KEY`.
+Mô hình yếu hơn chỉ làm nhiều câu bị bỏ hơn (xem số câu bị bỏ), không làm sai cung. Tiếng Việt và thuật ngữ tử vi của từng mô hình khác nhau: nên dùng `npm run kiem:llm` để đo trước.
+
+**Hậu kiểm theo mục:** mỗi câu LLM viết phải có mã hợp lệ VÀ mã đó phải thuộc đúng mục đang viết (mục Tài chính chỉ được trích mã của Tài chính; Tổng quan: nền/Thân/xếp loại; Hạn năm: mã hạn). LLM kéo sao mục khác sang thì câu bị bỏ — chặn đúng lỗi gán sai cung. Payload gửi LLM đã rút gọn (`rutGonChoLlm`), prompt (`HUONG_DAN`) mô tả cấu trúc JSON và quy tắc theo mục. Parity Python = TS cho phần này nằm trong `parity.test.ts`.
+
+**Kiểm bằng AI thật:** đặt biến môi trường như trên rồi `npm run kiem:llm [số lá số]` gọi AI trên vài lá số mẫu, in tỉ lệ câu bị bỏ, mục thiếu, câu chứa lời cấm (percentile…), thoát mã 1 nếu vượt ngưỡng.
+
+**Chưa kiểm:** gọi nhà cung cấp AI thật (môi trường dev không có key; chất lượng văn AI chưa được đánh giá). Đã kiểm: API kiểu OpenAI qua HTTP thật tới máy chủ giả (`test/llm.test.ts`), luồng server bằng LLM giả (`test/server.test.ts`), và luồng sao chép/dán lại bằng Chromium headless.
 
 ## 6. Triển khai
 

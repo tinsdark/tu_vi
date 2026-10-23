@@ -6,7 +6,7 @@ import { anLaSo, type GioiTinh, type Profile } from "../src/engine/anSao";
 import { triThuc } from "../src/engine/kb";
 import { duongSangAm, tuDuongLich, type Mien } from "../src/engine/lichAm";
 import { baoCao, LuanGiai } from "../src/engine/luanGiai";
-import { hauKiem, tapId, vietMau, vietVanMau } from "../src/engine/vietVan";
+import { hauKiem, hauKiemTheoMuc, mucChoPhep, tapId, vietMau, vietVanMau } from "../src/engine/vietVan";
 
 const nap = (ten: string) => JSON.parse(readFileSync(join(process.env.TUVI_GOLDEN!, ten), "utf8"));
 /** Chuẩn hóa -0 (Python in "-0.0", JS không phân biệt khi serialize) để toEqual không bắt lỗi giả. */
@@ -78,6 +78,9 @@ describe("luận giải: TS = Python", () => {
       expect(r.van).toBe(c.van);
       expect(r.bo).toBe(c.bo);
       expect([...tapId(kq)].sort()).toEqual(c.ids);
+      expect(Object.fromEntries(Object.entries(mucChoPhep(kq)).map(([k, v]) => [k, [...v].sort()]))).toEqual(c.muc);
+      expect(hauKiemTheoMuc(c.cau_muc, kq)).toEqual(c.hau_kiem_muc);
+      expect(hauKiemTheoMuc(r.van, kq)).toEqual([r.van, 0]); // văn mẫu không bị hậu kiểm theo mục bỏ câu nào
     }
   });
   it("hậu kiểm bỏ câu không mã hoặc mã bịa", () => {

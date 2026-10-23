@@ -42,13 +42,15 @@ export function DanhSachNhanDinh({ ds, rong }: { ds: NhanDinh[]; rong?: boolean 
   );
 }
 
-const MAU_XEP: Record<string, string> = { "Rất tốt": "rt", Tốt: "t", "Trung bình": "tb", Xấu: "x", "Rất xấu": "rx", "Chưa hiệu chỉnh": "tb" };
+/** 6 bậc điểm nội tại → lớp màu: rt/t = tốt, k = khá, tb = trung bình, th/rth = thấp. */
+export const MAU_XEP: Record<string, string> = { "Rất tốt": "rt", Tốt: "t", Khá: "k", "Trung bình": "tb", Thấp: "th", "Rất thấp": "rth" };
 
-export function ThanhPhanVi({ phanVi, xepLoai }: { phanVi: number; xepLoai: string }) {
+/** Thanh điểm nội tại /100 — tương quan giữa các cung của chính lá số này, KHÔNG phải so với lá số khác. */
+export function ThanhDiem({ diem100, xepLoai }: { diem100: number; xepLoai: string }) {
   return (
-    <div className={`phan-vi phan-vi-${MAU_XEP[xepLoai] ?? "tb"}`} role="img" aria-label={`${xepLoai}, cao hơn khoảng ${phanVi}% lá số khác`}>
-      <div className="phan-vi-thanh"><div style={{ width: `${phanVi}%` }} /></div>
-      <span className="phan-vi-chu"><b>{xepLoai}</b> · hơn ~{phanVi}% lá số</span>
+    <div className={`phan-vi phan-vi-${MAU_XEP[xepLoai] ?? "tb"}`} role="img" aria-label={`${xepLoai}, khoảng ${diem100} trên 100 (điểm nội tại của lá số này)`}>
+      <div className="phan-vi-thanh"><div style={{ width: `${diem100}%` }} /></div>
+      <span className="phan-vi-chu"><b>{xepLoai}</b> · ~{diem100}/100</span>
     </div>
   );
 }

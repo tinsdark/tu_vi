@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type NhapLieu } from "../engine";
+import { hauKiemTheoMuc, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type NhapLieu } from "../engine";
 import { API_BASE } from "../lib/api";
-import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhPhanVi, useNganKeo } from "./chung";
+import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
 
 function CauChu({ cau }: { cau: string }) {
@@ -55,6 +55,32 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
     fetch(`${API_BASE}/api/health`).then((r) => r.json()).then((j) => setCoAi(Boolean(j.llm)), () => setCoAi(null));
   }, []);
 
+  const [vanDan, setVanDan] = useState("");
+  const [daSao, setDaSao] = useState(false);
+  const [loiDan, setLoiDan] = useState("");
+
+  async function sao() {
+    const lenh = lenhChoAi(bc);
+    try {
+      await navigator.clipboard.writeText(lenh);
+    } catch {
+      const o = document.createElement("textarea"); // trình duyệt chặn clipboard API → chọn rồi sao chép thủ công
+      o.value = lenh; document.body.appendChild(o); o.select(); document.execCommand("copy"); o.remove();
+    }
+    setDaSao(true);
+    setTimeout(() => setDaSao(false), 2500);
+  }
+
+  function kiemTra() {
+    const [van, bo] = hauKiemTheoMuc(vanDan, bc);
+    if (!van.replace(/^#.*$/gm, "").trim()) {
+      setLoiDan("Không câu nào hợp lệ: mỗi câu phải kết thúc bằng mã như [CD.Sự nghiệp] và nằm đúng mục. Hãy nhờ chatbot viết lại theo lời nhắc.");
+      return;
+    }
+    setLoiDan("");
+    setAi({ ky: "xong", che_do: "llm", van, bo, ly_do: bo ? `Đã bỏ ${bo} câu không truy được về quy tắc hoặc lấn sang mục khác.` : undefined });
+  }
+
   async function viet() {
     setAi({ ky: "dang_tai" });
     try {
@@ -77,8 +103,23 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
             {ai.ky === "dang_tai" ? "Đang viết…" : ai.ky === "xong" && ai.che_do === "llm" ? "Viết lại bằng AI" : "Viết lại bằng AI cho mượt"}
           </button>
         )}
-        <span className="mo">{hien.che_do === "llm" ? `Do AI viết lại, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Văn do web tự ghép từ các nhận định ở trên, không dùng AI."}</span>
+        <span className="mo">{hien.che_do === "llm" ? `Do AI viết, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Văn do web tự ghép từ các nhận định ở trên, không dùng AI."}</span>
       </div>
+      <details className="phu-luc dan-tay">
+        <summary>Dùng AI khác (ChatGPT, Gemini, Claude… — không cần API)</summary>
+        <ol className="mo">
+          <li>Bấm “Sao chép lời nhắc”, dán vào chatbot bạn đang dùng. Lời nhắc chứa quy tắc và dữ liệu lá số, <b>không có tên bạn</b>.</li>
+          <li>Dán văn chatbot trả lời vào ô bên dưới rồi bấm “Kiểm tra và hiển thị”. Web bỏ mọi câu không truy được về quy tắc hoặc lấn sang mục khác.</li>
+        </ol>
+        <div className="hang-nut hang-nut-trai">
+          <button type="button" className="nut" onClick={sao}>{daSao ? "Đã sao chép ✓" : "Sao chép lời nhắc"}</button>
+        </div>
+        <textarea className="o-dan" rows={6} value={vanDan} onChange={(e) => setVanDan(e.currentTarget.value)} placeholder="Dán văn do chatbot viết (có các mã như [CD.Sự nghiệp]) vào đây…" aria-label="Văn do AI khác viết" />
+        <div className="hang-nut hang-nut-trai">
+          <button type="button" className="nut" disabled={!vanDan.trim()} onClick={kiemTra}>Kiểm tra và hiển thị</button>
+          {loiDan && <span className="canh-bao" role="status">{loiDan}</span>}
+        </div>
+      </details>
       {hien.ly_do && <p className="canh-bao" role="status">{hien.ly_do}</p>}
       <HienVan van={hien.van} />
     </Khoi>
@@ -90,12 +131,16 @@ export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
   return (
     <div className="tab-noi-dung">
       <ChuThichTinCay />
+      <p className="mo">Điểm /100 chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này (bội số 5), không so với lá số khác.</p>
       <div className="luoi-chu-de">
         {Object.entries(bc.chu_de).map(([ten, cd]) => (
           <article key={ten} className="the-chu-de">
             <h3>{ten}</h3>
-            <ThanhPhanVi phanVi={cd.phan_vi} xepLoai={cd.xep_loai} />
+            <ThanhDiem diem100={cd.diem100} xepLoai={cd.xep_loai} />
             <p className="mo">Dựa trên: {Object.entries(cd.cung).map(([c, x]) => `${c} (${x})`).join(" · ")}</p>
+            {cd.cau_dan && <p className="cau-dan">{cd.cau_dan}</p>}
+            {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} /></>)}
+            {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} /></>)}
             {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} /></>)}
             {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} /></>)}
           </article>
@@ -105,7 +150,7 @@ export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
         <DanhSachNhanDinh ds={bc.nen} />
       </Khoi>
       <Khoi tieuDe={`Cung Thân (cư ${bc.than.cu}, ${bc.than.chi})`}>
-        <ThanhPhanVi phanVi={bc.than.phan_vi} xepLoai={bc.than.xep_loai} />
+        <ThanhDiem diem100={bc.than.diem100} xepLoai={bc.than.xep_loai} />
         <DanhSachNhanDinh ds={bc.than.nhan_dinh} />
       </Khoi>
       <VanXuoi bc={bc} nhap={nhap} />

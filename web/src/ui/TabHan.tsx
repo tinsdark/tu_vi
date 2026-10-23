@@ -1,7 +1,5 @@
 import { type BaoCao } from "../engine";
-import { ChuThichTinCay, DanhSachNhanDinh, Khoi } from "./chung";
-
-const MAU: Record<string, string> = { "Rất tốt": "rt", Tốt: "t", "Trung bình": "tb", Xấu: "x", "Rất xấu": "rx" };
+import { ChuThichTinCay, DanhSachNhanDinh, Khoi, MAU_XEP as MAU } from "./chung";
 
 export function TabHan({ bc, namXem, onDoiNam }: { bc: BaoCao; namXem: number; onDoiNam: (n: number) => void }) {
   const h = bc.han;
@@ -41,6 +39,12 @@ export function TabHan({ bc, namXem, onDoiNam }: { bc: BaoCao; namXem: number; o
         <p>Lưu Thái Tuế tại <b>{h.luu_nien.thai_tue_tai}</b>: <b>{h.luu_nien.xep_loai}</b></p>
         <p className="mo">Tứ Hóa năm: {Object.entries(h.luu_nien.tu_hoa).map(([k, v]) => `${k} → ${v}`).join("; ")}</p>
         {h.luu_nien.ghi_chu.length > 0 ? <DanhSachNhanDinh ds={h.luu_nien.ghi_chu} /> : <p className="mo">Không có sao lưu nổi bật rơi vào tam phương cung Thái Tuế.</p>}
+        {h.luu_nien.ket_luan.length > 0 && (
+          <>
+            <h4>Kết luận và khuyến nghị</h4>
+            <DanhSachNhanDinh ds={h.luu_nien.ket_luan} rong />
+          </>
+        )}
         <details className="phu-luc">
           <summary>Vị trí các sao lưu niên</summary>
           <ul className="sao-luu">{Object.entries(h.luu_nien.sao_luu).map(([k, v]) => <li key={k}><b>{k}</b> {v}</li>)}</ul>

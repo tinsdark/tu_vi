@@ -4,15 +4,31 @@
 import { HANH_VN } from "./luanGiai";
 import type { BaoCao, NhanDinh } from "./types";
 
-export const HUONG_DAN = `Bạn viết lại kết quả luận lá số Tử Vi (JSON) thành văn tiếng Việt dễ đọc cho người không học tử vi.
-Quy tắc bắt buộc:
-- Chỉ dùng ý có trong JSON. Không thêm nhận định, dự đoán, con số hay lời khuyên nào không có trong đó.
-- Mỗi câu kết thúc bằng mã nhận định trong ngoặc vuông, đúng như trường "id" trong JSON, ví dụ: ... [CT.Tử Vi.Mệnh]. Câu gộp nhiều ý thì ghi nhiều mã: [CC21][PT.Lộc Tồn].
-- Viết theo mục: Tổng quan, Tính cách, Sự nghiệp, Tài chính, Tình cảm – hôn nhân, Sức khỏe, Gia đình, Hạn năm (nếu có). Mỗi mục 3–6 câu.
+export const HUONG_DAN = `Bạn là người viết lời luận cho một lá số Tử Vi đã được máy lập và chấm sẵn (JSON). Việc của bạn: viết thành văn tiếng Việt liền mạch, dễ hiểu cho người không học tử vi, như một thầy luận giải cẩn thận — KHÔNG phải một người phát minh thêm nhận định.
+
+Quy tắc bắt buộc (hậu kiểm tự động sẽ bỏ câu vi phạm):
+1. Chỉ dùng ý có trong JSON. Không thêm sao, cung, nhận định, con số, dự đoán hay lời khuyên nào không có trong đó.
+2. Mỗi câu kết thúc bằng mã trong ngoặc vuông đúng như trường "id" trong JSON, ví dụ [CT.Tử Vi.Mệnh]. Câu gộp nhiều ý thì ghi nhiều mã: [CC21][PT.Lộc Tồn]. Mã đặc biệt: [TQ] thông tin chung lá số; [CD.<tên chủ đề>] xếp loại một chủ đề; [DH] đại hạn hiện tại.
+3. Mỗi mục CHỈ được trích mã thuộc mục đó: mục chủ đề dùng các mã trong "diem_manh", "diem_yeu", "luu_y", "trung_tinh" của đúng chủ đề đó (cộng [CD.<chủ đề>]); mục Tổng quan dùng mã trong "nen", "than", [TQ]; mục Hạn năm dùng mã trong "han". Không kéo sao của mục này sang mục khác.
+4. Sao ở cung khác chỉ được nêu đúng như JSON ghi (ví dụ 'X từ cung Y xung chiếu Z → ...'): không viết như thể sao nằm tại cung đang luận.
+5. Điểm là "điểm nội tại /100" (tương quan giữa các cung của chính lá số này). Nói bằng lời thường kèm bậc ("khoảng 60/100, mức khá"). TUYỆT ĐỐI không nói "cao/thấp hơn X% lá số khác", không nói percentile.
+6. Giữ đúng chiều: câu nào JSON xếp 'diem_manh' thì là điểm sáng, 'diem_yeu' là điểm cần lưu ý. Khi có "cau_dan" (chủ đề vừa tốt vừa hung) dùng nó làm câu mở trước khi nêu hai mặt. Khi có "luu_y" (Tuần/Triệt, vô chính diệu) và "trung_tinh" (chính tinh/nhận định trung tính) phải nhắc, vì đó là khung của cung.
+7. Chủ đề "Gia đình" luôn tách ba tiểu mục Cha mẹ / Con cái / Anh em theo nhãn có sẵn trong câu.
+8. Mục Hạn năm: nêu đại hạn, rồi ĐÚNG ba phần trong han.luu_nien.ket_luan: trọng tâm rủi ro → nên/tránh theo từng cung → mặt thuận. Không thêm khuyến nghị khác.
+
+Cách viết cho hay (không được trái các quy tắc trên): 
+- Mở mỗi mục bằng một câu tóm tắt xếp loại, rồi nối các ý bằng từ nối tự nhiên (vì vậy, tuy nhiên, bù lại...) thay vì liệt kê rời rạc; đặt điểm sáng và điểm cần lưu ý cạnh nhau để người đọc thấy bức tranh hai mặt.
+- Liên hệ các yếu tố nền với nhau CHỈ bằng những gì JSON có: ví dụ Thân cư (than) gắn với mục tương ứng, Bản Mệnh–Cục (nen) gắn với nền chung.
+- Mỗi mục 3–6 câu. Mục: Tổng quan, Tính cách, Sự nghiệp, Tài chính, Tình cảm – hôn nhân, Sức khỏe, Gia đình, Hạn năm (nếu có). Tiêu đề mục dạng '# Tên mục'.
 - Ngoài mã nhận định, không dùng ngoặc vuông ở bất cứ đâu (tên cách cục viết trong «»).
-- Câu nêu xếp loại một chủ đề dùng mã [CD.<tên chủ đề>]; câu nêu thông tin chung của lá số dùng [TQ]; câu nêu đại hạn hiện tại dùng [DH].
-- Nói rõ mức độ (xếp loại, phân vị) bằng lời thường; khi nhận định tốt và xấu cùng có, nêu cả hai.
 - Giọng trung tính, không hù dọa, không khẳng định chắc chắn chuyện tương lai.`;
+
+/** Bỏ phần chỉ để hiển thị/gỡ lỗi trước khi gửi LLM (giảm token): mỗi cung chỉ giữ tóm tắt — mọi nhận định có mã đã nằm trong chu_de / nen / than / han. */
+export function rutGonChoLlm(kq: BaoCao): unknown {
+  const out = JSON.parse(JSON.stringify(kq)) as Record<string, any>;
+  out.cung = Object.fromEntries(Object.entries<any>(out.cung).map(([ten, v]) => [ten, { chi: v.chi, xep_loai: v.xep_loai, diem100: v.diem100, chinh_tinh: v.chinh_tinh, tuan_triet: v.tuan_triet }]));
+  return out;
+}
 
 /** Mọi ID hợp lệ trong báo cáo. */
 export function tapId(kq: BaoCao): Set<string> {
@@ -52,6 +68,60 @@ export function hauKiem(van: string, ids: Set<string>): [string, number] {
   return [giu.join("\n"), bo];
 }
 
+const idsTrong = (x: unknown): Set<string> => {
+  const r = new Set<string>();
+  const duyet = (v: unknown): void => {
+    if (Array.isArray(v)) v.forEach(duyet);
+    else if (v && typeof v === "object") {
+      const o = v as Record<string, unknown>;
+      if ("id" in o && "nhan_dinh" in o) r.add(o.id as string);
+      Object.values(o).forEach(duyet);
+    }
+  };
+  duyet(x);
+  return r;
+};
+
+/** Mục nào được trích những mã nào (§2: không kéo sao của mục này sang mục khác). Khóa = tên mục (đầu tiêu đề). */
+export function mucChoPhep(kq: BaoCao): Record<string, Set<string>> {
+  const cho: Record<string, Set<string>> = {
+    "Tổng quan": new Set(["TQ", "DH", ...Object.keys(kq.chu_de).map((t) => `CD.${t}`), ...idsTrong(kq.nen), ...idsTrong(kq.than)]),
+  };
+  for (const [t, cd] of Object.entries(kq.chu_de)) {
+    cho[t] = new Set([`CD.${t}`, ...idsTrong([cd.diem_manh, cd.diem_yeu, cd.luu_y, cd.trung_tinh])]);
+    if (TOPIC_THAN[kq.than.cu] === t) cho[t].add(`THAN.${kq.than.cu}`); // câu 'cung này cũng là cung Thân cư'
+  }
+  if (kq.han) cho["Hạn năm"] = new Set(["DH", "TQ", ...idsTrong(kq.han)]);
+  return cho;
+}
+
+/** Như hauKiem nhưng câu trong mục nào chỉ được trích mã thuộc mục đó; trả [văn đã lọc, số câu bị bỏ]. */
+export function hauKiemTheoMuc(van: string, kq: BaoCao): [string, number] {
+  const cho = mucChoPhep(kq);
+  const tatCa = tapId(kq);
+  let hien: string | null = null;
+  const giu: string[] = [];
+  let bo = 0;
+  for (const dong of van.split(/\r?\n/)) {
+    if (!dong.trim()) { giu.push(dong); continue; }
+    if (dong.trimStart().startsWith("#")) {
+      const ten = dong.replace(/^[#\s]+/, "").trim();
+      hien = Object.keys(cho).find((k) => ten.startsWith(k)) ?? null;
+      giu.push(dong);
+      continue;
+    }
+    const ok = hien ? cho[hien] : tatCa;
+    const cauGiu: string[] = [];
+    for (const c of dong.trim().split(/(?<=[\].!?])\s+/)) {
+      const ma = [...c.matchAll(/\[([^[\]]+)\]/g)].map((m) => m[1]);
+      if (ma.length && ma.every((m) => ok.has(m))) cauGiu.push(c);
+      else bo += 1;
+    }
+    if (cauGiu.length) giu.push(cauGiu.join(" "));
+  }
+  return [giu.join("\n"), bo];
+}
+
 /** Một nhận định → 'nội dung [mã]' (dấu chấm giữa câu đổi thành chấm phẩy; ngoặc vuông chỉ dành cho mã). */
 export function ve(n: NhanDinh): string {
   let txt = n.nhan_dinh.trim().replace(/\.\s+/g, "; ").replace(/\.+$/, "");
@@ -76,28 +146,52 @@ export function gop(ds: NhanDinh[], tienTo: string, daDung?: Set<string>): strin
   return muc.length ? `${tienTo}${muc.join("; ")}.` : "";
 }
 
-const soSanh = (pv: number): string => (pv >= 50 ? `cao hơn khoảng ${pv}% lá số khác` : `thấp hơn khoảng ${100 - pv}% lá số khác`);
+const TIEU_MUC = ["Cha mẹ", "Con cái", "Anh em"]; // nhãn tiểu mục của chủ đề Gia đình (khớp chu_de.Gia đình.tieu_muc trong cấu hình)
+const TOPIC_THAN: Record<string, string> = { "Mệnh": "Tính cách", "Phúc Đức": "Tính cách", "Quan Lộc": "Sự nghiệp", "Thiên Di": "Sự nghiệp", "Tài Bạch": "Tài chính", "Phu Thê": "Tình cảm – hôn nhân" };
 
-/** Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục). */
+/** Một chủ đề → một đoạn: xếp loại → câu dẫn hòa giải → Thân cư (nếu đúng mục) → khung cung → chính tinh/trung tính → điểm sáng → 'Tuy nhiên' điểm cần lưu ý. */
+function doanChuDe(ten: string, cd: BaoCao["chu_de"][string], kq: BaoCao, daDung: Set<string>): string {
+  const dong = [`Về ${ten.toLowerCase()}, lá số ở mức ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100) [CD.${ten}].`];
+  if (cd.cau_dan) dong.push(`${cd.cau_dan.replace(/\.+$/, "")} [CD.${ten}].`);
+  if (TOPIC_THAN[kq.than.cu] === ten) dong.push(cau(kq.than.nhan_dinh[0], "Cung này cũng là cung Thân cư: "));
+  dong.push(...[gop(cd.luu_y, "Khung của cung: ", daDung), gop(cd.trung_tinh, "Chính tinh và nhận định trung tính: ", daDung)].filter(Boolean));
+  if (ten === "Gia đình") {
+    for (const m of TIEU_MUC) {
+      const bo = (ds: NhanDinh[]) => ds.filter((n) => n.nhan_dinh.startsWith(`${m}: `)).map((n) => ({ ...n, nhan_dinh: n.nhan_dinh.slice(m.length + 2) }));
+      dong.push(...[gop(bo(cd.diem_manh), `${m} — điểm sáng: `, daDung), gop(bo(cd.diem_yeu), `${m} — hạn chế: `, daDung)].filter(Boolean));
+    }
+  } else {
+    const manh = gop(cd.diem_manh, "Điểm sáng: ", daDung);
+    const yeu = gop(cd.diem_yeu, manh ? "Tuy nhiên, cần lưu ý: " : "Cần lưu ý: ", daDung);
+    dong.push(...[manh, yeu].filter(Boolean));
+  }
+  return dong.join(" ");
+}
+
+/** Không dùng LLM: ghép nhận định thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục). */
 export function vietMau(kq: BaoCao): string {
   const l = kq.la_so;
   const tong = [`Mệnh tại ${kq.menh_tai}, ${l.am_duong_nam_nu}, Bản Mệnh ${HANH_VN[l.ban_menh]}, Cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so} [TQ].`,
+    "Điểm /100 ở các mục dưới chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này, không so với lá số khác [TQ].",
     ...[gop(kq.nen, "Nền lá số: "), gop(kq.than.nhan_dinh, "Cung Thân: ")].filter(Boolean)];
   const out: string[] = ["# Tổng quan", tong.join(" ")];
   const daDung = new Set<string>();
   for (const [ten, cd] of Object.entries(kq.chu_de)) {
     out.push(`\n# ${ten}`);
-    const dong = [`Nhìn chung ${cd.xep_loai.toLowerCase()} (${soSanh(cd.phan_vi)}) [CD.${ten}].`,
-      ...[gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean)];
-    out.push(dong.join(" "));
+    out.push(doanChuDe(ten, cd, kq, daDung));
   }
   if (kq.han?.dai_han) {
     const d = kq.han.dai_han;
     out.push(`\n# Hạn năm ${kq.han.nam_xem}`);
     const luu = gop(kq.han.luu_nien.ghi_chu, `Trong năm ${kq.han.nam_xem}: `);
-    out.push([`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`, ...(luu ? [luu] : [])].join(" "));
+    out.push([`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`, ...(luu ? [luu] : []), ...kq.han.luu_nien.ket_luan.map((n) => cau(n))].join(" "));
   }
   return out.join("\n");
+}
+
+/** Lời nhắc + dữ liệu để DÁN vào bất kỳ chatbot nào (không cần API). Không chứa tên người dùng. Văn trả về dán lại web để hậu kiểm theo mục. */
+export function lenhChoAi(kq: BaoCao): string {
+  return `${HUONG_DAN}\n\n--- DỮ LIỆU LÁ SỐ (JSON) ---\n${JSON.stringify(rutGonChoLlm(kq))}`;
 }
 
 export type CheDoVan = "mau" | "llm";

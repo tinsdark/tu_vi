@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { anLaSo, baoCao, LuanGiai, triThuc, ve, vietMau } from "../src/engine";
+import { anLaSo, baoCao, LuanGiai, triThuc, ve, vietMau, type NhanDinh } from "../src/engine";
 
 function mau(i: number) {
   const nam = 1930 + ((i * 37) % 90);
@@ -12,23 +12,24 @@ describe("văn mẫu và phân loại điểm mạnh/yếu", () => {
     let thay = 0;
     for (let i = 0; i < 300; i++) {
       const kq = mau(i);
-      for (const k of Object.values(kq.cung)) for (const n of k.nhan_dinh) if (n.dao_dau) { thay++; expect(n.diem).toBeGreaterThan(0); }
+      for (const k of Object.values(kq.cung)) for (const n of k.nhan_dinh) if (n.dao_dau) { thay++; expect(n.diem).toBeLessThan(0); }
       for (const cd of Object.values(kq.chu_de)) for (const n of [...cd.diem_manh, ...cd.diem_yeu]) expect(n.dao_dau).toBeUndefined();
     }
     expect(thay).toBeGreaterThan(20);
   });
 
-  it("so sánh phân vị đúng chiều (không ghi 'top 94%' cho lá số rất xấu) và không lặp ý giữa các chủ đề", () => {
+  it("không nói percentile dân số (điểm nội tại /100) và không lặp ý giữa các chủ đề", () => {
     for (let i = 0; i < 100; i++) {
       const kq = mau(i);
       const van = vietMau(kq);
-      expect(van).not.toContain("top ");
+      expect(van).not.toMatch(/(cao|thấp) hơn khoảng|% lá số|top \d|phân vị/);
       for (const [ten, cd] of Object.entries(kq.chu_de)) {
         const dong = van.split("\n").find((d) => d.includes(`[CD.${ten}]`))!;
-        expect(dong.includes("cao hơn khoảng")).toBe(cd.phan_vi >= 50);
+        expect(dong).toContain(`khoảng ${cd.diem100}/100`);
       }
       const duy = new Map(Object.values(kq.chu_de).flatMap((cd) => [...cd.diem_manh, ...cd.diem_yeu]).map((n) => [JSON.stringify([n.id, n.nhan_dinh]), n]));
-      for (const n of duy.values()) expect(van.split(ve(n)).length - 1, ve(n)).toBe(1);
+      const boNhan = (n: NhanDinh): NhanDinh => (/^(Cha mẹ|Con cái|Anh em): /.test(n.nhan_dinh) ? { ...n, nhan_dinh: n.nhan_dinh.split(": ").slice(1).join(": ") } : n); // tiểu mục Gia đình: nhãn nằm ở đầu câu dẫn
+      for (const n of duy.values()) expect(van.split(ve(boNhan(n))).length - 1, ve(n)).toBe(1);
     }
   });
 

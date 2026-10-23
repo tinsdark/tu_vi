@@ -22,6 +22,7 @@ jobs:
           python3 tools/tuvi/test_lich_am.py
           python3 tools/tuvi/test_an_sao.py
           python3 tools/tuvi/test_luan_giai.py
+          python3 tools/tuvi/test_doi_chieu_thay.py
       - name: Dữ liệu sinh ra không lệch so với JSON
         run: |
           python3 tools/sinh_sql.py
