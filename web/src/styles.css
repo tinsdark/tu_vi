@@ -126,7 +126,7 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 /* tổng quan */
 .luoi-chu-de { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 .the-chu-de { background: var(--be-mat); border: 1px solid var(--vien); border-radius: var(--ban-kinh); padding: 14px 16px; }
-.van-che-do { display: block; margin: 0 0 .6em; font-size: .85em; } .doan-van { margin: 0 0 .8em; } .doan-van p { margin: 0; line-height: 1.7; } .doan-van .co-so { margin-top: .25em; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: .8em; } .doan-van .co-so .cham { margin: 0; }
+.van-che-do { display: block; margin: 0 0 .6em; font-size: .85em; } .doan-van { margin: 0 0 .8em; } .doan-van p { margin: 0; line-height: 1.7; } .doan-van .co-so { margin-top: .25em; font-size: .8em; } .doan-van .co-so summary { cursor: pointer; } .doan-van .co-so ul { margin: .3em 0 0; padding-left: 1.2em; list-style: none; } .doan-van .co-so li { margin: .15em 0; } .doan-van .co-so .cham { margin: 0 4px 0 0; }
 .van-xuoi h4 { margin-top: 1.1em; color: var(--nhan); } .van-xuoi p { max-width: 75ch; }
 
 /* 12 cung */

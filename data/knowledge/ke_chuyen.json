@@ -1,0 +1,87 @@
+{
+  "_meta": {
+    "mo_ta": "Bảng kể chuyện cho văn xuôi (spec Phần 3, hướng đột phá): mỗi chủ đề có 5 'hình dạng' (A–E) với câu mở theo đời sống và bảng 'việc nên làm' theo loại điều cần canh. Chỉ web TypeScript dùng; engine luận (Python/TS) không đọc file này.",
+    "hinh_dang": "A = nền tốt, ít bị nhiễu · B = nền tốt nhưng bị nhiễu đáng kể · C = nền không mạnh nhưng có yếu tố đỡ · D = nền không mạnh, nhiều trở ngại · E = bình ổn, ít nổi bật cả hai phía",
+    "nguon": "AI soạn, chưa đối chiếu sách. Lời khuyên là thông lệ chung về quản lý tiền/công việc, KHÔNG phải kết luận tử vi; cần người duyệt trước khi coi là nội dung chính thức.",
+    "trang_thai": "draft_ai_tong_hop",
+    "placeholder": "{nhan} = nhãn mức của chủ đề (khá, trung bình...); {d} = điểm /100; {nen} = nền chính tinh của cung chủ (vd 'Thất Sát miếu')"
+  },
+  "nhom_sao": {
+    "hao_hut": [
+      "Tang Môn",
+      "Đại Hao",
+      "Địa Kiếp",
+      "Địa Không",
+      "Kiếp Sát",
+      "Thiên Hư",
+      "Tuế Phá",
+      "Tiểu Hao"
+    ],
+    "tranh_chap": [
+      "Bạch Hổ",
+      "Kình Dương",
+      "Thiên Hình",
+      "Cự Môn",
+      "Quan Phù",
+      "Quan Phủ"
+    ],
+    "nong_voi": [
+      "Hỏa Tinh",
+      "Linh Tinh",
+      "Thất Sát",
+      "Phá Quân"
+    ],
+    "cham_tre": [
+      "Đà La"
+    ],
+    "_ghi_chu": "Loại điều cần canh theo sao; nhận định xung chiếu thì theo cung nguồn (Mệnh→tam_the, Phúc Đức→tam_trang, Thiên Di→moi_truong); chu_de.*.nhom_rieng ghi đè theo chủ đề."
+  },
+  "chu_de": {
+    "Tài chính": {
+      "mo_dau": {
+        "A": "Tiền bạc là mảng có nền khá vững của bạn (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "B": "Tiền bạc của bạn có nền tốt nhưng không thuần thuận (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "C": "Tiền bạc không phải thế mạnh sẵn có của bạn, nhưng có yếu tố đỡ cho (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "D": "Tiền bạc là mảng bạn cần chủ động nhất (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "E": "Tiền bạc của bạn ở mức bình ổn, ít biến động lớn (mức {nhan}, khoảng {d}/100, dựa trên {nen})."
+      },
+      "viec_nen_lam": {
+        "hao_hut": "tách riêng một khoản dự phòng cho chi phí đột xuất và không dồn hết tiền vào một chỗ",
+        "tranh_chap": "ghi rõ bằng văn bản mọi khoản vay, hùn vốn hay cho mượn để tránh tranh chấp về sau",
+        "nong_voi": "để khoản chi hoặc đầu tư lớn qua vài ngày suy nghĩ rồi mới quyết, tránh quyết lúc đang nóng",
+        "cham_tre": "chia việc thu hồi và thanh toán thành các mốc nhỏ có nhắc lịch, đừng để dây dưa",
+        "chung": "rà lại thu chi mỗi tháng và giữ một khoản dự phòng",
+        "tam_the": "tách quyết định tiền bạc khỏi cảm xúc bằng cách viết ra lý do trước khi chi hoặc đầu tư lớn",
+        "tam_trang": "viết kế hoạch chi tiêu ra giấy để bớt lo, và tránh quyết định tiền bạc khi tâm trạng đang bất ổn",
+        "moi_truong": "kiểm chứng kỹ thông tin và đối tác bên ngoài trước khi bỏ tiền"
+      },
+      "tan_dung": "tận dụng nền tốt bằng cách tích lũy đều đặn thay vì chờ một cơ hội lớn",
+      "nhom_rieng": {
+        "Hóa Kỵ": "hao_hut"
+      }
+    },
+    "Sự nghiệp": {
+      "mo_dau": {
+        "A": "Sự nghiệp là mảng có nền khá vững của bạn (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "B": "Sự nghiệp của bạn có nền tốt nhưng đường đi không bằng phẳng (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "C": "Sự nghiệp không phải thế mạnh sẵn có của bạn, nhưng có yếu tố nâng đỡ (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "D": "Sự nghiệp là mảng bạn cần chủ động nhất (mức {nhan}, khoảng {d}/100, dựa trên {nen}).",
+        "E": "Sự nghiệp của bạn ở mức bình ổn, ít biến động lớn (mức {nhan}, khoảng {d}/100, dựa trên {nen})."
+      },
+      "viec_nen_lam": {
+        "hao_hut": "chưa nên bỏ việc hay đổi hướng lớn khi chưa có phương án dự phòng và khoản tiền dự trữ",
+        "tranh_chap": "giữ lời nói và giấy tờ công việc rõ ràng, lưu lại thỏa thuận bằng văn bản",
+        "nong_voi": "tránh quyết định đổi việc hay tranh cãi với cấp trên lúc đang nóng",
+        "cham_tre": "chia mục tiêu thành các bước nhỏ và kiên nhẫn, kết quả đến chậm nhưng chắc",
+        "chung": "đặt mục tiêu ngắn hạn rõ ràng và rà lại tiến độ mỗi tháng",
+        "tam_the": "cân nhắc kỹ trước các quyết định lớn về công việc và hỏi ý kiến một người bạn tin cậy",
+        "tam_trang": "giữ nhịp nghỉ ngơi đều và đừng quyết định đổi việc khi đang căng thẳng",
+        "moi_truong": "chủ động xây quan hệ và tìm hiểu kỹ môi trường mới trước khi chuyển"
+      },
+      "tan_dung": "tận dụng nền tốt bằng cách nhận thêm trách nhiệm khi có cơ hội",
+      "nhom_rieng": {
+        "Hóa Kỵ": "tranh_chap"
+      }
+    }
+  }
+}

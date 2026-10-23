@@ -5,6 +5,7 @@ import chinhTinh from "@kb/chinh_tinh.json";
 import chinhTinhTaiChi from "@kb/chinh_tinh_tai_chi.json";
 import chinhTinhTaiCungChuc from "@kb/chinh_tinh_tai_cung_chuc.json";
 import doSang from "@kb/do_sang.json";
+import keChuyen from "@kb/ke_chuyen.json";
 import doSangChot from "@kb/do_sang_chot.json";
 import phuTinh from "@kb/phu_tinh.json";
 import phuTinhTaiCungChuc from "@kb/phu_tinh_tai_cung_chuc.json";
@@ -30,6 +31,8 @@ export class TriThuc {
   cach: CachCuc[] = (cachCuc as any).cach;
   phaChung: any = (cachCuc as any)._meta.pha_chung;
   tuHoa: Record<string, string> = (tuHoaLuan as any).to_hop;
+  /** Bảng kể chuyện cho văn xuôi (chỉ web dùng): hình dạng chủ đề + "việc nên làm". */
+  keChuyen: any = keChuyen;
   phuCung: Record<string, Record<string, string>> = (phuTinhTaiCungChuc as any).sao;
   /** `_meta` từng file tri thức (trạng thái, nguồn) — dùng để hiển thị độ tin cậy. */
   meta = {
