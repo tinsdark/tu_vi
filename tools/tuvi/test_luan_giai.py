@@ -539,10 +539,11 @@ def test_cach_cuc_nhieu_cung():
     """doc11 L2: cách cục có pham_vi là danh sách; câu luận theo cung ưu tiên ket_luan_theo_cung."""
     lg = LuanGiai(an_la_so(1, 1, 1, 5, 4, "nam"), TriThuc())
     ids = lambda cung: {n["id"] for n in lg.cham_cung(cung)["nhan_dinh"]}
-    assert "CC64" in ids("Huynh Đệ") and "CC64" in ids("Nô Bộc")
-    assert "CC65" in ids("Điền Trạch") and "CC65" in ids("Tử Tức")
+    # cặp sao đôi đối xung chỉ nêu MỘT lần cho mỗi trục (tại cung chứa sao thứ nhất), không lặp ở cả hai đầu trục
+    assert ("CC64" in ids("Huynh Đệ")) != ("CC64" in ids("Nô Bộc"))
+    assert ("CC65" in ids("Điền Trạch")) != ("CC65" in ids("Tử Tức"))
     # pham_vi "*": cách chạy ở mọi cung, câu điền đúng tên cung và cung xung
-    nd = next(n for n in lg.cham_cung("Huynh Đệ")["nhan_dinh"] if n["id"] == "CC64")
+    nd = next(n for n in lg.cham_cung("Nô Bộc")["nhan_dinh"] if n["id"] == "CC64")
     assert "{" not in nd["nhan_dinh"] and "CC64" == nd["id"]
 
 
