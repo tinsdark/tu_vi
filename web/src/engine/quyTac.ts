@@ -62,6 +62,9 @@ export function quyTac(id: string, tt: TriThuc = triThuc()): ThongTinQuyTac {
     const [, sao, cung] = id.split(".");
     if (cung && tt.phuCung[sao]) {
       const nguon = urls((tt.phuCung[sao] as Record<string, unknown>)._nguon);
+      if (!nguon.length) { // sao không có _nguon: câu do AI tổng hợp, chưa đối chiếu nguồn nào → xám, không nhận là đã kiểm
+        return { id, tieu_de: `${sao} tại ${cung}`, tin_cay: "xam", ly_do_tin_cay: "Nghĩa của phụ tinh theo cung do AI tổng hợp từ kiến thức phổ thông, chưa đối chiếu nguồn nào", mo_ta: "Nghĩa riêng của phụ tinh khi đóng ở cung chức này.", nguon: [], trang_thai: "draft_ai_tong_hop" };
+      }
       return { id, tieu_de: `${sao} tại ${cung}`, tin_cay: "vang", ly_do_tin_cay: "Đã viết lại sau khi đọc trang từng sao trên tracuulasotuvi.com (1 nguồn web); trang này dẫn sách nhưng không ghi trang nên chưa kiểm được", mo_ta: "Nghĩa riêng của phụ tinh khi đóng ở cung chức này.", nguon, trang_thai: tt.meta.phu_cung.trang_thai, ghi_chu: tt.meta.phu_cung.canh_bao };
     }
     return { id, tieu_de: `Phụ tinh: ${sao}`, tin_cay: "xam", ly_do_tin_cay: "Ý nghĩa chung do AI tổng hợp, đối chiếu phân loại tốt/xấu với lasotuvi", mo_ta: "Ý nghĩa chung của phụ tinh (chưa có câu riêng cho cung này).", nguon: [], trang_thai: tt.meta.phu_tinh.trang_thai };
