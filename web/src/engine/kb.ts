@@ -9,7 +9,10 @@ import keChuyen from "@kb/ke_chuyen.json";
 import doSangChot from "@kb/do_sang_chot.json";
 import phuTinh from "@kb/phu_tinh.json";
 import phuTinhTaiCungChuc from "@kb/phu_tinh_tai_cung_chuc.json";
+import cauHoi from "@kb/cau_hoi.json";
+import lienCung from "@kb/luan_lien_cung.json";
 import trucLuan from "@kb/truc_luan.json";
+import vanPhong from "@kb/van_phong.json";
 import tuHoaLuan from "@kb/tu_hoa_luan.json";
 import { CHI } from "./anSao";
 
@@ -18,8 +21,8 @@ export type Dk = Record<string, any>;
 
 export interface PhuTinh { ten: string; hanh: string; diem: number; tag: string[]; y_nghia: string; dac_dia?: string[] }
 export interface CachCuc {
-  id: string; ten: string; loai?: string; pham_vi?: string; thanh: Dk; pha?: Dk; diem: number; diem_pha?: number;
-  linh_vuc?: string[]; ket_luan: string; ket_luan_pha?: string; xac_nhan_web?: boolean; web?: string[]; doi_chieu?: string;
+  id: string; ten: string; loai?: string; pham_vi?: string | string[]; thanh: Dk; pha?: Dk; diem: number; diem_pha?: number;
+  linh_vuc?: string[]; ket_luan: string; ket_luan_theo_cung?: Record<string, string>; ket_luan_pha?: string; xac_nhan_web?: boolean; web?: string[]; doi_chieu?: string;
 }
 
 export interface TrucLuan { id: string; ten: string; xd?: string; duong: { nhan: string; cau: string[] }; am: { nhan: string; cau: string[] } }
@@ -36,6 +39,12 @@ export class TriThuc {
   tuHoa: Record<string, string> = (tuHoaLuan as any).to_hop;
   /** Trục luận từng cung (tools/sinh_truc_luan.py): phát hiện các câu của cùng một cung nói ngược nhau. */
   truc: Record<string, TrucLuan[]> = (trucLuan as any).truc;
+  /** Luận liên cung (doc11 lô B): Tuần/Triệt theo cung, sao → người, so cung với cung. Dữ liệu chạy cho mọi cung/sao có trong bảng. */
+  lienCung: any = lienCung;
+  /** Danh sách câu hỏi thường gặp (doc11 lô C). */
+  cauHoi: any = cauHoi;
+  /** Kho câu nối và mẫu tổng kết/hỏi đáp của lớp văn xuôi (doc11 lô C). */
+  vanPhong: any = vanPhong;
   /** Bảng kể chuyện cho văn xuôi (chỉ web dùng): hình dạng chủ đề + "việc nên làm". */
   keChuyen: any = keChuyen;
   phuCung: Record<string, Record<string, string>> = (phuTinhTaiCungChuc as any).sao;

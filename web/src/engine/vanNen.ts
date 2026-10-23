@@ -17,6 +17,9 @@ const noi = (a: string[]): string => (a.length <= 1 ? (a[0] ?? "") : `${a.slice(
 /** Câu kết thúc bằng mã. */
 const cau = (txt: string, ...ma: string[]): string => `${bo(txt)} ${ma.map((m) => `[${m}]`).join("")}.`;
 
+/** Chọn biến thể câu nối theo vị trí (chủ đề, câu) để một báo cáo không lặp nguyên văn; bảng ở data/knowledge/van_phong.json. */
+const bienThe = (khoa: string, k: number): string => { const ds: string[] = triThuc().vanPhong[khoa]; return ds[k % ds.length]; };
+
 const MUC_SANG: Record<string, string> = { M: "miếu", V: "vượng", "Đ": "đắc", B: "bình", H: "hãm" };
 
 // ---------- một nhận định → một mệnh đề đọc được (không có mã, không có dấu chấm cuối)
@@ -126,11 +129,11 @@ function nenChu(cung: string, kq: BaoCao): string {
   return ds.length ? `${noi(ds)} ở cung ${cung}` : `cung ${cung}`;
 }
 
-/** Lưu ý cấu trúc đưa vào văn xuôi: bỏ VCD (đã nói ở câu mở) và VCD_TT (lời lưu ý về điểm số, chỉ hiện ở thẻ), chỉ giữ 1 câu "trái chiều" (XD.*) để đoạn không phình (R7). */
+/** Lưu ý cấu trúc đưa vào văn xuôi: bỏ VCD (đã nói ở câu mở), VCD_TT (lời lưu ý về điểm số, chỉ hiện ở thẻ) và LC.* (câu liên cung, chỉ chen vào khi đoạn còn chỗ — xem cauLienCung), chỉ giữ 1 câu "trái chiều" (XD.*) để đoạn không phình (R7). */
 function khungVan(cd: KetQuaChuDe, daDung: Set<string>): NhanDinh[] {
   let xd = 0;
   return cd.luu_y.filter((n) => {
-    if (n.id === "VCD" || n.id === "VCD_TT" || daDung.has(n.id + n.nhan_dinh)) return false;
+    if (n.id === "VCD" || n.id === "VCD_TT" || n.id.startsWith("LC.") || daDung.has(n.id + n.nhan_dinh)) return false;
     return !n.id.startsWith("XD.") || ++xd <= 1;
   });
 }
@@ -169,13 +172,15 @@ function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<stri
   const khung = khungVan(cd, daDung);
   khung.forEach((n) => daDung.add(n.id + n.nhan_dinh));
 
-  const s: string[] = [cau((kc.mo_dau[hd] as string).replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma)];
-  const diemTua = (tienTo: string) => mua.forEach((n, i) => s.push(cau(i === 0 && !tienTo ? menhDe(n) : i === 0 ? `${tienTo}${thuong(menhDe(n))}` : `Ngoài ra, ${thuong(menhDe(n))}`, n.id)));
+  const vt = Math.max(0, Object.keys(kq.chu_de).indexOf(ten)); // vị trí chủ đề: gốc để chọn biến thể câu nối
+  const moDau = (kc.mo_dau[hd] as string).replace(/\s*\(mức \{nhan\}, khoảng \{d\}\/100, dựa trên \{nen\}\)/, bienThe("mo_dau_duoi", vt));
+  const s: string[] = [cau(moDau.replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma)];
+  const diemTua = (tienTo: string) => mua.forEach((n, i) => s.push(cau(i === 0 && !tienTo ? menhDe(n) : i === 0 ? `${tienTo}${thuong(menhDe(n))}` : `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}`, n.id)));
   const canhCau = (tienTo: string) => canh.forEach((n) => s.push(cau(`${tienTo}${thuong(menhDe(n))}`, n.id)));
 
-  if (hd === "A" || hd === "E") { diemTua(""); canhCau("Chỉ cần để ý: "); }
-  else if (hd === "B") { diemTua(""); canhCau("Nhưng cần để ý: "); }
-  else if (hd === "C") { diemTua("Điểm đỡ cho bạn: "); canhCau("Cần để ý: "); }
+  if (hd === "A" || hd === "E") { diemTua(""); canhCau(bienThe("canh_nhe", vt)); }
+  else if (hd === "B") { diemTua(""); canhCau(bienThe("canh_vua", vt)); }
+  else if (hd === "C") { diemTua(bienThe("diem_tua", vt)); canhCau(bienThe("canh_nang", vt)); }
   else { canhCau("Cần lưu ý: "); diemTua("Dù vậy vẫn có điểm tựa: "); }
   for (const n of khung) s.push(cau(cauLuuY(n), n.id));
 
@@ -232,9 +237,13 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
   for (const n of trung.slice(0, 2)) s.push(cau(hoa(menhDe(n)), n.id));
   const sang = chon(conDung(cd.diem_manh), 2, 1);
   const hung = chon(conDung([...cd.diem_yeu]), 2, -1);
-  sang.forEach((n, i) => s.push(cau(i ? `Ngoài ra, ${thuong(menhDe(n))}` : menhDe(n), n.id)));
-  hung.forEach((n, i) => s.push(cau(`${i ? "Bên cạnh đó" : sang.length ? "Tuy nhiên" : "Cần lưu ý"}, ${thuong(menhDe(n))}`, n.id)));
+  const vt = Math.max(0, Object.keys(kq.chu_de).indexOf(ten));
+  sang.forEach((n, i) => s.push(cau(i ? `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}` : menhDe(n), n.id)));
+  hung.forEach((n, i) => s.push(cau(`${i ? bienThe("noi_hung_tiep", vt + i) : sang.length ? bienThe("noi_nguoc", vt) : "Cần lưu ý,"} ${thuong(menhDe(n))}`, n.id)));
   s.push(...cauSaoNho(cd, daDung)); // sao phụ nêu trước; câu hòa giải luôn là câu cuối đoạn
+  // câu liên cung (sao → người, Hóa × Tuần/Triệt): ưu tiên thấp nhất, chỉ 1 câu và chỉ khi đoạn còn chỗ (R7); đầy đủ vẫn hiện ở thẻ chủ đề
+  const lienCung = cd.luu_y.find((n) => n.id.startsWith("LC.") && !daDung.has(n.id + n.nhan_dinh));
+  if (lienCung && s.length < 10) { daDung.add(lienCung.id + lienCung.nhan_dinh); s.push(cau(cauLuuY(lienCung), lienCung.id)); }
   if (sang.length && hung.length) s.push(cau(hoaGiai(ten, kq), ma)); // hòa giải đặt SAU khi đã nêu cả hai mặt
   return s.join(" ");
 }
@@ -284,6 +293,33 @@ function cauThan(kq: BaoCao): string[] {
   return out;
 }
 
+/** Câu "điều cần để ý nhất trong năm" từ han.luu_nien.ket_luan (dùng cho đoạn Hạn năm và hỏi đáp). */
+function cauRuiRo(kq: BaoCao): string | null {
+  const ruiRo = kq.han?.luu_nien.ket_luan.find((n) => n.id === "HAN.rui_ro");
+  if (!ruiRo) return null;
+  const kn: Record<string, { muc: string }> = triThuc().cfg.han.khuyen_nghi;
+  const phan = ruiRo.nhan_dinh.replace(/\s*;\s*ngoài tam phương lưu niên nhưng là cung trọng yếu/g, "");
+  const sau = phan.slice(phan.lastIndexOf(" — ") >= 0 ? phan.lastIndexOf(" — ") + 3 : phan.indexOf(": ") + 2).replace(/\.$/, "");
+  const goc: string[] = [];
+  for (const seg of sau.split("; ")) {
+    const m = /^(.+?) \((\S+)\): (.+)$/.exec(seg);
+    if (!m) continue;
+    const nghia = [...m[3].matchAll(/\(([^()]+)\)/g)].map((x) => x[1]);
+    if (nghia.length) goc.push(`${kn[m[1]]?.muc ?? m[1].toLowerCase()} (dễ gặp ${noi(nghia)})`);
+  }
+  if (!goc.length) return cau(sach(ruiRo.nhan_dinh), ruiRo.id);
+  const bo3 = /bộ Mệnh – Tài Bạch – Quan Lộc/.test(ruiRo.nhan_dinh);
+  return cau(`Điều cần để ý nhất trong năm là ${noi(goc.slice(0, 3))}${bo3 ? "; vì cả ba mảng này cùng chịu ảnh hưởng nên đây là năm cần thận trọng" : ""}`, ruiRo.id);
+}
+
+/** Câu "mặt thuận của năm" từ han.luu_nien.ket_luan (dùng cho đoạn Hạn năm và hỏi đáp). */
+function cauMatThuan(kq: BaoCao): string | null {
+  const thuan = kq.han?.luu_nien.ket_luan.find((n) => n.id === "HAN.mat_thuan");
+  if (!thuan) return null;
+  const m = /→ tận dụng cho (.+?) theo hướng (.+?)\.?$/s.exec(thuan.nhan_dinh);
+  return cau(m ? `Mặt thuận của năm là có sao hỗ trợ ở các mảng ${m[1]}; bạn nên tận dụng theo hướng ${bo(m[2])}` : sach(thuan.nhan_dinh), thuan.id);
+}
+
 // ---------- hạn năm
 function doanHan(kq: BaoCao): string | null {
   const h = kq.han;
@@ -291,35 +327,89 @@ function doanHan(kq: BaoCao): string | null {
   const d = h.dai_han;
   const s: string[] = [cau(`Năm ${h.nam_xem}, bạn đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi, nhìn chung ở mức ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()}`, "DH")];
   const kl = h.luu_nien.ket_luan;
-  const kn: Record<string, { muc: string }> = triThuc().cfg.han.khuyen_nghi;
-  const ruiRo = kl.find((n) => n.id === "HAN.rui_ro");
-  if (ruiRo) {
-    const phan = ruiRo.nhan_dinh.replace(/\s*;\s*ngoài tam phương lưu niên nhưng là cung trọng yếu/g, "");
-    const sau = phan.slice(phan.lastIndexOf(" — ") >= 0 ? phan.lastIndexOf(" — ") + 3 : phan.indexOf(": ") + 2).replace(/\.$/, "");
-    const goc: string[] = [];
-    for (const seg of sau.split("; ")) {
-      const m = /^(.+?) \((\S+)\): (.+)$/.exec(seg);
-      if (!m) continue;
-      const nghia = [...m[3].matchAll(/\(([^()]+)\)/g)].map((x) => x[1]);
-      if (nghia.length) goc.push(`${kn[m[1]]?.muc ?? m[1].toLowerCase()} (dễ gặp ${noi(nghia)})`);
-    }
-    if (goc.length) {
-      const bo3 = /bộ Mệnh – Tài Bạch – Quan Lộc/.test(ruiRo.nhan_dinh);
-      s.push(cau(`Điều cần để ý nhất trong năm là ${noi(goc.slice(0, 3))}${bo3 ? "; vì cả ba mảng này cùng chịu ảnh hưởng nên đây là năm cần thận trọng" : ""}`, ruiRo.id));
-    } else s.push(cau(sach(ruiRo.nhan_dinh), ruiRo.id));
-  }
+  const cauRR = cauRuiRo(kq);
+  if (cauRR) s.push(cauRR);
   for (const n of kl.filter((x) => x.id.startsWith("HAN.nen_tranh."))) {
     const m = /^Về (.+?): nên (.+?); tránh (.+?)\.?$/s.exec(n.nhan_dinh);
     s.push(cau(m ? `Về ${m[1]}, bạn nên ${bo(m[2])} và tránh ${bo(m[3])}` : sach(n.nhan_dinh), n.id));
   }
   const ky = h.luu_nien.ghi_chu.find((n) => n.id === "LN.song_ky");
   if (ky) s.push(cau(`Năm nay có hai lớp vận Hóa Kỵ chồng nhau (đại hạn và lưu niên), nên việc thuộc cung đó dễ vướng mắc, cần thận trọng`, ky.id));
-  const thuan = kl.find((n) => n.id === "HAN.mat_thuan");
-  if (thuan) {
-    const m = /→ tận dụng cho (.+?) theo hướng (.+?)\.?$/s.exec(thuan.nhan_dinh);
-    s.push(cau(m ? `Mặt thuận của năm là có sao hỗ trợ ở các mảng ${m[1]}; bạn nên tận dụng theo hướng ${bo(m[2])}` : sach(thuan.nhan_dinh), thuan.id));
-  }
+  const cauMT = cauMatThuan(kq);
+  if (cauMT) s.push(cauMT);
   return s.join(" ");
+}
+
+/** Tổng kết 2–3 câu sinh từ luật: mảng thuận nhất, mảng cần chú tâm nhất (chênh từ ngưỡng thì mới gọi tên, nếu không nói là đồng đều), rồi cung Thân. */
+function doanTongKet(kq: BaoCao): string | null {
+  const tk = triThuc().vanPhong.tong_ket;
+  const kcb = triThuc().keChuyen.chu_de;
+  const xep = Object.entries(kq.chu_de).sort((a, b) => b[1].diem100 - a[1].diem100);
+  if (xep.length < 2) return null;
+  const [tenCao, cao] = xep[0];
+  const [tenThap, thap] = xep[xep.length - 1];
+  const dien = (m: string, r: Record<string, string>) => Object.entries(r).reduce((t, [k, v]) => t.replace(`{${k}}`, v), m);
+  const s: string[] = [];
+  if (cao.diem100 - thap.diem100 >= tk.chenh_toi_thieu) {
+    const tanDung: string | undefined = kcb[tenCao]?.tan_dung;
+    const viec: string | undefined = kcb[tenThap]?.viec_nen_lam?.chung;
+    s.push(cau(dien(tanDung ? tk.manh : tk.manh_khong_viec, { ten: tenCao.toLowerCase(), d: String(cao.diem100), viec: tanDung ?? "" }), `CD.${tenCao}`));
+    s.push(cau(dien(viec ? tk.yeu : tk.yeu_khong_viec, { ten: tenThap.toLowerCase(), d: String(thap.diem100), viec: viec ?? "" }), `CD.${tenThap}`));
+  } else {
+    s.push(cau(dien(tk.dong_deu, { cao: tenCao.toLowerCase(), dc: String(cao.diem100), thap: tenThap.toLowerCase(), dt: String(thap.diem100) }), `CD.${tenCao}`, `CD.${tenThap}`));
+  }
+  const b = kq.than.nhan_dinh[1];
+  if (b) s.push(cau(dien(tk.than, { noi_dung: `${thuong(sach(b.nhan_dinh))}` }), b.id));
+  return s.join(" ");
+}
+
+/** Hỏi–đáp (data/knowledge/cau_hoi.json): mỗi câu hỏi chỉ được trả lời bằng đúng kết quả engine đã tính (chủ đề, so cung, cung Thân, dòng thời gian đại hạn, hạn năm, cách quý nhân); không đủ luật thì không hỏi. */
+function dongHoiDap(kq: BaoCao): string[] {
+  const vp = triThuc().vanPhong.hoi_dap;
+  const hoiSc: Record<string, string> = Object.fromEntries((triThuc().lienCung.so_cung.cap as { a: string; b: string; hoi: string }[]).map((c) => [`SC.${c.a}.${c.b}`, c.hoi]));
+  const dien = (m: string, r: Record<string, string>) => Object.entries(r).reduce((t, [k, v]) => t.replace(`{${k}}`, v), m);
+  const mo = (hoi: string, traLoi: string) => dien(vp.mo, { hoi, tra_loi: traLoi });
+  const out: string[] = [];
+  for (const q of triThuc().cauHoi.cau_hoi as Record<string, string>[]) {
+    let dong: string[] = [];
+    if (q.loai === "chu_de") {
+      const cd = kq.chu_de[q.ten];
+      if (!cd) continue;
+      dong = [cau(dien(vp.chu_de, { hoi: q.hoi, nhan: cd.xep_loai.toLowerCase(), d: String(cd.diem100), ten: q.ten }), `CD.${q.ten}`)]; // chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
+    } else if (q.loai === "so_cung") {
+      const n = kq.so_cung.find((x) => x.id === `SC.${q.a}.${q.b}`);
+      if (!n) continue;
+      const [chinh, ...luuY] = n.nhan_dinh.split(/(?<=\.)\s+/);
+      dong = [cau(dien(vp.so_cung, { hoi: hoiSc[n.id], tra_loi: thuong(sach(chinh)) }), n.id), ...luuY.map((c) => cau(sach(c), n.id))];
+    } else if (q.loai === "than") {
+      const b = kq.than.nhan_dinh[1];
+      if (b) dong = [cau(mo(q.hoi, thuong(sach(b.nhan_dinh))), b.id)];
+    } else if (q.loai === "dai_han") {
+      const ds = kq.dai_han_ca_doi ?? [];
+      const m = ds.length > 1 ? ds.find((x) => x.nhan === q.nhan) : undefined;
+      if (m) dong = [cau(mo(q.hoi, thuong(sach(m.nhan_dinh))), m.id)];
+    } else if (q.loai === "dai_han_nay") {
+      const d = kq.han?.dai_han;
+      if (d) dong = [cau(dien(vp.dai_han_nay, { hoi: q.hoi, tu: String(d.tu_tuoi), den: String(d.tu_tuoi + 9), chi: d.chi, cung_goc: d.cung_goc, nhan: d.danh_gia["Mệnh"].xep_loai.toLowerCase() }), "DH")];
+    } else if (q.loai === "han") {
+      const c = q.id === "HAN.rui_ro" ? cauRuiRo(kq) : cauMatThuan(kq);
+      if (c) dong = [`Về ${q.hoi}: ${c}`];
+    } else if (q.loai === "quy_nhan") {
+      const cach: { ten: string; cung: string; id: string }[] = [];
+      for (const [cung, k] of Object.entries(kq.cung)) {
+        for (const n of k.nhan_dinh) {
+          const m = /^\[(.+?)\]/.exec(n.nhan_dinh); // bỏ cách bị phá ("— PHÁ CÁCH")
+          if (n.id.startsWith("CC") && n.diem > 0 && !n.an && (n.linh_vuc ?? []).includes(q.linh_vuc) && m && !m[1].includes("PHÁ CÁCH")) cach.push({ ten: m[1], cung, id: n.id });
+        }
+      }
+      if (cach.length) {
+        const ds = cach.slice(0, 2);
+        dong = [cau(dien(vp.quy_nhan, { hoi: q.hoi, cach: noi(ds.map((c) => `cách «${c.ten}» ở cung ${c.cung}`)) }), ...ds.map((c) => c.id))];
+      }
+    }
+    if (dong.length) out.push(dong.join(" "));
+  }
+  return out;
 }
 
 /** Lớp nền: toàn bộ văn xuôi không dùng LLM, mỗi mục một đoạn. */
@@ -342,5 +432,9 @@ export function vietMau(kq: BaoCao): string {
     out.push(`\n# Hạn năm ${kq.han!.nam_xem}`);
     out.push(han);
   }
+  const tk = doanTongKet(kq);
+  if (tk) out.push("\n# Tổng kết", tk);
+  const hd = dongHoiDap(kq);
+  if (hd.length) out.push(`\n# ${triThuc().vanPhong.hoi_dap.tieu_de}`, ...hd);
   return out.join("\n");
 }

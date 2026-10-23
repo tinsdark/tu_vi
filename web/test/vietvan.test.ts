@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { HOA_GIAI, hinhDang } from "../src/engine/vanNen";
-import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc, hauKiemDayDu, hauKiemNoiDung, rutGonChoLlm } from "../src/engine";
+import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc, tapId } from "../src/engine";
 
 function mau(i: number) {
   const nam = 1930 + ((i * 37) % 90);
@@ -40,7 +40,7 @@ describe("lớp nền văn xuôi (spec Phần 3 §24–§26)", () => {
   it("mỗi chủ đề là một đoạn, 3–10 câu, không dồn mọi nhận định (R7)", () => {
     for (let i = 0; i < 100; i++) {
       const kq = mau(i);
-      const dong = phan(vietMau(kq));
+      const dong = phan(vietMau(kq).split("\n# Tổng kết")[0]); // phần chủ đề; Tổng kết và hỏi đáp kiểm riêng ở dưới
       expect(dong.length).toBe(1 + Object.keys(kq.chu_de).length + 1); // Tổng quan + các chủ đề + Hạn
       Object.keys(kq.chu_de).forEach((_, k) => {
         const n = cauCuaDoan(dong[1 + k]).length;
@@ -81,7 +81,7 @@ describe("lớp nền văn xuôi (spec Phần 3 §24–§26)", () => {
         const k = cs.findIndex(hg);
         if (k < 0) continue;
         expect(k, d).toBe(cs.length - 1); // hòa giải luôn là câu cuối đoạn
-        expect(cs.slice(0, k).some((c) => /^(Tuy nhiên|Bên cạnh đó|Ngược lại|Cần lưu ý)/.test(c)), d).toBe(true); // đã nêu mặt tối trước đó
+        expect(cs.slice(0, k).some((c) => new RegExp(`^(${["Ngược lại", "Cần lưu ý", ...triThuc().vanPhong.noi_nguoc, ...triThuc().vanPhong.noi_hung_tiep].map((x: string) => x.replace(/,$/, "")).join("|")})`).test(c)), d).toBe(true); // đã nêu mặt tối trước đó
       }
     }
   });
@@ -108,44 +108,15 @@ describe("lớp nền văn xuôi (spec Phần 3 §24–§26)", () => {
   });
 });
 
-describe("hậu kiểm nội dung văn do AI viết (spec Phần 3 §29)", () => {
+describe("hậu kiểm văn của engine", () => {
   it("văn lớp nền của chính web không bao giờ bị bỏ câu nào", () => {
     for (let i = 0; i < 300; i++) {
       const kq = mau(i);
       const van = vietMau(kq);
-      const [giu, bo] = hauKiemDayDu(van, kq);
+      const [giu, bo] = hauKiemTheoMuc(van, kq);
       expect(bo, `lá ${i}`).toBe(0);
       expect(giu).toBe(van);
     }
-  });
-
-  const kq = mau(5);
-  const ten = Object.keys(kq.chu_de)[1]; // chủ đề thứ hai
-  const cd = kq.chu_de[ten];
-  const nhanDung = cd.xep_loai.toLowerCase();
-  const nhanSai = ["rất thấp", "thấp", "trung bình", "khá", "tốt", "rất tốt"].find((n) => n !== nhanDung)!;
-  const them = (cau: string) => hauKiemNoiDung(`# ${ten}\n${cau}`, kq);
-
-  it("giữ câu hợp lệ, bỏ câu nêu sao không có trong báo cáo", () => {
-    expect(them(`Bạn ở mức ${nhanDung} (khoảng ${cd.diem100}/100) [CD.${ten}].`)[1]).toBe(0);
-    const chiMenh = JSON.stringify(rutGonChoLlm(kq));
-    const saoLa = [...triThuc().phu.keys()].filter((t) => t.includes(" ")).find((t) => !chiMenh.includes(t))!;
-    expect(saoLa).toBeTruthy();
-    expect(them(`Bạn có ${saoLa} rất mạnh [CD.${ten}].`)[1]).toBe(1);
-  });
-
-  it("bỏ câu có con số lạ hoặc nhãn mức khác nhãn của chủ đề", () => {
-    expect(them(`Bạn đạt khoảng ${cd.diem100 === 77 ? 78 : 77}/100 [CD.${ten}].`)[1]).toBe(1);
-    expect(them(`Về ${ten.toLowerCase()}, bạn ở mức ${nhanSai} [CD.${ten}].`)[1]).toBe(1);
-  });
-
-  it("bỏ câu phán tuyệt đối", () => {
-    expect(them(`Bạn chắc chắn sẽ giàu [CD.${ten}].`)[1]).toBe(1);
-    expect(them(`Hôn nhân của bạn nhất định phải đổ vỡ [CD.${ten}].`)[1]).toBe(1);
-  });
-
-  it("không đếm số bên trong mã [ID]", () => {
-    expect(them(`Bạn hợp nghề này [CC21][CD.${ten}].`)[1]).toBe(0);
   });
 });
 
@@ -185,6 +156,43 @@ describe("kể chuyện theo hình dạng — Tài chính, Sự nghiệp", () =>
           expect(ma.every((m) => sang.has(m)), c).toBe(true);
         }
       }
+    }
+  });
+});
+
+describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
+  it("tổng kết 2–3 câu; hỏi đáp: đủ 20 câu hỏi khi có hạn, mỗi câu có mã hợp lệ đúng mục, chỉ hỏi khi có luật", () => {
+    let minHoi = 99;
+    for (let i = 0; i < 100; i++) {
+      const kq = mau(i);
+      const van = vietMau(kq);
+      const tk = van.split("\n# Tổng kết\n")[1]?.split("\n")[0] ?? "";
+      const nCau = tk.split(/(?<=[\].!?])\s+/).filter(Boolean).length;
+      expect(nCau, tk).toBeGreaterThanOrEqual(2);
+      expect(nCau, tk).toBeLessThanOrEqual(3);
+      const hd = (van.split("\n# Những câu hỏi thường gặp\n")[1] ?? "").split("\n").filter(Boolean);
+      const ids = tapId(kq);
+      for (const dong of hd) {
+        const ma = [...dong.matchAll(/\[([^[\]]+)\]/g)].map((m) => m[1]);
+        expect(ma.length, dong).toBeGreaterThan(0);
+        expect(ma.every((m) => ids.has(m)), dong).toBe(true);
+      }
+      // câu hỏi thuộc loại cần so cung / quý nhân chỉ có khi luật cho phép: số dòng không vượt số câu hỏi khai báo
+      expect(hd.length).toBeLessThanOrEqual(triThuc().cauHoi.cau_hoi.length);
+      if (kq.han?.dai_han) minHoi = Math.min(minHoi, hd.length);
+      const [, bo] = hauKiemTheoMuc(van, kq);
+      expect(bo, `lá ${i}`).toBe(0);
+    }
+    expect(triThuc().cauHoi.cau_hoi.length).toBeGreaterThanOrEqual(20);
+    expect(minHoi).toBeGreaterThanOrEqual(11); // 6 chủ đề + Thân + 2 đại hạn + đại hạn hiện tại + hạn năm (ít nhất 1)
+  });
+
+  it("một báo cáo không lặp nguyên văn một câu giữa các đoạn chủ đề (câu nối được xoay vòng)", () => {
+    for (let i = 0; i < 100; i++) {
+      const cs = vietMau(mau(i)).split("\n# Tổng kết")[0].split("\n").filter((d) => d.trim() && !d.startsWith("#")).flatMap((d) => d.split(/(?<=[\].!?])\s+/));
+      const noi = triThuc().vanPhong.noi_them as string[];
+      const dung = cs.filter((c) => noi.some((x) => c.startsWith(x)));
+      expect(new Set(dung).size, `lá ${i}`).toBe(dung.length);
     }
   });
 });

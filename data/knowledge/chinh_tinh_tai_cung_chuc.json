@@ -45,7 +45,7 @@
       "Tật Ách": [-1, "Nên để ý mắt, huyết áp và đầu.", "Bạn cần chú ý mắt và tim mạch."],
       "Tài Bạch": [1, "Bạn kiếm tiền nhờ danh tiếng.", "Bạn kiếm được nhưng lại quá hào phóng."],
       "Tử Tức": [1, "Con trai của bạn khá.", "Con trai của bạn khá vất vả."],
-      "Phu Thê": [0, "Nếu bạn là nữ, chồng bạn có danh tiếng.", "Nếu bạn là nữ, chồng bạn vất vả; nếu bạn là nam, vợ dễ lấn át bạn."],
+      "Phu Thê": [0, "Nếu bạn là nữ, chồng bạn có danh tiếng; nếu bạn là nam, vợ bạn có tiếng tăm.", "Nếu bạn là nữ, chồng bạn vất vả; nếu bạn là nam, vợ dễ lấn át bạn."],
       "Huynh Đệ": [1, "Anh chị em bạn có người thành đạt.", "Anh chị em dễ ly tán."]
     },
     "Vũ Khúc": {
@@ -115,7 +115,7 @@
       "Tật Ách": [-1, "Nên để ý thận, mắt và nội tiết.", "Bạn cần chú ý thận và các vấn đề phụ khoa."],
       "Tài Bạch": [2, "Tiền của bạn tích lũy dần, giàu theo kiểu ngấm ngầm.", "Thu nhập của bạn vào ra thất thường."],
       "Tử Tức": [1, "Con gái của bạn khá.", "Sức khỏe con cái cần được chú ý."],
-      "Phu Thê": [1, "Nếu bạn là nam, vợ bạn đẹp và hiền.", "Nếu bạn là nam, vợ bạn yếu đuối; nếu bạn là nữ, chồng bạn hiền và thiếu quyết đoán."],
+      "Phu Thê": [1, "Nếu bạn là nam, vợ bạn đẹp và hiền; nếu bạn là nữ, chồng bạn hiền hậu.", "Nếu bạn là nam, vợ bạn yếu đuối; nếu bạn là nữ, chồng bạn hiền và thiếu quyết đoán."],
       "Huynh Đệ": [1, "Chị em gái của bạn khá.", "Anh chị em bạn khó hòa thuận."]
     },
     "Tham Lang": {

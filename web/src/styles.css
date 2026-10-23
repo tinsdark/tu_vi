@@ -341,3 +341,15 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .cach-tinh dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 4px 12px; margin: .5rem 0; font-size: .9rem; }
 .cach-tinh dt { color: var(--mo); } .cach-tinh dd { margin: 0; }
 @media (max-width: 760px) { .cach-tinh dl { grid-template-columns: 1fr; } .cach-tinh dt { margin-top: .4rem; } }
+
+.bang-12-cung, .dong-dai-han { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.bang-12-cung li { display: grid; grid-template-columns: 6rem 1fr 8rem; gap: .6rem; align-items: center; }
+.b12-thanh { height: 8px; background: var(--vien); border-radius: 99px; overflow: hidden; }
+.b12-thanh > span { display: block; height: 100%; background: var(--vang); border-radius: 99px; }
+.dong-dai-han li { display: grid; grid-template-columns: 5rem 8rem 1fr; gap: .2rem .6rem; align-items: baseline; }
+.dong-dai-han .ddh-goiy { grid-column: 2 / -1; font-size: .88rem; }
+.dong-dai-han .ddh-nay .ddh-tuoi { font-weight: 700; }
+@media (max-width: 640px) {
+  .bang-12-cung li { grid-template-columns: 4.6rem 1fr 6.5rem; }
+  .dong-dai-han li { grid-template-columns: 4.2rem 1fr; } .dong-dai-han .ddh-xep { grid-column: 1 / -1; }
+}
