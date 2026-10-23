@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { hauKiemTheoMuc, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type KetQuaNangCao, type NhapLieu } from "../engine";
+import { hauKiemDayDu, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type KetQuaNangCao, type NhapLieu } from "../engine";
 import { API_BASE } from "../lib/api";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
@@ -31,14 +31,28 @@ function ChamMa({ ma, onMo }: { ma: string; onMo: () => void }) {
   return <button type="button" className={`cham cham-${t} cham-nho cham-trong-cau`} onClick={onMo} title={`Quy tắc ${ma}`} aria-label={`Xem quy tắc ${ma}`} />;
 }
 
+/** Mặc định đọc liền mạch (không chấm giữa câu); mỗi đoạn có một hàng "Cơ sở" gom các mã đã dùng. Bật "chấm theo từng câu" để thấy mã ngay sau câu. */
 function HienVan({ van }: { van: string }) {
   const dong = van.split("\n");
+  const [theoCau, setTheoCau] = useState(false);
+  const mo = useNganKeo();
   return (
     <div className="van-xuoi">
+      <label className="mo van-che-do">
+        <input type="checkbox" checked={theoCau} onChange={(e) => setTheoCau(e.currentTarget.checked)} /> Hiện chấm căn cứ sau từng câu
+      </label>
       {dong.map((d, i) => {
         if (d.startsWith("# ")) return <h4 key={i}>{d.slice(2)}</h4>;
         if (!d.trim()) return null;
-        return <p key={i}><CauChu cau={d} /></p>;
+        if (theoCau) return <p key={i}><CauChu cau={d} /></p>;
+        const ma = [...new Set(tachMa(d).flatMap((m) => (m.ma ? [m.ma] : [])))];
+        const chu = tachMa(d).filter((m) => !m.ma).map((m) => m.text).join("").replace(/\s+([.;,])/g, "$1").replace(/\s{2,}/g, " ");
+        return (
+          <div key={i} className="doan-van">
+            <p>{chu}</p>
+            <p className="co-so mo"><span>Cơ sở:</span>{ma.map((m) => <ChamMa key={m} ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} />)}</p>
+          </div>
+        );
       })}
     </div>
   );
@@ -72,7 +86,7 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
   }
 
   function kiemTra() {
-    const [van, bo] = hauKiemTheoMuc(vanDan, bc);
+    const [van, bo] = hauKiemDayDu(vanDan, bc);
     if (!van.replace(/^#.*$/gm, "").trim()) {
       setLoiDan("Không câu nào hợp lệ: mỗi câu phải kết thúc bằng mã như [CD.Sự nghiệp] và nằm đúng mục. Hãy nhờ chatbot viết lại theo lời nhắc.");
       return;
@@ -96,7 +110,7 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
 
   const hien = ai.ky === "xong" ? ai : { che_do: "mau" as CheDoVan, van: mau.van, bo: 0, ly_do: undefined };
   return (
-    <Khoi tieuDe="Bản đọc thành văn" ghiChu="Mỗi câu kết thúc bằng một chấm màu — bấm để xem quy tắc đứng sau và nguồn của nó. Câu nào không truy được về quy tắc đều bị loại.">
+    <Khoi tieuDe="Bản đọc thành văn" ghiChu="Mỗi đoạn có hàng “Cơ sở” gồm các chấm màu — bấm để xem quy tắc đứng sau và nguồn của nó. Câu nào không truy được về quy tắc đều bị loại.">
       <div className="hang-nut hang-nut-trai">
         {coAi !== false && (
           <button type="button" className="nut" onClick={viet} disabled={ai.ky === "dang_tai"}>

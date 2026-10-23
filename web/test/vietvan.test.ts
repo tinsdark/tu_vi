@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc } from "../src/engine";
+import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc, hauKiemDayDu, hauKiemNoiDung, rutGonChoLlm } from "../src/engine";
 
 function mau(i: number) {
   const nam = 1930 + ((i * 37) % 90);
@@ -77,5 +77,46 @@ describe("lớp nền văn xuôi (spec Phần 3 §24–§26)", () => {
       const lap = [...dem].filter(([, n]) => n > 1);
       expect(lap).toEqual([]);
     }
+  });
+});
+
+describe("hậu kiểm nội dung văn do AI viết (spec Phần 3 §29)", () => {
+  it("văn lớp nền của chính web không bao giờ bị bỏ câu nào", () => {
+    for (let i = 0; i < 300; i++) {
+      const kq = mau(i);
+      const van = vietMau(kq);
+      const [giu, bo] = hauKiemDayDu(van, kq);
+      expect(bo, `lá ${i}`).toBe(0);
+      expect(giu).toBe(van);
+    }
+  });
+
+  const kq = mau(5);
+  const ten = Object.keys(kq.chu_de)[1]; // chủ đề thứ hai
+  const cd = kq.chu_de[ten];
+  const nhanDung = cd.xep_loai.toLowerCase();
+  const nhanSai = ["rất thấp", "thấp", "trung bình", "khá", "tốt", "rất tốt"].find((n) => n !== nhanDung)!;
+  const them = (cau: string) => hauKiemNoiDung(`# ${ten}\n${cau}`, kq);
+
+  it("giữ câu hợp lệ, bỏ câu nêu sao không có trong báo cáo", () => {
+    expect(them(`Bạn ở mức ${nhanDung} (khoảng ${cd.diem100}/100) [CD.${ten}].`)[1]).toBe(0);
+    const chiMenh = JSON.stringify(rutGonChoLlm(kq));
+    const saoLa = [...triThuc().phu.keys()].filter((t) => t.includes(" ")).find((t) => !chiMenh.includes(t))!;
+    expect(saoLa).toBeTruthy();
+    expect(them(`Bạn có ${saoLa} rất mạnh [CD.${ten}].`)[1]).toBe(1);
+  });
+
+  it("bỏ câu có con số lạ hoặc nhãn mức khác nhãn của chủ đề", () => {
+    expect(them(`Bạn đạt khoảng ${cd.diem100 === 77 ? 78 : 77}/100 [CD.${ten}].`)[1]).toBe(1);
+    expect(them(`Về ${ten.toLowerCase()}, bạn ở mức ${nhanSai} [CD.${ten}].`)[1]).toBe(1);
+  });
+
+  it("bỏ câu phán tuyệt đối", () => {
+    expect(them(`Bạn chắc chắn sẽ giàu [CD.${ten}].`)[1]).toBe(1);
+    expect(them(`Hôn nhân của bạn nhất định phải đổ vỡ [CD.${ten}].`)[1]).toBe(1);
+  });
+
+  it("không đếm số bên trong mã [ID]", () => {
+    expect(them(`Bạn hợp nghề này [CC21][CD.${ten}].`)[1]).toBe(0);
   });
 });

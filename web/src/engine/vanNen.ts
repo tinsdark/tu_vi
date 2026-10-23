@@ -158,9 +158,9 @@ function cauNenLaSo(n: NhanDinh): string {
     if (f && sao) return cau(bo(f(sao)), n.id);
   }
   if (loai.startsWith("tuan_triet.")) {
-    const cung = /án cung (.+?)(?: \(|:)/.exec(n.nhan_dinh)?.[1] ?? "";
+    const m = /án cung (\S+) \((.+?)\)/.exec(n.nhan_dinh); // "án cung <địa chi> (<cung chức>)"
     const ten = /Triệt/.test(n.nhan_dinh) ? "Triệt" : "Tuần";
-    return cau(`Cung ${cung ? `${cung} ` : ""}của bạn có ${ten} đi qua, ảnh hưởng đến cả đời nên đáng chú ý ngay từ đầu: điều tốt ở đây giảm lực, điều xấu cũng bớt hung`, n.id);
+    return cau(`Cung ${m ? `${m[2]} (tại ${m[1]}) ` : ""}của bạn có ${ten} đi qua, ảnh hưởng đến cả đời nên đáng chú ý ngay từ đầu: điều tốt ở đây giảm lực, điều xấu cũng bớt hung`, n.id);
   }
   return cau(sach(n.nhan_dinh), n.id);
 }
