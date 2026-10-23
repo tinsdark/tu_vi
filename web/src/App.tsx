@@ -122,9 +122,14 @@ export function App() {
                 <button type="button" className="nut" onClick={() => setMoForm((v) => !v)} aria-expanded={moForm}>{moForm ? "Ẩn form" : "Sửa thông tin"}</button>
                 <button type="button" className="nut" onClick={() => { setDaLuu(luuLaSo(nhap)); baoTam("Đã lưu lá số trong trình duyệt này."); }}>Lưu</button>
                 <button type="button" className="nut" onClick={async () => { try { await navigator.clipboard.writeText(location.href); baoTam("Đã chép liên kết (không chứa họ tên)."); } catch { baoTam("Hãy chép liên kết từ thanh địa chỉ."); } }}>Chép liên kết</button>
-                <button type="button" className="nut" onClick={() => taiPng(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile).catch((e) => baoTam(String(e.message)))}>Tải ảnh PNG</button>
-                <button type="button" className="nut" onClick={() => taiSvg(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile)}>Tải SVG</button>
-                <button type="button" className="nut" onClick={() => window.print()}>In / PDF</button>
+                <details className="menu-xuat">
+                  <summary className="nut">Xuất ▾</summary>
+                  <div className="menu-xuat-ds">
+                    <button type="button" onClick={() => taiPng(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile).catch((e) => baoTam(String(e.message)))}>Tải ảnh PNG</button>
+                    <button type="button" onClick={() => taiSvg(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile)}>Tải SVG</button>
+                    <button type="button" onClick={() => window.print()}>In / PDF</button>
+                  </div>
+                </details>
               </div>
             </section>
             {thongBao && <p className="thong-bao" role="status">{thongBao}</p>}
@@ -142,10 +147,12 @@ export function App() {
             <div role="tabpanel" id={`bang-${tab}`} aria-labelledby={`tab-${tab}`} className="bang-tab">
               {tab === "la_so" && (
                 <>
-                  <label className="chon chon-dong"><input type="checkbox" checked={hienSaoLuu} onChange={(e) => setHienSaoLuu(e.target.checked)} /> Hiện sao lưu niên của năm {nhap.nam_xem}</label>
-                  <label className="chon chon-dong"><input type="checkbox" checked={mauHanh} onChange={(e) => setMauHanh(e.target.checked)} /> Tô màu sao theo ngũ hành (bỏ chọn: xanh = tốt, đỏ = xấu)</label>
+                  <div className="tuy-chon">
+                    <label className="chon"><input type="checkbox" checked={hienSaoLuu} onChange={(e) => setHienSaoLuu(e.target.checked)} /> Sao lưu niên {nhap.nam_xem}</label>
+                    <label className="chon" title="Bỏ chọn: sao tốt màu xanh, sao xấu màu đỏ"><input type="checkbox" checked={mauHanh} onChange={(e) => setMauHanh(e.target.checked)} /> Màu sao theo ngũ hành</label>
+                  </div>
                   <BanCo kq={kq} hienSaoLuu={hienSaoLuu} mauHanh={mauHanh} />
-                  <p className="mo">Bấm vào tên cung để xem luận cung, bấm vào tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn. Chữ “H” cạnh sao là sao hãm.</p>
+                  <p className="mo">Bấm tên cung để xem luận cung, bấm tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn; (M) miếu, (V) vượng, (Đ) đắc, (B) bình, (H) hãm.</p>
                 </>
               )}
               {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nhap={nhap} nc={kq.nang_cao} />}

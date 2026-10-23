@@ -58,13 +58,18 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
         </label>
         <fieldset className="truong">
           <legend>Giới tính</legend>
-          <label className="chon"><input type="radio" name="gt" value="nam" checked={gt === "nam"} onChange={() => setGt("nam")} /> Nam</label>
-          <label className="chon"><input type="radio" name="gt" value="nu" checked={gt === "nu"} onChange={() => setGt("nu")} /> Nữ</label>
+          <div className="nhom-chon">
+            <label className="chon"><input type="radio" name="gt" value="nam" checked={gt === "nam"} onChange={() => setGt("nam")} /> Nam</label>
+            <label className="chon"><input type="radio" name="gt" value="nu" checked={gt === "nu"} onChange={() => setGt("nu")} /> Nữ</label>
+          </div>
         </fieldset>
         <fieldset className="truong">
-          <legend>Nơi sinh <em>(chỉ ảnh hưởng người sinh trước 1976)</em></legend>
-          <label className="chon"><input type="radio" name="mien" value="bac" checked={mien === "bac"} onChange={() => setMien("bac")} /> Miền Bắc</label>
-          <label className="chon"><input type="radio" name="mien" value="nam" checked={mien === "nam"} onChange={() => setMien("nam")} /> Miền Nam</label>
+          <legend>Nơi sinh</legend>
+          <div className="nhom-chon">
+            <label className="chon"><input type="radio" name="mien" value="bac" checked={mien === "bac"} onChange={() => setMien("bac")} /> Miền Bắc</label>
+            <label className="chon"><input type="radio" name="mien" value="nam" checked={mien === "nam"} onChange={() => setMien("nam")} /> Miền Nam</label>
+          </div>
+          <em className="goi-y">Chỉ ảnh hưởng người sinh trước 1976.</em>
         </fieldset>
         <label className="truong">
           <span>Năm xem hạn</span>
