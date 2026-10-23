@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "server": "tsx server/index.ts",
     "kiem:llm": "tsx server/kiem-llm.ts",
-    "test:py": "python3 ../tools/tuvi/test_lich_am.py && python3 ../tools/tuvi/test_an_sao.py && python3 ../tools/tuvi/test_luan_giai.py && python3 ../tools/tuvi/test_doi_chieu_thay.py"
+    "test:py": "python3 ../tools/tuvi/test_lich_am.py && python3 ../tools/tuvi/test_an_sao.py && python3 ../tools/tuvi/test_luan_giai.py && python3 ../tools/tuvi/test_doi_chieu_thay.py && python3 ../tools/tuvi/test_fixture_la_so.py"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",

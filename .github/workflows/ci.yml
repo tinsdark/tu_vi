@@ -23,6 +23,7 @@ jobs:
           python3 tools/tuvi/test_an_sao.py
           python3 tools/tuvi/test_luan_giai.py
           python3 tools/tuvi/test_doi_chieu_thay.py
+          python3 tools/tuvi/test_fixture_la_so.py
       - name: Dữ liệu sinh ra không lệch so với JSON
         run: |
           python3 tools/sinh_sql.py

@@ -19,9 +19,7 @@
   },
   "vo_chinh_dieu": {
     "muon_xung_chieu": true,
-    "he_so": 0.7,
-    "tran_diem100": 75,
-    "ghi_chu_tran": "Cung vô chính diệu mượn sao xung chiếu 'thiếu trục chính' (đúng như câu luận) nên điểm không được vượt trần này — tránh nhãn 'Tốt' đi kèm câu 'nền thiếu ổn định'. Không áp khi cung có cách Vô Chính Diệu đắc Tam Không (đã có điểm cách cục)."
+    "he_so": 0.5
   },
   "tuan_triet": {
     "he_so_sao_tot": 0.7,
@@ -129,99 +127,9 @@
     "Thai": 0,
     "Dưỡng": 0.05
   },
-  "nguong_ket_luan": {
-    "_ghi_chu": "Sinh tự động bởi tools/tuvi/hieu_chinh.py: phân vị 10/30/70/90 của điểm cung trên mẫu lá số ngẫu nhiên — chỉ dùng làm THANG QUY ĐỔI nội bộ (diem_noi_tai), không phải bằng chứng thống kê về dân số lá số thật.",
-    "so_mau": 3000,
-    "theo_cung": {
-      "Mệnh": {
-        "rat_tot": 15.96,
-        "tot": 10.61,
-        "giua": 7.03,
-        "trung_binh": 3.48,
-        "xau": -1.58
-      },
-      "Phụ Mẫu": {
-        "rat_tot": 12.77,
-        "tot": 8.14,
-        "giua": 4.97,
-        "trung_binh": 2.04,
-        "xau": -1.91
-      },
-      "Phúc Đức": {
-        "rat_tot": 14.53,
-        "tot": 9.22,
-        "giua": 6.03,
-        "trung_binh": 3.0,
-        "xau": -1.25
-      },
-      "Điền Trạch": {
-        "rat_tot": 14.01,
-        "tot": 9.29,
-        "giua": 6.2,
-        "trung_binh": 3.16,
-        "xau": -0.96
-      },
-      "Quan Lộc": {
-        "rat_tot": 15.15,
-        "tot": 9.99,
-        "giua": 6.82,
-        "trung_binh": 3.82,
-        "xau": -0.46
-      },
-      "Nô Bộc": {
-        "rat_tot": 12.15,
-        "tot": 7.86,
-        "giua": 4.87,
-        "trung_binh": 2.17,
-        "xau": -1.34
-      },
-      "Thiên Di": {
-        "rat_tot": 13.21,
-        "tot": 9.41,
-        "giua": 6.57,
-        "trung_binh": 3.74,
-        "xau": -0.15
-      },
-      "Tật Ách": {
-        "rat_tot": 10.48,
-        "tot": 6.57,
-        "giua": 3.66,
-        "trung_binh": 0.69,
-        "xau": -3.22
-      },
-      "Tài Bạch": {
-        "rat_tot": 14.25,
-        "tot": 9.43,
-        "giua": 6.23,
-        "trung_binh": 3.32,
-        "xau": -0.7
-      },
-      "Tử Tức": {
-        "rat_tot": 12.25,
-        "tot": 7.92,
-        "giua": 5.05,
-        "trung_binh": 2.38,
-        "xau": -1.59
-      },
-      "Phu Thê": {
-        "rat_tot": 11.98,
-        "tot": 7.56,
-        "giua": 4.84,
-        "trung_binh": 1.88,
-        "xau": -1.83
-      },
-      "Huynh Đệ": {
-        "rat_tot": 11.69,
-        "tot": 7.61,
-        "giua": 4.57,
-        "trung_binh": 1.73,
-        "xau": -2.27
-      }
-    }
-  },
   "he_so_phu_tinh_nho": 0.4,
   "phi_tuyen": {
-    "K": 8.0,
+    "K": null,
     "sao_pha": [
       "Kình Dương",
       "Đà La",
@@ -233,7 +141,7 @@
       "Thiên Hình"
     ],
     "vung": "ban_cung",
-    "ghi_chu": "Điểm cung = tổng tốt × 1/(1 + nặng/K) + tổng xấu. 'nặng' CHỈ gồm sát tinh/Hóa Kỵ ở BẢN CUNG ('một sao xấu phá cả cung'). Sát ở xung chiếu/tam hợp đã bị trừ trực tiếp ở trọng số riêng (trong_so) nên không bị phạt lần hai (trước đây phạt đôi làm khối chính tinh miếu/vượng bị sát ở xa nuốt). K là tham số mô hình, chưa kiểm trên lá số thật.",
+    "ghi_chu": "Không còn phi tuyến trong công thức điểm (v3 thay bằng CAP tổng sát −30). Mục này chỉ còn 'trong_so' (trọng số vị trí cho điểm CÂU của sát tinh bản cung/xung/tam hợp) và 'sao_pha'.",
     "trong_so": {
       "ban_cung": 1.0,
       "xung": 0.5,
@@ -448,52 +356,40 @@
     "ghi_chu": "Định nghĩa dùng chung cho câu cảnh báo sát tinh: 7 sát tinh + 2 bán-sát. Lưu/ĐH tính theo sao gốc."
   },
   "diem_noi_tai": {
-    "_ghi_chu": "Điểm /100 là tương quan NỘI TẠI giữa các cung của chính lá số — thang quy đổi từ điểm cung qua mốc 'moc_diem' (mẫu lá số ngẫu nhiên; lá số trung vị ≈ 60 = Trung bình). KHÔNG phải percentile so với dân số lá số thật nên không được diễn đạt là 'cao/thấp hơn X% lá số khác'. Làm tròn bội số 5.",
+    "_ghi_chu": "Điểm /100 là điểm tuyệt đối của công thức diem_v3 (START 50), không phải percentile và không so với lá số khác. Làm tròn bội số 5, kẹp 5–95.",
     "bac": [
       [
-        40,
+        30,
+        "Rất thấp"
+      ],
+      [
+        45,
         "Thấp"
       ],
       [
-        55,
-        "Dưới trung bình"
-      ],
-      [
-        70,
+        60,
         "Trung bình"
       ],
       [
-        85,
+        75,
         "Khá"
       ],
       [
-        95,
+        90,
         "Tốt"
       ],
       [
-        101,
+        100,
         "Rất tốt"
       ]
     ],
-    "san_chinh_tinh_sang": 55,
-    "san_chu_de_dac": 55,
-    "hoa_giai": {
-      "nguong_diem_sang": 1.5,
-      "nguong_diem_hung": -1.5,
-      "tran": 75,
-      "san": 45
-    },
-    "nguong_cat_xung_hoi": 2.0,
-    "moc_diem": {
-      "xau": 20,
-      "trung_binh": 45,
-      "giua": 60,
-      "tot": 75,
-      "rat_tot": 90
-    },
-    "bac_mota": "Thấp 5–35 · Dưới trung bình 40–50 · Trung bình 55–65 · Khá 70–80 · Tốt 85–90 · Rất tốt 95",
-    "san_cho_phep_sat_ban_cung": 1,
-    "_ghi_chu_san": "Sàn 'trung bình' cho cung có chính tinh miếu/vượng: áp khi sát tinh chỉ ở xung/hội chiếu, hoặc có tối đa san_cho_phep_sat_ban_cung sát tinh ở bản cung (VD Tử Vi miếu đồng cung một Địa Kiếp vẫn không xuống dưới trung bình). Đây là lựa chọn mô hình của tác giả (spec gốc chỉ nói sát xung chiếu)."
+    "nguong_cat_xung_hoi": 5.0,
+    "bac_mota": "≤30 Rất thấp · 31–45 Thấp (dưới trung bình) · 46–60 Trung bình · 61–75 Khá · 76–90 Tốt · ≥91 Rất tốt (spec v3 §4.7). Điểm làm tròn bội 5.",
+    "khop_noi_dung": {
+      "khá_tran": 65,
+      "tb_tran": 60,
+      "ghi_chu": "§4.8: sáng ≥ 2×hung và có chính tinh miếu/vượng (hoặc không có hung mà có chính tinh đắc) → nhãn ≥ khá (65); hung ≥ 2×sáng → nhãn ≤ trung bình (60)."
+    }
   },
   "vcd_theo_cung": {
     "Tử Tức": "Tử Tức vô chính diệu: mượn sao cung xung chiếu để luận; thường luận con muộn hoặc ít, chất lượng hơn số lượng. Không tự động là xấu — đánh giá theo sao mượn và phụ tinh (Tả/Hữu/Tấu Thư là cát thì nâng).",
@@ -660,5 +556,59 @@
     "Bạch Hổ": -1,
     "Đại Hao": -1,
     "Kiếp Sát": -1
+  },
+  "diem_v3": {
+    "_ghi_chu": "Công thức điểm một cung theo spec scoring v3 §4. CẤU TRÚC (thứ tự bước, dấu, nén Tuần/Triệt, sàn) là bắt buộc; mọi CON SỐ là giá trị khởi điểm để tune (xem hieu_chinh.py để xem phân bố trên lá số ngẫu nhiên).",
+    "start": 50,
+    "base": {
+      "M": 12,
+      "V": 9,
+      "Đ": 6,
+      "B": 2,
+      "H": -3,
+      "khong_ro": 2
+    },
+    "base_cap": [
+      -6,
+      20
+    ],
+    "cat": {
+      "ban_cung": 4,
+      "xung": 2.5,
+      "tam_hop": 2
+    },
+    "cat_hoa_nhan": 1.5,
+    "cat_ham_he_so": 0.3,
+    "cat_cap": 25,
+    "sat": {
+      "ban_cung": -5,
+      "xung": -3,
+      "tam_hop": -2
+    },
+    "sat_ban_sat_he_so": 0.5,
+    "sat_ham": 1.3,
+    "sat_dac": 0.5,
+    "sat_cap": -30,
+    "nen": {
+      "Triệt": 0.6,
+      "Tuần": 0.8
+    },
+    "san": {
+      "n2": 65,
+      "n1": 55,
+      "tru_triet": 7,
+      "tru_tuan": 4,
+      "ghi_chu": "Spec ghi n≥2 → 62 nhưng sau làm tròn bội 5 thành 60 (nhãn Trung bình) trong khi kỳ vọng 'khá'; đặt 65 để nhãn khớp kỳ vọng."
+    },
+    "cach_cuc": {
+      "he_so": 2.0,
+      "cap": 8,
+      "ghi_chu": "Điều chỉnh cách cục (đã giảm dần) cộng vào trước khi nén Tuần/Triệt, kẹp ±cap. Không có trong spec v3 — giữ vì docs/06 coi cách cục đè lên luận từng sao."
+    },
+    "kep": [
+      5,
+      95
+    ],
+    "ghi_chu_sat_dac": "Spec ghi Đắc ×0.7; hạ còn ×0.5 để sát đắc địa (VD Địa Kiếp đắc ở Dần đồng cung Tật Ách) không kéo cung xuống dưới kỳ vọng §16 lá 4 (Sức khỏe ≈ trung bình). Hằng số tune, không phải cấu trúc."
   }
 }

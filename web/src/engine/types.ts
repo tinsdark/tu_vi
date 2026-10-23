@@ -21,11 +21,19 @@ export interface NhanDinh {
   dao_dau?: boolean;
 }
 
+export interface KhoanSao { sao: string; cung: string; vi_tri: string; diem: number }
+
+/** Phân tích điểm một cung theo công thức spec v3 (§4.9): nhìn tap_ban_cung vs danh sách base là thấy ngay nguồn sao có đúng không. */
 export interface PhanTichDiem {
-  theo_loai: Record<string, number>;
-  tuan_triet_giam: { tot: number; xau: number };
-  tong_tot: number; tong_xau: number; he_so_pha: number; tru_phi_tuyen: number; diem_cung: number;
-  quy_doi: number; sau_san_tran: number; san: boolean; tran: boolean;
+  cung_chu: string;
+  tap_ban_cung: string[]; tap_xung: string[]; tap_tam_hop: string[];
+  base: { sao: string; do_sang: string; diem: number; hoa_cuu: boolean }[];
+  tong_base: number; vo_chinh_dieu: boolean;
+  cat: KhoanSao[]; tong_cat: number;
+  sat: KhoanSao[]; tong_sat: number;
+  cach_cuc: number;
+  raw_truoc_triet: number; k_triet_tuan: number; raw_sau_triet: number;
+  n_chinh_tinh_mv: number; san_ap_dung: number; score_cuoi: number;
 }
 
 export interface KetQuaCung {
@@ -39,8 +47,6 @@ export interface KetQuaCung {
   phan_tich: PhanTichDiem;
   /** Sát tinh ở xung/hội chiếu (nguồn của câu cảnh báo gián tiếp theo chủ đề). */
   sat_xh: { sao: string; cung: string; chi: string; quan_he: QuanHe }[];
-  /** Chính tinh miếu/vượng và sát tinh chỉ đến từ xung/hội chiếu → đã áp sàn 'trung bình'. */
-  san_chinh_tinh: boolean;
   chinh_tinh_dac: boolean;
   /** Chính tinh của cung kèm độ sáng (hoặc sao mượn khi vô chính diệu) và cung mượn. */
   chinh_tinh_sang: [string, string | null][];
@@ -66,6 +72,8 @@ export interface KetQuaChuDe {
   diem_yeu: NhanDinh[];
   /** Câu 'cung chủ': mọi chính tinh của cung chủ kèm độ sáng. */
   khung: string;
+  /** §4.8: số câu sáng/hung và có vi phạm khớp điểm–nội dung trước khi ép hay không. */
+  kiem_khop: { sang: number; hung: number; vi_pham_kha: boolean; vi_pham_tb: boolean };
   /** Câu dẫn hòa giải khi chủ đề vừa có điểm sáng mạnh vừa có điểm hung rõ. */
   cau_dan: string | null;
   /** Lưu ý cấu trúc của cung chủ đề (VD vô chính diệu). */
