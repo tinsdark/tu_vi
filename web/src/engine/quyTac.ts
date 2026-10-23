@@ -30,6 +30,7 @@ const TINH: Record<string, [string, string]> = {
   VCD: ["Cung vô chính diệu", "Cung không có chính tinh thì mượn chính tinh cung xung chiếu, giảm lực (hệ số trong cau_hinh_luan_giai.json); kèm ghi chú riêng theo cung (Tử Tức: con muộn/ít; Huynh Đệ: anh chị em ít gần gũi). Không tự động là xấu."],
   TT: ["Tuần / Triệt", "Tuần, Triệt làm giảm lực các sao trong cung; Triệt mạnh trước ~30 tuổi, Tuần mạnh sau ~30 tuổi."],
   PHI_TUYEN: ["Sát tinh quanh cung & chấm điểm phi tuyến", "Câu cảnh báo sinh từ sát tinh thật: ở bản cung, ở xung/hội chiếu, hoặc cả hai (kèm cung nguồn). Điểm = tốt × 1/(1 + nặng/K) + xấu, sát ở bản cung nặng hơn xung chiếu, xung chiếu nặng hơn tam hợp. K và trọng số là MÔ HÌNH của tác giả, không có sách nào ghi con số."],
+  CAT_XH: ["Cát tinh từ xung/hội chiếu", "Cát tinh ở cung xung chiếu/tam hợp được nêu thành câu riêng khi tổng lực đủ lớn, để nhãn điểm khớp với nội dung người đọc thấy (đối xứng với câu sát tinh)."],
   XC: ["Sát tinh từ cung xung/hội chiếu", "Sao nằm ở cung khác nhưng xung/hội chiếu cung của chủ đề: luôn ghi rõ cung nguồn và quan hệ, nói hệ quả gián tiếp — không bao giờ viết như sao nằm tại chính cung chủ đề."],
   HAN: ["Kết luận hạn năm", "Gom lưu sát tinh theo cung gốc bị chiếu → nên/tránh theo lĩnh vực của cung đó; mặt thuận lấy từ Hóa Lộc/Quyền/Khoa đại hạn và lưu cát tinh. Lời khuyên là bảng tham số của tác giả (cau_hinh_luan_giai.json → han.khuyen_nghi)."],
   LN: ["Lưu niên", "Sao lưu theo can chi năm xem (Lưu Thái Tuế, Lộc Tồn, Kình, Đà, Mã, Tứ Hóa...) rơi vào tam phương cung Thái Tuế của năm."],

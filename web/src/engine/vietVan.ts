@@ -88,7 +88,7 @@ export function vietMau(kq: BaoCao): string {
     out.push(`\n# ${ten}`);
     const dong = [`Nhìn chung ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100) [CD.${ten}].`];
     if (cd.cau_dan) dong.push(`${cd.cau_dan.replace(/\.+$/, "")} [CD.${ten}].`);
-    dong.push(...[gop(cd.luu_y, "Lưu ý cấu trúc: ", daDung), gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean));
+    dong.push(...[gop(cd.luu_y, "Lưu ý cấu trúc: ", daDung), gop(cd.trung_tinh, "Chính tinh và nhận định trung tính: ", daDung), gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean));
     out.push(dong.join(" "));
   }
   if (kq.han?.dai_han) {

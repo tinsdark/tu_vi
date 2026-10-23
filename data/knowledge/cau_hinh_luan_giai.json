@@ -129,76 +129,76 @@
     "so_mau": 3000,
     "theo_cung": {
       "Mệnh": {
-        "rat_tot": 15.09,
-        "tot": 9.13,
-        "trung_binh": 1.88,
-        "xau": -3.24
+        "rat_tot": 14.11,
+        "tot": 8.67,
+        "trung_binh": 1.87,
+        "xau": -2.73
       },
       "Phụ Mẫu": {
-        "rat_tot": 11.77,
-        "tot": 6.76,
-        "trung_binh": 0.77,
-        "xau": -3.18
+        "rat_tot": 11.21,
+        "tot": 6.46,
+        "trung_binh": 0.86,
+        "xau": -2.79
       },
       "Phúc Đức": {
-        "rat_tot": 13.24,
-        "tot": 7.9,
-        "trung_binh": 1.66,
-        "xau": -2.67
+        "rat_tot": 12.44,
+        "tot": 7.58,
+        "trung_binh": 1.65,
+        "xau": -2.37
       },
       "Điền Trạch": {
-        "rat_tot": 12.68,
-        "tot": 7.81,
-        "trung_binh": 1.77,
-        "xau": -2.36
+        "rat_tot": 11.95,
+        "tot": 7.48,
+        "trung_binh": 1.85,
+        "xau": -2.01
       },
       "Quan Lộc": {
-        "rat_tot": 13.5,
-        "tot": 8.66,
-        "trung_binh": 2.12,
-        "xau": -1.78
+        "rat_tot": 13.04,
+        "tot": 8.21,
+        "trung_binh": 2.26,
+        "xau": -1.65
       },
       "Nô Bộc": {
-        "rat_tot": 11.3,
-        "tot": 6.66,
-        "trung_binh": 0.78,
-        "xau": -2.63
+        "rat_tot": 10.75,
+        "tot": 6.27,
+        "trung_binh": 0.81,
+        "xau": -2.35
       },
       "Thiên Di": {
-        "rat_tot": 12.35,
-        "tot": 7.97,
-        "trung_binh": 2.2,
-        "xau": -1.7
+        "rat_tot": 11.64,
+        "tot": 7.7,
+        "trung_binh": 2.29,
+        "xau": -1.42
       },
       "Tật Ách": {
-        "rat_tot": 9.88,
-        "tot": 5.58,
+        "rat_tot": 9.3,
+        "tot": 5.21,
         "trung_binh": -0.52,
-        "xau": -4.6
+        "xau": -4.24
       },
       "Tài Bạch": {
-        "rat_tot": 12.81,
-        "tot": 8.1,
-        "trung_binh": 1.84,
-        "xau": -2.06
+        "rat_tot": 12.44,
+        "tot": 7.77,
+        "trung_binh": 1.91,
+        "xau": -1.74
       },
       "Tử Tức": {
-        "rat_tot": 11.35,
-        "tot": 6.64,
-        "trung_binh": 1.15,
-        "xau": -2.74
+        "rat_tot": 10.65,
+        "tot": 6.37,
+        "trung_binh": 1.11,
+        "xau": -2.39
       },
       "Phu Thê": {
-        "rat_tot": 10.96,
-        "tot": 6.57,
-        "trung_binh": 0.77,
-        "xau": -3.24
+        "rat_tot": 10.39,
+        "tot": 6.19,
+        "trung_binh": 0.78,
+        "xau": -2.73
       },
       "Huynh Đệ": {
-        "rat_tot": 10.68,
-        "tot": 6.42,
-        "trung_binh": 0.52,
-        "xau": -3.47
+        "rat_tot": 10.09,
+        "tot": 6.09,
+        "trung_binh": 0.55,
+        "xau": -3.09
       }
     }
   },
@@ -276,7 +276,7 @@
         "hao"
       ],
       "gian_tiep": {
-        "Phúc Đức": "bất an tinh thần, ham muốn tác động gián tiếp tới tiền bạc (sao nằm ở cung Phúc Đức, không nằm tại cung Tài)",
+        "Phúc Đức": "bất an tinh thần, lo nghĩ tác động gián tiếp tới tiền bạc (sao nằm ở cung Phúc Đức, không nằm tại cung Tài)",
         "Mệnh": "tâm thế và quyết định cá nhân tác động gián tiếp tới tiền bạc",
         "Thiên Di": "biến động bên ngoài tác động gián tiếp tới tiền bạc"
       }
@@ -290,7 +290,7 @@
         "co_doc"
       ],
       "gian_tiep": {
-        "Phúc Đức": "bất an tinh thần, ham muốn khiến đời sống tình cảm nhiều sóng",
+        "Phúc Đức": "bất an tinh thần, lo nghĩ khiến đời sống tình cảm nhiều sóng",
         "Thiên Di": "môi trường bên ngoài, quan hệ xã hội tác động gián tiếp tới chuyện tình cảm"
       }
     },
@@ -465,7 +465,8 @@
       "nguong_diem_hung": -2,
       "tran": 70,
       "san": 35
-    }
+    },
+    "nguong_cat_xung_hoi": 2.0
   },
   "vcd_theo_cung": {
     "Tử Tức": "Tử Tức vô chính diệu: mượn sao cung xung chiếu để luận; thường luận con muộn hoặc ít, chất lượng hơn số lượng. Không tự động là xấu — đánh giá theo sao mượn và phụ tinh (Tả/Hữu/Tấu Thư là cát thì nâng).",
@@ -573,6 +574,16 @@
       "Phu Thê",
       "Tử Tức",
       "Huynh Đệ"
+    ],
+    "ca_nhan": [
+      "Mệnh",
+      "Phúc Đức",
+      "Quan Lộc",
+      "Nô Bộc",
+      "Thiên Di",
+      "Tài Bạch",
+      "Phụ Mẫu",
+      "Tử Tức"
     ]
   },
   "mien_tu_khoa": {
@@ -584,7 +595,8 @@
     "cha_me": "cha mẹ",
     "anh_em": "anh em(?! họ)|anh chị",
     "suc_khoe": "bệnh|sức khỏe|máu huyết|lưu ý mắt",
-    "nguoi_nha": "người nam trong nhà|người nữ trong nhà"
+    "nguoi_nha": "người nam trong nhà|người nữ trong nhà",
+    "ca_nhan": "quyền lực|có quyền|nắm quyền|quyền uy|tiếng nói|trọng lượng|tham vọng|giao tế|danh vọng|uy tín|đổi mới|cải cách|mưu lược|tham mưu|làm thầy|danh thanh cao|thi cử|học hành|văn bằng|tài nghệ|danh nhờ|hào phóng|được tôn trọng|danh có quyền"
   },
   "phan_cuc_rieng": {
     "_ghi_chu": "Hệ số nhân điểm cho cặp 'sao|cung' khi câu riêng của cặp đó là TRUNG TÍNH/HỖN HỢP hoặc ngược dấu với điểm chung của sao (VD Lộc Tồn ở Huynh Đệ: 'anh em ít'). 0 = trung tính (vẫn hiện ở tab Từng cung, không vào điểm sáng/lưu ý); hệ số luôn trong [0, 1] để giữ tính đơn điệu (thêm cát tinh không làm điểm giảm). Do tác giả (AI) rà bảng phu_tinh_tai_cung_chuc.json, chưa đối chiếu sách.",
@@ -605,5 +617,21 @@
     "Hóa Quyền|Phúc Đức": 0.5,
     "Hóa Quyền|Tật Ách": 0.5,
     "Văn Xương|Tật Ách": 0
+  },
+  "cach_cuc_giam_dan": {
+    "he_so": [
+      1.0,
+      0.6,
+      0.35,
+      0.2
+    ],
+    "ghi_chu": "Nhiều cách cục cùng dấu trên một cung thường dùng chung các sao (VD Xương Khúc vừa cho 'Văn Quế Văn Hoa' vừa cho 'Dương Lương Xương Lộc'); cộng tuyến tính là đếm đôi. Cách mạnh nhất tính đủ, các cách sau nhân dần hệ số này (tốt và xấu tính riêng)."
+  },
+  "diem_cham_rieng": {
+    "_ghi_chu": "Bàng tinh cố định theo vòng (Tang Môn, Bạch Hổ, Đại Hao, Kiếp Sát) có mặt ở MỌI lá số nên nếu trừ ngang lục sát (-2) thì điểm cung bị nhiễu theo năm sinh. Điểm CHẤM = -1; câu luận vẫn hiện như cũ.",
+    "Tang Môn": -1,
+    "Bạch Hổ": -1,
+    "Đại Hao": -1,
+    "Kiếp Sát": -1
   }
 }

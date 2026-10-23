@@ -219,6 +219,8 @@ class LuanGiai:
         vung_pha = set(self.vung(chi, pt["vung"]))
         nhan_dinh, chi_tiet = [], []
         tong = {"tot": 0.0, "xau": 0.0, "nang": 0.0}
+        cat_set = set(self.tt.nhom["cat_tinh"])
+        cat_xh = []                  # cát tinh ở xung/hội chiếu (có lực): nguồn điểm cộng mà người đọc phải thấy được
         sat_ban, sat_xh = [], []     # sát tinh thật sự gây hại (sát đắc địa đã lật dương không tính), tách theo vị trí
 
         def cong(d, sao=None, c=None):
@@ -288,7 +290,7 @@ class LuanGiai:
                 p, he_so_luu = self.phu(s)
                 if not p:
                     continue
-                base = p["diem"] * he_so_luu
+                base = cfg["diem_cham_rieng"].get(p["ten"], p["diem"]) * he_so_luu
                 if c == chi:
                     base *= cfg["phan_cuc_rieng"].get(f"{p['ten']}|{ten_cung}", 1)     # câu riêng trung tính/hỗn hợp/ngược dấu thì điểm theo câu
                 dac = CHI[c] in p.get("dac_dia", [])
@@ -298,14 +300,16 @@ class LuanGiai:
                     base = base * 0.3             # sát tinh đắc địa: giảm 70% hại (vẫn âm → thêm sát tinh không bao giờ làm điểm tăng)
                 elif ham:
                     base = base * 0.3             # cát tinh hãm địa (VD Xương Khúc): còn ít lực
+                if abs(p["diem"]) <= 1:
+                    base *= cfg["he_so_phu_tinh_nho"]            # tiểu tinh nhẹ trước…
                 if any(s in d for d in doi):
-                    base *= cfg["doi_sao_cung_hoi"]["he_so_nhan"]
-                elif abs(p["diem"]) <= 1:
-                    base *= cfg["he_so_phu_tinh_nho"]
+                    base *= cfg["doi_sao_cung_hoi"]["he_so_nhan"]  # …rồi mới tính bonus đi đôi (trước đây elif: tiểu tinh đi đôi nặng gấp ~4 lần tiểu tinh lẻ)
                 # sát tinh/Hóa Kỵ: trọng số vị trí riêng — sát ở xa trừ ít hơn sát ở bản cung (docs/06 Lớp 3)
                 wo = pt["trong_so"][o] if base < 0 and p["ten"] in pt["sao_pha"] else w[o]
                 d = base * wo * (he_so_tt if c == chi else 1.0)
                 cong(d, s, c)
+                if p["ten"] in cat_set and d > 0 and o != "ban_cung":
+                    cat_xh.append((p["ten"], c, o, d))
                 if p["ten"] in sat_set and p["diem"] < 0 and not dao_dau:
                     if o == "ban_cung":
                         sat_ban.append((p["ten"], c))
@@ -341,7 +345,8 @@ class LuanGiai:
                               "nhan_dinh": self.cau_tuan_triet(ten_cung, tuan_triet),
                               **self.nguon(chi, "ban_cung", list(tuan_triet))})
 
-        # Cách cục
+        # Cách cục — tính hết rồi giảm dần: cách mạnh nhất tính đủ, các cách cùng dấu sau đó nhân hệ số giảm (tránh đếm đôi cùng một sao)
+        cach = []
         for cc in self.tt.cach:
             if cc.get("pham_vi", "Mệnh") != ten_cung or not self.khop(cc["thanh"], chi):
                 continue
@@ -353,23 +358,45 @@ class LuanGiai:
                 bi_pha, d = True, round(cc["diem"] * pha_chung["he_so_diem"], 2)
             else:
                 bi_pha, d = False, cc["diem"]
+            cach.append((cc, bi_pha, d))
+        gd = cfg["cach_cuc_giam_dan"]["he_so"]
+        he = {}
+        for ds in ([i for i, x in enumerate(cach) if x[2] > 0], [i for i, x in enumerate(cach) if x[2] < 0]):
+            for r, i in enumerate(sorted(ds, key=lambda i: -abs(cach[i][2]))):
+                he[i] = gd[min(r, len(gd) - 1)]
+        for i, (cc, bi_pha, d) in enumerate(cach):
+            d = round(d * he.get(i, 1.0), 2)
             cong(d)
             nhan_dinh.append({"id": cc["id"], "diem": d, "linh_vuc": cc.get("linh_vuc", []),
                               "nhan_dinh": f"[{cc['ten']}{' — PHÁ CÁCH' if bi_pha else ''}] "
                                            + (cc.get("ket_luan_pha", "Gặp từ 2 sát tinh/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều. " + cc["ket_luan"])
                                               if bi_pha else cc["ket_luan"]),
                               "ly_do": "Thỏa điều kiện cách cục" + (" nhưng gặp điều kiện phá" if bi_pha else "")
-                                       + ("" if cc.get("xac_nhan_web") else " (cách chưa xác nhận nguồn web)"),
+                                       + ("" if cc.get("xac_nhan_web") else " (cách chưa xác nhận nguồn web)")
+                                       + (f"; nhiều cách cùng dấu nên tính {he[i]:.0%}" if he.get(i, 1.0) < 1.0 else ""),
                               **self.nguon(chi, "ban_cung", [f"«{cc['ten']}»"])})
 
         # Phi tuyến: sao phá nặng làm mất tác dụng phần tốt; câu cảnh báo chỉ sinh khi THẬT SỰ có sát tinh (bản cung và/hoặc xung/hội chiếu)
         he_so_pha = 1 / (1 + tong["nang"] / pt["K"])
         diem = tong["tot"] * he_so_pha + tong["xau"]
-        if sat_ban or sat_xh:
+        thuc_sat = set(cfg["sat_tinh"]["sat"])
+        tat_ca = [x[0] for x in sat_ban] + [x[0] for x in sat_xh]
+        dung_sat = any(x in thuc_sat for x in tat_ca) or len(set(tat_ca)) >= 2     # một bán-sát lẻ (Thiên Hình/Thiên Riêu) không đủ để cảnh báo
+        if dung_sat:
             nhan_dinh.append({"id": "PHI_TUYEN", "diem": round(tong["tot"] * (he_so_pha - 1), 2),
                               "nhan_dinh": self.cau_sat(ten_cung, sat_ban, sat_xh),
                               "ly_do": f"Tổng lực sao phá {tong['nang']:.1f}, hệ số {he_so_pha:.2f}",
                               **self.nguon(chi, "ban_cung", list(dict.fromkeys([s for s, _ in sat_ban] + [x[0] for x in sat_xh])))})
+
+        if len(cat_xh) >= 1 and sum(x[3] for x in cat_xh) >= cfg["diem_noi_tai"]["nguong_cat_xung_hoi"]:
+            nhom_c = {}
+            for sao, c, o, _ in cat_xh:
+                nhom_c.setdefault((c, o), []).append(sao)
+            ds_c = "; ".join(f"{', '.join(dict.fromkeys(x))} ở {self.ls['cung_chuc'][c]} ({CHI[c]}), {'xung' if o == 'xung' else 'hội'} chiếu" for (c, o), x in nhom_c.items())
+            nhan_dinh.append({"id": "CAT_XH", "diem": round(sum(x[3] for x in cat_xh), 2),
+                              "nhan_dinh": f"Cát tinh từ xung/hội chiếu ({ds_c}) → cung {ten_cung} được nâng đỡ.",
+                              "ly_do": f"Tổng lực cát tinh xung/hội chiếu {sum(x[3] for x in cat_xh):.1f}",
+                              **self.nguon(chi, "ban_cung", list(dict.fromkeys(x[0] for x in cat_xh)))})
 
         nguong = cfg["nguong_ket_luan"].get("theo_cung", {}).get(ten_cung)
         dn = cfg["diem_noi_tai"]
@@ -383,7 +410,7 @@ class LuanGiai:
             dq = min(dq, cfg["vo_chinh_dieu"]["tran_diem100"])
         d100 = diem_100(dq)
         return {"cung": ten_cung, "chi": CHI[chi], "diem": round(diem, 2), "diem100": d100, "xep_loai": bac(d100, dn),
-                "sat_xh": [{"sao": x[0], "cung": self.ls["cung_chuc"][x[1]], "chi": CHI[x[1]], "quan_he": x[2]} for x in sat_xh],
+                "sat_xh": [{"sao": x[0], "cung": self.ls["cung_chuc"][x[1]], "chi": CHI[x[1]], "quan_he": x[2]} for x in sat_xh] if dung_sat else [],
                 "san_chinh_tinh": san, "chinh_tinh_dac": any(m in ("M", "V", "Đ") for m in sang_chu),
                 "chinh_tinh": chinh, "tuan_triet": tuan_triet, "nhan_dinh": nhan_dinh, "chi_tiet_diem": chi_tiet}
 
@@ -557,12 +584,15 @@ class LuanGiai:
             chinh_cung = max(cd["cung"].values())
             chu_ds = [c for c, w in cd["cung"].items() if w == chinh_cung]
             pv = sum(cham[c]["diem100"] * w for c, w in cd["cung"].items()) / tong_w
-            ung_vien, luu_y = [], []
+            ung_vien, luu_y, trung_tinh = [], [], []
             for c, w in cd["cung"].items():
                 for n in cham[c]["nhan_dinh"]:
                     if n.get("luu_y"):
                         if w >= chinh_cung:
                             luu_y.append(dict(n, cung=c))
+                        continue
+                    if not n["diem"] and n["id"].startswith(("CT.", "PT.")) and w >= chinh_cung:
+                        trung_tinh.append(self.gan_nguon(dict(n, cung=c), c))        # chính tinh/phụ tinh cung chủ có điểm đúng 0 vẫn phải được luận
                         continue
                     if not n["diem"] or n.get("dao_dau"):
                         continue
@@ -600,7 +630,7 @@ class LuanGiai:
                                   else f"{' + '.join(n.get('nhan') or [n['id']])} tại {n['cung']}")
                 cau_dan = f"Nền tảng có điểm sáng ({nhan(tot[0])}) nhưng cũng có hạn chế ({nhan(xau[0])}); hai mặt cùng tồn tại nên nhãn tổng nằm ở vùng giữa."
             d100 = diem_100(pv)
-            ket[ten] = {"diem100": d100, "xep_loai": bac(d100, dn), "diem_manh": tot_hien, "diem_yeu": xau_hien + gt, "cau_dan": cau_dan, "luu_y": luu_y,
+            ket[ten] = {"diem100": d100, "xep_loai": bac(d100, dn), "diem_manh": tot_hien, "diem_yeu": xau_hien + gt, "cau_dan": cau_dan, "luu_y": luu_y, "trung_tinh": trung_tinh,
                         "cung": {c: cham[c]["xep_loai"] for c in cd["cung"]}}
         return ket
 

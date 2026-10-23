@@ -104,7 +104,7 @@ def viet_mau(kq):
         dong = [f"Nhìn chung {cd['xep_loai'].lower()} (khoảng {cd['diem100']}/100) [CD.{ten}]."]
         if cd["cau_dan"]:
             dong.append(f"{cd['cau_dan'].rstrip('.')} [CD.{ten}].")
-        dong += [c for c in (gop(cd["luu_y"], "Lưu ý cấu trúc: ", da_dung), gop(cd["diem_manh"], "Điểm sáng: ", da_dung), gop(cd["diem_yeu"], "Cần lưu ý: ", da_dung)) if c]
+        dong += [c for c in (gop(cd["luu_y"], "Lưu ý cấu trúc: ", da_dung), gop(cd["trung_tinh"], "Chính tinh và nhận định trung tính: ", da_dung), gop(cd["diem_manh"], "Điểm sáng: ", da_dung), gop(cd["diem_yeu"], "Cần lưu ý: ", da_dung)) if c]
         out.append(" ".join(dong))
     if "han" in kq and kq["han"]["dai_han"]:
         d = kq["han"]["dai_han"]

@@ -56,6 +56,8 @@ export interface KetQuaChuDe {
   cau_dan: string | null;
   /** Lưu ý cấu trúc của cung chủ đề (VD vô chính diệu). */
   luu_y: NhanDinh[];
+  /** Chính tinh/phụ tinh của cung chủ có điểm đúng 0 (vẫn phải được luận, không xếp sáng/hung). */
+  trung_tinh: NhanDinh[];
   cung: Record<string, string>;
 }
 
