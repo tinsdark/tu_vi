@@ -50,7 +50,10 @@ function HienVan({ van }: { van: string }) {
         return (
           <div key={i} className="doan-van">
             <p>{chu}</p>
-            <p className="co-so mo"><span>Cơ sở:</span>{ma.map((m) => <ChamMa key={m} ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} />)}</p>
+            <details className="co-so mo">
+              <summary>Căn cứ của đoạn này ({ma.length} quy tắc)</summary>
+              <ul>{ma.map((m) => <li key={m}><ChamMa ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} /> {quyTac(m).tieu_de}</li>)}</ul>
+            </details>
           </div>
         );
       })}

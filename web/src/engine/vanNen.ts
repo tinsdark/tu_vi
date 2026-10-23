@@ -82,6 +82,17 @@ function cauLuuY(n: NhanDinh): string {
   return sach(t);
 }
 
+/** Câu hòa giải "sáng + tối cùng tồn tại" (spec §14.3): nhiều biến thể, chọn theo thứ tự chủ đề để một báo cáo không lặp nguyên văn. */
+export const HOA_GIAI = [
+  "Hai mặt này cùng có mặt, nên đừng chỉ nhìn vào một phía.",
+  "Nói cách khác, thuận lợi và trở ngại ở đây đi song song với nhau.",
+  "Vì vậy hãy tận dụng phần thuận lợi và chủ động đề phòng phần còn lại.",
+  "Cả hai mặt đều có thật, và cách bạn ứng xử có thể làm mặt này hay mặt kia nổi lên.",
+  "Tóm lại đây không phải mục hoàn toàn thuận hay hoàn toàn khó, mà là có cả hai.",
+  "Điều này cho thấy mục này cần giữ cân bằng giữa phát huy và đề phòng.",
+];
+const hoaGiai = (ten: string, kq: BaoCao): string => HOA_GIAI[Math.max(0, Object.keys(kq.chu_de).indexOf(ten)) % HOA_GIAI.length];
+
 function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>): string {
   const ma = `CD.${ten}`;
   const s: string[] = [cau(`Về ${ten.toLowerCase()}, bạn ở mức ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100)`, ma)];
@@ -101,21 +112,23 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
 
   if (ten === "Gia đình") {
     const TM: [string, string][] = [["Cha mẹ", "cha mẹ"], ["Con cái", "con cái"], ["Anh em", "anh chị em"]];
+    const nhac = (t: string, goi: string) => t.toLowerCase().slice(0, 45).includes(goi); // câu đã nhắc đối tượng thì không thêm "Về ..." nữa
+    const sangCau: string[] = [];
+    const hungCau: { goi: string; t: string; id: string }[] = [];
     for (const [m, goi] of TM) {
       const lay = (ds: NhanDinh[]) => ds.filter((n) => n.nhan_dinh.startsWith(`${m}: `)).map((n) => ({ ...n, nhan_dinh: n.nhan_dinh.slice(m.length + 2) }));
       const sang = chon(conDung(lay(cd.diem_manh)), 1, 1);
       const hung = chon(conDung(lay(cd.diem_yeu)), 1, -1);
-      const ct = lay(cd.trung_tinh).slice(0, 1);
-      const y = [...ct, ...sang].slice(0, 1);
-      const nhac = (t: string) => t.toLowerCase().slice(0, 45).includes(goi); // câu đã nhắc đối tượng thì không thêm "Về ..." nữa
-      if (y.length) { const t = thuong(menhDe(y[0])); s.push(cau(nhac(t) ? hoa(t) : `Về ${goi}, ${t}`, y[0].id)); }
-      if (hung.length) {
-        const t = thuong(menhDe(hung[0]));
-        const tt = nhac(t) ? t : `về ${goi}, ${t}`;
-        s.push(cau(y.length ? `Tuy nhiên, ${tt}` : hoa(tt), hung[0].id));
-      }
+      const y = [...lay(cd.trung_tinh).slice(0, 1), ...sang].slice(0, 1);
+      if (y.length) { const t = thuong(menhDe(y[0])); sangCau.push(cau(nhac(t, goi) ? hoa(t) : `Về ${goi}, ${t}`, y[0].id)); }
+      if (hung.length) hungCau.push({ goi, t: thuong(menhDe(hung[0])), id: hung[0].id });
     }
-    if (cd.cau_dan) s.push(cau("Trong chủ đề này, điểm sáng và điểm cần giữ ý cùng tồn tại ở các cung khác nhau", ma));
+    s.push(...sangCau);
+    hungCau.forEach(({ goi, t, id }, i) => {
+      const tt = nhac(t, goi) ? t : `về ${goi}, ${t}`;
+      s.push(cau(i === 0 ? (sangCau.length ? `Ngược lại, ${tt}` : `Cần lưu ý, ${tt}`) : i === 1 ? `Còn ${tt}` : `Ngoài ra, ${tt}`, id));
+    });
+    if (sangCau.length && hungCau.length) s.push(cau(hoaGiai(ten, kq), ma));
     return s.join(" ");
   }
 
@@ -124,8 +137,8 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
   const sang = chon(conDung(cd.diem_manh), 2, 1);
   const hung = chon(conDung([...cd.diem_yeu]), 2, -1);
   sang.forEach((n, i) => s.push(cau(i ? `Ngoài ra, ${thuong(menhDe(n))}` : menhDe(n), n.id)));
-  if (sang.length && hung.length && cd.cau_dan) s.push(cau("Hai mặt này cùng tồn tại, vì vậy hãy xem mục này như một bức tranh có cả sáng lẫn tối", ma));
   hung.forEach((n, i) => s.push(cau(`${i ? "Bên cạnh đó" : sang.length ? "Tuy nhiên" : "Cần lưu ý"}, ${thuong(menhDe(n))}`, n.id)));
+  if (sang.length && hung.length) s.push(cau(hoaGiai(ten, kq), ma)); // hòa giải đặt SAU khi đã nêu cả hai mặt
   return s.join(" ");
 }
 
