@@ -60,7 +60,7 @@
     "Hóa Kỵ": "Hóa Kỵ gặp {tt} tại {cung}: sức cản của Kỵ bớt đi, nhưng việc ở cung này vẫn dễ lắt léo."
   },
   "vai_nguoi": {
-    "ghi_chu": "Sao → người trong đời, theo quan niệm phổ thông (bảng AI tổng hợp, chưa đối chiếu sách). Tình trạng nào đúng (Hóa Kỵ, hãm, Hóa Lộc/Quyền/Khoa, miếu/vượng) thì nói thêm ở cung của vai người đó — chỉ khi cung ấy khác cung chứa sao. Thêm sao/vai/tình trạng mới chỉ cần thêm dòng.",
+    "ghi_chu": "Sao → người trong đời, theo quan niệm phổ thông (bảng AI tổng hợp, chưa đối chiếu sách). Mỗi sao tối đa 3 vai. Để câu luận cô đọng, mỗi cung chỉ có TỐI ĐA 2 câu: một câu mặt thuận (Hóa Lộc/Quyền/Khoa, miếu/vượng) và một câu mặt khó (Hóa Kỵ, hãm), mỗi câu gộp mọi sao ứng với người của cung đó (nêu tối đa 'toi_da_sao' sao, phần còn lại ghi 'và N sao khác'). Chỉ khi cung của vai khác cung chứa sao. Thêm sao/vai/tình trạng mới chỉ cần thêm dòng.",
     "sao": {
       "Tử Vi": [
         [
@@ -68,11 +68,11 @@
           "Phụ Mẫu"
         ],
         [
-          "cấp trên có quyền lực",
+          "cấp trên",
           "Quan Lộc"
         ],
         [
-          "người bạn đời có địa vị",
+          "người bạn đời",
           "Phu Thê"
         ]
       ],
@@ -82,12 +82,8 @@
           "Huynh Đệ"
         ],
         [
-          "người cố vấn, người mưu trí quanh bạn",
+          "người cố vấn",
           "Nô Bộc"
-        ],
-        [
-          "cha mẹ",
-          "Phụ Mẫu"
         ]
       ],
       "Thái Dương": [
@@ -96,58 +92,42 @@
           "Phụ Mẫu"
         ],
         [
-          "sếp hoặc cấp trên nam",
+          "cấp trên",
           "Quan Lộc"
         ],
         [
           "con trai",
           "Tử Tức"
-        ],
-        [
-          "người bạn đời nam",
-          "Phu Thê"
         ]
       ],
       "Vũ Khúc": [
-        [
-          "anh em, người đồng hành",
-          "Huynh Đệ"
-        ],
         [
           "đối tác làm ăn",
           "Nô Bộc"
         ],
         [
-          "người bạn đời",
-          "Phu Thê"
+          "anh em",
+          "Huynh Đệ"
         ]
       ],
       "Thiên Đồng": [
         [
-          "em, người nhỏ tuổi trong nhà",
+          "anh chị em",
           "Huynh Đệ"
         ],
         [
           "con cái",
           "Tử Tức"
-        ],
-        [
-          "bạn bè gần gũi",
-          "Nô Bộc"
         ]
       ],
       "Liêm Trinh": [
-        [
-          "người yêu, người bạn đời",
-          "Phu Thê"
-        ],
         [
           "cấp trên",
           "Quan Lộc"
         ],
         [
-          "cấp dưới",
-          "Nô Bộc"
+          "người bạn đời",
+          "Phu Thê"
         ]
       ],
       "Thiên Phủ": [
@@ -156,12 +136,8 @@
           "Phụ Mẫu"
         ],
         [
-          "người giữ của, giữ nhà trong gia đình",
+          "người giữ của trong nhà",
           "Điền Trạch"
-        ],
-        [
-          "người bạn đời",
-          "Phu Thê"
         ]
       ],
       "Thái Âm": [
@@ -170,7 +146,7 @@
           "Phụ Mẫu"
         ],
         [
-          "người vợ hoặc người nữ gần gũi",
+          "người bạn đời",
           "Phu Thê"
         ],
         [
@@ -186,10 +162,6 @@
         [
           "bạn bè xã giao",
           "Nô Bộc"
-        ],
-        [
-          "con cái",
-          "Tử Tức"
         ]
       ],
       "Cự Môn": [
@@ -198,54 +170,38 @@
           "Huynh Đệ"
         ],
         [
-          "cấp dưới, bạn bè hay tranh luận",
+          "bạn bè, cấp dưới",
           "Nô Bộc"
-        ],
-        [
-          "người bạn đời",
-          "Phu Thê"
         ]
       ],
       "Thiên Tướng": [
         [
-          "cấp dưới tận tụy",
-          "Nô Bộc"
-        ],
-        [
-          "người bạn đời",
-          "Phu Thê"
-        ],
-        [
           "cấp trên",
           "Quan Lộc"
+        ],
+        [
+          "cấp dưới",
+          "Nô Bộc"
         ]
       ],
       "Thiên Lương": [
         [
-          "cha mẹ, người lớn tuổi che chở",
+          "cha mẹ",
           "Phụ Mẫu"
         ],
         [
           "người đỡ đầu, thầy",
           "Quan Lộc"
-        ],
-        [
-          "con cái",
-          "Tử Tức"
         ]
       ],
       "Thất Sát": [
         [
-          "cấp dưới mạnh, đối thủ",
+          "cấp dưới",
           "Nô Bộc"
         ],
         [
           "anh em",
           "Huynh Đệ"
-        ],
-        [
-          "người bạn đời",
-          "Phu Thê"
         ]
       ],
       "Phá Quân": [
@@ -254,12 +210,8 @@
           "Tử Tức"
         ],
         [
-          "cấp dưới, bạn bè hay thay đổi",
+          "cấp dưới",
           "Nô Bộc"
-        ],
-        [
-          "anh em",
-          "Huynh Đệ"
         ]
       ],
       "Tả Phù": [
@@ -268,7 +220,7 @@
           "Nô Bộc"
         ],
         [
-          "anh em giúp đỡ",
+          "anh em",
           "Huynh Đệ"
         ]
       ],
@@ -278,7 +230,7 @@
           "Nô Bộc"
         ],
         [
-          "anh em giúp đỡ",
+          "anh em",
           "Huynh Đệ"
         ]
       ],
@@ -307,39 +259,59 @@
       "ky": {
         "hoa": "Hóa Kỵ",
         "nhan": "mang Hóa Kỵ",
-        "cau": "{sao} mang Hóa Kỵ ở {cung_sao} ({chi}) → quan hệ với {vai} dễ có hiểu lầm, va chạm hoặc xa cách."
+        "ngan": "Hóa Kỵ"
       },
       "ham": {
         "sang": [
           "H"
         ],
         "nhan": "hãm",
-        "cau": "{sao} hãm ở {cung_sao} ({chi}) → {vai} khó nâng đỡ được nhiều, bạn dựa vào chính mình hơn."
+        "ngan": "hãm"
       },
       "loc": {
         "hoa": "Hóa Lộc",
         "nhan": "mang Hóa Lộc",
-        "cau": "{sao} mang Hóa Lộc ở {cung_sao} ({chi}) → quan hệ với {vai} có phần thuận lợi, dễ được lợi từ họ."
+        "ngan": "Hóa Lộc"
       },
       "quyen": {
         "hoa": "Hóa Quyền",
         "nhan": "mang Hóa Quyền",
-        "cau": "{sao} mang Hóa Quyền ở {cung_sao} ({chi}) → {vai} có tiếng nói, có sức ảnh hưởng với bạn."
+        "ngan": "Hóa Quyền"
       },
       "khoa": {
         "hoa": "Hóa Khoa",
         "nhan": "mang Hóa Khoa",
-        "cau": "{sao} mang Hóa Khoa ở {cung_sao} ({chi}) → quan hệ với {vai} nhẹ nhàng, được tiếng tốt."
+        "ngan": "Hóa Khoa"
       },
       "mieu": {
         "sang": [
           "M",
           "V"
         ],
-        "nhan": "miếu hoặc vượng",
-        "cau": "{sao} sáng (miếu hoặc vượng) ở {cung_sao} ({chi}) → {vai} có thế vững, là chỗ dựa đáng kể."
+        "nhan": "sáng (miếu hoặc vượng)",
+        "ngan": "sáng"
       }
-    }
+    },
+    "mau_nhom": "{ds_sao} → quan hệ với {ds_vai} {ket}.",
+    "nhom": {
+      "tot": {
+        "gom": [
+          "loc",
+          "quyen",
+          "khoa",
+          "mieu"
+        ],
+        "ket": "thuận lợi, có chỗ dựa"
+      },
+      "xau": {
+        "gom": [
+          "ky",
+          "ham"
+        ],
+        "ket": "kém nâng đỡ, dễ hiểu lầm hoặc xa cách"
+      }
+    },
+    "toi_da_sao": 3
   },
   "so_cung": {
     "nguong": 25,

@@ -212,3 +212,16 @@ Nguyên tắc triển khai: **mỗi thứ là một cơ chế đọc từ dữ l
 | Ràng buộc khớp điểm–nội dung | Thêm: nội dung hiển thị nghiêng về hạn chế (tổng điểm câu hung > tổng điểm câu sáng) thì nhãn chủ đề không vượt 80 (`khop_noi_dung.net_hung_tran`). Phát hiện nhờ test `test_nhan_diem_khong_mau_thuan_noi_dung` khi thêm cách mới |
 
 **Nguồn cho danh sách câu hỏi.** Tìm web chỉ xác nhận được ba chủ đề được nhắc nhiều nhất trong các bài hướng dẫn xem lá số (công danh/sự nghiệp, tài lộc, tình duyên/hôn nhân) và nhu cầu hỏi về vận hạn năm ([CafeF](https://cafef.vn/xem-tu-vi.html), [FPT Shop](https://fptshop.com.vn/tin-tuc/for-gamers/cau-lenh-chatgpt-xem-la-so-tu-vi-201972), [Phong Vũ](https://phongvu.vn/cong-nghe/xem-tu-vi-bang-chatgpt/)). Không có số liệu thống kê nào về tần suất câu hỏi; các câu còn lại (sức khỏe, gia đạo, tiền vận/hậu vận, giai đoạn thuận/khó, quý nhân, các cặp so cung) lấy từ các mục kinh điển của lá số và từ những gì engine tính được. Danh sách này là phán đoán, không phải kết quả khảo sát.
+
+### 8c. Cô đọng (phản hồi sau khi xem giao diện thật)
+
+Người dùng xem bản chạy thật và thấy lặp, lan man: mỗi sao một dòng, một cung ra hơn 10 dòng "người bạn đời … có thế vững", câu hỏi đáp lặp lại đoạn đã có. Nguyên tắc rút ra, áp cho **toàn bộ** chứ không riêng chỗ đó:
+
+1. **Kết luận gần tương đương trong cùng một cung thì gộp thành một.**
+   - Cùng trục, cùng phía (trục luận `truc_luan.json`): giữ câu có |điểm| lớn nhất, các câu còn lại ẩn (`an`) và ghi vào `ly_do` của câu giữ lại. Trước đây chỉ gộp khi hai phía nói ngược nhau (`XD.*`).
+   - Lưới an toàn: câu cùng chiều, trùng từ ≥ 3/4 (gồm cả câu giống hệt từ hai sao khác nhau) thì gộp như trên. Trên 60 lá số ngẫu nhiên khoảng 10% nhận định được ẩn.
+   - Điểm không đổi: câu bị ẩn vẫn được đếm như `XD.*` để ràng buộc §4.8 không dịch chuyển.
+2. **Sao → người:** tối đa 2 câu mỗi cung (một câu mặt thuận, một câu mặt khó), mỗi câu gộp mọi sao ứng với người của cung đó, nêu tối đa 3 sao. Trước đây mỗi sao × mỗi tình trạng một câu (trung bình khoảng 10 dòng ở cung Phu Thê).
+3. **Cách xuyên cung:** siết điều kiện (Hóa cát hội chỉ tính Hóa Lộc/Quyền/Khoa; quý nhân và sát Kỵ cần ≥ 2 sao ở cung chính và ≥ 1 ở cung đối ứng; cặp sao đôi đối xung chỉ nêu một lần cho mỗi trục). Số cách mới kích hoạt mỗi lá số giảm từ ~4–5 xuống ~2.
+4. **Hỏi đáp và tổng kết:** mỗi câu trả lời là một dòng ngắn, không lặp đoạn đã có. Bỏ hai câu hạn năm (đã có mục Hạn năm), thay bằng "đại hạn kế tiếp so với hiện tại" (so sánh số liệu); Tổng kết không nhắc lại cung Thân (đã ở Tổng quan). Vẫn đủ 20 câu hỏi.
+5. **Giao diện:** danh sách nhận định hiện tối đa 6 câu mạnh nhất, phần còn lại gập vào "Xem thêm (n)".

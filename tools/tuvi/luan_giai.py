@@ -199,26 +199,32 @@ class LuanGiai:
         return rieng or self.cau_tuan_triet(ten_cung, tuan_triet, ngan=True)
 
     def vai_nguoi(self, ten_cung):
-        """Bảng vai_nguoi (luan_lien_cung.json): mỗi sao × vai người × tình trạng (Hóa Kỵ/Lộc/Quyền/Khoa, hãm, miếu/vượng) → câu ở cung của vai, nếu cung đó khác cung chứa sao."""
+        """Bảng vai_nguoi (luan_lien_cung.json): tối đa 2 câu mỗi cung (mặt thuận, mặt khó), mỗi câu gộp mọi sao ứng với người của cung này; chỉ khi cung của sao khác cung này."""
         bang = self.tt.lien_cung["vai_nguoi"]
         ket = []
-        for sao, vais in bang["sao"].items():
-            chi_sao = self.ls["sao"].get(sao)
-            if chi_sao is None or self.ls["cung_chuc"][chi_sao] == ten_cung:
-                continue
-            muc = self.tt.sang(sao, chi_sao)
-            for tt, dk in bang["tinh_trang"].items():
-                dung = self.goc_hoa.get(dk["hoa"]) == sao if "hoa" in dk else muc is not None and muc in dk["sang"]
-                if not dung:
+        for nhom_ten, nhom in bang["nhom"].items():
+            theo_sao = {}
+            for sao, vais in bang["sao"].items():
+                chi_sao = self.ls["sao"].get(sao)
+                if chi_sao is None or self.ls["cung_chuc"][chi_sao] == ten_cung:
                     continue
-                for vai, cung in vais:
-                    if cung != ten_cung:
-                        continue
-                    ket.append({"id": f"LC.vai.{sao}.{tt}", "diem": 0, "luu_y": True,
-                                "ly_do": f"{sao} {dk['nhan']} ở {self.ls['cung_chuc'][chi_sao]} ({CHI[chi_sao]}); {sao} ứng với {vai}",
-                                "nhan_dinh": dk["cau"].replace("{sao}", sao).replace("{cung_sao}", self.ls["cung_chuc"][chi_sao])
-                                                      .replace("{chi}", CHI[chi_sao]).replace("{vai}", vai),
-                                **self.nguon(self.chi_cua[ten_cung], "ban_cung", [])})   # sao nằm ở cung khác: nguồn ghi ở chính cung vai, câu tự nêu rõ sao và cung của nó
+                vai_cung = [vai for vai, cung in vais if cung == ten_cung]
+                if not vai_cung:
+                    continue
+                muc = self.tt.sang(sao, chi_sao)
+                tt = [bang["tinh_trang"][k]["ngan"] for k in nhom["gom"]
+                      if (self.goc_hoa.get(bang["tinh_trang"][k]["hoa"]) == sao if "hoa" in bang["tinh_trang"][k] else muc is not None and muc in bang["tinh_trang"][k]["sang"])]
+                if tt:
+                    theo_sao[sao] = (self.ls["cung_chuc"][chi_sao], tt, vai_cung)
+            if not theo_sao:
+                continue
+            ds = list(theo_sao.items())
+            toi_da = bang["toi_da_sao"]
+            ds_sao = ", ".join(f"{sao} ({', '.join(x[1])}, ở {x[0]})" for sao, x in ds[:toi_da]) + (f" và {len(ds) - toi_da} sao khác" if len(ds) > toi_da else "")
+            ds_vai = ", ".join(dict.fromkeys(v for _, x in ds for v in x[2]))
+            ket.append({"id": f"LC.vai.{nhom_ten}", "diem": 0, "luu_y": True, "ly_do": f"{', '.join(sao for sao, _ in ds)} ứng với {ds_vai}",
+                        "nhan_dinh": bang["mau_nhom"].replace("{ds_sao}", ds_sao).replace("{ds_vai}", ds_vai).replace("{ket}", nhom["ket"]),
+                        **self.nguon(self.chi_cua[ten_cung], "ban_cung", [sao for sao, _ in ds])})   # sao nằm ở cung khác: nguồn ghi ở chính cung vai, câu tự nêu rõ sao và cung của nó
         return ket
 
     @staticmethod
@@ -260,6 +266,48 @@ class LuanGiai:
             return f"«{m.group(1)}»" if m else n["id"]
         return n["id"].split(".")[1]
 
+    @staticmethod
+    def _gop_cung_y(ds, nhan, trich):
+        """Gộp các câu cùng một kết luận: giữ câu có |điểm| lớn nhất (hòa thì câu đứng trước), các câu còn lại đánh dấu `an` và ghi vào ly_do của câu giữ lại. Điểm không đổi (câu `an` vẫn được đếm như XD.*)."""
+        con = [n for n in ds if not n.get("an")]
+        if len(con) < 2:
+            return
+        giu = con[0]
+        for n in con[1:]:
+            if abs(n["diem"]) > abs(giu["diem"]):
+                giu = n
+        bo = [n for n in con if n is not giu]
+        for n in bo:
+            n["an"] = True
+        giu["ly_do"] = f"{giu.get('ly_do', '')}; gộp {len(bo)} câu cùng ý {nhan}: " + "; ".join(trich(n) for n in bo)
+
+    @staticmethod
+    def _rut_gon_gan_giong(nhan_dinh):
+        """Lưới an toàn sau cùng: các câu có điểm, cùng chiều, nội dung gần như giống hệt (trùng từ ≥ 3/4) thì gộp như trên, kể cả khi không thuộc trục nào."""
+        def tu(t):
+            return set(re.findall(r"[^\W_]+", re.sub(r"\([^)]*\)", " ", re.sub(r"\[[^\]]*\]", " ", t)).lower()))
+        ds = [n for n in nhan_dinh if not n.get("an") and n["diem"] != 0 and re.match(r"(CT|PT|CC|BO)", n["id"])]
+        dau = {id(n): tu(n["nhan_dinh"]) for n in ds}
+        xep = sorted(ds, key=lambda n: -abs(n["diem"]))          # sort ổn định: hòa giữ thứ tự gốc
+        for giu in xep:
+            if giu.get("an"):
+                continue
+            a = dau[id(giu)]
+            bo = []
+            for n in xep:
+                if n is giu or n.get("an") or (n["diem"] > 0) != (giu["diem"] > 0):
+                    continue
+                b = dau[id(n)]
+                chung = len(a & b)
+                hop = len(a) + len(b) - chung
+                if hop > 0 and chung * 4 >= hop * 3:
+                    bo.append(n)
+            if not bo:
+                continue
+            for n in bo:
+                n["an"] = True
+            giu["ly_do"] = f"{giu.get('ly_do', '')}; gộp {len(bo)} câu gần như giống hệt: " + ", ".join(n["id"] for n in bo)
+
     def hoa_giai_truc(self, ten_cung, chi, nhan_dinh):
         """Các câu của MỘT cung nói ngược nhau về cùng một trục (VD số lượng anh chị em: Thiên Phủ báo đông, Vũ Khúc báo ít) không được
         để cạnh nhau như hai khẳng định riêng. Với mỗi trục có cả phía dương lẫn phía âm:
@@ -275,7 +323,11 @@ class LuanGiai:
                     dp.append(n)
                 elif any(n["nhan_dinh"].startswith(c) for c in t["am"]["cau"]):
                     am.append(n)
-            if not dp or not am:
+            if not dp or not am:        # chỉ một phía: các câu CÙNG trục CÙNG phía là cùng một kết luận → giữ câu mạnh nhất, gộp phần còn lại
+                phia = dp or am
+                if len(phia) > 1:
+                    self._gop_cung_y(phia, f"«{t['ten']}» ({t['duong']['nhan'] if dp else t['am']['nhan']})",
+                                     lambda n: f"{self._ten_nguon(n)}: «{n['nhan_dinh'].split('. ')[0].rstrip('.')}»")
                 continue
             cach_dp, cach_am = [n for n in dp if self._la_cach(n)], [n for n in am if self._la_cach(n)]
             if bool(cach_dp) != bool(cach_am):
@@ -561,6 +613,7 @@ class LuanGiai:
         # mọi câu (bất kể nguồn: chính tinh, phụ tinh, bộ sao, cách cục) chỉ giữ nhánh đúng giới tính
         for n in nhan_dinh:
             n["nhan_dinh"] = chon_gioi(n["nhan_dinh"], self.ls["input"]["gioi_tinh"])
+        self._rut_gon_gan_giong(nhan_dinh)          # kết luận gần tương đương trong cùng một cung thì rút gọn thành một
         sang_chu = [self.tt.sang(s, chi_chu) for s in chu]
         return {"cung": ten_cung, "chi": CHI[chi], "diem": round(raw2, 2), "diem100": d100, "xep_loai": bac(d100, cfg["diem_noi_tai"]),
                 "sat_xh": [{"sao": x[0], "cung": self.ls["cung_chuc"][x[1]], "chi": CHI[x[1]], "quan_he": x[2]} for x in sat_xh] if dung_sat else [],

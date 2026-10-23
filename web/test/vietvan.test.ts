@@ -161,15 +161,15 @@ describe("kể chuyện theo hình dạng — Tài chính, Sự nghiệp", () =>
 });
 
 describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
-  it("tổng kết 2–3 câu; hỏi đáp: đủ 20 câu hỏi khi có hạn, mỗi câu có mã hợp lệ đúng mục, chỉ hỏi khi có luật", () => {
+  it("tổng kết 1–2 câu; hỏi đáp: đủ 20 câu hỏi khai báo, tối thiểu 10 câu trả lời khi có hạn, mỗi câu có mã hợp lệ đúng mục, chỉ hỏi khi có luật", () => {
     let minHoi = 99;
     for (let i = 0; i < 100; i++) {
       const kq = mau(i);
       const van = vietMau(kq);
       const tk = van.split("\n# Tổng kết\n")[1]?.split("\n")[0] ?? "";
       const nCau = tk.split(/(?<=[\].!?])\s+/).filter(Boolean).length;
-      expect(nCau, tk).toBeGreaterThanOrEqual(2);
-      expect(nCau, tk).toBeLessThanOrEqual(3);
+      expect(nCau, tk).toBeGreaterThanOrEqual(1);
+      expect(nCau, tk).toBeLessThanOrEqual(2);
       const hd = (van.split("\n# Những câu hỏi thường gặp\n")[1] ?? "").split("\n").filter(Boolean);
       const ids = tapId(kq);
       for (const dong of hd) {
@@ -184,7 +184,7 @@ describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
       expect(bo, `lá ${i}`).toBe(0);
     }
     expect(triThuc().cauHoi.cau_hoi.length).toBeGreaterThanOrEqual(20);
-    expect(minHoi).toBeGreaterThanOrEqual(11); // 6 chủ đề + Thân + 2 đại hạn + đại hạn hiện tại + hạn năm (ít nhất 1)
+    expect(minHoi).toBeGreaterThanOrEqual(10); // 6 chủ đề + Thân + đại hạn đẹp nhất/khó nhất + đại hạn hiện tại
   });
 
   it("một báo cáo không lặp nguyên văn một câu giữa các đoạn chủ đề (câu nối được xoay vòng)", () => {
@@ -193,6 +193,19 @@ describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
       const noi = triThuc().vanPhong.noi_them as string[];
       const dung = cs.filter((c) => noi.some((x) => c.startsWith(x)));
       expect(new Set(dung).size, `lá ${i}`).toBe(dung.length);
+    }
+  });
+});
+
+describe("cô đọng (doc11 §8c)", () => {
+  it("mỗi cung tối đa 2 câu sao → người, và không còn hai câu hiển thị giống hệt nhau trong cùng một cung", () => {
+    for (let i = 0; i < 60; i++) {
+      const kq = mau(i);
+      for (const [ten, k] of Object.entries(kq.cung)) {
+        expect(k.nhan_dinh.filter((n) => n.id.startsWith("LC.vai.")).length, `lá ${i} ${ten}`).toBeLessThanOrEqual(2);
+        const hien = k.nhan_dinh.filter((n) => !n.an && n.diem !== 0 && /^(CT|PT)\./.test(n.id)).map((n) => n.nhan_dinh);
+        expect(new Set(hien).size, `lá ${i} ${ten}: ${hien.join(" | ")}`).toBe(hien.length);
+      }
     }
   });
 });

@@ -1,7 +1,7 @@
 {
   "_meta": {
     "trang_thai": "draft_ai_tong_hop",
-    "ghi_chu": "doc11: 21 câu hỏi người xem tử vi hay quan tâm (công danh, tài lộc, tình duyên là ba mối quan tâm được các trang hướng dẫn xem lá số nhắc nhiều nhất; sức khỏe, gia đạo, vận hạn năm, tiền vận/hậu vận, quý nhân là các mục kinh điển của lá số). Mỗi câu CHỈ được trả lời bằng đúng kết quả engine đã tính (chủ đề, so cung, cung Thân, dòng thời gian đại hạn, hạn năm, cách cục quý nhân); không đủ luật thì không hỏi. Không có câu hỏi về thời điểm cụ thể, số con, xác suất hay IQ."
+    "ghi_chu": "doc11: 21 câu hỏi người xem tử vi hay quan tâm (công danh, tài lộc, tình duyên là ba mối quan tâm được các trang hướng dẫn xem lá số nhắc nhiều nhất; sức khỏe, gia đạo, vận hạn năm, tiền vận/hậu vận, quý nhân là các mục kinh điển của lá số). Mỗi câu CHỈ được trả lời bằng đúng kết quả engine đã tính (chủ đề, so cung, cung Thân, dòng thời gian đại hạn, hạn năm, cách cục quý nhân); không đủ luật thì không hỏi. Không có câu hỏi về thời điểm cụ thể, số con, xác suất hay IQ. Cô đọng: mỗi câu trả lời một dòng ngắn; không có câu nào chỉ lặp lại đoạn đã có (hạn năm đã có mục riêng nên không hỏi lại)."
   },
   "cau_hoi": [
     {
@@ -93,14 +93,8 @@
       "hoi": "đại hạn đang đi"
     },
     {
-      "loai": "han",
-      "id": "HAN.rui_ro",
-      "hoi": "điều cần để ý trong năm đang xem"
-    },
-    {
-      "loai": "han",
-      "id": "HAN.mat_thuan",
-      "hoi": "mặt thuận trong năm đang xem"
+      "loai": "dai_han_ke",
+      "hoi": "đại hạn kế tiếp so với hiện tại"
     },
     {
       "loai": "quy_nhan",

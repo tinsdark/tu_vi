@@ -358,8 +358,6 @@ function doanTongKet(kq: BaoCao): string | null {
   } else {
     s.push(cau(dien(tk.dong_deu, { cao: tenCao.toLowerCase(), dc: String(cao.diem100), thap: tenThap.toLowerCase(), dt: String(thap.diem100) }), `CD.${tenCao}`, `CD.${tenThap}`));
   }
-  const b = kq.than.nhan_dinh[1];
-  if (b) s.push(cau(dien(tk.than, { noi_dung: `${thuong(sach(b.nhan_dinh))}` }), b.id));
   return s.join(" ");
 }
 
@@ -379,11 +377,11 @@ function dongHoiDap(kq: BaoCao): string[] {
     } else if (q.loai === "so_cung") {
       const n = kq.so_cung.find((x) => x.id === `SC.${q.a}.${q.b}`);
       if (!n) continue;
-      const [chinh, ...luuY] = n.nhan_dinh.split(/(?<=\.)\s+/);
-      dong = [cau(dien(vp.so_cung, { hoi: hoiSc[n.id], tra_loi: thuong(sach(chinh)) }), n.id), ...luuY.map((c) => cau(sach(c), n.id))];
+      const chinh = n.nhan_dinh.split(/(?<=\.)\s+/)[0]; // chỉ câu so sánh; lưu ý kèm theo đã có ở thẻ cung
+      dong = [cau(dien(vp.so_cung, { hoi: hoiSc[n.id], tra_loi: thuong(sach(chinh)) }), n.id)];
     } else if (q.loai === "than") {
       const b = kq.than.nhan_dinh[1];
-      if (b) dong = [cau(mo(q.hoi, thuong(sach(b.nhan_dinh))), b.id)];
+      if (b) dong = [cau(mo(q.hoi, thuong(sach(b.nhan_dinh.split(/(?<=\.)\s+/)[0]))), b.id)]; // chỉ kết luận chính, phần Tuần/Triệt đã có ở Tổng quan
     } else if (q.loai === "dai_han") {
       const ds = kq.dai_han_ca_doi ?? [];
       const m = ds.length > 1 ? ds.find((x) => x.nhan === q.nhan) : undefined;
@@ -391,9 +389,16 @@ function dongHoiDap(kq: BaoCao): string[] {
     } else if (q.loai === "dai_han_nay") {
       const d = kq.han?.dai_han;
       if (d) dong = [cau(dien(vp.dai_han_nay, { hoi: q.hoi, tu: String(d.tu_tuoi), den: String(d.tu_tuoi + 9), chi: d.chi, cung_goc: d.cung_goc, nhan: d.danh_gia["Mệnh"].xep_loai.toLowerCase() }), "DH")];
-    } else if (q.loai === "han") {
-      const c = q.id === "HAN.rui_ro" ? cauRuiRo(kq) : cauMatThuan(kq);
-      if (c) dong = [`Về ${q.hoi}: ${c}`];
+    } else if (q.loai === "dai_han_ke") {
+      const d = kq.han?.dai_han;
+      const ds = kq.dai_han_ca_doi ?? [];
+      const nay = d ? ds.find((x) => x.tu_tuoi === d.tu_tuoi) : undefined;
+      const ke = nay ? ds.find((x) => x.tu_tuoi === nay.tu_tuoi + 10) : undefined;
+      if (nay && ke) {
+        const hieu = ke.diem - nay.diem;
+        const sc = vp.so_sanh;
+        dong = [cau(dien(vp.dai_han_ke, { hoi: q.hoi, tu: String(ke.tu_tuoi), den: String(ke.den_tuoi), chi: ke.chi, nhan: ke.xep_loai.toLowerCase(), so_sanh: Math.abs(hieu) < vp.dai_han_chenh ? sc.ngang : hieu > 0 ? sc.hon : sc.kem }), ke.id, nay.id)];
+      }
     } else if (q.loai === "quy_nhan") {
       const cach: { ten: string; cung: string; id: string }[] = [];
       for (const [cung, k] of Object.entries(kq.cung)) {

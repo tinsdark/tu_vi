@@ -599,12 +599,20 @@ def test_cach_cuc_xuyen_cung_deu_co_the_xay_ra():
             if c["id"] not in thay and any(lg.khop(c["thanh"], lg.chi_cua[cu]) for cu in (CUNG_CHUC if c["pham_vi"] == "*" else [c["pham_vi"]] if isinstance(c["pham_vi"], str) else c["pham_vi"])):
                 thay.add(c["id"])
         for cu in CUNG_CHUC:
-            vai |= {n["id"].split(".")[2] for n in lg.vai_nguoi(cu)}
+            vai |= {sao for n in lg.vai_nguoi(cu) for sao in n["nhan"]}
     hiem = {"CC70"}      # Thái Âm hãm ở Phu Thê + Đào Hoa ở Quan Lộc + Thiên Diêu ở Tài Bạch: có trong luật nhưng gần như không gặp
     assert {c["id"] for c in moi} - thay <= hiem, {c["id"] for c in moi} - thay
     # bảng sao → người phủ đủ 14 chính tinh
     assert set(tt.lien_cung["vai_nguoi"]["sao"]) >= set(CHINH_TINH)
     assert vai >= {"Tử Vi", "Thái Dương", "Thái Âm", "Tham Lang", "Thiên Phủ"}, vai
+    # gộp: mỗi cung tối đa 2 câu sao → người
+    rnd = random.Random(9)
+    for _ in range(100):
+        _, ls = la_so_ngau_nhien(rnd)
+        lg = LuanGiai(ls, tt)
+        for cu in CUNG_CHUC:
+            ids = [n["id"] for n in lg.vai_nguoi(cu)]
+            assert len(ids) == len(set(ids)) and len(ids) <= 2          # cô đọng: tối đa một câu mặt thuận và một câu mặt khó mỗi cung
 
 
 if __name__ == "__main__":
