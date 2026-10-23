@@ -78,7 +78,7 @@ def muc_cho_phep(kq):
     # mục tổng hợp cuối bài: chỉ trích mã chủ đề, Thân và so cung (không có sao riêng lẻ)
     cho["Tổng kết"] = {"TQ"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["than"])
     cho["Những câu hỏi thường gặp"] = ({"DH"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["so_cung"]) | ids(kq["than"]) | ids(kq.get("dai_han_ca_doi", []))
-                                       | ids([[cd["diem_manh"], cd["diem_yeu"]] for cd in kq["chu_de"].values()]) | ids(kq["han"]["luu_nien"]["ket_luan"] if "han" in kq else [])
+                                       | ids([[cd["diem_manh"], cd["diem_yeu"]] for cd in kq["chu_de"].values()])
                                        | {i for i in tap_id(kq) if re.fullmatch(r"CC\d+", i)})   # cách quý nhân: mã cách ở bất kỳ cung nào
     return cho
 
@@ -190,7 +190,7 @@ def _dien(mau, **kw):
 
 
 def doan_tong_ket(kq):
-    """Tổng kết 2–3 câu sinh từ luật: mảng thuận nhất, mảng cần chú tâm nhất (chênh từ ngưỡng mới gọi tên, nếu không nói là đồng đều), rồi cung Thân."""
+    """Tổng kết 1–2 câu sinh từ luật: mảng thuận nhất, mảng cần chú tâm nhất (chênh từ ngưỡng mới gọi tên, nếu không nói là đồng đều). Cung Thân đã có ở Tổng quan nên không nhắc lại."""
     tk = VAN_PHONG["tong_ket"]
     kc = nap("ke_chuyen.json")["chu_de"]
     xep = sorted(kq["chu_de"].items(), key=lambda kv: -kv[1]["diem100"])     # sort ổn định như TS
@@ -205,9 +205,6 @@ def doan_tong_ket(kq):
         s.append(_cau(_dien(tk["yeu"] if viec else tk["yeu_khong_viec"], ten=ten_thap.lower(), d=thap["diem100"], viec=viec or ""), f"CD.{ten_thap}"))
     else:
         s.append(_cau(_dien(tk["dong_deu"], cao=ten_cao.lower(), dc=cao["diem100"], thap=ten_thap.lower(), dt=thap["diem100"]), f"CD.{ten_cao}", f"CD.{ten_thap}"))
-    if len(kq["than"]["nhan_dinh"]) > 1:
-        b = kq["than"]["nhan_dinh"][1]
-        s.append(_cau(_dien(tk["than"], noi_dung=_thuong(_sach(b["nhan_dinh"]))), b["id"]))
     return " ".join(s)
 
 
@@ -222,17 +219,29 @@ def dong_hoi_dap(kq):
             cd = kq["chu_de"].get(q["ten"])
             if not cd:
                 continue
-            dong = [_cau(_dien(vp["chu_de"], hoi=q["hoi"], nhan=cd["xep_loai"].lower(), d=cd["diem100"], ten=q["ten"]), f"CD.{q['ten']}")]     # chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
+            # một dòng chắt: mức + điểm, rồi tên sao/cách làm nên mặt mạnh và mặt cần lưu ý (không nhắc lại câu đã có ở mục chủ đề)
+            def ten(n):
+                m = re.match(r"\[(.+?)(?: — PHÁ CÁCH)?\]", n["nhan_dinh"])
+                return [f"«{m.group(1)}»"] if re.fullmatch(r"CC\d+", n["id"]) and m else [x for x in n.get("nhan", []) if x != "vô chính diệu"]
+
+            def tom_tat(ds, dau):
+                dung = sorted(ds, key=lambda n: dau * -n["diem"])[:2]
+                return list(dict.fromkeys(x for n in dung for x in ten(n)))[:3], [n["id"] for n in dung]
+            tm, im = tom_tat(cd["diem_manh"], 1)
+            ty, iy = tom_tat(cd["diem_yeu"], -1)
+            phan = [p for p in (f"mạnh nhờ {', '.join(tm)}" if tm else "", f"cần lưu ý {', '.join(ty)}" if ty else "") if p]
+            dong = [_cau(_dien(vp["chu_de"], hoi=q["hoi"], nhan=cd["xep_loai"].lower(), d=cd["diem100"], chi_tiet=f" — {'; '.join(phan)}" if phan else ""),
+                         f"CD.{q['ten']}", *(im + iy if phan else []))]
         elif q["loai"] == "so_cung":
             n = next((x for x in kq["so_cung"] if x["id"] == f"SC.{q['a']}.{q['b']}"), None)
             if not n:
                 continue
-            chinh, *luu_y = re.split(r"(?<=\.)\s+", n["nhan_dinh"])
-            dong = [_cau(_dien(vp["so_cung"], hoi=hoi_sc[n["id"]], tra_loi=_thuong(_sach(chinh))), n["id"]), *[_cau(_sach(c), n["id"]) for c in luu_y]]
+            chinh = re.split(r"(?<=\.)\s+", n["nhan_dinh"])[0]       # chỉ câu so sánh; lưu ý kèm theo đã có ở thẻ cung
+            dong = [_cau(_dien(vp["so_cung"], hoi=hoi_sc[n["id"]], tra_loi=_thuong(_sach(chinh))), n["id"])]
         elif q["loai"] == "than":
             if len(kq["than"]["nhan_dinh"]) > 1:
                 b = kq["than"]["nhan_dinh"][1]
-                dong = [_cau(_dien(vp["mo"], hoi=q["hoi"], tra_loi=_thuong(_sach(b["nhan_dinh"]))), b["id"])]
+                dong = [_cau(_dien(vp["mo"], hoi=q["hoi"], tra_loi=_thuong(_sach(re.split(r"(?<=\.)\s+", b["nhan_dinh"])[0]))), b["id"])]     # chỉ kết luận chính
         elif q["loai"] == "dai_han":
             ds = kq.get("dai_han_ca_doi", [])
             m = next((x for x in ds if x["nhan"] == q["nhan"]), None) if len(ds) > 1 else None
@@ -242,10 +251,16 @@ def dong_hoi_dap(kq):
             d = kq.get("han", {}).get("dai_han")
             if d:
                 dong = [_cau(_dien(vp["dai_han_nay"], hoi=q["hoi"], tu=d["tu_tuoi"], den=d["tu_tuoi"] + 9, chi=d["chi"], cung_goc=d["cung_goc"], nhan=d["danh_gia"]["Mệnh"]["xep_loai"].lower()), "DH")]
-        elif q["loai"] == "han":
-            n = next((x for x in kq.get("han", {}).get("luu_nien", {}).get("ket_luan", []) if x["id"] == q["id"]), None)
-            if n:
-                dong = [f"Về {q['hoi']}: {_cau(_sach(n['nhan_dinh']), n['id'])}"]
+        elif q["loai"] == "dai_han_ke":
+            d = kq.get("han", {}).get("dai_han")
+            ds = kq.get("dai_han_ca_doi", [])
+            nay = next((x for x in ds if d and x["tu_tuoi"] == d["tu_tuoi"]), None)
+            ke = next((x for x in ds if nay and x["tu_tuoi"] == nay["tu_tuoi"] + 10), None)
+            if nay and ke:
+                hieu = ke["diem"] - nay["diem"]
+                sc = vp["so_sanh"]
+                dong = [_cau(_dien(vp["dai_han_ke"], hoi=q["hoi"], tu=ke["tu_tuoi"], den=ke["den_tuoi"], chi=ke["chi"], nhan=ke["xep_loai"].lower(),
+                                   so_sanh=sc["ngang"] if abs(hieu) < vp["dai_han_chenh"] else sc["hon"] if hieu > 0 else sc["kem"]), ke["id"], nay["id"])]
         elif q["loai"] == "quy_nhan":
             cach = []
             for cung, k in kq["cung"].items():

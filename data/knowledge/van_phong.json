@@ -49,7 +49,6 @@
     "manh": "Nhìn toàn cục, {ten} là mảng thuận nhất của bạn (khoảng {d}/100); bạn nên {viec}.",
     "yeu": "Ngược lại, {ten} là mảng cần chú tâm hơn cả (khoảng {d}/100); việc nên làm là {viec}.",
     "dong_deu": "Nhìn toàn cục, sáu mảng của bạn khá đồng đều: cao nhất là {cao} (khoảng {dc}/100), thấp nhất là {thap} (khoảng {dt}/100), nên không có mảng nào quá trội hay quá lép vế.",
-    "than": "Về đường dài, {noi_dung}",
     "manh_khong_viec": "Nhìn toàn cục, {ten} là mảng thuận nhất của bạn (khoảng {d}/100).",
     "yeu_khong_viec": "Ngược lại, {ten} là mảng cần chú tâm hơn cả (khoảng {d}/100)."
   },
@@ -57,9 +56,16 @@
     "tieu_de": "Những câu hỏi thường gặp",
     "than": "tiền vận hay hậu vận",
     "mo": "Về chuyện {hoi}, {tra_loi}",
-    "chu_de": "Về {hoi}, bạn ở mức {nhan} (khoảng {d}/100); phần luận chi tiết nằm ở mục {ten} phía trên",
+    "chu_de": "Về {hoi}: mức {nhan}, khoảng {d}/100{chi_tiet}",
     "so_cung": "Về chuyện {hoi}, xét theo điểm của hai cung: {tra_loi}",
     "dai_han_nay": "Về {hoi}, bạn đang ở đại hạn {tu}–{den} tuổi tại {chi} (cung {cung_goc} gốc), xếp loại {nhan}",
-    "quy_nhan": "Về chuyện {hoi}, lá số có {cach}"
+    "quy_nhan": "Về chuyện {hoi}, lá số có {cach}",
+    "dai_han_ke": "Về {hoi}: đại hạn {tu}–{den} tuổi (tại {chi}) xếp loại {nhan}, {so_sanh} đại hạn hiện tại",
+    "dai_han_chenh": 3,
+    "so_sanh": {
+      "hon": "cao hơn",
+      "kem": "thấp hơn",
+      "ngang": "tương đương với"
+    }
   }
 }

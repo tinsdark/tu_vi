@@ -7,6 +7,18 @@ import type { BaoCao, KetQuaChuDe, NhanDinh } from "./types";
 
 // ---------- tiện ích câu chữ
 const bo = (s: string) => s.trim().replace(/\.+$/, "");
+/** Ngân sách câu cho một đoạn chủ đề: người đọc cần ý chính, không cần mọi sao. Phần còn lại vẫn có ở thẻ chủ đề. */
+const TOI_DA_CAU = 7;
+type CauUu = { t: string; u: number }; // u: độ ưu tiên (nhỏ = quan trọng); u = 0 luôn giữ
+/** Giữ các câu quan trọng nhất trong ngân sách, vẫn theo thứ tự viết ra. */
+function chonNganSach(ds: CauUu[], toiDa = TOI_DA_CAU): string[] {
+  if (ds.length <= toiDa) return ds.map((x) => x.t);
+  const giu = new Set<number>();
+  ds.forEach((x, i) => { if (x.u === 0) giu.add(i); });
+  [...ds.keys()].filter((i) => ds[i].u > 0).sort((a, b) => ds[a].u - ds[b].u || a - b).slice(0, Math.max(0, toiDa - giu.size)).forEach((i) => giu.add(i));
+  return ds.filter((_, i) => giu.has(i)).map((x) => x.t);
+}
+
 /** Hạ chữ đầu khi nối sau liên từ — trừ tên sao/cung (hai âm tiết đầu cùng viết hoa: "Thái Âm", "Hóa Kỵ", "Phu Thê"). */
 const thuong = (s: string) => (!s || /^\p{Lu}\p{Ll}*\s\p{Lu}/u.test(s) ? s : s[0].toLowerCase() + s.slice(1));
 const hoa = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s);
@@ -174,21 +186,22 @@ function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<stri
 
   const vt = Math.max(0, Object.keys(kq.chu_de).indexOf(ten)); // vị trí chủ đề: gốc để chọn biến thể câu nối
   const moDau = (kc.mo_dau[hd] as string).replace(/\s*\(mức \{nhan\}, khoảng \{d\}\/100, dựa trên \{nen\}\)/, bienThe("mo_dau_duoi", vt));
-  const s: string[] = [cau(moDau.replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma)];
-  const diemTua = (tienTo: string) => mua.forEach((n, i) => s.push(cau(i === 0 && !tienTo ? menhDe(n) : i === 0 ? `${tienTo}${thuong(menhDe(n))}` : `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}`, n.id)));
-  const canhCau = (tienTo: string) => canh.forEach((n) => s.push(cau(`${tienTo}${thuong(menhDe(n))}`, n.id)));
+  const s: CauUu[] = [{ t: cau(moDau.replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma), u: 0 }];
+  const them = (t: string, u: number) => s.push({ t, u });
+  const diemTua = (tienTo: string) => mua.forEach((n, i) => them(cau(i === 0 && !tienTo ? menhDe(n) : i === 0 ? `${tienTo}${thuong(menhDe(n))}` : `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}`, n.id), i === 0 ? 1 : 3));
+  const canhCau = (tienTo: string) => canh.forEach((n) => them(cau(`${tienTo}${thuong(menhDe(n))}`, n.id), 1));
 
   if (hd === "A" || hd === "E") { diemTua(""); canhCau(bienThe("canh_nhe", vt)); }
   else if (hd === "B") { diemTua(""); canhCau(bienThe("canh_vua", vt)); }
   else if (hd === "C") { diemTua(bienThe("diem_tua", vt)); canhCau(bienThe("canh_nang", vt)); }
   else { canhCau("Cần lưu ý: "); diemTua("Dù vậy vẫn có điểm tựa: "); }
-  for (const n of khung) s.push(cau(cauLuuY(n), n.id));
+  khung.forEach((n, i) => them(cau(cauLuuY(n), n.id), i === 0 ? 2 : 5));
 
   const loai = canh[0] ? loaiCanh(canh[0], bang.nhom_sao, kc.nhom_rieng) : "";
   const viec = canh[0] ? kc.viec_nen_lam[loai] ?? kc.viec_nen_lam.chung : kc.tan_dung;
-  s.push(...cauSaoNho(cd, daDung));
-  s.push(cau(`${canh[0] ? "Việc nên làm" : "Gợi ý"}: ${viec}`, canh[0]?.id ?? ma));
-  return s.join(" ");
+  cauSaoNho(cd, daDung).forEach((t) => them(t, 5));
+  them(cau(`${canh[0] ? "Việc nên làm" : "Gợi ý"}: ${viec}`, canh[0]?.id ?? ma), 0);
+  return chonNganSach(s).join(" ");
 }
 
 function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>): string {
@@ -233,19 +246,22 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
     return s.join(" ");
   }
 
-  for (const n of khung) s.push(cau(cauLuuY(n), n.id));
-  for (const n of trung.slice(0, 2)) s.push(cau(hoa(menhDe(n)), n.id));
+  const gd: CauUu[] = s.map((t, i) => ({ t, u: i === 0 ? 0 : 1 })); // câu mở đầu và câu nền
+  const them = (t: string, u: number) => gd.push({ t, u });
+  khung.forEach((n, i) => them(cau(cauLuuY(n), n.id), i === 0 ? 2 : 5));
+  trung.slice(0, 2).forEach((n, i) => them(cau(hoa(menhDe(n)), n.id), i === 0 ? 3 : 5));
   const sang = chon(conDung(cd.diem_manh), 2, 1);
   const hung = chon(conDung([...cd.diem_yeu]), 2, -1);
   const vt = Math.max(0, Object.keys(kq.chu_de).indexOf(ten));
-  sang.forEach((n, i) => s.push(cau(i ? `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}` : menhDe(n), n.id)));
-  hung.forEach((n, i) => s.push(cau(`${i ? bienThe("noi_hung_tiep", vt + i) : sang.length ? bienThe("noi_nguoc", vt) : "Cần lưu ý,"} ${thuong(menhDe(n))}`, n.id)));
-  s.push(...cauSaoNho(cd, daDung)); // sao phụ nêu trước; câu hòa giải luôn là câu cuối đoạn
-  // câu liên cung (sao → người, Hóa × Tuần/Triệt): ưu tiên thấp nhất, chỉ 1 câu và chỉ khi đoạn còn chỗ (R7); đầy đủ vẫn hiện ở thẻ chủ đề
+  sang.forEach((n, i) => them(cau(i ? `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}` : menhDe(n), n.id), i === 0 ? 1 : 3));
+  hung.forEach((n, i) => them(cau(`${i ? bienThe("noi_hung_tiep", vt + i) : sang.length ? bienThe("noi_nguoc", vt) : "Cần lưu ý,"} ${thuong(menhDe(n))}`, n.id), i === 0 ? 1 : 3));
+  cauSaoNho(cd, daDung).forEach((t) => them(t, 5)); // sao phụ: ưu tiên thấp; câu hòa giải luôn là câu cuối đoạn
+  // câu liên cung (sao → người, Hóa × Tuần/Triệt): ưu tiên thấp nhất, chỉ 1 câu; đầy đủ vẫn hiện ở thẻ chủ đề
   const lienCung = cd.luu_y.find((n) => n.id.startsWith("LC.") && !daDung.has(n.id + n.nhan_dinh));
-  if (lienCung && s.length < 10) { daDung.add(lienCung.id + lienCung.nhan_dinh); s.push(cau(cauLuuY(lienCung), lienCung.id)); }
-  if (sang.length && hung.length) s.push(cau(hoaGiai(ten, kq), ma)); // hòa giải đặt SAU khi đã nêu cả hai mặt
-  return s.join(" ");
+  if (lienCung) { daDung.add(lienCung.id + lienCung.nhan_dinh); them(cau(cauLuuY(lienCung), lienCung.id), 6); }
+  const ket = chonNganSach(gd, sang.length && hung.length ? TOI_DA_CAU - 1 : TOI_DA_CAU);
+  if (sang.length && hung.length) ket.push(cau(hoaGiai(ten, kq), ma)); // hòa giải đặt SAU khi đã nêu cả hai mặt, luôn là câu cuối
+  return ket.join(" ");
 }
 
 // ---------- tổng quan
@@ -358,8 +374,6 @@ function doanTongKet(kq: BaoCao): string | null {
   } else {
     s.push(cau(dien(tk.dong_deu, { cao: tenCao.toLowerCase(), dc: String(cao.diem100), thap: tenThap.toLowerCase(), dt: String(thap.diem100) }), `CD.${tenCao}`, `CD.${tenThap}`));
   }
-  const b = kq.than.nhan_dinh[1];
-  if (b) s.push(cau(dien(tk.than, { noi_dung: `${thuong(sach(b.nhan_dinh))}` }), b.id));
   return s.join(" ");
 }
 
@@ -375,15 +389,27 @@ function dongHoiDap(kq: BaoCao): string[] {
     if (q.loai === "chu_de") {
       const cd = kq.chu_de[q.ten];
       if (!cd) continue;
-      dong = [cau(dien(vp.chu_de, { hoi: q.hoi, nhan: cd.xep_loai.toLowerCase(), d: String(cd.diem100), ten: q.ten }), `CD.${q.ten}`)]; // chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
+      // một dòng chắt: mức + điểm, rồi tên sao/cách làm nên mặt mạnh và mặt cần lưu ý (không nhắc lại câu đã có ở mục chủ đề)
+      const ten = (n: NhanDinh): string[] => {
+        const cach = /^\[(.+?)(?: — PHÁ CÁCH)?\]/.exec(n.nhan_dinh);
+        return /^CC\d+$/.test(n.id) && cach ? [`«${cach[1]}»`] : (n.nhan ?? []).filter((x) => x !== "vô chính diệu");
+      };
+      const tomTat = (ds: NhanDinh[]) => {
+        const dung = ds.slice(0, 2);
+        return { ten: [...new Set(dung.flatMap(ten))].slice(0, 3), ids: dung.map((n) => n.id) };
+      };
+      const m = tomTat(chon(cd.diem_manh, 2, 1));
+      const y = tomTat(chon(cd.diem_yeu, 2, -1));
+      const phan = [m.ten.length ? `mạnh nhờ ${noi(m.ten)}` : "", y.ten.length ? `cần lưu ý ${noi(y.ten)}` : ""].filter(Boolean);
+      dong = [cau(dien(vp.chu_de, { hoi: q.hoi, nhan: cd.xep_loai.toLowerCase(), d: String(cd.diem100), chi_tiet: phan.length ? ` — ${phan.join("; ")}` : "" }), `CD.${q.ten}`, ...(phan.length ? [...m.ids, ...y.ids] : []))];
     } else if (q.loai === "so_cung") {
       const n = kq.so_cung.find((x) => x.id === `SC.${q.a}.${q.b}`);
       if (!n) continue;
-      const [chinh, ...luuY] = n.nhan_dinh.split(/(?<=\.)\s+/);
-      dong = [cau(dien(vp.so_cung, { hoi: hoiSc[n.id], tra_loi: thuong(sach(chinh)) }), n.id), ...luuY.map((c) => cau(sach(c), n.id))];
+      const chinh = n.nhan_dinh.split(/(?<=\.)\s+/)[0]; // chỉ câu so sánh; lưu ý kèm theo đã có ở thẻ cung
+      dong = [cau(dien(vp.so_cung, { hoi: hoiSc[n.id], tra_loi: thuong(sach(chinh)) }), n.id)];
     } else if (q.loai === "than") {
       const b = kq.than.nhan_dinh[1];
-      if (b) dong = [cau(mo(q.hoi, thuong(sach(b.nhan_dinh))), b.id)];
+      if (b) dong = [cau(mo(q.hoi, thuong(sach(b.nhan_dinh.split(/(?<=\.)\s+/)[0]))), b.id)]; // chỉ kết luận chính, phần Tuần/Triệt đã có ở Tổng quan
     } else if (q.loai === "dai_han") {
       const ds = kq.dai_han_ca_doi ?? [];
       const m = ds.length > 1 ? ds.find((x) => x.nhan === q.nhan) : undefined;
@@ -391,9 +417,16 @@ function dongHoiDap(kq: BaoCao): string[] {
     } else if (q.loai === "dai_han_nay") {
       const d = kq.han?.dai_han;
       if (d) dong = [cau(dien(vp.dai_han_nay, { hoi: q.hoi, tu: String(d.tu_tuoi), den: String(d.tu_tuoi + 9), chi: d.chi, cung_goc: d.cung_goc, nhan: d.danh_gia["Mệnh"].xep_loai.toLowerCase() }), "DH")];
-    } else if (q.loai === "han") {
-      const c = q.id === "HAN.rui_ro" ? cauRuiRo(kq) : cauMatThuan(kq);
-      if (c) dong = [`Về ${q.hoi}: ${c}`];
+    } else if (q.loai === "dai_han_ke") {
+      const d = kq.han?.dai_han;
+      const ds = kq.dai_han_ca_doi ?? [];
+      const nay = d ? ds.find((x) => x.tu_tuoi === d.tu_tuoi) : undefined;
+      const ke = nay ? ds.find((x) => x.tu_tuoi === nay.tu_tuoi + 10) : undefined;
+      if (nay && ke) {
+        const hieu = ke.diem - nay.diem;
+        const sc = vp.so_sanh;
+        dong = [cau(dien(vp.dai_han_ke, { hoi: q.hoi, tu: String(ke.tu_tuoi), den: String(ke.den_tuoi), chi: ke.chi, nhan: ke.xep_loai.toLowerCase(), so_sanh: Math.abs(hieu) < vp.dai_han_chenh ? sc.ngang : hieu > 0 ? sc.hon : sc.kem }), ke.id, nay.id)];
+      }
     } else if (q.loai === "quy_nhan") {
       const cach: { ten: string; cung: string; id: string }[] = [];
       for (const [cung, k] of Object.entries(kq.cung)) {

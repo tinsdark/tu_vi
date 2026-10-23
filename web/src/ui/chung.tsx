@@ -28,7 +28,10 @@ export function ChuThichTinCay() {
   );
 }
 
-export function DanhSachNhanDinh({ ds: tatCa, rong }: { ds: NhanDinh[]; rong?: boolean }) {
+/** Số nhận định chính hiện ngay; phần còn lại gập vào "Xem thêm" để người đọc không phải lướt qua danh sách dài. */
+const TOI_DA_HIEN = 6;
+
+export function DanhSachNhanDinh({ ds: tatCa, rong, toiDa = TOI_DA_HIEN }: { ds: NhanDinh[]; rong?: boolean; toiDa?: number }) {
   const hien = tatCa.filter((n) => !n.an); // câu đã gộp vào câu "trái chiều" (XD.*) không hiện lại
   if (!hien.length) return <p className="mo">Không có nhận định nào nổi bật.</p>;
   const chinh = hien.filter((n) => !n.nho);
@@ -45,9 +48,19 @@ export function DanhSachNhanDinh({ ds: tatCa, rong }: { ds: NhanDinh[]; rong?: b
     </ul>
   );
   if (!chinh.length) return danh(phu);
+  // nhiều hơn mức hiện: giữ các câu có điểm lớn nhất (câu lưu ý cấu trúc điểm 0 xếp sau), phần còn lại gập lại
+  const xep = chinh.length > toiDa ? [...chinh].sort((a, b) => Math.abs(b.diem) - Math.abs(a.diem)) : chinh;
+  const hienNgay = xep.slice(0, toiDa);
+  const them = xep.slice(toiDa);
   return (
     <>
-      {danh(chinh)}
+      {danh(hienNgay)}
+      {them.length > 0 && (
+        <details className="sao-phu">
+          <summary>Xem thêm ({them.length})</summary>
+          {danh(them)}
+        </details>
+      )}
       {phu.length > 0 && (
         <details className="sao-phu">
           <summary>Sao phụ khác ({phu.length})</summary>

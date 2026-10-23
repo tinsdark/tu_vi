@@ -46,7 +46,7 @@ export function TabCung({ bc }: { bc: BaoCao }) {
               <ThanhDiem diem100={k.diem100} xepLoai={k.xep_loai} />
               <CachTinhDiem p={k.phan_tich} />
               <p className="mo">Điểm cung {k.diem}{k.tuan_triet.length ? ` · ${k.tuan_triet.join("/")} đóng cung này` : ""}. <button type="button" className="nut-chu" onClick={() => mo({ loai: "cung", ten })}>Mở riêng</button></p>
-              <DanhSachNhanDinh ds={k.nhan_dinh} />
+              <DanhSachNhanDinh ds={k.nhan_dinh} toiDa={4} />
             </div>
           </details>
         );

@@ -2170,28 +2170,13 @@
       "loai": "cat",
       "pham_vi": "*",
       "thanh": {
-        "any": [
+        "all": [
           {
-            "all": [
-              {
-                "co": "Tả Phù"
-              },
-              {
-                "co": "Hữu Bật",
-                "o": "xung"
-              }
-            ]
+            "co": "Tả Phù"
           },
           {
-            "all": [
-              {
-                "co": "Hữu Bật"
-              },
-              {
-                "co": "Tả Phù",
-                "o": "xung"
-              }
-            ]
+            "co": "Hữu Bật",
+            "o": "xung"
           }
         ]
       },
@@ -2217,28 +2202,13 @@
       "loai": "hung",
       "pham_vi": "*",
       "thanh": {
-        "any": [
+        "all": [
           {
-            "all": [
-              {
-                "co": "Địa Không"
-              },
-              {
-                "co": "Địa Kiếp",
-                "o": "xung"
-              }
-            ]
+            "co": "Địa Không"
           },
           {
-            "all": [
-              {
-                "co": "Địa Kiếp"
-              },
-              {
-                "co": "Địa Không",
-                "o": "xung"
-              }
-            ]
+            "co": "Địa Kiếp",
+            "o": "xung"
           }
         ]
       },
@@ -2261,28 +2231,13 @@
       "loai": "cat",
       "pham_vi": "*",
       "thanh": {
-        "any": [
+        "all": [
           {
-            "all": [
-              {
-                "co": "Văn Xương"
-              },
-              {
-                "co": "Văn Khúc",
-                "o": "xung"
-              }
-            ]
+            "co": "Văn Xương"
           },
           {
-            "all": [
-              {
-                "co": "Văn Khúc"
-              },
-              {
-                "co": "Văn Xương",
-                "o": "xung"
-              }
-            ]
+            "co": "Văn Khúc",
+            "o": "xung"
           }
         ]
       },
@@ -2308,28 +2263,13 @@
       "loai": "cat",
       "pham_vi": "*",
       "thanh": {
-        "any": [
+        "all": [
           {
-            "all": [
-              {
-                "co": "Thiên Khôi"
-              },
-              {
-                "co": "Thiên Việt",
-                "o": "xung"
-              }
-            ]
+            "co": "Thiên Khôi"
           },
           {
-            "all": [
-              {
-                "co": "Thiên Việt"
-              },
-              {
-                "co": "Thiên Khôi",
-                "o": "xung"
-              }
-            ]
+            "co": "Thiên Việt",
+            "o": "xung"
           }
         ]
       },
@@ -2355,28 +2295,13 @@
       "loai": "hung",
       "pham_vi": "*",
       "thanh": {
-        "any": [
+        "all": [
           {
-            "all": [
-              {
-                "co": "Hỏa Tinh"
-              },
-              {
-                "co": "Linh Tinh",
-                "o": "xung"
-              }
-            ]
+            "co": "Hỏa Tinh"
           },
           {
-            "all": [
-              {
-                "co": "Linh Tinh"
-              },
-              {
-                "co": "Hỏa Tinh",
-                "o": "xung"
-              }
-            ]
+            "co": "Linh Tinh",
+            "o": "xung"
           }
         ]
       },
@@ -2441,24 +2366,25 @@
     },
     {
       "id": "CC71",
-      "ten": "Hóa cát hội Mệnh–Phúc Đức",
+      "ten": "Lộc Quyền Khoa hội Mệnh–Phúc Đức",
       "loai": "cat",
       "pham_vi": "Mệnh",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Phúc Đức",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -2487,14 +2413,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phúc Đức",
@@ -2531,15 +2460,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phúc Đức",
@@ -2571,24 +2503,25 @@
     },
     {
       "id": "CC74",
-      "ten": "Hóa cát hội Phụ Mẫu–Mệnh",
+      "ten": "Lộc Quyền Khoa hội Phụ Mẫu–Mệnh",
       "loai": "cat",
       "pham_vi": "Phụ Mẫu",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Mệnh",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -2617,14 +2550,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Mệnh",
@@ -2661,15 +2597,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Mệnh",
@@ -2701,24 +2640,25 @@
     },
     {
       "id": "CC77",
-      "ten": "Hóa cát hội Phúc Đức–Mệnh",
+      "ten": "Lộc Quyền Khoa hội Phúc Đức–Mệnh",
       "loai": "cat",
       "pham_vi": "Phúc Đức",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Mệnh",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -2747,14 +2687,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Mệnh",
@@ -2791,15 +2734,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Mệnh",
@@ -2831,24 +2777,25 @@
     },
     {
       "id": "CC80",
-      "ten": "Hóa cát hội Điền Trạch–Tài Bạch",
+      "ten": "Lộc Quyền Khoa hội Điền Trạch–Tài Bạch",
       "loai": "cat",
       "pham_vi": "Điền Trạch",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Tài Bạch",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -2877,14 +2824,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Tài Bạch",
@@ -2921,15 +2871,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Tài Bạch",
@@ -2961,24 +2914,25 @@
     },
     {
       "id": "CC83",
-      "ten": "Hóa cát hội Quan Lộc–Nô Bộc",
+      "ten": "Lộc Quyền Khoa hội Quan Lộc–Nô Bộc",
       "loai": "cat",
       "pham_vi": "Quan Lộc",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Nô Bộc",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3007,14 +2961,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Nô Bộc",
@@ -3051,15 +3008,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Nô Bộc",
@@ -3091,24 +3051,25 @@
     },
     {
       "id": "CC86",
-      "ten": "Hóa cát hội Nô Bộc–Quan Lộc",
+      "ten": "Lộc Quyền Khoa hội Nô Bộc–Quan Lộc",
       "loai": "cat",
       "pham_vi": "Nô Bộc",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Quan Lộc",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3137,14 +3098,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Quan Lộc",
@@ -3181,15 +3145,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Quan Lộc",
@@ -3221,24 +3188,25 @@
     },
     {
       "id": "CC89",
-      "ten": "Hóa cát hội Thiên Di–Tật Ách",
+      "ten": "Lộc Quyền Khoa hội Thiên Di–Tật Ách",
       "loai": "cat",
       "pham_vi": "Thiên Di",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Tật Ách",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3267,14 +3235,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Tật Ách",
@@ -3311,15 +3282,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Tật Ách",
@@ -3351,24 +3325,25 @@
     },
     {
       "id": "CC92",
-      "ten": "Hóa cát hội Tật Ách–Phúc Đức",
+      "ten": "Lộc Quyền Khoa hội Tật Ách–Phúc Đức",
       "loai": "cat",
       "pham_vi": "Tật Ách",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Phúc Đức",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3397,14 +3372,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phúc Đức",
@@ -3441,15 +3419,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phúc Đức",
@@ -3481,24 +3462,25 @@
     },
     {
       "id": "CC95",
-      "ten": "Hóa cát hội Tài Bạch–Điền Trạch",
+      "ten": "Lộc Quyền Khoa hội Tài Bạch–Điền Trạch",
       "loai": "cat",
       "pham_vi": "Tài Bạch",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Điền Trạch",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3527,14 +3509,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Điền Trạch",
@@ -3571,15 +3556,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Điền Trạch",
@@ -3611,24 +3599,25 @@
     },
     {
       "id": "CC98",
-      "ten": "Hóa cát hội Tử Tức–Phu Thê",
+      "ten": "Lộc Quyền Khoa hội Tử Tức–Phu Thê",
       "loai": "cat",
       "pham_vi": "Tử Tức",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Phu Thê",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3657,14 +3646,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phu Thê",
@@ -3701,15 +3693,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phu Thê",
@@ -3741,24 +3736,25 @@
     },
     {
       "id": "CC101",
-      "ten": "Hóa cát hội Phu Thê–Tử Tức",
+      "ten": "Lộc Quyền Khoa hội Phu Thê–Tử Tức",
       "loai": "cat",
       "pham_vi": "Phu Thê",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Tử Tức",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3787,14 +3783,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Tử Tức",
@@ -3831,15 +3830,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Tử Tức",
@@ -3871,24 +3873,25 @@
     },
     {
       "id": "CC104",
-      "ten": "Hóa cát hội Huynh Đệ–Phụ Mẫu",
+      "ten": "Lộc Quyền Khoa hội Huynh Đệ–Phụ Mẫu",
       "loai": "cat",
       "pham_vi": "Huynh Đệ",
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Lộc Tồn",
-              "Hóa Lộc",
-              "Hóa Quyền",
-              "Hóa Khoa"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ],
+              "toi_thieu": 1
+            }
           },
           {
             "cung_chuc": "Phụ Mẫu",
             "dk": {
               "co_mot": [
-                "Lộc Tồn",
                 "Hóa Lộc",
                 "Hóa Quyền",
                 "Hóa Khoa"
@@ -3917,14 +3920,17 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Văn Xương",
-              "Văn Khúc",
-              "Thiên Khôi",
-              "Thiên Việt",
-              "Tả Phù",
-              "Hữu Bật"
-            ]
+            "dem": {
+              "dem": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phụ Mẫu",
@@ -3961,15 +3967,18 @@
       "thanh": {
         "all": [
           {
-            "co_mot": [
-              "Hóa Kỵ",
-              "Kình Dương",
-              "Đà La",
-              "Hỏa Tinh",
-              "Linh Tinh",
-              "Địa Không",
-              "Địa Kiếp"
-            ]
+            "dem": {
+              "dem": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ],
+              "toi_thieu": 2
+            }
           },
           {
             "cung_chuc": "Phụ Mẫu",

@@ -154,26 +154,33 @@ export class LuanGiai {
     return rieng ?? this.cauTuanTriet(tenCung, tuanTriet, true);
   }
 
-  /** Bảng vai_nguoi (luan_lien_cung.json): mỗi sao × vai người × tình trạng (Hóa Kỵ/Lộc/Quyền/Khoa, hãm, miếu/vượng) → câu ở cung của vai, nếu cung đó khác cung chứa sao. */
+  /** Bảng vai_nguoi (luan_lien_cung.json): tối đa 2 câu mỗi cung (mặt thuận, mặt khó), mỗi câu gộp mọi sao ứng với người của cung này; chỉ khi cung của sao khác cung này. */
   private vaiNguoi(tenCung: string): NhanDinh[] {
     const bang = this.tt.lienCung.vai_nguoi;
     const ket: NhanDinh[] = [];
-    for (const [sao, vais] of Object.entries<[string, string][]>(bang.sao)) {
-      const chiSao = this.ls.sao[sao];
-      if (chiSao === undefined || this.ls.cung_chuc[chiSao] === tenCung) continue;
-      const muc = this.tt.sang(sao, chiSao);
-      for (const [tt, dk] of Object.entries<any>(bang.tinh_trang)) {
-        const dung = dk.hoa ? this.gocHoa[dk.hoa] === sao : muc !== null && (dk.sang as string[]).includes(muc);
-        if (!dung) continue;
-        for (const [vai, cung] of vais) {
-          if (cung !== tenCung) continue;
-          ket.push({
-            id: `LC.vai.${sao}.${tt}`, diem: 0, luu_y: true, ly_do: `${sao} ${dk.nhan} ở ${this.ls.cung_chuc[chiSao]} (${CHI[chiSao]}); ${sao} ứng với ${vai}`,
-            nhan_dinh: (dk.cau as string).replace("{sao}", sao).replace("{cung_sao}", this.ls.cung_chuc[chiSao]).replace("{chi}", CHI[chiSao]).replace("{vai}", vai),
-            ...this.nguon(this.chiCua.get(tenCung)!, "ban_cung", []), // sao nằm ở cung khác: nguồn ghi ở chính cung vai, câu tự nêu rõ sao và cung của nó
-          });
-        }
+    for (const [nhomTen, nhom] of Object.entries<{ gom: string[]; ket: string }>(bang.nhom)) {
+      const theoSao = new Map<string, { cungSao: string; tt: string[]; vai: string[] }>();
+      for (const [sao, vais] of Object.entries<[string, string][]>(bang.sao)) {
+        const chiSao = this.ls.sao[sao];
+        if (chiSao === undefined || this.ls.cung_chuc[chiSao] === tenCung) continue;
+        const vaiCung = vais.filter(([, cung]) => cung === tenCung).map(([vai]) => vai);
+        if (!vaiCung.length) continue;
+        const muc = this.tt.sang(sao, chiSao);
+        const tt = nhom.gom.filter((k) => {
+          const dk = bang.tinh_trang[k];
+          return dk.hoa ? this.gocHoa[dk.hoa] === sao : muc !== null && (dk.sang as string[]).includes(muc);
+        });
+        if (tt.length) theoSao.set(sao, { cungSao: this.ls.cung_chuc[chiSao], tt: tt.map((k) => bang.tinh_trang[k].ngan as string), vai: vaiCung });
       }
+      if (!theoSao.size) continue;
+      const ds = [...theoSao];
+      const dsSao = ds.slice(0, bang.toi_da_sao).map(([sao, x]) => `${sao} (${x.tt.join(", ")}, ở ${x.cungSao})`).join(", ") + (ds.length > bang.toi_da_sao ? ` và ${ds.length - bang.toi_da_sao} sao khác` : "");
+      const dsVai = [...new Set(ds.flatMap(([, x]) => x.vai))].join(", ");
+      ket.push({
+        id: `LC.vai.${nhomTen}`, diem: 0, luu_y: true, ly_do: `${ds.map(([sao]) => sao).join(", ")} ứng với ${dsVai}`,
+        nhan_dinh: (bang.mau_nhom as string).replace("{ds_sao}", dsSao).replace("{ds_vai}", dsVai).replace("{ket}", nhom.ket),
+        ...this.nguon(this.chiCua.get(tenCung)!, "ban_cung", ds.map(([sao]) => sao)), // sao nằm ở cung khác: nguồn ghi ở chính cung vai, câu tự nêu rõ sao và cung của nó
+      });
     }
     return ket;
   }
@@ -231,7 +238,11 @@ export class LuanGiai {
         if (t.duong.cau.some((c) => n.nhan_dinh.startsWith(c))) dp.push(n);
         else if (t.am.cau.some((c) => n.nhan_dinh.startsWith(c))) am.push(n);
       }
-      if (!dp.length || !am.length) continue;
+      if (!dp.length || !am.length) { // chỉ một phía: các câu CÙNG trục CÙNG phía là cùng một kết luận → giữ câu mạnh nhất, gộp phần còn lại
+        const phia = dp.length ? dp : am;
+        if (phia.length > 1) this.gopCungY(phia, `«${t.ten}» (${dp.length ? t.duong.nhan : t.am.nhan})`, trich);
+        continue;
+      }
       const cachDp = dp.filter(laCach);
       const cachAm = am.filter(laCach);
       if (!!cachDp.length !== !!cachAm.length) {
@@ -251,6 +262,40 @@ export class LuanGiai {
         ly_do: "Câu gốc được gộp: " + [...dp, ...am].map(trich).join("; "),
         ...this.nguon(chi, "ban_cung", [...new Set([...dp, ...am].map(tenNguon))]),
       });
+    }
+  }
+
+  /** Gộp các câu cùng một kết luận: giữ câu có |điểm| lớn nhất (hòa thì câu đứng trước), các câu còn lại đánh dấu `an` và ghi vào ly_do của câu giữ lại. Điểm không đổi (câu `an` vẫn được đếm như XD.*). */
+  private gopCungY(ds: NhanDinh[], nhan: string, trich: (n: NhanDinh) => string): void {
+    const con = ds.filter((n) => !n.an);
+    if (con.length < 2) return;
+    const giu = con.reduce((a, n) => (Math.abs(n.diem) > Math.abs(a.diem) ? n : a));
+    const bo = con.filter((n) => n !== giu);
+    for (const n of bo) n.an = true;
+    giu.ly_do = `${giu.ly_do ?? ""}; gộp ${bo.length} câu cùng ý ${nhan}: ${bo.map(trich).join("; ")}`;
+  }
+
+  /** Lưới an toàn sau cùng: các câu có điểm, cùng chiều, nội dung gần như giống hệt (trùng từ ≥ 3/4) thì gộp như trên, kể cả khi không thuộc trục nào. */
+  private rutGonGanGiong(nhanDinh: NhanDinh[]): void {
+    const cauTruc = /^(CT|PT|CC|BO)/;
+    const tu = (t: string) => new Set(t.replace(/\[[^\]]*\]/g, " ").replace(/\([^)]*\)/g, " ").toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? []);
+    const ds = nhanDinh.filter((n) => !n.an && n.diem !== 0 && cauTruc.test(n.id));
+    const dau = new Map(ds.map((n) => [n, tu(n.nhan_dinh)]));
+    const xep = [...ds].sort((a, b) => Math.abs(b.diem) - Math.abs(a.diem)); // sort ổn định: hòa giữ thứ tự gốc
+    for (const giu of xep) {
+      if (giu.an) continue;
+      const A = dau.get(giu)!;
+      const bo: NhanDinh[] = [];
+      for (const n of xep) {
+        if (n === giu || n.an || n.diem > 0 !== giu.diem > 0) continue;
+        const B = dau.get(n)!;
+        const chung = [...A].filter((w) => B.has(w)).length;
+        const hop = A.size + B.size - chung;
+        if (hop > 0 && chung * 4 >= hop * 3) bo.push(n);
+      }
+      if (!bo.length) continue;
+      for (const n of bo) n.an = true;
+      giu.ly_do = `${giu.ly_do ?? ""}; gộp ${bo.length} câu gần như giống hệt: ${bo.map((n) => n.id).join(", ")}`;
     }
   }
 
@@ -552,6 +597,7 @@ export class LuanGiai {
     this.hoaGiaiTruc(tenCung, chi, nhanDinh);
     // mọi câu (bất kể nguồn: chính tinh, phụ tinh, bộ sao, cách cục) chỉ giữ nhánh đúng giới tính
     for (const n of nhanDinh) n.nhan_dinh = chonGioi(n.nhan_dinh, this.ls.input.gioi_tinh);
+    this.rutGonGanGiong(nhanDinh); // kết luận gần tương đương trong cùng một cung thì rút gọn thành một
     const sangChu = chu.map((s) => this.tt.sang(s, chiChu));
     return {
       cung: tenCung, chi: CHI[chi], diem: pyRound(raw2, 2), diem100: d100, xep_loai: bac(d100, cfg.diem_noi_tai),

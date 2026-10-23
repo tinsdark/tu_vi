@@ -71,7 +71,7 @@ export function mucChoPhep(kq: BaoCao): Record<string, Set<string>> {
   cho["Tổng kết"] = new Set(["TQ", ...Object.keys(kq.chu_de).map((t) => `CD.${t}`), ...idsTrong(kq.than)]);
   cho["Những câu hỏi thường gặp"] = new Set([
     "DH", ...Object.keys(kq.chu_de).map((t) => `CD.${t}`), ...idsTrong(kq.so_cung), ...idsTrong(kq.than), ...idsTrong(kq.dai_han_ca_doi ?? []),
-    ...idsTrong(Object.values(kq.chu_de).map((cd) => [cd.diem_manh, cd.diem_yeu])), ...idsTrong(kq.han?.luu_nien.ket_luan ?? []),
+    ...idsTrong(Object.values(kq.chu_de).map((cd) => [cd.diem_manh, cd.diem_yeu])),
     ...[...tapId(kq)].filter((i) => /^CC\d+$/.test(i)), // cách quý nhân: mã cách ở bất kỳ cung nào
   ]);
   return cho;

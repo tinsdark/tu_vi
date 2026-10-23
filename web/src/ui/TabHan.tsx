@@ -39,14 +39,18 @@ export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNan
 
       <Khoi tieuDe="Dòng thời gian đại hạn" ghiChu="Điểm mỗi đại hạn = tổng điểm Mệnh, Quan Lộc, Tài Bạch của đại hạn đó; chỉ so các đại hạn của chính lá số này với nhau. Gợi ý nên/tránh theo cung gốc của đại hạn, chỉ để tham khảo.">
         <ol className="dong-dai-han">
-          {moc.map((m) => (
-            <li key={m.tu_tuoi} className={`${m.nhan === "đẹp nhất" ? "ln-tot" : m.nhan ? "ln-xau" : ""}${d && m.tu_tuoi === d.tu_tuoi ? " ddh-nay" : ""}`}>
-              <span className="ddh-tuoi">{m.tu_tuoi}–{m.den_tuoi}</span>
-              <span className="ddh-cung">{m.chi} · {m.cung_goc}</span>
-              <span className="ddh-xep">{m.xep_loai} <small>({m.diem})</small>{m.nhan && <b> · {m.nhan}</b>}</span>
-              {m.goi_y && <span className="ddh-goiy mo">{m.goi_y}</span>}
-            </li>
-          ))}
+          {moc.map((m) => {
+            const nay = !!d && m.tu_tuoi === d.tu_tuoi;
+            const noiBat = nay || !!m.nhan; // chỉ đại hạn đẹp nhất, khó nhất và hiện tại mới kèm gợi ý; còn lại một dòng ngắn
+            return (
+              <li key={m.tu_tuoi} className={`${m.nhan === "đẹp nhất" ? "ln-tot" : m.nhan ? "ln-xau" : ""}${nay ? " ddh-nay" : ""}${noiBat ? "" : " ddh-nhat"}`}>
+                <span className="ddh-tuoi">{m.tu_tuoi}–{m.den_tuoi}</span>
+                <span className="ddh-cung">{m.chi} · {m.cung_goc}</span>
+                <span className="ddh-xep">{m.xep_loai}{m.nhan && <b> · {m.nhan}</b>}{nay && <b> · đang đi</b>}</span>
+                {noiBat && m.goi_y && <span className="ddh-goiy mo">{m.goi_y}</span>}
+              </li>
+            );
+          })}
         </ol>
       </Khoi>
 
