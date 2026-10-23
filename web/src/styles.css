@@ -280,3 +280,15 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
   .the-chu-de, .khoi { padding: 12px; }
   .nhom-chon { flex-wrap: wrap; }
 }
+
+/* thẻ chủ đề thu gọn */
+.the-chu-de > summary { cursor: pointer; list-style: none; display: grid; gap: 6px; }
+.the-chu-de > summary::-webkit-details-marker { display: none; }
+.the-chu-de > summary h3 { margin: 0; display: flex; justify-content: space-between; align-items: center; }
+.the-chu-de > summary h3::after { content: "▾"; color: var(--mo); font-size: .9em; }
+.the-chu-de[open] > summary h3::after { content: "▴"; }
+.the-chu-de > summary:hover h3 { text-decoration: underline; }
+.tom-tat { display: flex; gap: .3rem 1rem; flex-wrap: wrap; font-size: .85rem; color: var(--mo); }
+.the-chu-de-than { margin-top: 10px; border-top: 1px solid var(--vien); padding-top: 8px; }
+.the-chu-de[open] { grid-column: 1 / -1; }
+@media (max-width: 760px) { .the-chu-de[open] { grid-column: auto; } }
