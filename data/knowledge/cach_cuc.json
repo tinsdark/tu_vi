@@ -824,7 +824,10 @@
       "id": "CC21",
       "ten": "Lộc Mã giao trì",
       "loai": "cat",
-      "pham_vi": "Mệnh",
+      "pham_vi": [
+        "Mệnh",
+        "Tử Tức"
+      ],
       "thanh": {
         "all": [
           {
@@ -854,7 +857,10 @@
       "xac_nhan_web": true,
       "web": [
         "https://sonchu.vn/nghien-cuu/cac-dang-cach-cuc-trong-tu-vi"
-      ]
+      ],
+      "ket_luan_theo_cung": {
+        "Tử Tức": "Con cái có duyên làm ăn, đi xa; tiền của đến nhờ con cái hoặc vì con cái mà bôn ba."
+      }
     },
     {
       "id": "CC22",
@@ -2157,6 +2163,102 @@
       "ket_luan": "Thiên Lương hãm gặp Thiên Mã: nghề hay biến động, di chuyển, đổi việc, dễ làm xa; hợp công việc linh hoạt (đi lại, tư vấn, chuyên môn) hơn nghề cố định, phát muộn và cần chọn đúng hướng.",
       "xac_nhan_web": false,
       "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
+    },
+    {
+      "id": "CC64",
+      "ten": "Tả Hữu đối xung",
+      "loai": "cat",
+      "pham_vi": [
+        "Huynh Đệ",
+        "Nô Bộc"
+      ],
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Tả Phù"
+              },
+              {
+                "co": "Hữu Bật",
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Hữu Bật"
+              },
+              {
+                "co": "Tả Phù",
+                "o": "xung"
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "co_mot": [
+          "Địa Không",
+          "Địa Kiếp"
+        ],
+        "o": "tam_phuong"
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Tả Phù, Hữu Bật đứng hai đầu trục Huynh Đệ–Nô Bộc: được người giúp từ hai phía, anh em lẫn bạn bè.",
+      "ket_luan_pha": "Gặp Không/Kiếp: người giúp có nhưng không bền.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC65",
+      "ten": "Không Kiếp đối xung",
+      "loai": "hung",
+      "pham_vi": [
+        "Điền Trạch",
+        "Tử Tức"
+      ],
+      "thanh": {
+        "any": [
+          {
+            "all": [
+              {
+                "co": "Địa Không"
+              },
+              {
+                "co": "Địa Kiếp",
+                "o": "xung"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "co": "Địa Kiếp"
+              },
+              {
+                "co": "Địa Không",
+                "o": "xung"
+              }
+            ]
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Địa Không, Địa Kiếp đứng hai đầu trục Điền Trạch–Tử Tức: của cải dễ hao hụt, chuyện con cái nhiều lo toan.",
+      "ket_luan_pha": "Có Tuần Triệt: sức xung giảm.",
+      "xac_nhan_web": false
     }
   ]
 }

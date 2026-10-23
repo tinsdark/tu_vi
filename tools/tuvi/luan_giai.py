@@ -20,6 +20,19 @@ KHAC = {"Moc": "Tho", "Tho": "Thuy", "Thuy": "Hoa", "Hoa": "Kim", "Kim": "Moc"}
 HANH_VN = {"Kim": "Kim", "Moc": "Mộc", "Thuy": "Thủy", "Hoa": "Hỏa", "Tho": "Thổ"}   # tên hành để HIỂN THỊ (mã nội bộ không dấu)
 
 
+def chon_gioi(txt, gioi):
+    """Câu có nhánh "Nếu bạn là nam/nữ, ..." (ngăn bằng "; ") → chỉ giữ nhánh đúng giới tính."""
+    kq = []
+    for mau in txt.split("; "):
+        m = re.match(r"(?i)nếu bạn là (nam|nữ), (.*)$", mau)
+        if m is None:
+            kq.append(mau)
+        elif (m.group(1).lower() == "nam") == (gioi == "nam"):
+            kq.append(m.group(2))
+    ket = "; ".join(kq)
+    return (ket[:1].upper() + ket[1:]) if ket else ket
+
+
 def nap(ten):
     with open(os.path.join(KB, ten), encoding="utf-8") as f:
         return json.load(f)
@@ -355,7 +368,7 @@ class LuanGiai:
             d = 0.0 if cuu else (hs[muc] * (1 + abs(hop)) if muc == "H" else hs[muc] * (1 + hop)) * he_so_vcd * cfg["he_so_chinh_tinh_chu"]
             chi_tiet.append((s, CHI[chi_chu], muc, round(d, 2)))
             nhan_dinh.append({"id": f"CT.{s}.{ten_cung}", "diem": round(d, 2),
-                              "nhan_dinh": txt_ham if muc in ("H",) else txt_sang,
+                              "nhan_dinh": chon_gioi(txt_ham if muc in ("H",) else txt_sang, self.ls["input"]["gioi_tinh"]),
                               "ly_do": f"{s} ({muc}) tại {CHI[chi_chu]}, hợp cung {hop:+d}" + (f", gặp {'/'.join(tuan_triet)}" if tuan_triet else "")
                                        + ("; hãm nhưng đang mang Hóa cát nên không tính là hạn chế" if cuu else "")
                                        + (f"; mượn từ cung {self.ls['cung_chuc'][chi_chu]} xung chiếu" if muon else ""),
@@ -438,7 +451,7 @@ class LuanGiai:
         # Cách cục — tính hết rồi giảm dần: cách mạnh nhất tính đủ, các cách cùng dấu sau đó nhân hệ số giảm (tránh đếm đôi cùng một sao)
         cach = []
         for cc in self.tt.cach:
-            if cc.get("pham_vi", "Mệnh") != ten_cung or not self.khop(cc["thanh"], chi):
+            if ten_cung not in (cc.get("pham_vi") if isinstance(cc.get("pham_vi"), list) else [cc.get("pham_vi", "Mệnh")]) or not self.khop(cc["thanh"], chi):
                 continue
             pha_chung = self.tt.pha_chung
             if "pha" in cc:
@@ -457,11 +470,12 @@ class LuanGiai:
         cach_adj = 0.0
         for i, (cc, bi_pha, d) in enumerate(cach):
             d = round(d * he.get(i, 1.0), 2)
+            ket_luan = cc.get("ket_luan_theo_cung", {}).get(ten_cung, cc["ket_luan"])
             cach_adj += d
             nhan_dinh.append({"id": cc["id"], "diem": d, "linh_vuc": cc.get("linh_vuc", []),
                               "nhan_dinh": f"[{cc['ten']}{' — PHÁ CÁCH' if bi_pha else ''}] "
-                                           + (cc.get("ket_luan_pha", "Gặp từ 2 sát tinh/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều. " + cc["ket_luan"])
-                                              if bi_pha else cc["ket_luan"]),
+                                           + (cc.get("ket_luan_pha", "Gặp từ 2 sát tinh/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều. " + ket_luan)
+                                              if bi_pha else ket_luan),
                               "ly_do": "Thỏa điều kiện cách cục" + (" nhưng gặp điều kiện phá" if bi_pha else "")
                                        + ("" if cc.get("xac_nhan_web") else " (cách chưa xác nhận nguồn web)")
                                        + (f"; nhiều cách cùng dấu nên tính {he[i]:.0%}" if he.get(i, 1.0) < 1.0 else ""),

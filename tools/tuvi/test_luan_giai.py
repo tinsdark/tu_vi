@@ -2,6 +2,7 @@
 
 Chạy: python3 tools/tuvi/test_luan_giai.py
 """
+import itertools
 import json
 import os
 import random
@@ -11,7 +12,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import CHI, CUNG_CHUC, an_la_so, mv  # noqa: E402
 from tuvi.lich_am import tu_duong_lich  # noqa: E402
-from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao  # noqa: E402
+from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao, chon_gioi  # noqa: E402
 from tuvi.viet_van import hau_kiem_theo_muc, rut_gon_cho_llm, viet, viet_mau, ve  # noqa: E402
 
 BAC = {"Rất thấp", "Thấp", "Trung bình", "Khá", "Tốt", "Rất tốt"}
@@ -524,6 +525,25 @@ def test_tu_duong_lich_toi_luan():
     a = tu_duong_lich(1990, 6, 8, 8, 30, "nam")["an_sao"]
     kq = bao_cao(LuanGiai(an_la_so(**a)), 1990, 2026)
     assert kq["la_so"]["input"]["can_nam"] == "Canh"
+
+
+def test_phu_the_chon_nhanh_theo_gioi_tinh():
+    """doc11 L1: câu Phu Thê không còn in cả hai nhánh 'Nếu bạn là nam/nữ'."""
+    tt = TriThuc()
+    for gt in ("nam", "nu"):
+        for cn, cnam in itertools.product(range(1, 11), range(1, 13)):
+            kq = LuanGiai(an_la_so(cn, cnam, 3, 10, 5, gt), tt).cham_cung("Phu Thê")
+            assert not any("ếu bạn là" in n["nhan_dinh"] for n in kq["nhan_dinh"]), (gt, cn, cnam)
+    assert chon_gioi("Nếu bạn là nữ, chồng tốt; nếu bạn là nam, vợ tốt.", "nam") == "Vợ tốt."
+    assert chon_gioi("Nếu bạn là nữ, chồng tốt; nếu bạn là nam, vợ tốt.", "nu") == "Chồng tốt"
+
+
+def test_cach_cuc_nhieu_cung():
+    """doc11 L2: cách cục có pham_vi là danh sách; câu luận theo cung ưu tiên ket_luan_theo_cung."""
+    lg = LuanGiai(an_la_so(1, 1, 1, 5, 4, "nam"), TriThuc())
+    ids = lambda cung: {n["id"] for n in lg.cham_cung(cung)["nhan_dinh"]}
+    assert "CC64" in ids("Huynh Đệ") and "CC64" in ids("Nô Bộc")
+    assert "CC65" in ids("Điền Trạch") and "CC65" in ids("Tử Tức")
 
 
 if __name__ == "__main__":

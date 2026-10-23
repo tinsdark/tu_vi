@@ -18,8 +18,8 @@ export type Dk = Record<string, any>;
 
 export interface PhuTinh { ten: string; hanh: string; diem: number; tag: string[]; y_nghia: string; dac_dia?: string[] }
 export interface CachCuc {
-  id: string; ten: string; loai?: string; pham_vi?: string; thanh: Dk; pha?: Dk; diem: number; diem_pha?: number;
-  linh_vuc?: string[]; ket_luan: string; ket_luan_pha?: string; xac_nhan_web?: boolean; web?: string[]; doi_chieu?: string;
+  id: string; ten: string; loai?: string; pham_vi?: string | string[]; thanh: Dk; pha?: Dk; diem: number; diem_pha?: number;
+  linh_vuc?: string[]; ket_luan: string; ket_luan_theo_cung?: Record<string, string>; ket_luan_pha?: string; xac_nhan_web?: boolean; web?: string[]; doi_chieu?: string;
 }
 
 export interface TrucLuan { id: string; ten: string; xd?: string; duong: { nhan: string; cau: string[] }; am: { nhan: string; cau: string[] } }

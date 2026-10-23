@@ -212,6 +212,17 @@ export function TabTongQuan({ bc, nhap, nc }: { bc: BaoCao; nhap: NhapLieu; nc: 
           {nc.bo.ghi_chu && <p className="mo">{nc.bo.ghi_chu}</p>}
         </Khoi>
       )}
+      <Khoi tieuDe="Điểm 12 cung" ghiChu="Điểm nội tại /100 của từng cung, xếp theo thứ tự cung trên lá số. Chỉ để so các cung của chính lá số này với nhau.">
+        <ol className="bang-12-cung">
+          {Object.entries(bc.cung).map(([ten, c]) => (
+            <li key={ten}>
+              <span className="b12-ten">{ten}</span>
+              <span className="b12-thanh"><span style={{ width: `${c.diem100}%` }} /></span>
+              <span className="b12-diem">{c.diem100} · {c.xep_loai}</span>
+            </li>
+          ))}
+        </ol>
+      </Khoi>
       <Khoi tieuDe="Nền của lá số" ghiChu="Mệnh – Cục, âm dương và chính tinh thủ Mệnh.">
         <DanhSachNhanDinh ds={bc.nen} />
       </Khoi>

@@ -1,8 +1,10 @@
-import { type BaoCao, type KetQuaNangCao } from "../engine";
+import { useMemo } from "react";
+import { dongThoiGianDaiHan, type BaoCao, type KetQuaNangCao, type LuanGiai } from "../engine";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, MAU_XEP as MAU } from "./chung";
 
-export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNangCao; namXem: number; onDoiNam: (n: number) => void }) {
+export function TabHan({ bc, nc, luan, namSinh, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNangCao; luan: LuanGiai; namSinh: number; namXem: number; onDoiNam: (n: number) => void }) {
   const h = bc.han;
+  const moc = useMemo(() => dongThoiGianDaiHan(luan, namSinh), [luan, namSinh]);
   if (!h) return <p className="mo">Chưa có dữ liệu hạn.</p>;
   const d = h.dai_han;
   const diemMax = Math.max(...h.luu_nguyet.map((m) => Math.abs(m.diem)), 1);
@@ -34,6 +36,19 @@ export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNan
             </div>
           </>
         ) : <p className="mo">Tuổi này nằm ngoài các đại hạn đã tính (trên 120 tuổi).</p>}
+      </Khoi>
+
+      <Khoi tieuDe="Dòng thời gian đại hạn" ghiChu="Điểm mỗi đại hạn = tổng điểm Mệnh, Quan Lộc, Tài Bạch của đại hạn đó; chỉ so các đại hạn của chính lá số này với nhau. Gợi ý nên/tránh theo cung gốc của đại hạn, chỉ để tham khảo.">
+        <ol className="dong-dai-han">
+          {moc.map((m) => (
+            <li key={m.tu_tuoi} className={`${m.nhan === "đẹp nhất" ? "ln-tot" : m.nhan ? "ln-xau" : ""}${d && m.tu_tuoi === d.tu_tuoi ? " ddh-nay" : ""}`}>
+              <span className="ddh-tuoi">{m.tu_tuoi}–{m.den_tuoi}</span>
+              <span className="ddh-cung">{m.chi} · {m.cung_goc}</span>
+              <span className="ddh-xep">{m.xep_loai} <small>({m.diem})</small>{m.nhan && <b> · {m.nhan}</b>}</span>
+              {m.goi_y && <span className="ddh-goiy mo">{m.goi_y}</span>}
+            </li>
+          ))}
+        </ol>
       </Khoi>
 
       <Khoi tieuDe={`Năm ${namXem}`}>

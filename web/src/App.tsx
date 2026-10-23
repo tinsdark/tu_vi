@@ -157,7 +157,7 @@ export function App() {
               )}
               {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nhap={nhap} nc={kq.nang_cao} />}
               {tab === "cung" && <TabCung bc={kq.bao_cao} />}
-              {tab === "han" && <TabHan bc={kq.bao_cao} nc={kq.nang_cao} namXem={nhap.nam_xem} onDoiNam={doiNam} />}
+              {tab === "han" && <TabHan bc={kq.bao_cao} nc={kq.nang_cao} luan={kq.luan} namSinh={kq.lich.am_lich.nam} namXem={nhap.nam_xem} onDoiNam={doiNam} />}
             </div>
           </>
         )}

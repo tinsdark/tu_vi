@@ -343,7 +343,7 @@ export class LuanGiai {
       const d = cuu ? 0.0 : (muc === "H" ? hs[muc] * (1 + Math.abs(hop)) : hs[muc] * (1 + hop)) * heSoVcd * cfg.he_so_chinh_tinh_chu;
       chiTiet.push([s, CHI[chiChu], muc, pyRound(d, 2)]);
       nhanDinh.push({
-        id: `CT.${s}.${tenCung}`, diem: pyRound(d, 2), nhan_dinh: muc === "H" ? txtHam : txtSang,
+        id: `CT.${s}.${tenCung}`, diem: pyRound(d, 2), nhan_dinh: chonGioi(muc === "H" ? txtHam : txtSang, this.ls.input.gioi_tinh),
         ly_do: `${s} (${muc}) tại ${CHI[chiChu]}, hợp cung ${dauSo(hop)}` + (tuanTriet.length ? `, gặp ${tuanTriet.join("/")}` : "")
           + (cuu ? "; hãm nhưng đang mang Hóa cát nên không tính là hạn chế" : "")
           + (muon ? `; mượn từ cung ${this.ls.cung_chuc[chiChu]} xung chiếu` : ""),
@@ -433,7 +433,7 @@ export class LuanGiai {
     // Cách cục — tính hết rồi giảm dần: cách mạnh nhất tính đủ, các cách cùng dấu sau đó nhân hệ số giảm (tránh đếm đôi cùng một sao)
     const cach: { cc: CachCuc; biPha: boolean; d: number }[] = [];
     for (const cc of this.tt.cach) {
-      if ((cc.pham_vi ?? "Mệnh") !== tenCung || !this.khop(cc.thanh, chi)) continue;
+      if (![cc.pham_vi ?? "Mệnh"].flat().includes(tenCung) || !this.khop(cc.thanh, chi)) continue;
       const phaChung = this.tt.phaChung;
       let biPha: boolean;
       let d: number;
@@ -458,10 +458,11 @@ export class LuanGiai {
     cach.forEach(({ cc, biPha, d: d0 }, i) => {
       const hs1 = he.get(i) ?? 1.0;
       const d = pyRound(d0 * hs1, 2);
+      const ketLuan = cc.ket_luan_theo_cung?.[tenCung] ?? cc.ket_luan;
       cachAdj += d;
       nhanDinh.push({
         id: cc.id, diem: d, linh_vuc: cc.linh_vuc ?? [],
-        nhan_dinh: `[${cc.ten}${biPha ? " — PHÁ CÁCH" : ""}] ` + (biPha ? (cc.ket_luan_pha ?? `Gặp từ 2 sát tinh/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều. ${cc.ket_luan}`) : cc.ket_luan),
+        nhan_dinh: `[${cc.ten}${biPha ? " — PHÁ CÁCH" : ""}] ` + (biPha ? (cc.ket_luan_pha ?? `Gặp từ 2 sát tinh/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều. ${ketLuan}`) : ketLuan),
         ly_do: "Thỏa điều kiện cách cục" + (biPha ? " nhưng gặp điều kiện phá" : "") + (cc.xac_nhan_web ? "" : " (cách chưa xác nhận nguồn web)")
           + (hs1 < 1.0 ? `; nhiều cách cùng dấu nên tính ${toFixedPy(hs1 * 100, 0)}%` : ""),
         ...this.nguon(chi, "ban_cung", [`«${cc.ten}»`]),
@@ -829,6 +830,18 @@ export class LuanGiai {
 
 /** Chọn k câu hiển thị của một mục: cách cục (kết luận đọc theo cụm sao) đứng trước câu từng sao, rồi theo độ lớn điểm (dau = +1 sáng, −1 hung).
  *  Nếu chỉ xếp theo điểm thì cách cục (điểm nhỏ) luôn bị câu từng sao đẩy ra khỏi top 3 và kết luận quan trọng nhất biến mất khỏi mục. */
+/** Câu có nhánh "Nếu bạn là nam/nữ, ..." (ngăn bằng "; ") → chỉ giữ nhánh đúng giới tính. */
+export function chonGioi(txt: string, gioi: string): string {
+  const kq: string[] = [];
+  for (const mau of txt.split("; ")) {
+    const m = /^nếu bạn là (nam|nữ), (.*)$/i.exec(mau);
+    if (m === null) kq.push(mau);
+    else if ((m[1].toLowerCase() === "nam") === (gioi === "nam")) kq.push(m[2]);
+  }
+  const ket = kq.join("; ");
+  return ket.slice(0, 1).toUpperCase() + ket.slice(1);
+}
+
 export function chonTop(ds: NhanDinh[], k: number, dau: 1 | -1): NhanDinh[] {
   const laCach = (n: NhanDinh) => (/^CC\d+$/.test(n.id) ? 0 : 1);
   return [...ds].sort((a, b) => laCach(a) - laCach(b) || -dau * (a.diem - b.diem)).slice(0, k);
@@ -841,6 +854,31 @@ export const diem100 = (x: number, kep: number[] = [5, 95]): number => Math.min(
 export function bac(d100: number, dn: any): string {
   for (const [han, ten] of dn.bac as [number, string][]) if (d100 <= han) return ten;
   return dn.bac[dn.bac.length - 1][1];
+}
+
+export interface MocDaiHan {
+  tu_tuoi: number; den_tuoi: number; chi: string; cung_goc: string; xep_loai: string; diem: number;
+  nhan: "" | "đẹp nhất" | "khó nhất"; goi_y: string;
+}
+
+/** Dòng thời gian đại hạn cả đời: điểm = tổng điểm Mệnh + Quan Lộc + Tài Bạch của đại hạn (chỉ so các đại hạn của cùng lá số). Không đổi điểm cung nào. */
+export function dongThoiGianDaiHan(lg: LuanGiai, namSinh: number): MocDaiHan[] {
+  const kn: Record<string, { muc: string; nen: string; tranh: string }> = lg.tt.cfg.han.khuyen_nghi;
+  const moc: MocDaiHan[] = [];
+  for (const [c, tuTuoi] of Object.entries(lg.ls.dai_han).sort((a, b) => a[1] - b[1])) {
+    const dh = lg.han(namSinh, namSinh + tuTuoi - 1, false).dai_han;
+    if (!dh) continue;
+    const dg = dh.danh_gia;
+    const diem = pyRound(["Mệnh", "Quan Lộc", "Tài Bạch"].reduce((t, k) => t + dg[k].diem, 0), 2);
+    const k = kn[lg.ls.cung_chuc[Number(c)]];
+    moc.push({ tu_tuoi: tuTuoi, den_tuoi: tuTuoi + 9, chi: dh.chi, cung_goc: dh.cung_goc, xep_loai: dg["Mệnh"].xep_loai, diem, nhan: "", goi_y: k ? `Nên ${k.nen}; tránh ${k.tranh}.` : "" });
+  }
+  if (moc.length > 1) {
+    const dd = moc.map((m) => m.diem);
+    moc[dd.indexOf(Math.max(...dd))].nhan = "đẹp nhất";
+    moc[dd.indexOf(Math.min(...dd))].nhan = "khó nhất";
+  }
+  return moc;
 }
 
 /** Toàn bộ kết quả luận dạng đối tượng (đầu vào cho phần viết văn và giao diện). */
