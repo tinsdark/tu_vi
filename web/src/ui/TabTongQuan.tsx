@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type NhapLieu } from "../engine";
 import { API_BASE } from "../lib/api";
-import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhPhanVi, useNganKeo } from "./chung";
+import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
 
 function CauChu({ cau }: { cau: string }) {
@@ -90,12 +90,15 @@ export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
   return (
     <div className="tab-noi-dung">
       <ChuThichTinCay />
+      <p className="mo">Điểm /100 chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này (bội số 5), không so với lá số khác.</p>
       <div className="luoi-chu-de">
         {Object.entries(bc.chu_de).map(([ten, cd]) => (
           <article key={ten} className="the-chu-de">
             <h3>{ten}</h3>
-            <ThanhPhanVi phanVi={cd.phan_vi} xepLoai={cd.xep_loai} />
+            <ThanhDiem diem100={cd.diem100} xepLoai={cd.xep_loai} />
             <p className="mo">Dựa trên: {Object.entries(cd.cung).map(([c, x]) => `${c} (${x})`).join(" · ")}</p>
+            {cd.cau_dan && <p className="cau-dan">{cd.cau_dan}</p>}
+            {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} /></>)}
             {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} /></>)}
             {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} /></>)}
           </article>
@@ -105,7 +108,7 @@ export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
         <DanhSachNhanDinh ds={bc.nen} />
       </Khoi>
       <Khoi tieuDe={`Cung Thân (cư ${bc.than.cu}, ${bc.than.chi})`}>
-        <ThanhPhanVi phanVi={bc.than.phan_vi} xepLoai={bc.than.xep_loai} />
+        <ThanhDiem diem100={bc.than.diem100} xepLoai={bc.than.xep_loai} />
         <DanhSachNhanDinh ds={bc.than.nhan_dinh} />
       </Khoi>
       <VanXuoi bc={bc} nhap={nhap} />

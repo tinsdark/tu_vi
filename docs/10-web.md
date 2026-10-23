@@ -37,7 +37,7 @@ Hai bản engine được giữ khớp bằng test, không bằng niềm tin: `t
 | `duongSangAm` | 900 ngày ngẫu nhiên + quét liên tục các tháng nhạy cảm (Tết 1968 Bắc/Nam, 2054, 1985, 2057, năm nhuận) | trùng 100% |
 | `tuDuongLich` | 900 ca đủ quy ước, múi giờ lịch sử, giờ mặt trời, cảnh báo + ca quanh các mốc đổi giờ 1943–1975 | trùng toàn bộ kết quả |
 | `anLaSo` | 1.200 lá số, 60% có profile phái ngẫu nhiên | trùng mọi sao, Tứ Hóa, Tuần/Triệt, đại hạn |
-| `baoCao` | 75 lá số (có ca quá 120 tuổi, không đại hạn), mọi profile | trùng cả cây JSON (điểm, phân vị, nhận định, hạn, lưu nguyệt, chủ đề) |
+| `baoCao` | 75 lá số (có ca quá 120 tuổi, không đại hạn), mọi profile | trùng cả cây JSON (điểm nội tại, nhận định, hạn + kết luận nên/tránh, lưu nguyệt, chủ đề) |
 | `vietMau`, `hauKiem`, `tapId` | như trên | trùng từng ký tự |
 
 Lần chạy `GOLDEN_N=2000`: 6.000 ngày + 6.000 ca lịch đầy đủ + 8.000 lá số + 500 báo cáo, đều trùng. Kiểm bằng đột biến: sửa một hằng số bất kỳ trong TS thì test đỏ.

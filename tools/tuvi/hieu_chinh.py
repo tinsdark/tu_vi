@@ -1,6 +1,7 @@
-"""Hiệu chỉnh ngưỡng xếp loại: chấm mọi cung trên mẫu lá số ngẫu nhiên, lấy phân vị 10/30/70/90 RIÊNG cho từng cung chức, ghi vào cau_hinh_luan_giai.json.
+"""Hiệu chỉnh ngưỡng xếp loại: chấm mọi cung trên mẫu lá số ngẫu nhiên, lấy các mốc 10/30/70/90 RIÊNG cho từng cung chức, ghi vào cau_hinh_luan_giai.json.
 
-Ý nghĩa: 'Rất tốt' = cung thuộc top 10% trong toàn bộ dân số lá số; không phải con số đặt tay.
+Ý nghĩa: chỉ là THANG QUY ĐỔI nội bộ để đưa điểm cung về 0–100 (diem_noi_tai). Mẫu là lá số sinh ngẫu nhiên, không phải dân số thật nên
+KHÔNG được diễn đạt thành 'cao/thấp hơn X% lá số khác'.
 Chạy: python3 tools/tuvi/hieu_chinh.py [số mẫu]
 """
 import json

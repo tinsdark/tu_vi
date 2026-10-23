@@ -91,28 +91,27 @@ def gop(ds, tien_to, da_dung=None):
     return f"{tien_to}{'; '.join(muc)}." if muc else ""
 
 
-def so_sanh(phan_vi):
-    return f"cao hơn khoảng {phan_vi}% lá số khác" if phan_vi >= 50 else f"thấp hơn khoảng {100 - phan_vi}% lá số khác"
-
-
 def viet_mau(kq):
     """Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục)."""
     la = kq["la_so"]
-    tong = [f"Mệnh tại {kq['menh_tai']}, {la['am_duong_nam_nu']}, Bản Mệnh {HANH_VN[la['ban_menh']]}, Cục {HANH_VN[la['cuc']['hanh']]} {la['cuc']['so']} [TQ]."]
+    tong = [f"Mệnh tại {kq['menh_tai']}, {la['am_duong_nam_nu']}, Bản Mệnh {HANH_VN[la['ban_menh']]}, Cục {HANH_VN[la['cuc']['hanh']]} {la['cuc']['so']} [TQ].",
+            "Điểm /100 ở các mục dưới chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này, không so với lá số khác [TQ]."]
     tong += [c for c in (gop(kq["nen"], "Nền lá số: "), gop(kq["than"]["nhan_dinh"], "Cung Thân: ")) if c]
     out = ["# Tổng quan", " ".join(tong)]
     da_dung = set()
     for ten, cd in kq["chu_de"].items():
         out.append(f"\n# {ten}")
-        dong = [f"Nhìn chung {cd['xep_loai'].lower()} ({so_sanh(cd['phan_vi'])}) [CD.{ten}]."]
-        dong += [c for c in (gop(cd["diem_manh"], "Điểm sáng: ", da_dung), gop(cd["diem_yeu"], "Cần lưu ý: ", da_dung)) if c]
+        dong = [f"Nhìn chung {cd['xep_loai'].lower()} (khoảng {cd['diem100']}/100) [CD.{ten}]."]
+        if cd["cau_dan"]:
+            dong.append(f"{cd['cau_dan'].rstrip('.')} [CD.{ten}].")
+        dong += [c for c in (gop(cd["luu_y"], "Lưu ý cấu trúc: ", da_dung), gop(cd["diem_manh"], "Điểm sáng: ", da_dung), gop(cd["diem_yeu"], "Cần lưu ý: ", da_dung)) if c]
         out.append(" ".join(dong))
     if "han" in kq and kq["han"]["dai_han"]:
         d = kq["han"]["dai_han"]
         out.append(f"\n# Hạn năm {kq['han']['nam_xem']}")
         dong = [f"Đang ở đại hạn {d['tu_tuoi']}–{d['tu_tuoi'] + 9} tuổi tại {d['chi']}; Mệnh đại hạn {d['danh_gia']['Mệnh']['xep_loai'].lower()} [DH]."]
         luu = gop(kq["han"]["luu_nien"]["ghi_chu"], f"Trong năm {kq['han']['nam_xem']}: ")
-        out.append(" ".join(dong + ([luu] if luu else [])))
+        out.append(" ".join(dong + ([luu] if luu else []) + [cau(n) for n in kq["han"]["luu_nien"]["ket_luan"]]))
     return "\n".join(out)
 
 

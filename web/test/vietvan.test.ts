@@ -18,14 +18,14 @@ describe("văn mẫu và phân loại điểm mạnh/yếu", () => {
     expect(thay).toBeGreaterThan(20);
   });
 
-  it("so sánh phân vị đúng chiều (không ghi 'top 94%' cho lá số rất xấu) và không lặp ý giữa các chủ đề", () => {
+  it("không nói percentile dân số (điểm nội tại /100) và không lặp ý giữa các chủ đề", () => {
     for (let i = 0; i < 100; i++) {
       const kq = mau(i);
       const van = vietMau(kq);
-      expect(van).not.toContain("top ");
+      expect(van).not.toMatch(/(cao|thấp) hơn khoảng|% lá số|top \d|phân vị/);
       for (const [ten, cd] of Object.entries(kq.chu_de)) {
         const dong = van.split("\n").find((d) => d.includes(`[CD.${ten}]`))!;
-        expect(dong.includes("cao hơn khoảng")).toBe(cd.phan_vi >= 50);
+        expect(dong).toContain(`khoảng ${cd.diem100}/100`);
       }
       const duy = new Map(Object.values(kq.chu_de).flatMap((cd) => [...cd.diem_manh, ...cd.diem_yeu]).map((n) => [JSON.stringify([n.id, n.nhan_dinh]), n]));
       for (const n of duy.values()) expect(van.split(ve(n)).length - 1, ve(n)).toBe(1);

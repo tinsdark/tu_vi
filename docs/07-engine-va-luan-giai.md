@@ -53,21 +53,24 @@ Quy trình `docs/06`: nền → chủ tinh → độ sáng → tam phương tứ
 | **Phi tuyến** | `điểm = tổng_tốt × 1/(1 + nặng/K) + tổng_xấu`, trong đó "nặng" là độ lớn điểm âm của sát tinh/Hóa Kỵ/Hình ở bản cung + xung chiếu. Nhiều sao phá thì phần tốt mất tác dụng — thay cho cộng tuyến tính. K = 4 (tham số mô hình) |
 | Phụ tinh theo cung | 18 sao có câu riêng cho từng cung (`phu_tinh_tai_cung_chuc.json`); Tứ Hóa ghép thêm nghĩa theo sao được hóa |
 | Cách cục | 57 cách, có cách cho Tài, Quan, Phu, Điền, Di, Tật, Phúc; phá cách riêng + phá cách chung (≥ 2 sao hung ở bản + xung) |
-| **Thân** | Thân cư cung nào → câu nghĩa; so phân vị Mệnh với cung Thân cư → tiền vận/hậu vận |
+| **Thân** | Thân cư cung nào → câu nghĩa; so điểm nội tại Mệnh với cung Thân cư → tiền vận/hậu vận |
 | **Đại hạn** | Chấm lại 5 cung của đại hạn (Mệnh, Quan, Tài, Phu, Tật đại hạn) theo tam phương **của cung đại hạn**, có chồng **Tứ Hóa đại hạn** (can cung đại hạn — kỹ thuật Bắc phái, tắt được trong `cau_hinh.han`) |
 | Tiểu hạn | Khởi theo tam hợp chi năm sinh, nam thuận nữ nghịch |
 | Lưu niên | Cung Lưu Thái Tuế, chồng sao lưu (Lộc Tồn, Kình, Đà, Mã, Tang Môn, Bạch Hổ, Khốc, Hư, Tứ Hóa năm); cảnh báo khi sao lưu xấu vào tam phương hoặc Lưu Kỵ trùng Kỵ đại hạn |
 | Lưu nguyệt | Đẩu Quân năm xem → 12 cung tháng, chấm từng cung, đánh dấu 2 tháng tốt nhất / 2 tháng cần thận trọng (so trong năm) |
-| **Chủ đề** | Tính cách, Sự nghiệp, Tài chính, Tình cảm, Sức khỏe, Gia đình: trung bình phân vị các cung liên quan theo trọng số, lấy ≤ 3 điểm mạnh/yếu có lĩnh vực khớp |
-| Xếp loại | Phân vị trên 3.000 lá số ngẫu nhiên, riêng từng cung (`hieu_chinh.py`); phân vị nội suy liên tục 1–99 |
-| **Văn mẫu** (`viet_van.py`, không cần AI) | Mỗi mục là MỘT đoạn: 'Nhìn chung … (cao/thấp hơn khoảng X% lá số khác). Điểm sáng: A; B. Cần lưu ý: C.', mỗi ý kèm mã quy tắc; ý (mã + nội dung) đã nêu ở mục trước thì bỏ. Sát tinh đắc địa (điểm bị lật dương nhưng câu luận vẫn nói mặt xấu) gắn cờ `dao_dau` và không vào điểm mạnh/yếu của chủ đề |
+| **Chủ đề** | Tính cách, Sự nghiệp, Tài chính, Tình cảm, Sức khỏe, Gia đình: chấm ĐÚNG cung chủ (Gia đình = Phụ Mẫu + Tử Tức), lấy ≤ 3 điểm mạnh/yếu; sao ở xung/hội chiếu chỉ được nêu kèm cung nguồn (`XC.<cung>`: "<Sao> từ cung X xung chiếu Y → hệ quả gián tiếp"); chính tinh miếu/vượng có sàn "trung bình" khi sát tinh chỉ ở xung/hội; vừa tốt vừa hung rõ thì kéo về vùng giữa + câu dẫn hòa giải |
+| Điểm nội tại | Thang /100 làm tròn bội 5, 6 bậc (Rất thấp/Thấp/Trung bình/Khá/Tốt/Rất tốt). Quy đổi từ điểm cung qua mốc 10/30/70/90 của mẫu ngẫu nhiên (`hieu_chinh.py`) chỉ như THANG đo nội bộ — KHÔNG phải percentile dân số nên cấm câu "cao/thấp hơn X% lá số khác" |
+| Câu sát tinh | Sinh từ dữ liệu thật: sát ở bản cung / ở xung-hội chiếu (ghi cung nguồn) / cả hai; không có sát thì không sinh câu. Sát ở xa trừ ít hơn sát ở bản cung (trọng số bản cung 1.0 > xung 0.5 > tam hợp 0.25) |
+| Vô chính diệu | Mượn sao cung xung chiếu (ghi rõ nguồn), kèm ghi chú theo cung (Tử Tức: con muộn/ít; Huynh Đệ: anh chị em ít gần gũi), không tự động xấu |
+| Hạn năm | Kết luận hành động: trọng tâm rủi ro → nên/tránh theo cung gốc bị lưu sát chiếu → mặt thuận (Hóa Lộc/Quyền/Khoa đại hạn, lưu cát tinh) |
+| **Văn mẫu** (`viet_van.py`, không cần AI) | Mỗi mục là MỘT đoạn: 'Nhìn chung <bậc> (khoảng N/100). [câu dẫn hòa giải]. Điểm sáng: A; B. Cần lưu ý: C.', mỗi ý kèm mã quy tắc; ý (mã + nội dung) đã nêu ở mục trước thì bỏ. Sát tinh đắc địa (điểm bị lật dương nhưng câu luận vẫn nói mặt xấu) gắn cờ `dao_dau` và không vào điểm mạnh/yếu của chủ đề |
 | **Viết văn bằng AI** (`viet_van.py`, tùy chọn) | Gửi báo cáo JSON cho Claude (`claude-opus-5-5`), yêu cầu mỗi câu kết thúc bằng [ID]. Hậu kiểm: câu không có ID hợp lệ bị bỏ. Không có credential → chế độ mẫu (ghép câu, không gọi API) |
 
-Test: `test_luan_giai.py` — 150 lá số ngẫu nhiên không lỗi, phân vị trong 1–99, mọi nhận định có ID, văn mẫu qua hậu kiểm 0 câu bị bỏ, phi tuyến làm giảm điểm khi thêm sát tinh, sát tinh đắc địa không lọt vào điểm mạnh/yếu, văn mẫu so sánh phân vị đúng chiều và không lặp ý.
+Test: `test_luan_giai.py` — 150 lá số ngẫu nhiên không lỗi, điểm nội tại bội 5 và 6 bậc, mọi nhận định có ID, văn mẫu qua hậu kiểm 0 câu bị bỏ, phi tuyến làm giảm điểm khi thêm sát tinh, sát tinh đắc địa không lọt vào điểm mạnh/yếu, văn mẫu không nói percentile và không lặp ý, mọi nhận định chủ đề truy được về cung chủ/xung/tam hợp và nêu "từ cung …" khi khác cung, câu sát tinh khớp vị trí thật, sàn chính tinh miếu/vượng, ngũ hành có hệ quả, nhánh vô chính diệu, hạn năm có nên/tránh.
 
 ## 4. Hạn chế — nói thẳng
 
-1. **Chưa có gì chứng minh luận đúng.** Trọng số, K của phi tuyến, ngưỡng phá cách chung, trọng số chủ đề đều là mô hình của tao. Hiệu chỉnh phân vị chỉ làm thang đo. Cần lá số người thật đã biết đời.
+1. **Chưa có gì chứng minh luận đúng.** Trọng số, K của phi tuyến, ngưỡng phá cách chung, trọng số chủ đề đều là mô hình của tao. Mốc hiệu chỉnh chỉ làm thang đo nội bộ. Cần lá số người thật đã biết đời.
 2. Nội dung luận: cách cục 40/57 có nguồn web; phụ tinh theo cung đối chiếu 1 nguồn web; `chinh_tinh_tai_chi`, `chinh_tinh_tai_cung_chuc`, `tu_hoa_luan`, `y_nghia` phụ tinh vẫn là AI tổng hợp chưa đối chiếu từng câu.
 3. Nhánh LLM của `viet_van.py` **chưa chạy thật** (môi trường không có API key); chữ ký SDK đã kiểm, nhánh mẫu chạy được.
 4. Đại hạn dùng câu luận của cung chức (VD "Mệnh") cho cung đại hạn — nghĩa hơi lệch với vận 10 năm; lưu nguyệt chấm cả cung như Mệnh.

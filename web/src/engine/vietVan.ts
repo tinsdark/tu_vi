@@ -76,26 +76,26 @@ export function gop(ds: NhanDinh[], tienTo: string, daDung?: Set<string>): strin
   return muc.length ? `${tienTo}${muc.join("; ")}.` : "";
 }
 
-const soSanh = (pv: number): string => (pv >= 50 ? `cao hơn khoảng ${pv}% lá số khác` : `thấp hơn khoảng ${100 - pv}% lá số khác`);
-
 /** Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục). */
 export function vietMau(kq: BaoCao): string {
   const l = kq.la_so;
   const tong = [`Mệnh tại ${kq.menh_tai}, ${l.am_duong_nam_nu}, Bản Mệnh ${HANH_VN[l.ban_menh]}, Cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so} [TQ].`,
+    "Điểm /100 ở các mục dưới chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này, không so với lá số khác [TQ].",
     ...[gop(kq.nen, "Nền lá số: "), gop(kq.than.nhan_dinh, "Cung Thân: ")].filter(Boolean)];
   const out: string[] = ["# Tổng quan", tong.join(" ")];
   const daDung = new Set<string>();
   for (const [ten, cd] of Object.entries(kq.chu_de)) {
     out.push(`\n# ${ten}`);
-    const dong = [`Nhìn chung ${cd.xep_loai.toLowerCase()} (${soSanh(cd.phan_vi)}) [CD.${ten}].`,
-      ...[gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean)];
+    const dong = [`Nhìn chung ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100) [CD.${ten}].`];
+    if (cd.cau_dan) dong.push(`${cd.cau_dan.replace(/\.+$/, "")} [CD.${ten}].`);
+    dong.push(...[gop(cd.luu_y, "Lưu ý cấu trúc: ", daDung), gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean));
     out.push(dong.join(" "));
   }
   if (kq.han?.dai_han) {
     const d = kq.han.dai_han;
     out.push(`\n# Hạn năm ${kq.han.nam_xem}`);
     const luu = gop(kq.han.luu_nien.ghi_chu, `Trong năm ${kq.han.nam_xem}: `);
-    out.push([`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`, ...(luu ? [luu] : [])].join(" "));
+    out.push([`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`, ...(luu ? [luu] : []), ...kq.han.luu_nien.ket_luan.map((n) => cau(n))].join(" "));
   }
   return out.join("\n");
 }

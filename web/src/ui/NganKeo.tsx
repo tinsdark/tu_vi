@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { CHI, moTaDieuKien, NHAN_TIN_CAY, quyTac, thongTinSao, triThuc, HANH_VN, type BaoCao } from "../engine";
-import { DanhSachNhanDinh, ThanhPhanVi, type NoiDungNganKeo } from "./chung";
+import { DanhSachNhanDinh, ThanhDiem, type NoiDungNganKeo } from "./chung";
 
 const MUC: Record<string, string> = { M: "Miếu", V: "Vượng", "Đ": "Đắc", B: "Bình", H: "Hãm" };
 
@@ -87,8 +87,8 @@ function NoiDungCung({ ten, bc }: { ten: string; bc: BaoCao }) {
   return (
     <>
       <h2>{ten} <small>({k.chi})</small></h2>
-      <ThanhPhanVi phanVi={k.phan_vi} xepLoai={k.xep_loai} />
-      <p className="mo">Điểm {k.diem}. Chính tinh: {k.chinh_tinh.length ? k.chinh_tinh.join(", ") : "vô chính diệu"}{k.tuan_triet.length ? ` · ${k.tuan_triet.join("/")}` : ""}</p>
+      <ThanhDiem diem100={k.diem100} xepLoai={k.xep_loai} />
+      <p className="mo">Điểm cung {k.diem}. Chính tinh: {k.chinh_tinh.length ? k.chinh_tinh.join(", ") : "vô chính diệu"}{k.tuan_triet.length ? ` · ${k.tuan_triet.join("/")}` : ""}</p>
       <DanhSachNhanDinh ds={k.nhan_dinh} rong />
     </>
   );
