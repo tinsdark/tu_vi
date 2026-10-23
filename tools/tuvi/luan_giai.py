@@ -112,6 +112,8 @@ class LuanGiai:
             return CHI[chi] in dk["chi"]
         if "vcd" in dk:
             return (not self.chinh_tinh(chi)) == dk["vcd"]
+        if "than_cu" in dk:
+            return (self.ls["than"] == chi) == dk["than_cu"]
         if "sang" in dk:
             s = dk["sang"]["sao"]
             return s in self.ls["sao"] and self.tt.sang(s, self.ls["sao"][s]) in dk["sang"]["thuoc"]
@@ -195,14 +197,28 @@ class LuanGiai:
     def nguon(self, c, quan_he, nhan):
         return {"cung_nguon": self.ls["cung_chuc"][c], "chi_nguon": CHI[c], "quan_he": quan_he, "nhan": nhan}
 
+    @staticmethod
+    def _la_cach(n):
+        return re.fullmatch(r"CC\d+", n["id"]) is not None
+
+    @staticmethod
+    def _ten_nguon(n):
+        """Tên hiển thị của nguồn câu: sao (PT.Hóa Lộc.Cung → Hóa Lộc) hoặc «tên cách cục»."""
+        if re.fullmatch(r"CC\d+", n["id"]):
+            m = re.match(r"\[(.+?)(?: — PHÁ CÁCH)?\]", n["nhan_dinh"])
+            return f"«{m.group(1)}»" if m else n["id"]
+        return n["id"].split(".")[1]
+
     def hoa_giai_truc(self, ten_cung, chi, nhan_dinh):
         """Các câu của MỘT cung nói ngược nhau về cùng một trục (VD số lượng anh chị em: Thiên Phủ báo đông, Vũ Khúc báo ít) không được
-        để cạnh nhau như hai khẳng định riêng. Với mỗi trục có cả phía dương lẫn phía âm: ẩn các câu gốc (`an`: True — vẫn còn trong
-        danh sách để điểm không đổi) và thêm MỘT câu 'trái chiều' (id XD.<cung>.<trục>, không tính điểm mạnh/yếu, xếp vào "lưu ý")."""
+        để cạnh nhau như hai khẳng định riêng. Với mỗi trục có cả phía dương lẫn phía âm:
+          · đúng MỘT phía có cách cục (đọc theo cụm sao) → cách cục thắng: ẩn các câu đơn lẻ của phía ngược lại, ghi vào ly_do của cách;
+          · còn lại → ẩn các câu gốc và thêm MỘT câu 'trái chiều' (id XD.<cung>.<trục>, không tính điểm mạnh/yếu, xếp vào "lưu ý").
+        Câu bị ẩn (`an`: True) vẫn nằm trong danh sách để điểm và phép đếm §4.8 không đổi."""
         for t in self.tt.truc.get(ten_cung, []):
             dp, am = [], []
             for n in nhan_dinh:
-                if not n["id"].startswith(("CT.", "PT.")) or n["id"].startswith("XD."):
+                if not (n["id"].startswith(("CT.", "PT.")) or self._la_cach(n)):
                     continue
                 if any(n["nhan_dinh"].startswith(c) for c in t["duong"]["cau"]):
                     dp.append(n)
@@ -210,14 +226,24 @@ class LuanGiai:
                     am.append(n)
             if not dp or not am:
                 continue
-            sao = lambda ds: ", ".join(dict.fromkeys(n["id"].split(".")[1] for n in ds))
+            cach_dp, cach_am = [n for n in dp if self._la_cach(n)], [n for n in am if self._la_cach(n)]
+            if bool(cach_dp) != bool(cach_am):
+                thang, thua = (cach_dp, am) if cach_dp else (cach_am, dp)
+                thua = [n for n in thua if not self._la_cach(n)]
+                for n in thua:
+                    n["an"] = True
+                for n in thang:
+                    n["ly_do"] += f"; thay cho câu đơn lẻ nói ngược về «{t['ten']}»: " + "; ".join(f"{self._ten_nguon(x)}: «{x['nhan_dinh'].split('. ')[0].rstrip('.')}»" for x in thua)
+                continue
+            sao = lambda ds: ", ".join(dict.fromkeys(self._ten_nguon(n) for n in ds))
             for n in dp + am:
                 n["an"] = True
             nhan_dinh.append({
                 "id": f"XD.{ten_cung}.{t['id']}", "diem": 0.0, "luu_y": True,
-                "nhan_dinh": f"{t['ten']}: các sao tác động lên cung này nói ngược nhau — {t['duong']['nhan']} ({sao(dp)}) và {t['am']['nhan']} ({sao(am)}); nên không kết luận chắc về mục này.",
-                "ly_do": "Câu gốc được gộp: " + "; ".join(f"{n['id'].split('.')[1]}: «{n['nhan_dinh'].split('. ')[0].rstrip('.')}»" for n in dp + am),
-                **self.nguon(chi, "ban_cung", list(dict.fromkeys(n["id"].split(".")[1] for n in dp + am)))})
+                "nhan_dinh": (t["xd"].replace("{duong}", t["duong"]["nhan"]).replace("{sao_duong}", sao(dp)).replace("{am}", t["am"]["nhan"]).replace("{sao_am}", sao(am)) if t.get("xd")
+                              else f"{t['ten']}: các sao tác động lên cung này nói ngược nhau — {t['duong']['nhan']} ({sao(dp)}) và {t['am']['nhan']} ({sao(am)}); nên không kết luận chắc về mục này."),
+                "ly_do": "Câu gốc được gộp: " + "; ".join(f"{self._ten_nguon(n)}: «{n['nhan_dinh'].split('. ')[0].rstrip('.')}»" for n in dp + am),
+                **self.nguon(chi, "ban_cung", list(dict.fromkeys(self._ten_nguon(n) for n in dp + am)))})
 
     def cau_sat(self, ten_cung, sat_ban, sat_xh):
         """Câu cảnh báo sát tinh sinh từ dữ liệu thật: tách sát ở bản cung và sát ở xung/hội chiếu (không có thì không sinh)."""
@@ -298,6 +324,7 @@ class LuanGiai:
         Điểm do diem_v3 quyết định; phần dưới tạo CÂU luận (mỗi câu mang 'diem' để xếp điểm sáng/hạn chế, không cộng thành điểm cung)."""
         chi = chi or self.chi_cua[ten_cung]
         cfg = self.tt.cfg
+        bo_qua_nho = set(cfg["sao_nho"]["bo_qua"])
         w = dict(cfg["trong_so_vi_tri"], xung=cfg["trong_so_vi_tri"]["xung_chieu"])
         hs = cfg["he_so_do_sang"]
         pt = cfg["phi_tuyen"]
@@ -384,10 +411,13 @@ class LuanGiai:
                         hop = self.loc_mien(self.tt.tu_hoa.get(khoa), ten_cung)
                         txt = (txt + " " if txt else "") + (hop if hop else ("" if txt else self.loc_mien(p["y_nghia"], ten_cung)))
                     txt = (txt or self.loc_mien(p["y_nghia"], ten_cung) or f"{goc_ten} tại {ten_cung}: chưa có luận riêng cho cung này.").strip()
-                    if abs(p["diem"]) >= 2 or goc_ten.startswith("Hóa") or he_so_luu != 1.0:
+                    lon = abs(p["diem"]) >= 2 or goc_ten.startswith("Hóa") or he_so_luu != 1.0
+                    if lon or goc_ten not in bo_qua_nho:    # phụ tinh ±1 cũng phải được luận (Thiên Mã, Thiên Khốc…): đánh dấu nho, không tính điểm mạnh/yếu
                         nd = {"id": f"PT.{s}" + (f".{ten_cung}" if goc_ten in self.tt.phu_cung else ""), "diem": round(d, 2),
                               "nhan_dinh": txt, "ly_do": f"{s} thủ {ten_cung} tại {CHI[c]}" + (" (đắc địa: giảm hại)" if dao_dau else " (đắc địa)" if dac else " (hãm địa — lực yếu)" if ham else ""),
                               **self.nguon(c, o, [s])}
+                        if not lon:
+                            nd["nho"] = True
                         if dao_dau:
                             nd["dao_dau"] = True
                         nhan_dinh.append(nd)
@@ -397,6 +427,13 @@ class LuanGiai:
             nhan_dinh.append({"id": "TT", "diem": 0, "luu_y": True, "ly_do": f"{'/'.join(tuan_triet)} tại {CHI[chi]}",
                               "nhan_dinh": self.cau_tuan_triet(ten_cung, tuan_triet, ngan=True),
                               **self.nguon(chi, "ban_cung", list(tuan_triet))})
+
+        # Cung vô chính diệu (trừ Mệnh) mà còn bị Tuần/Triệt: điểm gần như chỉ dựa vào cát tinh chiếu từ cung khác → nói rõ độ vững thấp hơn con số
+        if muon and tuan_triet and ten_cung != "Mệnh":
+            nhan_dinh.append({"id": "VCD_TT", "diem": 0, "luu_y": True,
+                              "nhan_dinh": f"{ten_cung} vừa vô chính diệu vừa bị {'/'.join(tuan_triet)}: điểm số dựa chủ yếu vào sao chiếu từ cung khác nên độ vững thấp hơn con số; đừng đọc điểm này như một nền vững.",
+                              "ly_do": f"{ten_cung} tại {CHI[chi]} không có chính tinh và có {'/'.join(tuan_triet)}",
+                              **self.nguon(chi, "ban_cung", ["vô chính diệu", *tuan_triet])})
 
         # Cách cục — tính hết rồi giảm dần: cách mạnh nhất tính đủ, các cách cùng dấu sau đó nhân hệ số giảm (tránh đếm đôi cùng một sao)
         cach = []
@@ -467,9 +504,17 @@ class LuanGiai:
         ten = self.ls["cung_chuc"][self.ls["than"]]
         k = self.cham_cung(ten)
         m = self.cham_cung("Mệnh")
+        gan = abs(k["diem100"] - m["diem100"]) < 15
+        # Triệt mạnh nửa đầu đời, Tuần mạnh sau ~30 tuổi (cấu hình tuan_triet): điểm số hai cung không thấy được điều này nên phải nói thêm,
+        # nếu không "tương đương" sẽ đá với câu "Triệt án Mệnh" ở mục Nền.
+        tien_kem = "Triệt" in m["tuan_triet"]
+        hau_kem = "Tuần" in m["tuan_triet"] or "Tuần" in k["tuan_triet"]
+        them = (" Tuy vậy Mệnh bị Triệt án nên tiền vận (trước ~30 tuổi) nhiều cản trở, còn Tuần cũng cản hậu vận; cả hai giai đoạn đều cần kiên trì." if tien_kem and hau_kem else
+                " Mệnh bị Triệt án nên tiền vận (trước ~30 tuổi) nhiều cản trở hơn; Triệt nhạt dần sau khoảng 30 tuổi." if tien_kem else
+                " Tuần án (Mệnh/Thân) nên từ khoảng 30 tuổi trở đi có nhiều cản trở hơn tiền vận." if hau_kem else "")
         so = ("Hậu vận (sau ~30 tuổi) khá hơn tiền vận." if k["diem100"] - m["diem100"] >= 15 else
               "Hậu vận kém tiền vận, cần giữ những gì đã gây dựng." if m["diem100"] - k["diem100"] >= 15 else
-              "Tiền vận và hậu vận tương đương.")
+              ("Điểm số hai giai đoạn gần nhau." if them else "Tiền vận và hậu vận tương đương.")) + them
         return {"cu": ten, "chi": CHI[self.ls["than"]], "xep_loai": k["xep_loai"], "diem100": k["diem100"],
                 "nhan_dinh": [{"id": f"THAN.{ten}", "diem": 0, "nhan_dinh": self.tt.cfg["than_cu"][ten], "ly_do": f"Thân cư {ten} tại {CHI[self.ls['than']]}"},
                               {"id": "THAN.so_menh", "diem": 0, "nhan_dinh": so,
@@ -552,7 +597,7 @@ class LuanGiai:
             ket["dai_han"] = {"chi": CHI[dh], "cung_goc": self.ls["cung_chuc"][dh], "tu_tuoi": self.ls["dai_han"][dh],
                               "can": can_dh, "tu_hoa": {k: f"{v} tại {CHI[self.ls['sao'][v]]} ({self.ls['cung_chuc'][self.ls['sao'][v]]} gốc)" for k, v in bang_dh.items()},
                               "danh_gia": {k: {"chi": v["chi"], "xep_loai": v["xep_loai"], "diem": v["diem"],
-                                               "noi_bat": sorted([n for n in v["nhan_dinh"] if not n.get("an")], key=lambda n: -abs(n["diem"]))[:3]} for k, v in danh_gia.items()}}
+                                               "noi_bat": sorted([n for n in v["nhan_dinh"] if not n.get("an") and not n.get("nho")], key=lambda n: -abs(n["diem"]))[:3]} for k, v in danh_gia.items()}}
         # tiểu hạn: khởi theo tam hợp chi năm sinh, nam thuận nữ nghịch
         chieu = 1 if self.ls["input"]["gioi_tinh"] == "nam" else -1
         th = mv(self.ls["tieu_han_khoi"], (tuoi - 1) * chieu)
@@ -628,12 +673,14 @@ class LuanGiai:
             sao = " + ".join(f"{s} ({ten_sang.get(m, m)})" for s, m in k["chinh_tinh_sang"]) or "không có chính tinh"
             nhan_tm = cd.get("tieu_muc", {}).get(c)
             dau = f"{nhan_tm} — cung {c} ({k['chi']})" if nhan_tm else f"Cung chủ {c} ({k['chi']})"
-            out.append(f"{dau}: " + (f"vô chính diệu, mượn {sao} từ cung {k['muon_tu'][0]} ({k['muon_tu'][1]}) xung chiếu" if k["muon_tu"] else sao))
+            than_cu = " — cũng là cung Thân cư, hậu vận gắn chặt với mục này" if self.ls["cung_chuc"][self.ls["than"]] == c else ""
+            out.append(f"{dau}: " + (f"vô chính diệu, mượn {sao} từ cung {k['muon_tu'][0]} ({k['muon_tu'][1]}) xung chiếu" if k["muon_tu"] else sao) + than_cu)
         return "; ".join(out) + "."
 
     def chu_de(self, cham=None):
         cfg = self.tt.cfg["chu_de"]
         dn = self.tt.cfg["diem_noi_tai"]
+        cfg_nho = self.tt.cfg["sao_nho"]
         cham = cham or {c: self.cham_cung(c) for c in CUNG_CHUC}
         ket = {}
         for ten, cd in cfg.items():
@@ -643,9 +690,14 @@ class LuanGiai:
             chinh_cung = max(cd["cung"].values())
             chu_ds = [c for c, w in cd["cung"].items() if w == chinh_cung]
             pv = sum(cham[c]["diem100"] * w for c, w in cd["cung"].items()) / tong_w
-            ung_vien, luu_y, trung_tinh = [], [], []
+            ung_vien, luu_y, trung_tinh, sao_nho = [], [], [], []
             for c, w in cd["cung"].items():
+                nho_c = []
                 for n in cham[c]["nhan_dinh"]:
+                    if n.get("nho"):          # phụ tinh ±1: chỉ cung chủ, không vào điểm/đếm; xếp theo ưu tiên rồi cắt
+                        if w >= chinh_cung and not n.get("an"):
+                            nho_c.append(dict(n, cung=c))
+                        continue
                     if n.get("luu_y"):
                         if w >= chinh_cung:
                             luu_y.append(dict(n, cung=c))
@@ -666,12 +718,15 @@ class LuanGiai:
                     if n["id"].startswith("CC") and cd["linh_vuc"] and not tag & set(cd["linh_vuc"]):
                         continue
                     ung_vien.append(self.gan_nguon(dict(n, cung=c), c))
+                uu = {t: i for i, t in enumerate(cfg_nho["uu_tien"])}
+                nho_c.sort(key=lambda n: uu.get(n["id"].split(".")[1], len(uu)))       # sort ổn định: cùng ưu tiên giữ thứ tự gốc
+                sao_nho += nho_c[:cfg_nho["toi_da_moi_cung"]]
             sang = [n for n in ung_vien if n["diem"] > 0]
             hung = [n for n in ung_vien if n["diem"] < 0]
             # ĐẾM (điểm, §4.8) dùng cả câu đã bị gộp; HIỂN THỊ chỉ dùng câu còn hiện (câu 'trái chiều' XD.* đã thay chỗ chúng)
             ung_vien = [n for n in ung_vien if not n.get("an")]
-            tot = sorted([n for n in sang if not n.get("an")], key=lambda n: -n["diem"])[:3]
-            xau = sorted([n for n in hung if not n.get("an")], key=lambda n: n["diem"])[:3]
+            tot = chon_top([n for n in sang if not n.get("an")], 3, 1)
+            xau = chon_top([n for n in hung if not n.get("an")], 3, -1)
             gt = [x for c in chu_ds for x in self.gian_tiep(cd, c, cham[c])] if len(chu_ds) == 1 else []
             tot_hien, xau_hien = tot, xau
             if cd.get("tieu_muc"):       # chủ đề gộp nhiều cung: tách tiểu mục, mỗi câu mang nhãn cung nguồn
@@ -679,8 +734,8 @@ class LuanGiai:
                 for c in chu_ds:
                     nhan_tm = cd["tieu_muc"][c]
                     cua_c = [n for n in ung_vien if n["cung"] == c]
-                    tot_hien += [dict(n, nhan_dinh=f"{nhan_tm}: {n['nhan_dinh']}") for n in sorted([n for n in cua_c if n["diem"] > 0], key=lambda n: -n["diem"])[:2]]
-                    xau_hien += [dict(n, nhan_dinh=f"{nhan_tm}: {n['nhan_dinh']}") for n in sorted([n for n in cua_c if n["diem"] < 0], key=lambda n: n["diem"])[:2]]
+                    tot_hien += [dict(n, nhan_dinh=f"{nhan_tm}: {n['nhan_dinh']}") for n in chon_top([n for n in cua_c if n["diem"] > 0], 2, 1)]
+                    xau_hien += [dict(n, nhan_dinh=f"{nhan_tm}: {n['nhan_dinh']}") for n in chon_top([n for n in cua_c if n["diem"] < 0], 2, -1)]
             # §4.8 khớp điểm ↔ nội dung: sáng ≥ 2×hung và có chính tinh miếu/vượng (hoặc không có hung mà có chính tinh đắc) → nhãn ≥ khá; hung ≥ 2×sáng → nhãn ≤ trung bình
             kh = dn["khop_noi_dung"]
             s_, h_ = len(sang), len(hung)
@@ -697,23 +752,36 @@ class LuanGiai:
             if tot and xau:         # §17: câu 'hai mặt cùng tồn tại' áp cho MỌI mục có cả sáng lẫn hung (không kẹp điểm: điểm do công thức v3 quyết định)
 
                 def nhan(n):
-                    if n["id"] == "PHI_TUYEN":
-                        return f"sát tinh {' + '.join(n['nhan'])} quanh {n['cung']}"
+                    if n["id"] == "PHI_TUYEN":          # tách sát tinh NẰM TẠI cung và sát tinh CHIẾU từ cung khác — không gộp thành "quanh"
+                        xh = cham[n["cung"]]["sat_xh"] if n["cung"] in cham else []
+                        ngoai = {x["sao"] for x in xh}
+                        ban = [x for x in n["nhan"] if x not in ngoai]
+                        chieu = [f"{x['sao']} (ở {x['cung']}, {'xung' if x['quan_he'] == 'xung' else 'hội'} chiếu)" for x in {x["sao"]: x for x in xh}.values()]
+                        return "; ".join(p for p in (f"sát tinh {' + '.join(ban)} tại {n['cung']}" if ban else "", f"sát tinh {' + '.join(chieu)} chiếu {n['cung']}" if chieu else "") if p)
                     if n["id"] == "CAT_XH":
                         return f"cát tinh {' + '.join(n['nhan'])} chiếu {n['cung']}"
                     if n.get("quan_he") not in (None, "ban_cung"):          # sao mượn/ở cung khác: luôn ghi vị trí thật, không ghi 'tại cung chủ' (§15.1)
                         return f"{' + '.join(n.get('nhan') or [n['id']])} (ở {n['cung_nguon']}, {'xung' if n['quan_he'] == 'xung' else 'hội'} chiếu)"
                     return f"{' + '.join(n.get('nhan') or [n['id']])} tại {n['cung']}"
                 a_, b_ = "; ".join(dict.fromkeys(nhan(n) for n in tot[:2])), "; ".join(dict.fromkeys(nhan(n) for n in xau[:2]))
-                cau_dan = f"Cung có cả điểm sáng ({a_}) lẫn hạn chế ({b_}); hai mặt cùng tồn tại."
+                # hướng nghiêng: so tổng điểm câu sáng với tổng điểm câu hung (cùng thang), để "hai mặt" không nuốt mất cảnh báo khi hạn chế nặng hơn hẳn
+                tong_sang, tong_hung = sum(n["diem"] for n in sang), -sum(n["diem"] for n in hung)
+                huong = "trong đó hạn chế nặng hơn điểm sáng" if tong_hung >= 1.5 * tong_sang else "trong đó điểm sáng nặng hơn hạn chế" if tong_sang >= 1.5 * tong_hung else "hai bên xấp xỉ ngang nhau"
+                cau_dan = f"Cung có cả điểm sáng ({a_}) lẫn hạn chế ({b_}); hai mặt cùng tồn tại, {huong}."
             d100 = diem_100(pv)
-            ket[ten] = {"diem100": d100, "xep_loai": bac(d100, dn), "diem_manh": tot_hien, "diem_yeu": xau_hien + gt, "khung": self.khung_chu_de(cd, chu_ds, cham), "cau_dan": cau_dan, "kiem_khop": kiem_khop, "luu_y": luu_y, "trung_tinh": trung_tinh,
+            ket[ten] = {"diem100": d100, "xep_loai": bac(d100, dn), "diem_manh": tot_hien, "diem_yeu": xau_hien + gt, "khung": self.khung_chu_de(cd, chu_ds, cham), "cau_dan": cau_dan, "kiem_khop": kiem_khop, "luu_y": luu_y, "trung_tinh": trung_tinh, "sao_nho": sao_nho,
                         "cung": {c: cham[c]["xep_loai"] for c in cd["cung"]}}
         return ket
 
 
 def them_vi_tri(them, ten):
     return next((c for c, ds in them.items() if ten in ds), None)
+
+
+def chon_top(ds, k, dau):
+    """Chọn k câu hiển thị của một mục: cách cục (kết luận đọc theo cụm sao) đứng trước câu từng sao, rồi theo độ lớn điểm (dau = +1 sáng, −1 hung).
+    Nếu chỉ xếp theo điểm thì cách cục (điểm nhỏ) luôn bị câu từng sao đẩy ra khỏi top 3 và kết luận quan trọng nhất biến mất khỏi mục."""
+    return sorted(ds, key=lambda n: (re.fullmatch(r"CC\d+", n["id"]) is None, -dau * n["diem"]))[:k]
 
 
 def diem_100(x, kep=(5, 95)):

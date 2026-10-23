@@ -44,13 +44,13 @@
     "Hoa": "Hỏa lục cục: nghiêng về nhiệt huyết, nhanh nhạy, hay bộc phát. Đại hạn đầu tiên đến muộn nhất, từ 6 tuổi."
   },
   "chu_menh": {
-    "Tham Lang": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Tham Lang: đa tài, giao tế giỏi, nhiều ham muốn và tham vọng; cần giữ mình trước cám dỗ.",
-    "Cự Môn": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Cự Môn: ăn nói sắc sảo, hay phân tích, hay soi xét; dễ vướng thị phi nếu nói quá thẳng.",
-    "Lộc Tồn": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Lộc Tồn: cẩn thận, biết giữ của, sống chừng mực; hơi bảo thủ.",
-    "Văn Khúc": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Văn Khúc: khéo léo, có năng khiếu nghệ thuật, ăn nói có duyên.",
-    "Liêm Trinh": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Liêm Trinh: có nguyên tắc, kỷ luật, có chí; hơi cứng và dễ nóng.",
-    "Vũ Khúc": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Vũ Khúc: quyết đoán, thực tế, giỏi chuyện tiền bạc; đôi khi cứng nhắc và hơi cô đơn.",
-    "Phá Quân": "Chủ mệnh là sao chủ đạo của tính cách theo năm sinh. Phá Quân: tiên phong, dám đổi mới, dám phá cách; đời hay nhiều thăng trầm."
+    "Tham Lang": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Tham Lang: đa tài, giao tế giỏi, nhiều ham muốn và tham vọng; cần giữ mình trước cám dỗ.",
+    "Cự Môn": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Cự Môn: ăn nói sắc sảo, hay phân tích, hay soi xét; dễ vướng thị phi nếu nói quá thẳng.",
+    "Lộc Tồn": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Lộc Tồn: cẩn thận, biết giữ của, sống chừng mực; hơi bảo thủ.",
+    "Văn Khúc": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Văn Khúc: khéo léo, có năng khiếu nghệ thuật, ăn nói có duyên.",
+    "Liêm Trinh": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Liêm Trinh: có nguyên tắc, kỷ luật, có chí; hơi cứng và dễ nóng.",
+    "Vũ Khúc": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Vũ Khúc: quyết đoán, thực tế, giỏi chuyện tiền bạc; đôi khi cứng nhắc và hơi cô đơn.",
+    "Phá Quân": "Chủ mệnh (tra theo chi của cung Mệnh) là sao chủ đạo của tính cách, khác với chính tinh thủ Mệnh. Phá Quân: tiên phong, dám đổi mới, dám phá cách; đời hay nhiều thăng trầm."
   },
   "chu_than": {
     "Linh Tinh": "Chủ thân là sao chủ đạo của hậu vận (từ khoảng 30 tuổi). Linh Tinh: âm thầm, cố chấp, quyết liệt khi cần; hãy giữ tinh thần thoải mái.",

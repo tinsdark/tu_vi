@@ -46,7 +46,7 @@ export function luanNen(id: NenId, ls: LaSo, bc: BaoCao | null): LuanNen {
       return { tieu_de: "Cục mệnh", du_kien: `${HANH_CUC[ls.cuc.hanh]} ${SO_CUC[ls.cuc.so]} cục`, doan: [D.cuc[ls.cuc.hanh] as string, `${quanHeCucMenh(ls.cuc.hanh, ls.ban_menh)}.`] };
     case "chu_menh": {
       const sao = chuMenh(ls);
-      return { tieu_de: "Chủ mệnh", du_kien: sao, doan: [D.chu_menh[sao] as string], ghi_chu: "Chủ mệnh tra theo chi năm sinh." };
+      return { tieu_de: "Chủ mệnh", du_kien: sao, doan: [D.chu_menh[sao] as string], ghi_chu: "Chủ mệnh tra theo chi của cung Mệnh (khác với chính tinh thủ Mệnh). Một số nguồn tra theo chi năm sinh." };
     }
     case "chu_than": {
       const sao = chuThan(ls);

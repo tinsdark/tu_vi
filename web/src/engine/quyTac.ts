@@ -25,9 +25,10 @@ export const NHAN_TIN_CAY: Record<TinCay, string> = {
 const urls = (x: unknown): string[] => (typeof x === "string" ? x.match(/https?:\/\/[^\s,;)"']+/g) ?? [] : []);
 
 const TINH: Record<string, [string, string]> = {
-  NEN: ["Nền: Mệnh – Cục, âm dương, sao chủ Mệnh", "Quan hệ ngũ hành Bản Mệnh với Cục và với chính tinh chủ Mệnh; âm dương nam nữ thuận hay nghịch lý. Quy tắc phổ thông do AI tổng hợp."],
+  NEN: ["Nền: Mệnh – Cục, âm dương, chính tinh thủ Mệnh", "Quan hệ ngũ hành Bản Mệnh với Cục và với chính tinh thủ Mệnh (không phải \"Chủ mệnh\" ở ô giữa lá số); âm dương nam nữ thuận hay nghịch lý. Quy tắc phổ thông do AI tổng hợp."],
   THAN: ["Cung Thân", "Thân cư cung nào và so sánh điểm nội tại của Mệnh với cung Thân cư để nói tiền vận / hậu vận."],
   VCD: ["Cung vô chính diệu", "Cung không có chính tinh thì mượn chính tinh cung xung chiếu, giảm lực (hệ số trong cau_hinh_luan_giai.json); kèm ghi chú riêng theo cung (Tử Tức: con muộn/ít; Huynh Đệ: anh chị em ít gần gũi). Không tự động là xấu."],
+  VCD_TT: ["Vô chính diệu gặp Tuần/Triệt", "Cung không có chính tinh (mượn sao xung chiếu, đã giảm lực) lại bị Tuần/Triệt: điểm của cung gần như chỉ đến từ cát tinh chiếu từ các cung khác nên độ vững thấp hơn con số hiển thị. Chỉ là lời lưu ý, không đổi điểm; riêng cung Mệnh không áp dụng vì truyền thống coi Mệnh vô chính diệu đắc Tuần/Triệt là thế khác."],
   TT: ["Tuần / Triệt", "Tuần, Triệt làm giảm lực các sao trong cung; Triệt mạnh trước ~30 tuổi, Tuần mạnh sau ~30 tuổi."],
   PHI_TUYEN: ["Sát tinh quanh cung", "Câu cảnh báo sinh từ sát tinh thật: ở bản cung, ở xung/hội chiếu, hoặc cả hai (kèm cung nguồn). Điểm sát trong công thức v3: bản cung −5 · xung −3 · tam hợp −2, nhân trạng thái (hãm ×1.3, đắc ×0.5), cap tổng −30. Hằng số là giá trị khởi điểm để tune, không có sách nào ghi con số."],
   XD: ["Tín hiệu trái chiều trong cung", "Khi các sao của một cung nói ngược nhau về cùng một mặt (VD số lượng anh chị em: có sao báo đông, có sao báo ít), web không chọn bên nào mà gộp thành một câu và liệt kê sao đã báo từng hướng. Các câu gốc được ghi ở dòng \"Câu gốc được gộp\", không ảnh hưởng điểm. Danh sách trục nằm ở data/knowledge/truc_luan.json (sinh bởi tools/sinh_truc_luan.py), hiện là bản AI soạn, cần người review."],
@@ -134,6 +135,7 @@ export function moTaDieuKien(dk: Record<string, any>, cap = 0): { cap: number; t
   if (dk.dem) return L(`có từ ${dk.dem.toi_thieu} sao trở lên trong ${sao(dk.dem.nhom ?? dk.dem.dem)}${dk.dem.o ? ` ${VUNG[dk.dem.o] ?? dk.dem.o}` : ""}`);
   if ("chi" in dk) return L(`cung đóng ở: ${(dk.chi as string[]).join(", ")}`);
   if ("vcd" in dk) return L(dk.vcd ? "cung không có chính tinh (vô chính diệu)" : "cung có chính tinh");
+  if ("than_cu" in dk) return L(dk.than_cu ? "cung này là cung Thân cư (Thân an ở đây)" : "cung này không phải cung Thân cư");
   if (dk.sang) return L(`${dk.sang.sao} có độ sáng ${(dk.sang.thuoc as string[]).join("/")}`);
   if (dk.sao_tai_chi) return L(`${dk.sao_tai_chi.sao} đóng ở ${(dk.sao_tai_chi.chi as string[]).join(", ")}`);
   if ("tuan_triet" in dk) return L(dk.tuan_triet ? "cung bị Tuần hoặc Triệt" : "cung không bị Tuần/Triệt");

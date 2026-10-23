@@ -13,7 +13,8 @@
       "tuan_triet": "cung bị Tuần hoặc Triệt",
       "can_nam": "danh sách can năm sinh",
       "all / any / not": "logic",
-      "vung_trung": "[o1, o2] — hai vùng trùng nhau (VD Mệnh = Thân)"
+      "vung_trung": "[o1, o2] — hai vùng trùng nhau (VD Mệnh = Thân)",
+      "than_cu": "true/false — cung đang xét là cung Thân cư (Thân an ở cung này)"
     },
     "nguon": "Tên cách và ý nghĩa: kiến thức phổ thông tử vi (AI tổng hợp). xac_nhan_web = có trang web tiếng Việt nêu tên/điều kiện cách này (link kèm theo); false = chỉ từ kiến thức tự có, cần đối chiếu.",
     "trang_thai": "da_gan_nguon_mot_phan",
@@ -1596,7 +1597,8 @@
       "diem": -1,
       "diem_pha": 0,
       "linh_vuc": [
-        "hon_nhan"
+        "hon_nhan",
+        "tinh_cam"
       ],
       "ket_luan": "Hôn nhân nhiều biến động; nên kết hôn muộn.",
       "ket_luan_pha": "Có Tuần Triệt: biến động giảm.",
@@ -1967,6 +1969,194 @@
       ],
       "ket_luan": "Phúc dày, sống thọ, tinh thần an ổn.",
       "xac_nhan_web": false
+    },
+    {
+      "id": "CC58",
+      "ten": "Phu Thê có từ 2 tứ sát (Kình/Đà/Hỏa/Linh) đồng cung",
+      "loai": "hung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "dem": {
+          "nhom": "tu_sat",
+          "toi_thieu": 2,
+          "o": "ban_cung"
+        }
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1.5,
+      "diem_pha": -0.5,
+      "linh_vuc": [
+        "hon_nhan",
+        "tinh_cam"
+      ],
+      "ket_luan": "Phu Thê đồng cung từ 2 sát tinh (Kình/Đà/Hỏa/Linh): tình duyên dễ trắc trở, đến muộn, hay sóng gió hoặc phải qua một lần dang dở rồi mới yên; nên kết hôn muộn và chọn người kỹ.",
+      "ket_luan_pha": "Có Tuần/Triệt: sát khí giảm bớt, trắc trở nhẹ hơn nhưng vẫn nên kết hôn muộn và chọn người kỹ.",
+      "xac_nhan_web": false,
+      "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
+    },
+    {
+      "id": "CC59",
+      "ten": "Thân cư Phu Thê gặp từ 2 lục sát",
+      "loai": "hung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "all": [
+          {
+            "than_cu": true
+          },
+          {
+            "dem": {
+              "nhom": "luc_sat",
+              "toi_thieu": 2,
+              "o": "tam_phuong"
+            }
+          }
+        ]
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "hon_nhan",
+        "tinh_cam"
+      ],
+      "ket_luan": "Thân cư Phu Thê mà gặp từ 2 lục sát trong tam phương: nửa đời sau gắn chặt với hôn nhân nhưng đường tình nhiều thử thách, sướng khổ phần lớn do chuyện vợ chồng; đừng vội, chọn bạn đời kỹ.",
+      "xac_nhan_web": false,
+      "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
+    },
+    {
+      "id": "CC60",
+      "ten": "Lộc Tồn ngộ Không/Kiếp/Tuần/Triệt (Huynh Đệ)",
+      "loai": "hung",
+      "pham_vi": "Huynh Đệ",
+      "thanh": {
+        "all": [
+          {
+            "co": "Lộc Tồn"
+          },
+          {
+            "any": [
+              {
+                "co_mot": [
+                  "Địa Không",
+                  "Địa Kiếp"
+                ]
+              },
+              {
+                "tuan_triet": true
+              }
+            ]
+          }
+        ]
+      },
+      "diem": -1.5,
+      "linh_vuc": [
+        "tai",
+        "hop_tac"
+      ],
+      "ket_luan": "Lộc Tồn đồng cung Địa Không/Địa Kiếp hoặc bị Tuần/Triệt: tài khố bị thủng; tình anh em và chuyện hợp tác dễ đứt đoạn, tiền bạc phải rạch ròi, kỵ hùn vốn và cho vay mượn.",
+      "xac_nhan_web": false,
+      "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
+    },
+    {
+      "id": "CC61",
+      "ten": "Lộc Tồn ngộ Không/Kiếp/Tuần/Triệt (Tài Bạch)",
+      "loai": "hung",
+      "pham_vi": "Tài Bạch",
+      "thanh": {
+        "all": [
+          {
+            "co": "Lộc Tồn"
+          },
+          {
+            "any": [
+              {
+                "co_mot": [
+                  "Địa Không",
+                  "Địa Kiếp"
+                ]
+              },
+              {
+                "tuan_triet": true
+              }
+            ]
+          }
+        ]
+      },
+      "diem": -1.5,
+      "linh_vuc": [
+        "tai",
+        "hao"
+      ],
+      "ket_luan": "Lộc Tồn đồng cung Địa Không/Địa Kiếp hoặc bị Tuần/Triệt: lộc bị cắt hoặc phá, tiền vào có nhưng khó giữ; nên tránh đầu cơ và hùn vốn.",
+      "xac_nhan_web": false,
+      "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
+    },
+    {
+      "id": "CC62",
+      "ten": "Lộc Tồn ngộ Không/Kiếp/Tuần/Triệt (Điền Trạch)",
+      "loai": "hung",
+      "pham_vi": "Điền Trạch",
+      "thanh": {
+        "all": [
+          {
+            "co": "Lộc Tồn"
+          },
+          {
+            "any": [
+              {
+                "co_mot": [
+                  "Địa Không",
+                  "Địa Kiếp"
+                ]
+              },
+              {
+                "tuan_triet": true
+              }
+            ]
+          }
+        ]
+      },
+      "diem": -1.5,
+      "linh_vuc": [
+        "tai",
+        "hao"
+      ],
+      "ket_luan": "Lộc Tồn đồng cung Địa Không/Địa Kiếp hoặc bị Tuần/Triệt: tài sản dễ thất thoát, giữ của khó; làm giấy tờ nhà đất thật chặt chẽ, tránh mua bán nóng vội.",
+      "xac_nhan_web": false,
+      "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
+    },
+    {
+      "id": "CC63",
+      "ten": "Thiên Lương hãm gặp Thiên Mã (Lương Mã phiêu đãng)",
+      "loai": "hung",
+      "pham_vi": "Quan Lộc",
+      "thanh": {
+        "all": [
+          {
+            "co": "Thiên Lương"
+          },
+          {
+            "sang": {
+              "sao": "Thiên Lương",
+              "thuoc": [
+                "H"
+              ]
+            }
+          },
+          {
+            "co": "Thiên Mã"
+          }
+        ]
+      },
+      "diem": -1,
+      "linh_vuc": [
+        "su_nghiep",
+        "di_chuyen"
+      ],
+      "ket_luan": "Thiên Lương hãm gặp Thiên Mã: nghề hay biến động, di chuyển, đổi việc, dễ làm xa; hợp công việc linh hoạt (đi lại, tư vấn, chuyên môn) hơn nghề cố định, phát muộn và cần chọn đúng hướng.",
+      "xac_nhan_web": false,
+      "doi_chieu": "Mô hình tự đặt từ kiến thức phổ thông, chưa đối chiếu sách; được thêm sau khi người review chỉ ra lá số mẫu bị luận lạc quan/thiếu (Phu Thê gặp Đà–Linh, Lộc Tồn ngộ Không–Triệt, Lương hãm + Mã). Điểm là hằng số khởi điểm, cần review."
     }
   ]
 }

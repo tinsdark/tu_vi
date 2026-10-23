@@ -88,7 +88,23 @@ Mỗi sao trong cung sinh một câu riêng, nên một cung có thể vừa "an
 - `data/knowledge/truc_luan.json` (sinh bởi `tools/sinh_truc_luan.py`, **không sửa tay**; CI chạy lại và so khác biệt) liệt kê, cho từng cung, các **trục** mà hai phía loại trừ nhau (số lượng, hòa khí, giúp đỡ, giữ của…) kèm các câu luận thuộc phía dương/âm. Cặp có thể cùng tồn tại (hiếu thảo + ham chơi) thì **không** là trục.
 - Khi một trục có cả câu dương lẫn câu âm ở cùng cung: các câu gốc bị ẩn (`an: true`, vẫn nằm trong `nhan_dinh` nên **điểm và phép đếm §4.8 không đổi**), thay bằng một câu `XD.<cung>.<trục>` ("… các sao tác động lên cung này nói ngược nhau — đông (Thiên Phủ) và ít (Vũ Khúc, Lộc Tồn); nên không kết luận chắc"), xếp vào "lưu ý cấu trúc", `ly_do` ghi các câu gốc.
 - Câu có điều kiện ("…; nếu gặp sát tinh thì…") chỉ xét vế trước dấu `;`; câu âm đã nhẹ nhàng hóa ("có lúc", "có phần") không tạo trái chiều.
+- **Cách cục thắng câu đơn lẻ:** nếu đúng một phía của trục có cách cục (đọc theo cụm sao), các câu của từng sao ở phía ngược lại bị ẩn (thay vì gộp trái chiều) và được ghi vào `ly_do` của cách. Ví dụ Phu Thê có cách "≥2 tứ sát" thì "duyên sớm", "êm đềm" của từng sao không đứng cạnh nó. Cách có điều kiện ("…nếu…") không đủ chắc để thắng. Trục "hai mặt cùng tồn tại" (Mệnh: cương nhu, đổi mới ↔ cứng nhắc) có mẫu câu riêng thay vì "không kết luận chắc".
 - **Giới hạn:** danh sách trục là bản AI soạn (12 cung, 1–3 trục mỗi cung), chưa được người review; chưa xét mâu thuẫn **giữa các cung** trong một chủ đề. Test: `test_cau_cung_cung_mot_cung_khong_noi_nguoc_nhau`.
+
+### 3c. Sửa sau khi người review phân tích lá số Quý Mùi (Âm Nữ, Mệnh Sửu, Thân cư Phu Thê)
+
+Người review chỉ ra lỗi bằng cách so với một bản luận tay; mỗi mục dưới đây có assertion trong `test_la_so_review_quy_mui_nu`:
+
+- **Phụ tinh ±1 không hiện** (60/81 sao trên lá số mẫu): code chỉ in câu của phụ tinh khi |điểm| ≥ 2 dù dữ liệu có sẵn câu cho cả 81 sao. Nay hiện thành "sao phụ" (`nho: true`, danh sách trong `cau_hinh_luan_giai.json → sao_nho`): **không** tính vào điểm mạnh/yếu hay phép đếm §4.8 (đo trên 400 lá số: điểm không đổi), thẻ chủ đề có mục "Sao phụ đáng chú ý" (tối đa 5 sao/cung, sắp theo ưu tiên: Thiên Mã, Hư, Khốc, Diêu, Hình…), tab 12 cung gập "Sao phụ khác". Hai vòng nền Bác Sĩ, Thái Tuế bỏ qua.
+- **Cách cục thiếu:** thêm CC58 (Phu Thê ≥2 tứ sát), CC59 (Thân cư Phu Thê ≥2 lục sát; DSL mới `than_cu`), CC60–62 (Lộc Tồn ngộ Không/Kiếp/Tuần/Triệt ở Huynh Đệ/Tài Bạch/Điền Trạch), CC63 (Lương hãm + Mã). Điểm là hằng số khởi điểm, mô hình tự đặt (xám). Đo trên 400 lá số: 2–4% lá số đổi, mỗi lần −5 điểm, đúng ở cung có cụm sao xấu.
+- **Lỗi hiển thị cách cục:** CC46 gắn nhãn `hon_nhan` mà chủ đề Tình cảm chỉ nhận `tinh_cam` nên không bao giờ hiện; vá nhãn. Ngoài ra thẻ chủ đề lấy 3 câu điểm lớn nhất nên cách cục (điểm nhỏ) luôn bị câu từng sao đẩy ra → nay cách cục đứng trước (`chonTop`).
+- **Câu dẫn:** tách sao "tại cung" và sao "chiếu từ cung khác" (không còn "quanh"), và nói hướng nghiêng ("hạn chế nặng hơn điểm sáng") để "hai mặt cùng tồn tại" không nuốt cảnh báo.
+- **Tiền vận/hậu vận:** không còn nói "tương đương" trơn khi Mệnh bị Triệt (tiền vận cản) hoặc có Tuần (hậu vận cản).
+- **Vô chính diệu + Tuần/Triệt** (trừ Mệnh): thêm lưu ý `VCD_TT` rằng điểm dựa chủ yếu vào sao chiếu nên độ vững thấp hơn con số; **không đổi điểm** (Tài Bạch lá số mẫu vẫn 70, có bảng "Vì sao ra con số này?" ở tab 12 cung để người review thấy từng khoản).
+- **Câu mâu thuẫn xuyên cung:** bỏ vế "bạn có duyên hùn vốn" của Hóa Lộc ở Tử Tức (ngược với cảnh báo Lộc Tồn ngộ Không ở Huynh Đệ).
+- **Chủ mệnh / "sao chủ Mệnh":** xem docs/10 mục Chủ mệnh.
+
+**Còn mở (cần người quyết):** (1) Tài Bạch 70/100 khi cung vô chính diệu + Tuần: giữ công thức vì đổi hằng số không có căn cứ; (2) ~30 cách cục của cung Mệnh gắn nhãn nghề/tài chỉ hiện ở tab 12 cung, không vào mục Sự nghiệp/Tài chính (thiết kế các mục chỉ lấy cung chủ); (3) Điền Trạch, Thiên Di, Phúc Đức không thuộc chủ đề nào nên cách của chúng chỉ ở tab 12 cung.
 
 ## 4. Hạn chế — nói thẳng
 

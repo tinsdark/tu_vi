@@ -42,10 +42,13 @@ export function laiNhan(ls: LaSo): string {
   return "";
 }
 
-// Theo chi năm sinh. Chủ mệnh: mới đối chiếu 1 lá số (Mùi → Vũ Khúc), phần còn lại theo bảng truyền thống.
+// Chủ mệnh tra theo chi CUNG MỆNH (Mệnh Sửu → Cự Môn): cách của iztro và bảng truyền thống Trung Hoa. Chủ thân tra theo chi NĂM SINH.
+// Lưu ý: tracuutuvi.com tra chủ mệnh theo chi năm sinh (Mùi → Vũ Khúc) nên hai bên lệch nhau ở nhiều lá số; các nguồn bất đồng
+// (lasotuvi tra theo biến canNam, iztro theo cung Mệnh). Đổi CHU_MENH_THEO để quay về cách tracuutuvi.
+export const CHU_MENH_THEO: "cung_menh" | "chi_nam" = "cung_menh";
 const CHU_MENH = ["", "Tham Lang", "Cự Môn", "Lộc Tồn", "Văn Khúc", "Liêm Trinh", "Vũ Khúc", "Phá Quân", "Vũ Khúc", "Liêm Trinh", "Văn Khúc", "Lộc Tồn", "Cự Môn"];
 const CHU_THAN = ["", "Linh Tinh", "Thiên Tướng", "Thiên Lương", "Thiên Đồng", "Văn Xương", "Thiên Cơ", "Hỏa Tinh", "Thiên Tướng", "Thiên Lương", "Thiên Đồng", "Văn Xương", "Thiên Cơ"];
-export const chuMenh = (ls: LaSo): string => CHU_MENH[CHI.indexOf(ls.input.chi_nam)];
+export const chuMenh = (ls: LaSo): string => CHU_MENH[CHU_MENH_THEO === "cung_menh" ? ls.menh : CHI.indexOf(ls.input.chi_nam)];
 export const chuThan = (ls: LaSo): string => CHU_THAN[CHI.indexOf(ls.input.chi_nam)];
 
 const VIET_TAT = ["", "G", "Ấ", "B", "Đ", "M", "K", "C", "T", "N", "Q"];

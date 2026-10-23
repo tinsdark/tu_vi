@@ -114,7 +114,7 @@ So từng ô 12 cung với 1 PDF của tracuutuvi.com (Quý Mùi, 11/5/2003 14:4
 - **Vị trí sao: khớp 100%** (chính tinh, phụ tinh, vòng sao, Tuần/Triệt, sao lưu niên).
 - **Sai thật, đã sửa:** lưu nguyệt. Web mẫu khởi tháng Giêng từ **cung tiểu hạn**, engine cũ khởi từ cung Thái Tuế. Nay mặc định `profile.luu_nguyet = "tieu_han"`, dị bản `thai_tue`. Test `thongtin.test.ts` khớp 4 ô `Th.n` của PDF. Mới có 1 lá số đối chiếu.
 - **Thiếu hiển thị, đã thêm** (không đổi luận giải): can chi từng cung, màu sao theo ngũ hành (có công tắc về xanh/đỏ), `(Đ)(H)…` cho mọi sao có độ sáng, sao lưu niên bật mặc định và có trong ảnh PNG/SVG, chi năm tiểu hạn + `Th.n` ở chân ô, ô giữa (nạp âm, quan hệ Cục–Mệnh, can chi tháng/ngày/giờ, chủ mệnh/chủ thân, lai nhân, thân cư).
-- **Chưa chắc:** chủ mệnh (theo chi năm sinh, khớp 1 lá số; bảng truyền thống theo cung Mệnh sẽ cho kết quả khác), cách viết quan hệ Cục–Mệnh khi không phải "sinh".
+- **Chủ mệnh — các nguồn bất đồng, đã đổi mặc định:** web tra Chủ mệnh theo **chi của cung Mệnh** (Mệnh Sửu → Cự Môn; cách của iztro và bảng truyền thống), Chủ thân theo chi năm sinh. tracuutuvi.com tra Chủ mệnh theo chi năm sinh (Mùi → Vũ Khúc; khớp 2 lá số mẫu) và lasotuvi tra theo biến `canNam` (có vẻ lỗi) nên các bên lệch nhau ở nhiều lá số. Đổi `CHU_MENH_THEO` trong `web/src/engine/thongTin.ts` để quay về cách tracuutuvi. "Chủ mệnh" khác với **chính tinh thủ Mệnh** (Thái Dương/Thái Âm ở lá số mẫu); giao diện không còn gọi chính tinh thủ Mệnh là "sao chủ Mệnh".
 - **Còn lệch:** Văn Xương tại Mão (web mẫu: Đắc, ta: Bình, chưa đủ 2 nguồn). **Chưa làm:** cân lượng (thiếu bảng tháng/ngày đã kiểm).
 
 ### Lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam)
@@ -127,4 +127,4 @@ Vị trí sao, can chi cung, chi năm tiểu hạn (nữ nghịch), `Th.n`, lai 
 
 ### Lá số mẫu thứ 4 (dương nữ, Giáp Thân, 11/1/2005 6:30 = 2/12/2004 âm)
 
-Khớp: vị trí sao, can chi cung, chi năm tiểu hạn, `Th.n`, lai nhân (Mệnh), chủ mệnh Liêm Trinh và chủ thân Thiên Lương (theo chi năm sinh Thân — xác nhận chủ mệnh theo chi năm, không theo cung Mệnh), "Mệnh Thủy khắc Cục Hỏa", cân lượng 3 lượng 0 chỉ (cân lượng nay khớp 4/4, có cả năm Giáp). Còn lệch chỉ ở nhãn độ sáng, đã ghi vào `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`: Thiên Hình web mẫu ghi Hãm ở Thân (lasotuvi: Đắc), Thiên Hư Dần Hãm, Hóa Kỵ luôn Hãm, Hóa Quyền Đắc ở Tuất nhưng Hãm ở Tý/Thân.
+Khớp: vị trí sao, can chi cung, chi năm tiểu hạn, `Th.n`, lai nhân (Mệnh), chủ mệnh Liêm Trinh theo chi năm Thân (cách tracuutuvi; nay web mặc định tra theo cung Mệnh nên cho Lộc Tồn, xem mục "Chủ mệnh" ở trên) và chủ thân Thiên Lương, "Mệnh Thủy khắc Cục Hỏa", cân lượng 3 lượng 0 chỉ (cân lượng nay khớp 4/4, có cả năm Giáp). Còn lệch chỉ ở nhãn độ sáng, đã ghi vào `data/doi_chieu/tracuutuvi_do_sang_quan_sat.json`: Thiên Hình web mẫu ghi Hãm ở Thân (lasotuvi: Đắc), Thiên Hư Dần Hãm, Hóa Kỵ luôn Hãm, Hóa Quyền Đắc ở Tuất nhưng Hãm ở Tý/Thân.

@@ -126,6 +126,29 @@ function nenChu(cung: string, kq: BaoCao): string {
   return ds.length ? `${noi(ds)} ở cung ${cung}` : `cung ${cung}`;
 }
 
+/** Lưu ý cấu trúc đưa vào văn xuôi: bỏ VCD (đã nói ở câu mở) và VCD_TT (lời lưu ý về điểm số, chỉ hiện ở thẻ), chỉ giữ 1 câu "trái chiều" (XD.*) để đoạn không phình (R7). */
+function khungVan(cd: KetQuaChuDe, daDung: Set<string>): NhanDinh[] {
+  let xd = 0;
+  return cd.luu_y.filter((n) => {
+    if (n.id === "VCD" || n.id === "VCD_TT" || daDung.has(n.id + n.nhan_dinh)) return false;
+    return !n.id.startsWith("XD.") || ++xd <= 1;
+  });
+}
+
+/** Một phụ tinh nhỏ (Thiên Mã, Thiên Khốc…) quan trọng nhất của mục (đã sắp theo ưu tiên): nêu tên sao và mang đúng mã của nó.
+ *  Chỉ 1 câu để đoạn không phình (R7); danh sách đầy đủ vẫn hiện ở thẻ chủ đề. */
+function cauSaoNho(cd: KetQuaChuDe, daDung: Set<string>): string[] {
+  const out: string[] = [];
+  for (const n of cd.sao_nho) {
+    if (out.length >= 1) break;
+    const k = JSON.stringify([n.id, n.nhan_dinh]);
+    if (daDung.has(k)) continue;
+    daDung.add(k);
+    out.push(cau(`Sao phụ ${n.id.split(".")[1]} cũng đáng để ý: ${thuong(menhDe(n))}`, n.id));
+  }
+  return out;
+}
+
 function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>): string | null {
   const bang = triThuc().keChuyen;
   const kc = bang.chu_de[ten];
@@ -143,7 +166,7 @@ function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<stri
   // mô tả trung tính của chính tinh chỉ đưa vào khi nền tốt (khi nền yếu, câu đó có thể là mặt hạn chế đã được Hóa cát "cứu")
   const mua = chon(moi(nenYeu ? [...cd.diem_manh] : [...cd.trung_tinh, ...cd.diem_manh]), 2, 1);
   const canh = chon(moi([...cd.diem_yeu]), 1, -1);
-  const khung = cd.luu_y.filter((n) => n.id !== "VCD" && !daDung.has(n.id + n.nhan_dinh));
+  const khung = khungVan(cd, daDung);
   khung.forEach((n) => daDung.add(n.id + n.nhan_dinh));
 
   const s: string[] = [cau((kc.mo_dau[hd] as string).replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma)];
@@ -158,6 +181,7 @@ function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<stri
 
   const loai = canh[0] ? loaiCanh(canh[0], bang.nhom_sao, kc.nhom_rieng) : "";
   const viec = canh[0] ? kc.viec_nen_lam[loai] ?? kc.viec_nen_lam.chung : kc.tan_dung;
+  s.push(...cauSaoNho(cd, daDung));
   s.push(cau(`${canh[0] ? "Việc nên làm" : "Gợi ý"}: ${viec}`, canh[0]?.id ?? ma));
   return s.join(" ");
 }
@@ -170,7 +194,7 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
   const nen = cauNen(ten, cd, kq);
   if (nen) s.push(nen);
   // khung cung + chính tinh mô tả (nền tảng)
-  const khung = cd.luu_y.filter((n) => n.id !== "VCD" && !daDung.has(n.id + n.nhan_dinh));
+  const khung = khungVan(cd, daDung);
   khung.forEach((n) => daDung.add(n.id + n.nhan_dinh));
   const trung = cd.trung_tinh.filter((n) => !daDung.has(n.id + n.nhan_dinh));
   trung.forEach((n) => daDung.add(n.id + n.nhan_dinh));
@@ -195,6 +219,7 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
       if (hung.length) hungCau.push({ goi, t: thuong(menhDe(hung[0])), id: hung[0].id });
     }
     s.push(...sangCau);
+    s.push(...cauSaoNho(cd, daDung)); // thuộc nhóm "mặt sáng/trung tính": đặt trước phần cần giữ ý
     hungCau.forEach(({ goi, t, id }, i) => {
       const tt = nhac(t, goi) ? t : `về ${goi}, ${t}`;
       s.push(cau(i === 0 ? (sangCau.length ? `Ngược lại, ${tt}` : `Cần lưu ý, ${tt}`) : i === 1 ? `Còn ${tt}` : `Ngoài ra, ${tt}`, id));
@@ -209,6 +234,7 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
   const hung = chon(conDung([...cd.diem_yeu]), 2, -1);
   sang.forEach((n, i) => s.push(cau(i ? `Ngoài ra, ${thuong(menhDe(n))}` : menhDe(n), n.id)));
   hung.forEach((n, i) => s.push(cau(`${i ? "Bên cạnh đó" : sang.length ? "Tuy nhiên" : "Cần lưu ý"}, ${thuong(menhDe(n))}`, n.id)));
+  s.push(...cauSaoNho(cd, daDung)); // sao phụ nêu trước; câu hòa giải luôn là câu cuối đoạn
   if (sang.length && hung.length) s.push(cau(hoaGiai(ten, kq), ma)); // hòa giải đặt SAU khi đã nêu cả hai mặt
   return s.join(" ");
 }
@@ -222,11 +248,11 @@ export const NEN_CUC: Record<string, string> = {
   cuc_khac_menh: "Cục khắc Mệnh, nghĩa là hoàn cảnh có nhiều trở ngại nên cần tu dưỡng và kiên trì.",
 };
 const NEN_SAO: Record<string, (sao: string) => string> = {
-  dong_hanh: (s) => `Sao chủ Mệnh (${s}) cùng hành với bản mệnh, nên mặt tốt của sao được phát huy trọn vẹn.`,
-  sao_sinh_menh: (s) => `Sao chủ Mệnh (${s}) sinh cho bản mệnh, nên bạn được nâng đỡ và dễ nhờ vào tính chất tốt của sao.`,
-  menh_sinh_sao: (s) => `Bản mệnh của bạn nuôi sao chủ Mệnh (${s}), nên bạn làm hết sức nhưng dễ đuối nếu ôm đồm; bù lại sao phát huy được mặt tốt.`,
-  sao_khac_menh: (s) => `Sao chủ Mệnh (${s}) khắc bản mệnh, nên mặt tốt của sao bị giảm bớt và bạn dễ chịu áp lực từ chính tính chất của sao.`,
-  menh_khac_sao: (s) => `Bản mệnh của bạn kiềm chế được sao chủ Mệnh (${s}), nên bạn kiểm soát tốt tính chất của sao nhưng phần hưởng thụ bị kìm, hơi khắc khổ.`,
+  dong_hanh: (s) => `Chính tinh thủ Mệnh (${s}) cùng hành với bản mệnh, nên mặt tốt của sao được phát huy trọn vẹn.`,
+  sao_sinh_menh: (s) => `Chính tinh thủ Mệnh (${s}) sinh cho bản mệnh, nên bạn được nâng đỡ và dễ nhờ vào tính chất tốt của sao.`,
+  menh_sinh_sao: (s) => `Bản mệnh của bạn nuôi chính tinh thủ Mệnh (${s}), nên bạn làm hết sức nhưng dễ đuối nếu ôm đồm; bù lại sao phát huy được mặt tốt.`,
+  sao_khac_menh: (s) => `Chính tinh thủ Mệnh (${s}) khắc bản mệnh, nên mặt tốt của sao bị giảm bớt và bạn dễ chịu áp lực từ chính tính chất của sao.`,
+  menh_khac_sao: (s) => `Bản mệnh của bạn kiềm chế được chính tinh thủ Mệnh (${s}), nên bạn kiểm soát tốt tính chất của sao nhưng phần hưởng thụ bị kìm, hơi khắc khổ.`,
 };
 
 function cauNenLaSo(n: NhanDinh): string {

@@ -199,6 +199,7 @@ export function TabTongQuan({ bc, nhap, nc }: { bc: BaoCao; nhap: NhapLieu; nc: 
               {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} /></>)}
               {cd.diem_manh.length > 0 && (<><h4 className="tot">Điểm mạnh</h4><DanhSachNhanDinh ds={cd.diem_manh} /></>)}
               {cd.diem_yeu.length > 0 && (<><h4 className="xau">Cần lưu ý</h4><DanhSachNhanDinh ds={cd.diem_yeu} /></>)}
+              {cd.sao_nho.length > 0 && (<><h4>Sao phụ đáng chú ý</h4><DanhSachNhanDinh ds={cd.sao_nho} /></>)}
             </div>
           </details>
         ))}
@@ -211,7 +212,7 @@ export function TabTongQuan({ bc, nhap, nc }: { bc: BaoCao; nhap: NhapLieu; nc: 
           {nc.bo.ghi_chu && <p className="mo">{nc.bo.ghi_chu}</p>}
         </Khoi>
       )}
-      <Khoi tieuDe="Nền của lá số" ghiChu="Mệnh – Cục, âm dương và sao chủ Mệnh.">
+      <Khoi tieuDe="Nền của lá số" ghiChu="Mệnh – Cục, âm dương và chính tinh thủ Mệnh.">
         <DanhSachNhanDinh ds={bc.nen} />
       </Khoi>
       <Khoi tieuDe={`Cung Thân (cư ${bc.than.cu}, ${bc.than.chi})`}>

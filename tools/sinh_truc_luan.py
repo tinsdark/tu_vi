@@ -22,7 +22,8 @@ GOC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KB = os.path.join(GOC, "data", "knowledge")
 RA = os.path.join(KB, "truc_luan.json")
 
-# (id trục, tên hiển thị, nhãn phía dương, nhãn phía âm, regex dương, regex âm)
+# (id trục, tên hiển thị, nhãn phía dương, nhãn phía âm, regex dương, regex âm[, mẫu câu riêng])
+# Mẫu riêng (có {duong} {sao_duong} {am} {sao_am}) dùng cho trục mà hai phía có thể cùng tồn tại như một nét hai mặt (cương nhu kiêm bị) thay vì loại trừ nhau.
 # Chỉ đưa vào trục những cặp THẬT SỰ loại trừ nhau (đông ↔ ít, hòa thuận ↔ bất hòa); hai nét tính cách có thể cùng tồn tại
 # (hiếu thảo + ham chơi) thì KHÔNG tạo trục, tránh báo "trái chiều" oan.
 TRUC = {
@@ -49,9 +50,9 @@ TRUC = {
     ],
     "Phu Thê": [
         ("hoa_hop", "Hòa hợp vợ chồng", "êm đềm, hòa hợp", "sóng gió, xung đột",
-         r"êm đềm|êm ấm|hỗ trợ bạn một cách thầm lặng|giúp đỡ đắc lực|hôn nhân của bạn có duyên", r"sóng gió|xung đột|to tiếng|lạnh nhạt|(?<!tránh )hiểu lầm|va chạm|chia ly|xa cách|hụt hẫng"),
+         r"êm đềm|êm ấm|hỗ trợ bạn một cách thầm lặng|giúp đỡ đắc lực|hôn nhân của bạn có duyên|quan tâm, chăm sóc", r"sóng gió|trắc trở|xung đột|to tiếng|lạnh nhạt|(?<!tránh )hiểu lầm|va chạm|chia ly|xa cách|hụt hẫng|buồn lo|ít chia sẻ|xen vào"),
         ("thoi_diem", "Thời điểm kết hôn", "duyên sớm", "đến muộn, chậm",
-         r"duyên sớm", r"đến muộn|muộn thì mới bền|cưới hỏi thường chậm"),
+         r"duyên sớm", r"đến muộn|muộn thì mới bền|cưới hỏi thường chậm|dây dưa|kết hôn muộn"),
         ("tuoi_doi", "Tuổi của bạn đời", "hơn tuổi bạn", "trẻ hơn bạn", r"hơn tuổi", r"trẻ hơn"),
     ],
     "Tật Ách": [
@@ -81,7 +82,7 @@ TRUC = {
     ],
     "Quan Lộc": [
         ("on_dinh", "Công việc ổn định hay thăng trầm", "ổn định", "thất thường, thăng trầm",
-         r"(?<!chưa )ổn định", r"thất thường|thay đổi công việc liên tục|thăng trầm|lên xuống|nhanh lên nhanh xuống"),
+         r"(?<!chưa )ổn định", r"thất thường|thay đổi công việc liên tục|thăng trầm|lên xuống|nhanh lên nhanh xuống|biến động|đổi việc"),
     ],
     "Thiên Di": [
         ("thuan_loi", "Ra ngoài thuận lợi hay hao tổn", "có lợi, thuận lợi", "hao tán, mất mát, không thuận",
@@ -97,9 +98,11 @@ TRUC = {
     ],
     "Mệnh": [
         ("tinh_nong", "Tính nóng hay hiền hòa", "hiền hòa, điềm đạm", "nóng nảy, cương cường",
-         r"hiền hòa|dịu dàng|điềm đạm", r"nóng nảy|cương cường|quyết liệt|nóng;"),
+         r"hiền hòa|dịu dàng|điềm đạm", r"nóng nảy|cương cường|quyết liệt|nóng;",
+         "Tính cách vừa {duong} ({sao_duong}) vừa {am} ({sao_am}): cương nhu kiêm bị, tùy hoàn cảnh mà nét nào trội; nên luyện cách tiết chế nét nóng."),
         ("doi_moi", "Đổi mới hay cứng nhắc", "tiên phong, dám đổi mới", "cứng nhắc, bảo thủ",
-         r"tiên phong|dám đổi mới", r"cứng nhắc|bảo thủ"),
+         r"tiên phong|dám đổi mới", r"cứng nhắc|bảo thủ",
+         "Vừa {duong} ({sao_duong}) vừa {am} ({sao_am}): dám bứt phá nhưng dễ cứng nhắc khi đã chọn hướng; nên giữ sự linh hoạt."),
         ("giu_cua", "Giữ của hay hao tán", "biết giữ của, tài lộc bền", "dễ hao tán",
          r"biết giữ của|tài lộc bền", r"hao tán|tiêu xài vượt"),
     ],
@@ -117,7 +120,7 @@ def cau_dau(t):
 
 def ve_dau(t):
     """Vế khẳng định chính: trước dấu ';' (sau ';' thường là điều kiện "nếu gặp sát tinh thì…", không phải khẳng định)."""
-    return cau_dau(t).split(";")[0].lower()
+    return re.sub(r"^\[[^\]]*\]\s*", "", cau_dau(t)).split(";")[0].lower()   # bỏ '[Tên cách]' để tên không bị tính là nội dung
 
 
 def nap(ten):
@@ -125,9 +128,21 @@ def nap(ten):
         return json.load(f)
 
 
-def cau_cua_cung(cung, ma_tran, phu_cung, cfg):
-    """Mọi câu luận có thể xuất hiện ở `cung` (cùng nguồn với LuanGiai.cham_cung)."""
+def cau_cach(cung, cach):
+    """Câu của các cách cục có pham_vi = `cung` (đúng định dạng LuanGiai.cham_cung in ra: '[Tên] kết luận')."""
     out = set()
+    for cc in cach:
+        if cc.get("pham_vi", "Mệnh") != cung:
+            continue
+        out.add(f"[{cc['ten']}] {cc['ket_luan']}")
+        pha = cc.get("ket_luan_pha") or f"Gặp từ 2 sát tinh/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều. {cc['ket_luan']}"
+        out.add(f"[{cc['ten']} — PHÁ CÁCH] {pha}")
+    return out
+
+
+def cau_cua_cung(cung, ma_tran, phu_cung, cfg, cach):
+    """Mọi câu luận có thể xuất hiện ở `cung` (cùng nguồn với LuanGiai.cham_cung)."""
+    out = cau_cach(cung, cach)
     for sao, theo in ma_tran.items():
         if cung in theo:
             out.update(x for x in theo[cung][1:] if x)
@@ -148,13 +163,16 @@ def sinh():
     ma_tran = nap("chinh_tinh_tai_cung_chuc.json")["ma_tran"]
     phu_cung = nap("phu_tinh_tai_cung_chuc.json")["sao"]
     cfg = nap("cau_hinh_luan_giai.json")
+    cach = nap("cach_cuc.json")["cach"]
     ket, loi = {}, []
     for cung, ds in TRUC.items():
-        cau = cau_cua_cung(cung, ma_tran, phu_cung, cfg)
+        cau = cau_cua_cung(cung, ma_tran, phu_cung, cfg, cach)
         ket[cung] = []
-        for tid, ten, nd, na, rd, ra in ds:
+        for tid, ten, nd, na, rd, ra, *xd in ds:
             d, a = [], []
             for c in cau:
+                if c.startswith("[") and " nếu " in c:       # cách có điều kiện ("…nếu Mệnh cũng có cát tinh") không đủ chắc để thắng câu đơn lẻ
+                    continue
                 v = ve_dau(c)
                 p, n = bool(re.search(rd, v)), bool(re.search(ra, v)) and not NHE.search(v)
                 if p and n:
@@ -163,7 +181,10 @@ def sinh():
                     d.append(c)
                 elif n:
                     a.append(c)
-            ket[cung].append({"id": tid, "ten": ten, "duong": {"nhan": nd, "cau": d}, "am": {"nhan": na, "cau": a}})
+            muc = {"id": tid, "ten": ten, "duong": {"nhan": nd, "cau": d}, "am": {"nhan": na, "cau": a}}
+            if xd:
+                muc["xd"] = xd[0]
+            ket[cung].append(muc)
     return ket, loi
 
 

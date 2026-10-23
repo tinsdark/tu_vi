@@ -388,7 +388,7 @@ def test_tinh_cach_co_ca_hai_mat_khi_menh_co_sat_dac_dia():
     for _ in range(600):
         nam, ls = la_so_ngau_nhien(rnd)
         kq = bao_cao(LuanGiai(ls, tt))
-        dd = [n for n in kq["cung"]["Mệnh"]["nhan_dinh"] if n.get("dao_dau")]
+        dd = [n for n in kq["cung"]["Mệnh"]["nhan_dinh"] if n.get("dao_dau") and not n.get("nho") and not n.get("an")]
         if dd:
             thay += 1
             yeu = kq["chu_de"]["Tính cách"]["diem_yeu"]
@@ -418,6 +418,59 @@ def test_cau_cung_cung_mot_cung_khong_noi_nguoc_nhau():
                     gop += 1
                     assert xd[0]["diem"] == 0 and xd[0]["luu_y"] and any(n.get("an") for n in k["nhan_dinh"])
     assert gop > 100
+
+
+def test_la_so_review_quy_mui_nu():
+    # Lá số do người review phân tích (Âm Nữ, Quý Mùi, dương 14/12/2003 22:00; Mệnh Sửu, Thân cư Phu Thê). Mỗi khẳng định dưới đây là một lỗi họ chỉ ra.
+    tt = TriThuc()
+    ls = an_la_so(**tu_duong_lich(2003, 12, 14, 22, 0, "nu", "bac")["an_sao"])
+    kq = bao_cao(LuanGiai(ls, tt), 2003, 2026)
+    hien = lambda c: [n for n in kq["cung"][c]["nhan_dinh"] if not n.get("an")]
+    ids = lambda c: {n["id"] for n in hien(c)}
+    # (1) Phu Thê / Thân cư: cụm Đà–Linh–Diêu–Khốc phải thành cảnh báo trắc trở, không còn "duyên sớm" hay "êm đềm" đứng như điểm mạnh
+    assert {"CC58", "CC59"} <= ids("Phu Thê")
+    # ... và phải HIỆN ở mục Tình cảm (trước đây cách cục bị câu từng sao đẩy khỏi top 3 nên kết luận chính biến mất)
+    assert "CC58" in {n["id"] for n in kq["chu_de"]["Tình cảm – hôn nhân"]["diem_yeu"]}
+    assert "CC63" in {n["id"] for n in kq["chu_de"]["Sự nghiệp"]["diem_yeu"]}
+    assert "CC60" in {n["id"] for n in kq["chu_de"]["Gia đình"]["diem_yeu"]}
+    txt = " ".join(n["nhan_dinh"] for n in hien("Phu Thê"))
+    assert "duyên sớm" not in txt and "êm đềm" not in txt, txt
+    # (2) Quan Lộc: Lương hãm + Mã → biến động; câu đơn lẻ "ổn định nhưng tiến chậm" không được đứng cạnh nó
+    assert "CC63" in ids("Quan Lộc")
+    assert not any("ổn định" in n["nhan_dinh"] for n in hien("Quan Lộc") if n["id"].startswith("CT."))
+    # (3) Lộc Tồn ngộ Không–Triệt ở Huynh Đệ → kỵ hùn vốn; không còn câu "có duyên hùn vốn" ở Tử Tức
+    assert "CC60" in ids("Huynh Đệ")
+    assert not any("duyên hùn vốn" in n["nhan_dinh"] for c in kq["cung"] for n in kq["cung"][c]["nhan_dinh"])
+    # (4) Tài Bạch vô chính diệu + Tuần: phải có lưu ý độ vững thấp hơn con số
+    assert "VCD_TT" in ids("Tài Bạch")
+    # (5) Mệnh Triệt: không được nói "tiền vận và hậu vận tương đương" trơn
+    cau = kq["than"]["nhan_dinh"][1]["nhan_dinh"]
+    assert "Triệt" in cau and "tương đương" not in cau, cau
+    # (6) Phụ tinh ±1 phải được luận: Thiên Mã ở Quan Lộc, Thiên Khốc/Thiên Diêu ở Phu Thê (không tính điểm)
+    nho = {n["id"] for cd in kq["chu_de"].values() for n in cd["sao_nho"]}
+    assert "PT.Thiên Mã.Quan Lộc" in nho
+    assert {"PT.Thiên Khốc.Phu Thê", "PT.Thiên Diêu.Phu Thê"} <= {n["id"] for n in kq["cung"]["Phu Thê"]["nhan_dinh"] if n.get("nho") or n.get("an")}
+    # (7) câu dẫn nói rõ vị trí (tại / chiếu) và hướng nghiêng — không còn "quanh"
+    cd = kq["chu_de"]["Tình cảm – hôn nhân"]["cau_dan"]
+    assert "quanh" not in cd and "hạn chế nặng hơn" in cd, cd
+
+
+def test_cach_cuc_thang_cau_don_le_va_khong_doi_diem():
+    # cách cục đứng một phía → ẩn câu đơn lẻ phía kia (không tạo XD); sao nhỏ không bao giờ vào điểm mạnh/yếu hay phép đếm
+    tt, rnd, thang, nho = TriThuc(), random.Random(81), 0, 0
+    for _ in range(400):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt))
+        for ten, k in kq["cung"].items():
+            for n in k["nhan_dinh"]:
+                if n["id"].startswith("CC") and "thay cho câu đơn lẻ" in n["ly_do"]:
+                    thang += 1
+        for cd in kq["chu_de"].values():
+            for n in cd["sao_nho"]:
+                nho += 1
+                assert n.get("nho") and not n.get("an"), n["id"]
+            assert not any(n.get("nho") for n in cd["diem_manh"] + cd["diem_yeu"] + cd["trung_tinh"] + cd["luu_y"])
+    assert thang > 5 and nho > 200, (thang, nho)
 
 
 def test_khung_tuan_triet_khong_lap_nguyen_van():
