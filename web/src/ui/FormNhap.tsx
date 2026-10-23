@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { chuanHoaNhap, LUA_CHON_PROFILE, PROFILE_MAC_DINH, QUY_UOC_MAC_DINH, type NhapLieu, type Profile } from "../engine";
 import type { LaSoDaLuu } from "../lib/luuTru";
+import { HIEN_NANG_CAO } from "../lib/tinhNang";
 
 const homNay = new Date();
 const dinhDangNgay = (n: NhapLieu) => `${n.nam}-${String(n.thang).padStart(2, "0")}-${String(n.ngay).padStart(2, "0")}`;
@@ -77,7 +78,7 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
         </label>
       </div>
 
-      <details className="nang-cao">
+      {HIEN_NANG_CAO && <details className="nang-cao">
         <summary>Tùy chọn nâng cao: quy ước giờ/lịch và phái</summary>
         <div className="nang-cao-noi-dung">
           <h4>Quy ước giờ và lịch</h4>
@@ -121,7 +122,7 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
             </label>
           ))}
         </div>
-      </details>
+      </details>}
 
       {loi.length > 0 && (
         <ul className="loi" role="alert">{loi.map((l) => <li key={l}>{l}</li>)}</ul>
