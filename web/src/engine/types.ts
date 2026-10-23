@@ -21,6 +21,13 @@ export interface NhanDinh {
   dao_dau?: boolean;
 }
 
+export interface PhanTichDiem {
+  theo_loai: Record<string, number>;
+  tuan_triet_giam: { tot: number; xau: number };
+  tong_tot: number; tong_xau: number; he_so_pha: number; tru_phi_tuyen: number; diem_cung: number;
+  quy_doi: number; sau_san_tran: number; san: boolean; tran: boolean;
+}
+
 export interface KetQuaCung {
   cung: string;
   chi: string;
@@ -28,11 +35,16 @@ export interface KetQuaCung {
   xep_loai: string;
   /** Điểm nội tại /100 (bội số 5): tương quan giữa các cung của CHÍNH lá số này, không phải percentile so với lá số khác. */
   diem100: number;
+  /** Phân tích điểm: tổng theo loại (chính tinh chủ, phụ tinh cát/sát, cách cục…), phần Tuần/Triệt đã giảm, trừ phi tuyến, quy đổi, sàn/trần. */
+  phan_tich: PhanTichDiem;
   /** Sát tinh ở xung/hội chiếu (nguồn của câu cảnh báo gián tiếp theo chủ đề). */
   sat_xh: { sao: string; cung: string; chi: string; quan_he: QuanHe }[];
   /** Chính tinh miếu/vượng và sát tinh chỉ đến từ xung/hội chiếu → đã áp sàn 'trung bình'. */
   san_chinh_tinh: boolean;
   chinh_tinh_dac: boolean;
+  /** Chính tinh của cung kèm độ sáng (hoặc sao mượn khi vô chính diệu) và cung mượn. */
+  chinh_tinh_sang: [string, string | null][];
+  muon_tu: [string, string] | null;
   chinh_tinh: string[];
   tuan_triet: string[];
   nhan_dinh: NhanDinh[];
@@ -52,6 +64,8 @@ export interface KetQuaChuDe {
   xep_loai: string;
   diem_manh: NhanDinh[];
   diem_yeu: NhanDinh[];
+  /** Câu 'cung chủ': mọi chính tinh của cung chủ kèm độ sáng. */
+  khung: string;
   /** Câu dẫn hòa giải khi chủ đề vừa có điểm sáng mạnh vừa có điểm hung rõ. */
   cau_dan: string | null;
   /** Lưu ý cấu trúc của cung chủ đề (VD vô chính diệu). */

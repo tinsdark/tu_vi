@@ -52,7 +52,7 @@ Nguyên tắc xuyên suốt (rút từ cách các thầy đọc, các nguồn đ
 | Hóa Kỵ | Trừ ở cung nó đóng; **gặp sao hãm càng nặng**; một số vị trí Kỵ đắc (Sửu Mùi Thìn Tuất…) giảm hại |
 | Tuần / Triệt | Giảm lực sao trong cung (mặc định ×0.5). Sao hãm / sát tinh gặp Tuần Triệt → giảm hại (thành tốt tương đối). Triệt nặng ở tiền vận (<30), Tuần nặng hậu vận |
 | Vòng Tràng Sinh | Tràng Sinh, Lâm Quan, Đế Vượng: tăng nhẹ; Bệnh, Tử, Mộ, Tuyệt: giảm nhẹ (hệ số nhỏ 0.1) |
-| Đào Hoa, Hồng Loan, Thiên Riêu | Tình cảm, giao tế; đi với Tham Lang / Liêm Trinh hãm → sa đà |
+| Đào Hoa, Hồng Loan, Thiên Diêu | Tình cảm, giao tế; đi với Tham Lang / Liêm Trinh hãm → sa đà |
 
 ## Lớp 4 — Thời gian
 

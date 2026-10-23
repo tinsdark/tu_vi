@@ -20,13 +20,13 @@
   "vo_chinh_dieu": {
     "muon_xung_chieu": true,
     "he_so": 0.7,
-    "tran_diem100": 70,
+    "tran_diem100": 75,
     "ghi_chu_tran": "Cung vô chính diệu mượn sao xung chiếu 'thiếu trục chính' (đúng như câu luận) nên điểm không được vượt trần này — tránh nhãn 'Tốt' đi kèm câu 'nền thiếu ổn định'. Không áp khi cung có cách Vô Chính Diệu đắc Tam Không (đã có điểm cách cục)."
   },
   "tuan_triet": {
-    "he_so_sao_tot": 0.5,
+    "he_so_sao_tot": 0.7,
     "he_so_sao_xau": 0.5,
-    "ghi_chu": "Giảm lực cả sao tốt lẫn xấu; vì sao xấu bị giảm nên cung xấu thành đỡ xấu.",
+    "ghi_chu": "Tuần/Triệt: sao TỐT giảm lực nhẹ (×0.7 — Triệt chỉ chặn mạnh nửa đầu đời, không xóa hẳn), sao XẤU bớt hung nhiều hơn (×0.5). Áp cho chính tinh và phụ tinh tại BẢN CUNG; sao ở xung/hội chiếu không bị giảm.",
     "triet_manh_truoc_tuoi": 30,
     "tuan_manh_sau_tuoi": 30,
     "mau": {
@@ -34,6 +34,11 @@
       "Tuần": "Tuần án {cung}: cản/làm chậm, nhẹ hơn Triệt, ứng rõ hơn từ ~30 tuổi trở đi; sao tốt giảm lực, sao xấu cũng bớt hung.",
       "ca_hai": "Tuần và Triệt cùng án {cung}: Triệt chặn mạnh nửa đầu đời (trước ~30 tuổi), Tuần cản chậm ứng rõ hơn từ ~30 tuổi; sao tốt giảm lực, sao xấu cũng bớt hung.",
       "uu_tien": " Án Mệnh/Thân định hình cả đời nên đặt lên đầu khi đọc lá số."
+    },
+    "mau_ngan": {
+      "Triệt": "Triệt án {cung} (chặn mạnh nửa đầu đời).",
+      "Tuần": "Tuần án {cung} (cản chậm, rõ từ ~30 tuổi).",
+      "ca_hai": "Tuần và Triệt cùng án {cung}."
     }
   },
   "doi_sao_cung_hoi": {
@@ -129,76 +134,88 @@
     "so_mau": 3000,
     "theo_cung": {
       "Mệnh": {
-        "rat_tot": 14.11,
-        "tot": 8.67,
-        "trung_binh": 1.87,
-        "xau": -2.73
+        "rat_tot": 15.96,
+        "tot": 10.61,
+        "giua": 7.03,
+        "trung_binh": 3.48,
+        "xau": -1.58
       },
       "Phụ Mẫu": {
-        "rat_tot": 11.21,
-        "tot": 6.46,
-        "trung_binh": 0.86,
-        "xau": -2.79
+        "rat_tot": 12.77,
+        "tot": 8.14,
+        "giua": 4.97,
+        "trung_binh": 2.04,
+        "xau": -1.91
       },
       "Phúc Đức": {
-        "rat_tot": 12.44,
-        "tot": 7.58,
-        "trung_binh": 1.65,
-        "xau": -2.37
+        "rat_tot": 14.53,
+        "tot": 9.22,
+        "giua": 6.03,
+        "trung_binh": 3.0,
+        "xau": -1.25
       },
       "Điền Trạch": {
-        "rat_tot": 11.95,
-        "tot": 7.48,
-        "trung_binh": 1.85,
-        "xau": -2.01
+        "rat_tot": 14.01,
+        "tot": 9.29,
+        "giua": 6.2,
+        "trung_binh": 3.16,
+        "xau": -0.96
       },
       "Quan Lộc": {
-        "rat_tot": 13.04,
-        "tot": 8.21,
-        "trung_binh": 2.26,
-        "xau": -1.65
+        "rat_tot": 15.15,
+        "tot": 9.99,
+        "giua": 6.82,
+        "trung_binh": 3.82,
+        "xau": -0.46
       },
       "Nô Bộc": {
-        "rat_tot": 10.75,
-        "tot": 6.27,
-        "trung_binh": 0.81,
-        "xau": -2.35
+        "rat_tot": 12.15,
+        "tot": 7.86,
+        "giua": 4.87,
+        "trung_binh": 2.17,
+        "xau": -1.34
       },
       "Thiên Di": {
-        "rat_tot": 11.64,
-        "tot": 7.7,
-        "trung_binh": 2.29,
-        "xau": -1.42
+        "rat_tot": 13.21,
+        "tot": 9.41,
+        "giua": 6.57,
+        "trung_binh": 3.74,
+        "xau": -0.15
       },
       "Tật Ách": {
-        "rat_tot": 9.3,
-        "tot": 5.21,
-        "trung_binh": -0.52,
-        "xau": -4.24
+        "rat_tot": 10.48,
+        "tot": 6.57,
+        "giua": 3.66,
+        "trung_binh": 0.69,
+        "xau": -3.22
       },
       "Tài Bạch": {
-        "rat_tot": 12.44,
-        "tot": 7.77,
-        "trung_binh": 1.91,
-        "xau": -1.74
+        "rat_tot": 14.25,
+        "tot": 9.43,
+        "giua": 6.23,
+        "trung_binh": 3.32,
+        "xau": -0.7
       },
       "Tử Tức": {
-        "rat_tot": 10.65,
-        "tot": 6.37,
-        "trung_binh": 1.11,
-        "xau": -2.39
+        "rat_tot": 12.25,
+        "tot": 7.92,
+        "giua": 5.05,
+        "trung_binh": 2.38,
+        "xau": -1.59
       },
       "Phu Thê": {
-        "rat_tot": 10.39,
-        "tot": 6.19,
-        "trung_binh": 0.78,
-        "xau": -2.73
+        "rat_tot": 11.98,
+        "tot": 7.56,
+        "giua": 4.84,
+        "trung_binh": 1.88,
+        "xau": -1.83
       },
       "Huynh Đệ": {
-        "rat_tot": 10.09,
-        "tot": 6.09,
-        "trung_binh": 0.55,
-        "xau": -3.09
+        "rat_tot": 11.69,
+        "tot": 7.61,
+        "giua": 4.57,
+        "trung_binh": 1.73,
+        "xau": -2.27
       }
     }
   },
@@ -215,8 +232,8 @@
       "Hóa Kỵ",
       "Thiên Hình"
     ],
-    "vung": "tam_phuong",
-    "ghi_chu": "Điểm cung = tổng tốt × 1/(1 + nặng/K) + tổng xấu; 'nặng' = độ lớn điểm âm của sao phá, nhân trọng số vị trí: bản cung > xung chiếu > tam hợp (sát ở xa trừ ít). K và các trọng số là tham số mô hình, chưa kiểm trên lá số thật.",
+    "vung": "ban_cung",
+    "ghi_chu": "Điểm cung = tổng tốt × 1/(1 + nặng/K) + tổng xấu. 'nặng' CHỈ gồm sát tinh/Hóa Kỵ ở BẢN CUNG ('một sao xấu phá cả cung'). Sát ở xung chiếu/tam hợp đã bị trừ trực tiếp ở trọng số riêng (trong_so) nên không bị phạt lần hai (trước đây phạt đôi làm khối chính tinh miếu/vượng bị sát ở xa nuốt). K là tham số mô hình, chưa kiểm trên lá số thật.",
     "trong_so": {
       "ban_cung": 1.0,
       "xung": 0.5,
@@ -426,31 +443,31 @@
     ],
     "ban_sat": [
       "Thiên Hình",
-      "Thiên Riêu"
+      "Thiên Diêu"
     ],
     "ghi_chu": "Định nghĩa dùng chung cho câu cảnh báo sát tinh: 7 sát tinh + 2 bán-sát. Lưu/ĐH tính theo sao gốc."
   },
   "diem_noi_tai": {
-    "_ghi_chu": "Điểm /100 là tương quan NỘI TẠI giữa các cung của chính lá số — thang quy đổi từ điểm cung qua bảng ngưỡng nguong_ket_luan (mẫu lá số ngẫu nhiên). KHÔNG phải percentile so với dân số lá số thật nên không được diễn đạt là 'cao/thấp hơn X% lá số khác'. Làm tròn bội số 5.",
+    "_ghi_chu": "Điểm /100 là tương quan NỘI TẠI giữa các cung của chính lá số — thang quy đổi từ điểm cung qua mốc 'moc_diem' (mẫu lá số ngẫu nhiên; lá số trung vị ≈ 60 = Trung bình). KHÔNG phải percentile so với dân số lá số thật nên không được diễn đạt là 'cao/thấp hơn X% lá số khác'. Làm tròn bội số 5.",
     "bac": [
       [
-        15,
-        "Rất thấp"
-      ],
-      [
-        35,
+        40,
         "Thấp"
       ],
       [
-        60,
+        55,
+        "Dưới trung bình"
+      ],
+      [
+        70,
         "Trung bình"
       ],
       [
-        75,
+        85,
         "Khá"
       ],
       [
-        90,
+        95,
         "Tốt"
       ],
       [
@@ -458,15 +475,25 @@
         "Rất tốt"
       ]
     ],
-    "san_chinh_tinh_sang": 45,
-    "san_chu_de_dac": 45,
+    "san_chinh_tinh_sang": 55,
+    "san_chu_de_dac": 55,
     "hoa_giai": {
-      "nguong_diem_sang": 2,
-      "nguong_diem_hung": -2,
-      "tran": 70,
-      "san": 35
+      "nguong_diem_sang": 1.5,
+      "nguong_diem_hung": -1.5,
+      "tran": 75,
+      "san": 45
     },
-    "nguong_cat_xung_hoi": 2.0
+    "nguong_cat_xung_hoi": 2.0,
+    "moc_diem": {
+      "xau": 20,
+      "trung_binh": 45,
+      "giua": 60,
+      "tot": 75,
+      "rat_tot": 90
+    },
+    "bac_mota": "Thấp 5–35 · Dưới trung bình 40–50 · Trung bình 55–65 · Khá 70–80 · Tốt 85–90 · Rất tốt 95",
+    "san_cho_phep_sat_ban_cung": 1,
+    "_ghi_chu_san": "Sàn 'trung bình' cho cung có chính tinh miếu/vượng: áp khi sát tinh chỉ ở xung/hội chiếu, hoặc có tối đa san_cho_phep_sat_ban_cung sát tinh ở bản cung (VD Tử Vi miếu đồng cung một Địa Kiếp vẫn không xuống dưới trung bình). Đây là lựa chọn mô hình của tác giả (spec gốc chỉ nói sát xung chiếu)."
   },
   "vcd_theo_cung": {
     "Tử Tức": "Tử Tức vô chính diệu: mượn sao cung xung chiếu để luận; thường luận con muộn hoặc ít, chất lượng hơn số lượng. Không tự động là xấu — đánh giá theo sao mượn và phụ tinh (Tả/Hữu/Tấu Thư là cát thì nâng).",

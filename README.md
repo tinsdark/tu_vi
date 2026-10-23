@@ -18,6 +18,7 @@ python3 tools/tuvi/viet_van.py [--mau]     # văn xuôi (Claude nếu có ANTHRO
 python3 tools/sinh_sql.py                  # sinh db/du_lieu.sql từ JSON
 python3 tools/tuvi/luan_giai.py            # demo luận 1 lá số → markdown
 python3 tools/tuvi/hieu_chinh.py 3000      # hiệu chỉnh ngưỡng xếp loại
+python3 tools/tuvi/phan_tich_diem.py 2003 5 11 14 45 nam   # in từng khoản điểm của các cung (cộng/trừ/Tuần-Triệt/phi tuyến/sàn)
 python3 tools/tuvi/so_cheo_lasotuvi.py <clone lasotuvi>   # so chéo với lasotuvi
 python3 tools/tuvi/so_cheo_lich.py ref.csv                 # so lịch với amlich + lunar-javascript (xem đầu file)
 python3 tools/tuvi/so_cheo_iztro.py ...                    # so an sao với iztro (xem đầu file)

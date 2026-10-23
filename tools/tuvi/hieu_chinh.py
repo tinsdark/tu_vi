@@ -1,4 +1,4 @@
-"""Hiệu chỉnh ngưỡng xếp loại: chấm mọi cung trên mẫu lá số ngẫu nhiên, lấy các mốc 10/30/70/90 RIÊNG cho từng cung chức, ghi vào cau_hinh_luan_giai.json.
+"""Hiệu chỉnh ngưỡng xếp loại: chấm mọi cung trên mẫu lá số ngẫu nhiên, lấy các mốc 10/30/50/70/90 RIÊNG cho từng cung chức, ghi vào cau_hinh_luan_giai.json.
 
 Ý nghĩa: chỉ là THANG QUY ĐỔI nội bộ để đưa điểm cung về 0–100 (diem_noi_tai). Mẫu là lá số sinh ngẫu nhiên, không phải dân số thật nên
 KHÔNG được diễn đạt thành 'cao/thấp hơn X% lá số khác'.
@@ -28,7 +28,7 @@ def main(n):
     for c, ds in diem.items():
         ds.sort()
         pv = lambda q: round(ds[int(q * (len(ds) - 1))], 2)
-        nguong["theo_cung"][c] = {"rat_tot": pv(0.9), "tot": pv(0.7), "trung_binh": pv(0.3), "xau": pv(0.1)}
+        nguong["theo_cung"][c] = {"rat_tot": pv(0.9), "tot": pv(0.7), "giua": pv(0.5), "trung_binh": pv(0.3), "xau": pv(0.1)}
         print(c, nguong["theo_cung"][c])
     cfg["nguong_ket_luan"] = nguong
     json.dump(cfg, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=2)

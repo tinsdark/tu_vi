@@ -42,7 +42,7 @@
     { "id": "tham_lang", "ten": "Tham Lang", "ngu_hanh": "Thuy", "am_duong": "am", "nhom": "thien_phu", "phuong_vi": "Bắc đẩu", "an": { "goc": "thien_phu", "offset": 2 },
       "tinh_chat": "Dục vọng, giao tế, đào hoa, đa tài đa nghệ.",
       "tot_khi": "Cách Hỏa Tham / Linh Tham ở Miếu địa; Tham Vũ đồng hành (phát muộn).",
-      "xau_khi": "Hãm gặp Đào Hồng, Riêu, Kỵ: sa đà tửu sắc, cờ bạc." },
+      "xau_khi": "Hãm gặp Đào Hồng, Diêu, Kỵ: sa đà tửu sắc, cờ bạc." },
     { "id": "cu_mon", "ten": "Cự Môn", "ngu_hanh": "Thuy", "am_duong": "am", "nhom": "thien_phu", "phuong_vi": "Bắc đẩu", "an": { "goc": "thien_phu", "offset": 3 },
       "tinh_chat": "Ám tinh; ăn nói, tranh luận, nghi ngờ, soi xét.",
       "tot_khi": "Miếu/Vượng; Cự Nhật đồng cung ở Dần; Hóa Lộc/Quyền: sống bằng lời nói (luật, giảng dạy).",

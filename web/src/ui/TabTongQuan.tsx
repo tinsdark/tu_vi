@@ -138,6 +138,7 @@ export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
             <h3>{ten}</h3>
             <ThanhDiem diem100={cd.diem100} xepLoai={cd.xep_loai} />
             <p className="mo">Dựa trên: {Object.entries(cd.cung).map(([c, x]) => `${c} (${x})`).join(" · ")}</p>
+            <p className="mo">{cd.khung}</p>
             {cd.cau_dan && <p className="cau-dan">{cd.cau_dan}</p>}
             {cd.luu_y.length > 0 && (<><h4>Lưu ý cấu trúc</h4><DanhSachNhanDinh ds={cd.luu_y} /></>)}
             {cd.trung_tinh.length > 0 && (<><h4>Chính tinh và nhận định trung tính</h4><DanhSachNhanDinh ds={cd.trung_tinh} /></>)}

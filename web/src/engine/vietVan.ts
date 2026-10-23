@@ -152,6 +152,7 @@ const TOPIC_THAN: Record<string, string> = { "Mệnh": "Tính cách", "Phúc Đ�
 /** Một chủ đề → một đoạn: xếp loại → câu dẫn hòa giải → Thân cư (nếu đúng mục) → khung cung → chính tinh/trung tính → điểm sáng → 'Tuy nhiên' điểm cần lưu ý. */
 function doanChuDe(ten: string, cd: BaoCao["chu_de"][string], kq: BaoCao, daDung: Set<string>): string {
   const dong = [`Về ${ten.toLowerCase()}, lá số ở mức ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100) [CD.${ten}].`];
+  dong.push(`${cd.khung.replace(/\.+$/, "")} [CD.${ten}].`);
   if (cd.cau_dan) dong.push(`${cd.cau_dan.replace(/\.+$/, "")} [CD.${ten}].`);
   if (TOPIC_THAN[kq.than.cu] === ten) dong.push(cau(kq.than.nhan_dinh[0], "Cung này cũng là cung Thân cư: "));
   dong.push(...[gop(cd.luu_y, "Khung của cung: ", daDung), gop(cd.trung_tinh, "Chính tinh và nhận định trung tính: ", daDung)].filter(Boolean));

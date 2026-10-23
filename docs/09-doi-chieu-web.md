@@ -15,7 +15,7 @@ Môi trường đã mở mạng → đọc được nguyên trang, không còn p
 
 **Phát hiện:** bảng của thaiam.vn (sát tinh + Xương Khúc) **trùng 100% lasotuvi**, kể cả các ô nghi sai → thaiam chép từ phần mềm dùng lasotuvi, không phải nguồn độc lập.
 
-**Phụ tinh "thiếu độ sáng" không phải lỗ hổng:** truyền thống VN chỉ chia đắc/hãm cho sát tinh và một số sao (Mã, Hình, Riêu, Khốc Hư, Hao, Kỵ). Cát tinh như Tả Hữu, Khôi Việt, Lộc Tồn, Tam Thai Bát Tọa không có thang miếu hãm.
+**Phụ tinh "thiếu độ sáng" không phải lỗ hổng:** truyền thống VN chỉ chia đắc/hãm cho sát tinh và một số sao (Mã, Hình, Diêu, Khốc Hư, Hao, Kỵ). Cát tinh như Tả Hữu, Khôi Việt, Lộc Tồn, Tam Thai Bát Tọa không có thang miếu hãm.
 
 Engine giờ dùng độ sáng cả cho cát tinh có bảng: Xương/Khúc hãm chỉ còn 30% lực.
 

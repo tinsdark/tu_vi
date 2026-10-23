@@ -27,7 +27,7 @@ MAP_ID = {
     57: "Văn Xương", 58: "Văn Khúc", 59: "Thiên Khôi", 60: "Thiên Việt", 61: "Tả Phù", 62: "Hữu Bật",
     63: "Long Trì", 64: "Phượng Các", 65: "Tam Thai", 66: "Bát Tọa", 67: "Ân Quang", 68: "Thiên Quý",
     69: "Thiên Khốc", 70: "Thiên Hư", 71: "Thiên Đức", 72: "Nguyệt Đức", 73: "Thiên Hình",
-    74: "Thiên Riêu", 75: "Thiên Y", 76: "Quốc Ấn", 77: "Đường Phù", 78: "Đào Hoa", 79: "Hồng Loan",
+    74: "Thiên Diêu", 75: "Thiên Y", 76: "Quốc Ấn", 77: "Đường Phù", 78: "Đào Hoa", 79: "Hồng Loan",
     80: "Thiên Hỷ", 81: "Thiên Giải", 82: "Địa Giải", 83: "Giải Thần", 84: "Thai Phụ", 85: "Phong Cáo",
     86: "Thiên Tài", 87: "Thiên Thọ", 88: "Thiên Thương", 89: "Thiên Sứ", 90: "Thiên La", 91: "Địa Võng",
     92: "Hóa Khoa", 93: "Hóa Quyền", 94: "Hóa Lộc", 95: "Hóa Kỵ", 96: "Cô Thần", 97: "Quả Tú",
