@@ -19,6 +19,8 @@ export interface NhanDinh {
   luu_y?: boolean;
   /** Sát tinh đắc địa: điểm bị lật dương nhưng câu luận vẫn mô tả mặt xấu → không xếp vào điểm mạnh/yếu. */
   dao_dau?: boolean;
+  /** Câu đã được gộp vào một câu "trái chiều" (id XD.*) vì nói ngược với câu khác cùng trục: còn trong danh sách để điểm không đổi, không hiển thị. */
+  an?: boolean;
 }
 
 export interface KhoanSao { sao: string; cung: string; vi_tri: string; diem: number }

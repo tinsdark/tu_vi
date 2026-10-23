@@ -28,7 +28,8 @@ jobs:
         run: |
           python3 tools/sinh_sql.py
           python3 tools/sinh_mui_gio.py
-          git diff --exit-code -- db/du_lieu.sql web/src/data/mui_gio_vn.json
+          python3 tools/sinh_truc_luan.py
+          git diff --exit-code -- db/du_lieu.sql web/src/data/mui_gio_vn.json data/knowledge/truc_luan.json
       - name: Cài web
         working-directory: web
         run: npm ci

@@ -28,7 +28,8 @@ export function ChuThichTinCay() {
   );
 }
 
-export function DanhSachNhanDinh({ ds, rong }: { ds: NhanDinh[]; rong?: boolean }) {
+export function DanhSachNhanDinh({ ds: tatCa, rong }: { ds: NhanDinh[]; rong?: boolean }) {
+  const ds = tatCa.filter((n) => !n.an); // câu đã gộp vào câu "trái chiều" (XD.*) không hiện lại
   if (!ds.length) return <p className="mo">Không có nhận định nào nổi bật.</p>;
   return (
     <ul className={`nhan-dinh${rong ? " nhan-dinh-rong" : ""}`}>

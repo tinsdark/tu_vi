@@ -1,0 +1,798 @@
+{
+ "_meta": {
+  "mo_ta": "Trục luận cho từng cung: các câu cùng một trục mà ngược chiều nhau sẽ được gộp thành một câu 'trái chiều'. Sinh bởi tools/sinh_truc_luan.py — không sửa tay.",
+  "trang_thai": "draft_ai_tong_hop"
+ },
+ "truc": {
+  "Huynh Đệ": [
+   {
+    "id": "so_luong",
+    "ten": "Số lượng anh chị em",
+    "duong": {
+     "nhan": "đông",
+     "cau": [
+      "Anh chị em bạn đông và giúp đỡ nhau."
+     ]
+    },
+    "am": {
+     "nhan": "ít",
+     "cau": [
+      "Anh chị em bạn khá ít.",
+      "Anh chị em bạn ít hoặc xa cách.",
+      "Anh chị em bạn ít hoặc ít gắn bó, khó nhờ cậy.",
+      "Anh chị em bạn ít hoặc ít gắn bó.",
+      "Anh chị em bạn ít hoặc ít nhờ cậy được.",
+      "Anh chị em bạn ít, dễ bất hòa hoặc xa cách.",
+      "Anh chị em bạn ít, mỗi người tự lo cho mình.",
+      "Anh chị em bạn ít.",
+      "Anh chị em ít hoặc khá xa cách."
+     ]
+    }
+   },
+   {
+    "id": "hoa_khi",
+    "ten": "Hòa khí giữa anh chị em",
+    "duong": {
+     "nhan": "hòa thuận, gắn bó",
+     "cau": [
+      "Anh chị em bạn có duyên, hòa đồng và hay giúp nhau.",
+      "Anh chị em bạn hòa thuận và hay giúp nhau.",
+      "Anh chị em bạn hòa thuận, có phúc.",
+      "Anh chị em bạn hòa thuận, giúp đỡ nhau.",
+      "Anh chị em bạn hòa thuận, hay giúp nhau.",
+      "Anh chị em bạn hòa thuận, hiền hòa.",
+      "Anh chị em bạn hòa thuận, nhân hậu.",
+      "Anh chị em bạn hòa thuận.",
+      "Anh chị em bạn khỏe mạnh, gắn bó và cùng lớn lên.",
+      "Anh chị em bạn lịch sự, hòa thuận.",
+      "Anh chị em bạn nhã nhặn, hòa thuận.",
+      "Anh chị em bạn vui vẻ, hòa đồng.",
+      "Anh chị em gắn bó, có thể trở thành cộng sự của nhau."
+     ]
+    },
+    "am": {
+     "nhan": "bất hòa, xa cách",
+     "cau": [
+      "Anh chị em bạn dễ bất hòa, cãi vã.",
+      "Anh chị em bạn dễ bất hòa.",
+      "Anh chị em bạn dễ va chạm và bất hòa.",
+      "Anh chị em bạn dễ xa cách.",
+      "Anh chị em bạn dễ xung đột, tranh chấp.",
+      "Anh chị em bạn hay bất đồng.",
+      "Anh chị em bạn hay khắc khẩu.",
+      "Anh chị em bạn hay tranh luận, dễ bất đồng.",
+      "Anh chị em bạn khó hòa thuận.",
+      "Anh chị em bạn nhanh nhẹn nhưng ít gắn bó.",
+      "Anh chị em bạn xa cách hoặc có người vất vả.",
+      "Anh chị em bạn ít gắn bó dần, nên chủ động liên lạc.",
+      "Anh chị em bạn ít hoặc xa cách.",
+      "Anh chị em bạn ít hoặc ít gắn bó, khó nhờ cậy.",
+      "Anh chị em bạn ít hoặc ít gắn bó.",
+      "Anh chị em bạn ít, dễ bất hòa hoặc xa cách.",
+      "Anh chị em dễ bất hòa, hoặc bạn phải gánh vác cho anh chị em.",
+      "Anh chị em dễ bất hòa.",
+      "Anh chị em dễ xa cách.",
+      "Anh chị em ít hoặc khá xa cách."
+     ]
+    }
+   },
+   {
+    "id": "giup_do",
+    "ten": "Anh chị em giúp đỡ nhau",
+    "duong": {
+     "nhan": "giúp đỡ được",
+     "cau": [
+      "Anh chị em bạn có duyên, hòa đồng và hay giúp nhau.",
+      "Anh chị em bạn giúp đỡ nhau.",
+      "Anh chị em bạn hòa thuận và hay giúp nhau.",
+      "Anh chị em bạn hòa thuận, giúp đỡ nhau.",
+      "Anh chị em bạn hòa thuận, hay giúp nhau.",
+      "Anh chị em bạn đông và giúp đỡ nhau.",
+      "Anh chị em gắn bó, có thể trở thành cộng sự của nhau.",
+      "Anh chị em hỗ trợ nhau về vật chất."
+     ]
+    },
+    "am": {
+     "nhan": "ít giúp được",
+     "cau": [
+      "Anh chị em bạn ít hoặc ít nhờ cậy được.",
+      "Anh chị em dễ bất hòa, hoặc bạn phải gánh vác cho anh chị em.",
+      "Anh chị em ít giúp bạn.",
+      "Anh chị em ít giúp đỡ nhau.",
+      "Anh chị em ít nhờ cậy được."
+     ]
+    }
+   }
+  ],
+  "Phụ Mẫu": [
+   {
+    "id": "hoa_khi",
+    "ten": "Quan hệ với cha mẹ và người trên",
+    "duong": {
+     "nhan": "êm đẹp, hòa thuận",
+     "cau": [
+      "Cha mẹ bạn có học, quan hệ với người trên tốt và giấy tờ thuận lợi.",
+      "Cha mẹ bạn hiền hòa, quan hệ với người trên cũng êm đẹp."
+     ]
+    },
+    "am": {
+     "nhan": "bất hòa, xa cách",
+     "cau": [
+      "Bạn dễ bất hòa hoặc xa cách cha mẹ, và hay vướng giấy tờ, người trên khó tính.",
+      "Bạn dễ bất hòa với cha mẹ.",
+      "Bạn dễ va chạm hoặc xa cách cha mẹ.",
+      "Bạn dễ xa cách cha mẹ.",
+      "Bạn dễ xa cách hoặc xung khắc với cha mẹ.",
+      "Bạn dễ xung khắc hoặc xa cách cha mẹ.",
+      "Bạn dễ xung khắc với người trên.",
+      "Bạn và cha mẹ dễ bất đồng ý kiến.",
+      "Bạn và cha mẹ dễ có va chạm, xa cách.",
+      "Bạn ít gần gũi cha mẹ, quan hệ hơi xa cách.",
+      "Cha mẹ bạn khá nghiêm, hai bên dễ va chạm hoặc xa cách; nên làm giấy tờ, thủ tục với người trên thật rõ ràng.",
+      "Quan hệ của bạn với cha mẹ có nhiều trắc trở.",
+      "Quan hệ với cha mẹ dễ bất hòa.",
+      "Quan hệ với cha mẹ dễ có va chạm, hai bên hay cãi nhau.",
+      "Quan hệ với cha mẹ dễ va chạm; nên đề phòng chuyện tang sự."
+     ]
+    }
+   },
+   {
+    "id": "hoan_canh",
+    "ten": "Hoàn cảnh cha mẹ",
+    "duong": {
+     "nhan": "khá giả, có của",
+     "cau": [
+      "Cha mẹ bạn biết làm kinh tế và lo cho con.",
+      "Cha mẹ bạn có của cải và khá nghiêm.",
+      "Cha mẹ bạn có vị thế và che chở được cho bạn.",
+      "Cha mẹ bạn khá giả."
+     ]
+    },
+    "am": {
+     "nhan": "vất vả, hao tốn",
+     "cau": [
+      "Cha bạn vất vả, hoặc bạn sớm xa cha.",
+      "Cha mẹ bạn gặp trở ngại.",
+      "Cha mẹ bạn hao tốn nhiều, bạn cũng tốn kém vì họ.",
+      "Cha mẹ bạn nhiều lo toan, vất vả; trong nhà dễ có chuyện buồn.",
+      "Cha mẹ bạn vất vả và bạn ít nhờ cậy được.",
+      "Cha mẹ bạn vất vả.",
+      "Mẹ bạn vất vả, hoặc bạn sớm xa mẹ."
+     ]
+    }
+   },
+   {
+    "id": "nho_cay",
+    "ten": "Cha mẹ nâng đỡ",
+    "duong": {
+     "nhan": "che chở, nâng đỡ",
+     "cau": [
+      "Cha mẹ bạn biết làm kinh tế và lo cho con.",
+      "Cha mẹ bạn che chở, nuôi dưỡng chu đáo.",
+      "Cha mẹ bạn có nền tảng, và bạn được người trên chỉ bảo, nâng đỡ.",
+      "Cha mẹ bạn có phúc đức, che chở bạn.",
+      "Cha mẹ bạn có phúc, che chở bạn.",
+      "Cha mẹ bạn có phúc, che chở và yêu thương bạn.",
+      "Cha mẹ bạn có quý nhân giúp, bạn được che chở.",
+      "Cha mẹ bạn có vị thế và che chở được cho bạn.",
+      "Cha mẹ bạn hiền và che chở bạn.",
+      "Cha mẹ bạn hiền, nhất là người mẹ che chở bạn.",
+      "Cha mẹ bạn thương yêu, che chở bạn.",
+      "Cha mẹ bạn thọ và che chở bạn.",
+      "Người trên dìu dắt bạn, thuận lợi về học hành và danh phận."
+     ]
+    },
+    "am": {
+     "nhan": "ít nhờ cậy được",
+     "cau": [
+      "Cha mẹ bạn vất vả và bạn ít nhờ cậy được."
+     ]
+    }
+   }
+  ],
+  "Tử Tức": [
+   {
+    "id": "so_luong",
+    "ten": "Số lượng con",
+    "duong": {
+     "nhan": "đông",
+     "cau": [
+      "Con cái của bạn đông và hiếu thảo."
+     ]
+    },
+    "am": {
+     "nhan": "ít",
+     "cau": [
+      "Con cái bạn ít hoặc việc nuôi dạy cần nhiều công sức.",
+      "Con cái bạn ít hoặc ít gần gũi; cần chủ động dành thời gian cho con.",
+      "Con cái bạn ít hoặc đến muộn.",
+      "Con cái của bạn ít hoặc đến muộn.",
+      "Con cái của bạn ít.",
+      "Con cái ít hoặc đến muộn; duyên với con cần nhiều kiên nhẫn.",
+      "Con cái ít, và việc nuôi dạy cần nhiều công sức.",
+      "Con cái đến muộn hoặc không nhiều.",
+      "Con đến chậm và không nhiều, nhưng con ngoan."
+     ]
+    }
+   },
+   {
+    "id": "de_day",
+    "ten": "Con dễ dạy hay khó dạy",
+    "duong": {
+     "nhan": "hiếu thảo, ngoan, dễ dạy",
+     "cau": [
+      "Con cái bạn hiền, ngoan.",
+      "Con cái bạn khỏe mạnh, hiền ngoan.",
+      "Con cái bạn ngoan, có phúc.",
+      "Con cái bạn được nuôi dưỡng tốt, ngoan.",
+      "Con cái của bạn hiếu thảo.",
+      "Con cái của bạn tốt.",
+      "Con cái của bạn đông và hiếu thảo.",
+      "Con cái hiếu thuận và biết giúp đỡ cha mẹ.",
+      "Con cái hiền lành và giàu tình nghĩa.",
+      "Con đến chậm và không nhiều, nhưng con ngoan."
+     ]
+    },
+    "am": {
+     "nhan": "cứng đầu, khó dạy",
+     "cau": [
+      "Con cái bạn cứng cỏi, khó dạy; việc sinh nở nên theo dõi y tế kỹ.",
+      "Con cái bạn ngang bướng, khó dạy.",
+      "Con cái cứng đầu, khó dạy.",
+      "Con cái hơi khó dạy, cần bạn kiên nhẫn.",
+      "Con cái khó dạy."
+     ]
+    }
+   }
+  ],
+  "Phu Thê": [
+   {
+    "id": "hoa_hop",
+    "ten": "Hòa hợp vợ chồng",
+    "duong": {
+     "nhan": "êm đềm, hòa hợp",
+     "cau": [
+      "Hôn nhân của bạn có duyên và người bạn đời mang lại may mắn tiền bạc.",
+      "Hôn nhân của bạn có duyên và nhiều đam mê; nếu gặp sát tinh thì dễ lụy tình, nên giữ sự chân thành.",
+      "Hôn nhân của bạn có duyên, dễ nên duyên và tình cảm êm ấm.",
+      "Hôn nhân của bạn êm ấm nhờ những bữa cơm gia đình.",
+      "Hôn nhân của bạn êm ấm, có phúc.",
+      "Hôn nhân của bạn êm ấm, hai bên chăm sóc nhau.",
+      "Người bạn đời có học và hôn nhân êm đềm.",
+      "Người bạn đời hỗ trợ bạn một cách thầm lặng; chỉ cần cẩn thận chuyện tái hợp hoặc đi hai lần đò nếu gặp thêm sao xấu.",
+      "Người bạn đời là người giúp đỡ đắc lực cho bạn; nếu gặp thêm yếu tố đào hoa thì cần để ý chuyện người thứ ba.",
+      "Người bạn đời lịch sự, hôn nhân êm đềm.",
+      "Người bạn đời quý trọng bạn, hôn nhân êm ấm.",
+      "Người bạn đời thanh lịch, hôn nhân êm đềm."
+     ]
+    },
+    "am": {
+     "nhan": "sóng gió, xung đột",
+     "cau": [
+      "Hôn nhân của bạn có va chạm; nên đề phòng tai nạn và mổ xẻ.",
+      "Hôn nhân của bạn dễ có cảm giác hụt hẫng vì kỳ vọng và thực tế chênh nhau.",
+      "Hôn nhân của bạn dễ có hiểu lầm và vướng mắc.",
+      "Hôn nhân của bạn dễ cứng nhắc, lạnh nhạt hoặc xung khắc; kết hôn muộn thì thường bền hơn.",
+      "Hôn nhân của bạn dễ lạnh nhạt và khó nói chuyện với nhau.",
+      "Hôn nhân của bạn dễ va chạm, cần nhường nhịn.",
+      "Hôn nhân của bạn nhiều sóng gió.",
+      "Hôn nhân dễ lạnh nhạt và xa cách, nên cần chủ động chia sẻ.",
+      "Tình cảm của bạn có chuyện buồn lo và xa cách.",
+      "Tình cảm của bạn dễ va chạm và có thể chia ly.",
+      "Tình duyên của bạn muộn hoặc lạnh nhạt; hôn nhân cần nhiều quan tâm và chia sẻ.",
+      "Vợ chồng bạn hay to tiếng với nhau.",
+      "Vợ chồng bạn hay xung đột."
+     ]
+    }
+   },
+   {
+    "id": "thoi_diem",
+    "ten": "Thời điểm kết hôn",
+    "duong": {
+     "nhan": "duyên sớm",
+     "cau": [
+      "Người bạn đời có học, lịch sự, hai bạn dễ có duyên sớm."
+     ]
+    },
+    "am": {
+     "nhan": "đến muộn, chậm",
+     "cau": [
+      "Hôn nhân của bạn có thể đến muộn hoặc nhiều thay đổi.",
+      "Hôn nhân của bạn muộn thì mới bền.",
+      "Hôn nhân của bạn nên đến muộn.",
+      "Hôn nhân của bạn đến muộn."
+     ]
+    }
+   },
+   {
+    "id": "tuoi_doi",
+    "ten": "Tuổi của bạn đời",
+    "duong": {
+     "nhan": "hơn tuổi bạn",
+     "cau": [
+      "Người bạn đời hơn tuổi và đứng đắn."
+     ]
+    },
+    "am": {
+     "nhan": "trẻ hơn bạn",
+     "cau": [
+      "Người bạn đời hiền lành và có thể trẻ hơn bạn.",
+      "Người bạn đời thông minh và có thể trẻ hơn bạn."
+     ]
+    }
+   }
+  ],
+  "Tật Ách": [
+   {
+    "id": "the_trang",
+    "ten": "Thể trạng chung",
+    "duong": {
+     "nhan": "khá, ít bệnh",
+     "cau": [
+      "Bệnh của bạn thường nhẹ đi và hồi phục tốt.",
+      "Gặp chuyện dữ bạn thường hóa lành, bệnh không đến nỗi nặng.",
+      "Sức khỏe của bạn có yếu tố cứu giải nên hồi phục tốt.",
+      "Sức khỏe của bạn hồi phục tốt khi được chăm sóc.",
+      "Sức khỏe của bạn hồi phục tốt, sức sống bền.",
+      "Sức khỏe của bạn ít bệnh, chỉ nên lưu ý tỳ vị.",
+      "Sức khỏe của bạn ít bệnh; nếu gặp sát tinh thì bệnh dễ dai dẳng.",
+      "Sức khỏe của bạn ổn và tinh thần lạc quan; chỉ nên tránh ăn uống quá độ.",
+      "Sức khỏe của bạn ổn định, gặp bệnh thường nhẹ.",
+      "Sức khỏe của bạn ổn định, hồi phục tốt.",
+      "Sức khỏe của bạn ổn định, nên chú ý nội tiết.",
+      "Sức khỏe của bạn ổn định.",
+      "Sức khỏe của bạn ổn định; nên chú ý thận và đường tiết niệu.",
+      "Sức khỏe của bạn ổn, gặp bệnh có người giúp.",
+      "Sức khỏe của bạn ổn, gặp bệnh thường nhẹ.",
+      "Sức khỏe của bạn ổn, tinh thần vui; nên chú ý nội tiết và sinh dục.",
+      "Sức khỏe khá, chỉ nên để ý tỳ vị.",
+      "Sức khỏe nhìn chung khá, chỉ nên để ý dạ dày và tiêu hóa.",
+      "Sức khỏe nhìn chung khá, chỉ nên để ý thận và bàng quang."
+     ]
+    },
+    "am": {
+     "nhan": "bệnh dai dẳng, khó chữa",
+     "cau": [
+      "Bệnh của bạn dễ dai dẳng và khó chữa dứt điểm.",
+      "Bệnh của bạn ngấm ngầm và kéo dài; nên lưu ý răng và xương.",
+      "Bệnh của bạn âm ỉ, liên quan đến thần kinh.",
+      "Sức khỏe của bạn cần chú ý khi bệnh kéo dài; kiên trì điều trị.",
+      "Sức khỏe của bạn dễ có bệnh dai dẳng khó dứt.",
+      "Sức khỏe của bạn hay bị ràng buộc bởi bệnh dai dẳng; nên theo dõi đều."
+     ]
+    }
+   },
+   {
+    "id": "chua_tri",
+    "ten": "Khả năng chữa bệnh",
+    "duong": {
+     "nhan": "gặp thầy giỏi, dễ chữa",
+     "cau": [
+      "Gặp bệnh dễ có cách chữa và bạn có tuổi thọ.",
+      "Khi bệnh bạn dễ gặp thầy giỏi, thuốc hợp và hồi phục khá tốt.",
+      "Khi bệnh bạn gặp được thầy giỏi nên giải quyết được.",
+      "Khi gặp nạn bạn có người cứu và bệnh thường giảm nhẹ.",
+      "Khi đau ốm bạn dễ gặp thầy gặp thuốc và có người chăm sóc."
+     ]
+    },
+    "am": {
+     "nhan": "khó chữa, khó chẩn đoán",
+     "cau": [
+      "Bệnh của bạn dễ dai dẳng và khó chữa dứt điểm.",
+      "Bệnh của bạn khó chẩn đoán và hay mệt mỏi vì tinh thần.",
+      "Bệnh của bạn khó chẩn đoán."
+     ]
+    }
+   }
+  ],
+  "Điền Trạch": [
+   {
+    "id": "so_huu",
+    "ten": "Nhà đất nhiều hay ít",
+    "duong": {
+     "nhan": "nhiều nhà đất",
+     "cau": [
+      "Bạn có nhiều nhà đất và khả năng tích lũy tốt.",
+      "Bạn có nhiều nhà đất, nền tích lũy tốt.",
+      "Nhà đất của bạn nhiều."
+     ]
+    },
+    "am": {
+     "nhan": "ít nhà đất",
+     "cau": [
+      "Nhà cửa của bạn ít."
+     ]
+    }
+   },
+   {
+    "id": "giu_cua",
+    "ten": "Giữ được tài sản",
+    "duong": {
+     "nhan": "giữ được, tích lũy",
+     "cau": [
+      "Bạn có nhiều nhà đất và khả năng tích lũy tốt.",
+      "Bạn có nhiều nhà đất, nền tích lũy tốt.",
+      "Bạn có nhà đất và giữ được tài sản.",
+      "Nhà đất của bạn có cơ hội tăng giá và tích lũy dần.",
+      "Nhà đất của bạn có khả năng tích lũy, giữ được tài sản."
+     ]
+    },
+    "am": {
+     "nhan": "hao hụt, mất mát",
+     "cau": [
+      "Bạn cần giữ chặt tài sản gia đình, vì dễ hao hụt.",
+      "Nhà cửa của bạn dễ biến động và hao tán.",
+      "Nhà cửa của bạn dễ hao hụt, sửa chữa tốn kém.",
+      "Nhà cửa của bạn dễ hao hụt.",
+      "Nhà đất của bạn dễ bị tranh chấp hoặc mất mát.",
+      "Nhà đất của bạn dễ hao tán, sửa chữa tốn kém.",
+      "Nhà đất của bạn dễ mất mát và tranh chấp.",
+      "Nhà đất của bạn dễ tranh chấp và hao hụt.",
+      "Nhà đất của bạn khó giữ và dễ hao hụt.",
+      "Nhà đất của bạn khó giữ, dễ hao hụt hoặc mua bán không thành.",
+      "Nhà đất của bạn khó giữ, dễ hư hao.",
+      "Nhà đất của bạn trắc trở, dễ có tranh chấp, và giữ của khó.",
+      "Nhà đất dễ hao tán."
+     ]
+    }
+   },
+   {
+    "id": "on_dinh",
+    "ten": "Nhà cửa ổn định",
+    "duong": {
+     "nhan": "ổn định",
+     "cau": [
+      "Giấy tờ nhà đất của bạn thuận lợi và ổn định.",
+      "Nhà cửa của bạn ổn định."
+     ]
+    },
+    "am": {
+     "nhan": "hay thay đổi, bất ổn",
+     "cau": [
+      "Bạn nên đề phòng hỏa hoạn, và nhà đất dễ bất ổn.",
+      "Nhà cửa của bạn chưa ổn định.",
+      "Nhà cửa của bạn có thể phải làm lại nhiều lần.",
+      "Nhà cửa của bạn dễ biến động và hao tán.",
+      "Nhà cửa của bạn hay thay đổi, sửa sang, chuyển chỗ.",
+      "Nhà cửa của bạn hay thay đổi, ít ổn định.",
+      "Nhà cửa của bạn hay thay đổi.",
+      "Nhà đất của bạn dễ có biến động bất ngờ."
+     ]
+    }
+   }
+  ],
+  "Tài Bạch": [
+   {
+    "id": "giu_tien",
+    "ten": "Giữ tiền hay hao tán",
+    "duong": {
+     "nhan": "biết giữ, tích lũy",
+     "cau": [
+      "Bạn có nền tảng tích lũy tốt và biết giữ tiền.",
+      "Tiền của bạn có dự định mới, đang tích lũy ban đầu.",
+      "Tiền của bạn tích lũy dần, giàu theo kiểu ngấm ngầm.",
+      "Tiền vào đều đặn và bạn biết tích lũy.",
+      "Đường tiền bạc của bạn rất tốt và có nền tảng giàu có."
+     ]
+    },
+    "am": {
+     "nhan": "dễ hao tán",
+     "cau": [
+      "Bạn kiếm được nhiều nhưng khó giữ.",
+      "Tiền của bạn dễ hao tán, chi tiêu vượt kế hoạch.",
+      "Tiền của bạn hao tán lớn, tiền ra nhanh hơn tiền vào.",
+      "Tiền dễ hao tán lớn; bạn nên đề phòng bị lừa hoặc làm ăn thua lỗ nặng.",
+      "Tiền dễ hao tán.",
+      "Tiền đi nhanh, nên bạn cần giữ nhịp chi tiêu.",
+      "Tiền đến bộc phát rồi cũng dễ tan.",
+      "Tiền đến rồi đi và khó giữ; bạn nên tránh đầu cơ."
+     ]
+    }
+   },
+   {
+    "id": "dong_tien",
+    "ten": "Dòng tiền",
+    "duong": {
+     "nhan": "đều đặn, ổn",
+     "cau": [
+      "Bạn kiếm tiền thuận lợi; đây là vị trí mà Hóa Lộc phát huy rõ nhất.",
+      "Tiền bạc của bạn ổn nhưng không giàu lớn.",
+      "Tiền bạc của bạn ổn.",
+      "Tiền của bạn được nuôi dưỡng dần, đều đặn và an toàn.",
+      "Tiền vào đều đặn và bạn biết tích lũy.",
+      "Tiền đến với bạn nhẹ nhàng, đều đặn.",
+      "Tiền đến với bạn từ nhỏ mà lớn dần, đều đặn.",
+      "Tiền đến với bạn đều đặn, bền vững.",
+      "Tài lộc của bạn có người hỗ trợ và đến đều đặn."
+     ]
+    },
+    "am": {
+     "nhan": "thất thường, khó khăn",
+     "cau": [
+      "Thu nhập của bạn vào ra thất thường.",
+      "Tiền của bạn thất thường.",
+      "Tiền vào ra của bạn khó khăn, dễ thiếu hụt và nợ nần."
+     ]
+    }
+   }
+  ],
+  "Nô Bộc": [
+   {
+    "id": "tin_cay",
+    "ten": "Bạn bè và cấp dưới đáng tin",
+    "duong": {
+     "nhan": "tốt, đáng tin, hay giúp",
+     "cau": [
+      "Bạn bè của bạn có học thức và hợp ý.",
+      "Bạn bè của bạn có học và giữ chữ tín.",
+      "Bạn bè của bạn có học, lịch sự, hợp ý.",
+      "Bạn bè của bạn hiền, hay giúp bạn.",
+      "Bạn bè của bạn hòa thuận.",
+      "Bạn bè của bạn tốt và hay giúp bạn.",
+      "Bạn bè của bạn tốt.",
+      "Bạn bè và cấp dưới có sức sống, hay giúp bạn có động lực.",
+      "Bạn bè và cấp dưới tận tâm, làm việc nhóm dễ thành công.",
+      "Bạn bè và cấp dưới yêu quý bạn, sẵn lòng giúp đỡ.",
+      "Bạn bè, cấp dưới có người tài và sẵn lòng giúp bạn.",
+      "Quan hệ xã hội của bạn tốt, ít khi bị cô lập."
+     ]
+    },
+    "am": {
+     "nhan": "phản bội, lợi dụng, khó tin",
+     "cau": [
+      "Bạn bè khó tin cậy.",
+      "Bạn bè và cấp dưới có người ngầm hại hoặc phản bội.",
+      "Bạn bè và cấp dưới dễ phản bội, nên tránh hùn hạp.",
+      "Bạn bè và cấp dưới hay than thở, ít giúp được bạn.",
+      "Bạn bè và cấp dưới khá cứng rắn, bạn dễ bị liên lụy vì họ.",
+      "Bạn bè và cấp dưới ít giúp được bạn và dễ rời đi.",
+      "Bạn bè ít giúp được bạn và bạn dễ bị hại.",
+      "Bạn dễ bị bạn bè hoặc cấp dưới lợi dụng, cướp công.",
+      "Bạn dễ bị bạn bè liên lụy.",
+      "Bạn dễ bị bạn bè lợi dụng.",
+      "Bạn dễ bị bạn bè phản bội.",
+      "Bạn dễ bị người dưới kéo chân.",
+      "Bạn dễ bị người khác lợi dụng hoặc cướp công."
+     ]
+    }
+   },
+   {
+    "id": "so_luong",
+    "ten": "Số lượng bạn bè",
+    "duong": {
+     "nhan": "nhiều",
+     "cau": [
+      "Bạn có nhiều bạn bè."
+     ]
+    },
+    "am": {
+     "nhan": "ít",
+     "cau": [
+      "Bạn bè của bạn ít mà chắc."
+     ]
+    }
+   }
+  ],
+  "Quan Lộc": [
+   {
+    "id": "on_dinh",
+    "ten": "Công việc ổn định hay thăng trầm",
+    "duong": {
+     "nhan": "ổn định",
+     "cau": [
+      "Bạn có chức có lộc, nghề ổn định; nếu gặp Địa Không, Địa Kiếp thì công danh khó bền.",
+      "Bạn hợp vai tham mưu, trợ lý, cố vấn và sự nghiệp khá ổn định.",
+      "Công việc của bạn ổn định nhưng ít thăng tiến.",
+      "Công việc của bạn ổn định và nhẹ nhàng.",
+      "Công việc của bạn ổn định, có thời gian tích sức chuẩn bị.",
+      "Công việc ổn định nhưng tiến chậm."
+     ]
+    },
+    "am": {
+     "nhan": "thất thường, thăng trầm",
+     "cau": [
+      "Bạn dễ thay đổi công việc liên tục.",
+      "Công việc của bạn bộc phát, nhanh lên nhanh xuống.",
+      "Công việc của bạn dễ thất thường.",
+      "Sự nghiệp của bạn lên xuống mạnh.",
+      "Sự nghiệp của bạn thăng trầm, hợp nghề sáng tạo, công nghệ hoặc tâm linh."
+     ]
+    }
+   }
+  ],
+  "Thiên Di": [
+   {
+    "id": "thuan_loi",
+    "ten": "Ra ngoài thuận lợi hay hao tổn",
+    "duong": {
+     "nhan": "có lợi, thuận lợi",
+     "cau": [
+      "Ra ngoài bạn có lộc, nhưng hay bị cạnh tranh.",
+      "Ra ngoài bạn gặp cơ hội nhờ kiến thức và chữ nghĩa.",
+      "Ra ngoài bạn gặp cơ hội nhờ kiến thức.",
+      "Ra ngoài bạn gặp cơ hội nhờ tài trí.",
+      "Ra ngoài bạn gặp nhiều cơ hội và có quan hệ rộng.",
+      "Ra ngoài bạn được nâng đỡ và thích nghi tốt.",
+      "Đi xa có lợi và mang lại nhiều cơ hội cho bạn.",
+      "Đi xa kiếm tiền thuận lợi."
+     ]
+    },
+    "am": {
+     "nhan": "hao tán, mất mát, không thuận",
+     "cau": [
+      "Ra ngoài bạn dễ gặp kế hoạch không thành hoặc mất mát; nên kiểm chứng kỹ trước khi làm.",
+      "Ra ngoài bạn dễ hao sức, hao tiền.",
+      "Ra ngoài bạn dễ hao tán.",
+      "Ra ngoài bạn dễ mất mát và kế hoạch dễ đổ.",
+      "Ra ngoài bạn dễ mất mát.",
+      "Ra ngoài bạn gặp chậm trễ và vướng víu.",
+      "Ra ngoài bạn hay gặp thị phi và đi xa không thuận.",
+      "Ra ngoài bạn nên đề phòng mất mát."
+     ]
+    }
+   }
+  ],
+  "Phúc Đức": [
+   {
+    "id": "phuc",
+    "ten": "Phúc đức dày hay mỏng",
+    "duong": {
+     "nhan": "phúc dày",
+     "cau": [
+      "Dòng họ có người thành đạt và bạn được hưởng phúc dày.",
+      "Phúc của bạn dày nhờ ơn của dòng họ và người trên.",
+      "Phúc của bạn dày và có tuổi thọ.",
+      "Phúc của bạn dày, cuộc sống an nhàn.",
+      "Phúc của bạn dày, dòng họ có người có chức phận hoặc thiên về tín ngưỡng.",
+      "Phúc của bạn khá.",
+      "Phúc lộc của bạn ổn định, sống thọ, nhưng ít thân với anh em họ.",
+      "Phúc thọ của bạn dày, dòng họ có người sống thọ.",
+      "Phúc thọ của bạn lớn, được ấm phúc tổ tiên.",
+      "Đời sống tinh thần của bạn thoải mái và được hưởng phúc của gia tộc."
+     ]
+    },
+    "am": {
+     "nhan": "phúc mỏng, hao",
+     "cau": [
+      "Phúc của bạn bị trì kéo và hay lo nghĩ.",
+      "Phúc của bạn dễ bị hao, tinh thần căng thẳng.",
+      "Phúc của bạn dễ bị hao.",
+      "Phúc của bạn không nhiều, bạn phải tự lập.",
+      "Phúc của bạn không nhiều, phải tự thân vận động.",
+      "Phúc của bạn mỏng và tinh thần hay căng thẳng."
+     ]
+    }
+   },
+   {
+    "id": "tinh_than",
+    "ten": "Đời sống tinh thần",
+    "duong": {
+     "nhan": "thanh thản, thoải mái",
+     "cau": [
+      "Tinh thần bạn thanh thản và gia tộc có tiếng.",
+      "Đời sống tinh thần của bạn thanh nhã, dòng họ có người học hành.",
+      "Đời sống tinh thần của bạn thanh nhã, họ hàng có người học hành đỗ đạt.",
+      "Đời sống tinh thần của bạn thanh nhã; dòng họ có người học hành đỗ đạt.",
+      "Đời sống tinh thần của bạn thoải mái và được hưởng phúc của gia tộc."
+     ]
+    },
+    "am": {
+     "nhan": "căng thẳng, bất an",
+     "cau": [
+      "Bạn hay lo âu ngầm.",
+      "Phúc của bạn bị trì kéo và hay lo nghĩ.",
+      "Phúc của bạn dễ bị hao, tinh thần căng thẳng.",
+      "Phúc của bạn dễ hao, tinh thần hay bất an.",
+      "Phúc của bạn mỏng và tinh thần hay căng thẳng.",
+      "Tinh thần bạn dễ căng thẳng; trong họ có chuyện tranh chấp hoặc tang sự.",
+      "Tinh thần bạn dễ yếu, hay lo; họ hàng có người ốm.",
+      "Tinh thần bạn hay bất an.",
+      "Tinh thần bạn hay căng thẳng, phúc của dòng họ mỏng; họ hàng có người vướng chuyện pháp lý hoặc cần phẫu thuật.",
+      "Tinh thần bạn hay lo chuyện chi tiêu nhỏ.",
+      "Tinh thần bạn hay lo chuyện giấy tờ, pháp lý; họ hàng có người vướng kiện cáo.",
+      "Tinh thần bạn hay lo chuyện hao hụt; phúc có phần hao.",
+      "Tinh thần bạn hay lo chuyện pháp lý; họ hàng có người vướng kiện cáo.",
+      "Tinh thần bạn hay lo nghĩ và khó thoát ra.",
+      "Tinh thần bạn hay lo nghĩ, phiền muộn.",
+      "Tinh thần bạn hay lo vì lời nói, thị phi; họ hàng hay bàn tán.",
+      "Tinh thần bạn hay lo, dòng họ có chuyện thị phi.",
+      "Tinh thần bạn khó yên, và phúc của dòng họ có chỗ khiếm khuyết.",
+      "Tinh thần bạn nhiều lo âu; họ hàng có chuyện buồn."
+     ]
+    }
+   },
+   {
+    "id": "ho_hang",
+    "ten": "Họ hàng",
+    "duong": {
+     "nhan": "thành đạt, đùm bọc",
+     "cau": [
+      "Dòng họ bạn có thế lực; tinh thần bạn mạnh nhưng dễ tự gây áp lực cho mình.",
+      "Dòng họ bạn hiếu học và có người có địa vị.",
+      "Dòng họ có người thành đạt và bạn được hưởng phúc dày.",
+      "Họ hàng bên bạn thường khá lên muộn.",
+      "Họ hàng bạn có người thành đạt.",
+      "Họ hàng đùm bọc nhau, lúc nguy khó thường có người cứu giải.",
+      "Tinh thần bạn hăng hái, dòng họ có người thành đạt.",
+      "Tinh thần bạn thanh thản và gia tộc có tiếng.",
+      "Đời sống tinh thần của bạn nhã nhặn, dòng họ có tiếng.",
+      "Đời sống tinh thần của bạn thanh nhã, họ hàng có người học hành đỗ đạt."
+     ]
+    },
+    "am": {
+     "nhan": "ly tán, sa sút",
+     "cau": [
+      "Họ hàng có người gặp rắc rối pháp lý hoặc sống phiêu bạt.",
+      "Họ hàng của bạn dễ ly tán, mỗi người một nơi.",
+      "Họ hàng dễ ly tán và vất vả.",
+      "Họ hàng dễ ly tán.",
+      "Họ hàng ít giúp đỡ bạn."
+     ]
+    }
+   }
+  ],
+  "Mệnh": [
+   {
+    "id": "tinh_nong",
+    "ten": "Tính nóng hay hiền hòa",
+    "duong": {
+     "nhan": "hiền hòa, điềm đạm",
+     "cau": [
+      "Bạn dịu dàng, tinh tế và có óc thẩm mỹ.",
+      "Bạn hiền hòa, dễ mến và biết cách hưởng thụ cuộc sống.",
+      "Bạn hiền hòa, dịu dàng, đức độ và hay được người giúp.",
+      "Bạn hiền hòa, nhẹ nhàng và thông minh."
+     ]
+    },
+    "am": {
+     "nhan": "nóng nảy, cương cường",
+     "cau": [
+      "Bạn cương cường, quyết liệt; khi sao yếu thì nóng nảy và dễ gặp tai nạn, khi sao mạnh thì thành uy dũng.",
+      "Bạn dễ nóng nảy và dễ vướng vào tranh chấp, kiện tụng.",
+      "Bạn nóng nảy, dễ bộc phát; khi sao mạnh thì quyết đoán, gặp Tham Lang thì phát nhanh.",
+      "Cá tính bạn quyết liệt; nên đề phòng thương tích và miệng tiếng."
+     ]
+    }
+   },
+   {
+    "id": "doi_moi",
+    "ten": "Đổi mới hay cứng nhắc",
+    "duong": {
+     "nhan": "tiên phong, dám đổi mới",
+     "cau": [
+      "Bạn là người tiên phong, dám đổi mới."
+     ]
+    },
+    "am": {
+     "nhan": "cứng nhắc, bảo thủ",
+     "cau": [
+      "Bạn cẩn thận, biết giữ của và tài lộc bền, nhưng hơi cô độc và bảo thủ.",
+      "Bạn dễ bảo thủ, và khi gặp bất lợi thì của cải dễ hao hụt.",
+      "Bạn dễ cứng nhắc và hơi lạnh lùng với người xung quanh.",
+      "Bạn tự chủ, quyết đoán, thích nắm quyền nhưng dễ cứng nhắc."
+     ]
+    }
+   },
+   {
+    "id": "giu_cua",
+    "ten": "Giữ của hay hao tán",
+    "duong": {
+     "nhan": "biết giữ của, tài lộc bền",
+     "cau": [
+      "Bạn cẩn thận, biết giữ của và tài lộc bền, nhưng hơi cô độc và bảo thủ.",
+      "Bạn ổn định, phúc hậu và biết giữ của."
+     ]
+    },
+    "am": {
+     "nhan": "dễ hao tán",
+     "cau": [
+      "Bạn dễ hao tán và tiêu xài vượt kế hoạch.",
+      "Bạn liều lĩnh và dễ hao tán; khi sao mạnh thì dám làm mà thành.",
+      "Bạn ngang ngạnh, hay làm ngược lại và dễ hao tán; nên kiềm chế bản thân.",
+      "Cuộc đời bạn dễ thăng trầm và dễ hao tán."
+     ]
+    }
+   }
+  ]
+ }
+}
