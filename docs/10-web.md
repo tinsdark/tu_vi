@@ -115,6 +115,7 @@ So từng ô 12 cung với 1 PDF của tracuutuvi.com (Quý Mùi, 11/5/2003 14:4
 - **Sai thật, đã sửa:** lưu nguyệt. Web mẫu khởi tháng Giêng từ **cung tiểu hạn**, engine cũ khởi từ cung Thái Tuế. Nay mặc định `profile.luu_nguyet = "tieu_han"`, dị bản `thai_tue`. Test `thongtin.test.ts` khớp 4 ô `Th.n` của PDF. Mới có 1 lá số đối chiếu.
 - **Thiếu hiển thị, đã thêm** (không đổi luận giải): can chi từng cung, màu sao theo ngũ hành (có công tắc về xanh/đỏ), `(Đ)(H)…` cho mọi sao có độ sáng, sao lưu niên bật mặc định và có trong ảnh PNG/SVG, chi năm tiểu hạn + `Th.n` ở chân ô, ô giữa (nạp âm, quan hệ Cục–Mệnh, can chi tháng/ngày/giờ, chủ mệnh/chủ thân, lai nhân, thân cư).
 - **Chủ mệnh — các nguồn bất đồng, đã đổi mặc định:** web tra Chủ mệnh theo **chi của cung Mệnh** (Mệnh Sửu → Cự Môn; cách của iztro và bảng truyền thống), Chủ thân theo chi năm sinh. tracuutuvi.com tra Chủ mệnh theo chi năm sinh (Mùi → Vũ Khúc; khớp 2 lá số mẫu) và lasotuvi tra theo biến `canNam` (có vẻ lỗi) nên các bên lệch nhau ở nhiều lá số. Đổi `CHU_MENH_THEO` trong `web/src/engine/thongTin.ts` để quay về cách tracuutuvi. "Chủ mệnh" khác với **chính tinh thủ Mệnh** (Thái Dương/Thái Âm ở lá số mẫu); giao diện không còn gọi chính tinh thủ Mệnh là "sao chủ Mệnh".
+- **Chưa chắc:** cách viết quan hệ Cục–Mệnh khi không phải "sinh".
 - **Còn lệch:** Văn Xương tại Mão (web mẫu: Đắc, ta: Bình, chưa đủ 2 nguồn). **Chưa làm:** cân lượng (thiếu bảng tháng/ngày đã kiểm).
 
 ### Lá số mẫu thứ 2 (Quý Mùi, 28/3/2003 13:45, nam)
