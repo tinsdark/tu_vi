@@ -36,6 +36,7 @@ class TriThuc:
         cc = nap("cach_cuc.json")
         self.cach, self.pha_chung = cc["cach"], cc["_meta"]["pha_chung"]
         self.tu_hoa = nap("tu_hoa_luan.json")["to_hop"]
+        self.truc = nap("truc_luan.json")["truc"]    # trục luận từng cung (tools/sinh_truc_luan.py): phát hiện câu nói ngược nhau
         self.phu_cung = nap("phu_tinh_tai_cung_chuc.json")["sao"] if os.path.exists(os.path.join(KB, "phu_tinh_tai_cung_chuc.json")) else {}
         # Độ sáng: bảng đã chốt (do_sang_chot.json) ưu tiên, còn lại lấy lasotuvi
         self.do_sang = {s["ten"].lower(): s["theo_chi"] for s in nap("do_sang.json")["sao"]}
@@ -193,6 +194,30 @@ class LuanGiai:
 
     def nguon(self, c, quan_he, nhan):
         return {"cung_nguon": self.ls["cung_chuc"][c], "chi_nguon": CHI[c], "quan_he": quan_he, "nhan": nhan}
+
+    def hoa_giai_truc(self, ten_cung, chi, nhan_dinh):
+        """Các câu của MỘT cung nói ngược nhau về cùng một trục (VD số lượng anh chị em: Thiên Phủ báo đông, Vũ Khúc báo ít) không được
+        để cạnh nhau như hai khẳng định riêng. Với mỗi trục có cả phía dương lẫn phía âm: ẩn các câu gốc (`an`: True — vẫn còn trong
+        danh sách để điểm không đổi) và thêm MỘT câu 'trái chiều' (id XD.<cung>.<trục>, không tính điểm mạnh/yếu, xếp vào "lưu ý")."""
+        for t in self.tt.truc.get(ten_cung, []):
+            dp, am = [], []
+            for n in nhan_dinh:
+                if not n["id"].startswith(("CT.", "PT.")) or n["id"].startswith("XD."):
+                    continue
+                if any(n["nhan_dinh"].startswith(c) for c in t["duong"]["cau"]):
+                    dp.append(n)
+                elif any(n["nhan_dinh"].startswith(c) for c in t["am"]["cau"]):
+                    am.append(n)
+            if not dp or not am:
+                continue
+            sao = lambda ds: ", ".join(dict.fromkeys(n["id"].split(".")[1] for n in ds))
+            for n in dp + am:
+                n["an"] = True
+            nhan_dinh.append({
+                "id": f"XD.{ten_cung}.{t['id']}", "diem": 0.0, "luu_y": True,
+                "nhan_dinh": f"{t['ten']}: các sao tác động lên cung này nói ngược nhau — {t['duong']['nhan']} ({sao(dp)}) và {t['am']['nhan']} ({sao(am)}); nên không kết luận chắc về mục này.",
+                "ly_do": "Câu gốc được gộp: " + "; ".join(f"{n['id'].split('.')[1]}: «{n['nhan_dinh'].split('. ')[0].rstrip('.')}»" for n in dp + am),
+                **self.nguon(chi, "ban_cung", list(dict.fromkeys(n["id"].split(".")[1] for n in dp + am)))})
 
     def cau_sat(self, ten_cung, sat_ban, sat_xh):
         """Câu cảnh báo sát tinh sinh từ dữ liệu thật: tách sát ở bản cung và sát ở xung/hội chiếu (không có thì không sinh)."""
@@ -429,6 +454,7 @@ class LuanGiai:
                               "ly_do": f"Tổng điểm cát tinh xung/hội chiếu {tong_cat_xh:.1f}",
                               **self.nguon(chi, "ban_cung", list(dict.fromkeys(x[0] for x in cat_xh)))})
 
+        self.hoa_giai_truc(ten_cung, chi, nhan_dinh)
         sang_chu = [self.tt.sang(s, chi_chu) for s in chu]
         return {"cung": ten_cung, "chi": CHI[chi], "diem": round(raw2, 2), "diem100": d100, "xep_loai": bac(d100, cfg["diem_noi_tai"]),
                 "sat_xh": [{"sao": x[0], "cung": self.ls["cung_chuc"][x[1]], "chi": CHI[x[1]], "quan_he": x[2]} for x in sat_xh] if dung_sat else [],
@@ -526,7 +552,7 @@ class LuanGiai:
             ket["dai_han"] = {"chi": CHI[dh], "cung_goc": self.ls["cung_chuc"][dh], "tu_tuoi": self.ls["dai_han"][dh],
                               "can": can_dh, "tu_hoa": {k: f"{v} tại {CHI[self.ls['sao'][v]]} ({self.ls['cung_chuc'][self.ls['sao'][v]]} gốc)" for k, v in bang_dh.items()},
                               "danh_gia": {k: {"chi": v["chi"], "xep_loai": v["xep_loai"], "diem": v["diem"],
-                                               "noi_bat": sorted(v["nhan_dinh"], key=lambda n: -abs(n["diem"]))[:3]} for k, v in danh_gia.items()}}
+                                               "noi_bat": sorted([n for n in v["nhan_dinh"] if not n.get("an")], key=lambda n: -abs(n["diem"]))[:3]} for k, v in danh_gia.items()}}
         # tiểu hạn: khởi theo tam hợp chi năm sinh, nam thuận nữ nghịch
         chieu = 1 if self.ls["input"]["gioi_tinh"] == "nam" else -1
         th = mv(self.ls["tieu_han_khoi"], (tuoi - 1) * chieu)
@@ -625,7 +651,8 @@ class LuanGiai:
                             luu_y.append(dict(n, cung=c))
                         continue
                     if not n["diem"] and n["id"].startswith(("CT.", "PT.")) and w >= chinh_cung:
-                        trung_tinh.append(self.gan_nguon(dict(n, cung=c), c))        # chính tinh/phụ tinh cung chủ có điểm đúng 0 vẫn phải được luận
+                        if not n.get("an"):          # câu đã gộp vào câu 'trái chiều' (XD.*) thì không nhắc lại
+                            trung_tinh.append(self.gan_nguon(dict(n, cung=c), c))        # chính tinh/phụ tinh cung chủ có điểm đúng 0 vẫn phải được luận
                         continue
                     if not n["diem"]:
                         continue
@@ -641,8 +668,10 @@ class LuanGiai:
                     ung_vien.append(self.gan_nguon(dict(n, cung=c), c))
             sang = [n for n in ung_vien if n["diem"] > 0]
             hung = [n for n in ung_vien if n["diem"] < 0]
-            tot = sorted(sang, key=lambda n: -n["diem"])[:3]
-            xau = sorted(hung, key=lambda n: n["diem"])[:3]
+            # ĐẾM (điểm, §4.8) dùng cả câu đã bị gộp; HIỂN THỊ chỉ dùng câu còn hiện (câu 'trái chiều' XD.* đã thay chỗ chúng)
+            ung_vien = [n for n in ung_vien if not n.get("an")]
+            tot = sorted([n for n in sang if not n.get("an")], key=lambda n: -n["diem"])[:3]
+            xau = sorted([n for n in hung if not n.get("an")], key=lambda n: n["diem"])[:3]
             gt = [x for c in chu_ds for x in self.gian_tiep(cd, c, cham[c])] if len(chu_ds) == 1 else []
             tot_hien, xau_hien = tot, xau
             if cd.get("tieu_muc"):       # chủ đề gộp nhiều cung: tách tiểu mục, mỗi câu mang nhãn cung nguồn

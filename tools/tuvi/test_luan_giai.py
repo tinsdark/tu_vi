@@ -392,8 +392,32 @@ def test_tinh_cach_co_ca_hai_mat_khi_menh_co_sat_dac_dia():
         if dd:
             thay += 1
             yeu = kq["chu_de"]["Tính cách"]["diem_yeu"]
-            assert any(n["id"] == dd[0]["id"] for n in yeu) or len([n for n in yeu if n["id"] not in ("XC.Thiên Di",)]) >= 3, dd[0]["id"]
+            sao = dd[0]["id"].split(".")[1]
+            # câu có thể đã được gộp vào câu 'trái chiều' (XD.*) của chính cung Mệnh — vẫn phải nhắc tên sao đó
+            gop = [n for n in kq["chu_de"]["Tính cách"]["luu_y"] if n["id"].startswith("XD.Mệnh.") and sao in n["nhan"]]
+            assert any(n["id"] == dd[0]["id"] for n in yeu) or gop or len([n for n in yeu if n["id"] not in ("XC.Thiên Di",)]) >= 3, dd[0]["id"]
     assert thay > 20
+
+
+def test_cau_cung_cung_mot_cung_khong_noi_nguoc_nhau():
+    # Mỗi sao sinh một câu riêng → cùng một cung có thể vừa "đông" vừa "ít", vừa "hòa thuận" vừa "bất hòa" (lỗi do người dùng phát hiện).
+    # Bất biến: với mỗi trục (data/knowledge/truc_luan.json) KHÔNG còn câu hiện (không `an`) ở cả hai phía; nếu có cả hai phía thì có đúng
+    # một câu XD.<cung>.<trục> thay thế, các câu gốc bị ẩn nhưng vẫn nằm trong danh sách (điểm không đổi).
+    tt, rnd, gop = TriThuc(), random.Random(73), 0
+    for _ in range(500):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt))
+        for ten, k in kq["cung"].items():
+            hien = [n for n in k["nhan_dinh"] if not n.get("an") and n["id"].startswith(("CT.", "PT."))]
+            for t in tt.truc.get(ten, []):
+                co = lambda ds: [n for n in hien if any(n["nhan_dinh"].startswith(c) for c in ds)]
+                assert not (co(t["duong"]["cau"]) and co(t["am"]["cau"])), (ten, t["id"], [n["nhan_dinh"] for n in hien])
+                xd = [n for n in k["nhan_dinh"] if n["id"] == f"XD.{ten}.{t['id']}"]
+                assert len(xd) <= 1
+                if xd:
+                    gop += 1
+                    assert xd[0]["diem"] == 0 and xd[0]["luu_y"] and any(n.get("an") for n in k["nhan_dinh"])
+    assert gop > 100
 
 
 def test_khung_tuan_triet_khong_lap_nguyen_van():

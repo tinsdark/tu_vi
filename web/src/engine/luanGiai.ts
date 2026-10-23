@@ -174,6 +174,31 @@ export class LuanGiai {
     return { cung_nguon: this.ls.cung_chuc[c], chi_nguon: CHI[c], quan_he: quanHe, nhan };
   }
 
+  /** Các câu của MỘT cung nói ngược nhau về cùng một trục (VD số lượng anh chị em: Thiên Phủ báo đông, Vũ Khúc báo ít) không được
+   *  để cạnh nhau như hai khẳng định riêng. Với mỗi trục có cả phía dương lẫn phía âm: ẩn các câu gốc (`an` — vẫn còn trong danh sách
+   *  để điểm không đổi) và thêm MỘT câu "trái chiều" (id XD.<cung>.<trục>, không tính điểm mạnh/yếu, xếp vào "lưu ý"). Bản sao của hoa_giai_truc (Python). */
+  private hoaGiaiTruc(tenCung: string, chi: number, nhanDinh: NhanDinh[]): void {
+    for (const t of this.tt.truc[tenCung] ?? []) {
+      const dp: NhanDinh[] = [];
+      const am: NhanDinh[] = [];
+      for (const n of nhanDinh) {
+        if (!/^(CT|PT)\./.test(n.id)) continue;
+        if (t.duong.cau.some((c) => n.nhan_dinh.startsWith(c))) dp.push(n);
+        else if (t.am.cau.some((c) => n.nhan_dinh.startsWith(c))) am.push(n);
+      }
+      if (!dp.length || !am.length) continue;
+      const tenSao = (n: NhanDinh) => n.id.split(".")[1];
+      const sao = (ds: NhanDinh[]) => [...new Set(ds.map(tenSao))].join(", ");
+      for (const n of [...dp, ...am]) n.an = true;
+      nhanDinh.push({
+        id: `XD.${tenCung}.${t.id}`, diem: 0.0, luu_y: true,
+        nhan_dinh: `${t.ten}: các sao tác động lên cung này nói ngược nhau — ${t.duong.nhan} (${sao(dp)}) và ${t.am.nhan} (${sao(am)}); nên không kết luận chắc về mục này.`,
+        ly_do: "Câu gốc được gộp: " + [...dp, ...am].map((n) => `${tenSao(n)}: «${n.nhan_dinh.split(". ")[0].replace(/\.+$/, "")}»`).join("; "),
+        ...this.nguon(chi, "ban_cung", [...new Set([...dp, ...am].map(tenSao))]),
+      });
+    }
+  }
+
   /** Câu cảnh báo sát tinh sinh từ dữ liệu thật: tách sát ở bản cung và sát ở xung/hội chiếu (không có thì không sinh). */
   private cauSat(tenCung: string, satBan: [string, number][], satXh: [string, number, string][]): string {
     const uniq = (a: string[]) => [...new Set(a)];
@@ -442,6 +467,7 @@ export class LuanGiai {
       });
     }
 
+    this.hoaGiaiTruc(tenCung, chi, nhanDinh);
     const sangChu = chu.map((s) => this.tt.sang(s, chiChu));
     return {
       cung: tenCung, chi: CHI[chi], diem: pyRound(raw2, 2), diem100: d100, xep_loai: bac(d100, cfg.diem_noi_tai),
@@ -552,7 +578,7 @@ export class LuanGiai {
       CUNG_CHUC.forEach((ten, i) => {
         if (!["Mệnh", "Quan Lộc", "Tài Bạch", "Phu Thê", "Tật Ách"].includes(ten)) return;
         const v = lgDh.chamCung(ten, mv(dh, i));
-        const noiBat = [...v.nhan_dinh].sort((a, b) => -Math.abs(a.diem) - -Math.abs(b.diem)).slice(0, 3);
+        const noiBat = v.nhan_dinh.filter((n) => !n.an).sort((a, b) => -Math.abs(a.diem) - -Math.abs(b.diem)).slice(0, 3);
         danhGia[ten] = { chi: v.chi, xep_loai: v.xep_loai, diem: v.diem, noi_bat: noiBat };
       });
       const tuHoaTxt: Record<string, string> = {};
@@ -678,7 +704,7 @@ export class LuanGiai {
             continue;
           }
           if (!n.diem && /^(CT|PT)\./.test(n.id) && w >= chinhCung) { // chính tinh/phụ tinh cung chủ có điểm đúng 0 vẫn phải được luận
-            trungTinh.push(this.ganNguon({ ...n, cung: c }, c));
+            if (!n.an) trungTinh.push(this.ganNguon({ ...n, cung: c }, c)); // câu đã gộp vào câu "trái chiều" (XD.*) thì không nhắc lại
             continue;
           }
           if (!n.diem) continue;
@@ -695,8 +721,10 @@ export class LuanGiai {
       }
       const sang = ungVien.filter((n) => n.diem > 0);
       const hung = ungVien.filter((n) => n.diem < 0);
-      const tot = [...sang].sort((a, b) => -a.diem - -b.diem).slice(0, 3);
-      const xau = [...hung].sort((a, b) => a.diem - b.diem).slice(0, 3);
+      // ĐẾM (điểm, §4.8) dùng cả câu đã bị gộp; HIỂN THỊ chỉ dùng câu còn hiện (câu "trái chiều" XD.* đã thay chỗ chúng)
+      const hien = ungVien.filter((n) => !n.an);
+      const tot = sang.filter((n) => !n.an).sort((a, b) => -a.diem - -b.diem).slice(0, 3);
+      const xau = hung.filter((n) => !n.an).sort((a, b) => a.diem - b.diem).slice(0, 3);
       const gt = chuDs.length === 1 ? chuDs.flatMap((c) => this.gianTiep(cd, c, cham[c])) : [];
       let totHien = tot;
       let xauHien = xau;
@@ -705,7 +733,7 @@ export class LuanGiai {
         xauHien = [];
         for (const c of chuDs) {
           const nhanTm: string = cd.tieu_muc[c];
-          const cuaC = ungVien.filter((n) => n.cung === c);
+          const cuaC = hien.filter((n) => n.cung === c);
           totHien.push(...cuaC.filter((n) => n.diem > 0).sort((a, b) => -a.diem - -b.diem).slice(0, 2).map((n) => ({ ...n, nhan_dinh: `${nhanTm}: ${n.nhan_dinh}` })));
           xauHien.push(...cuaC.filter((n) => n.diem < 0).sort((a, b) => a.diem - b.diem).slice(0, 2).map((n) => ({ ...n, nhan_dinh: `${nhanTm}: ${n.nhan_dinh}` })));
         }

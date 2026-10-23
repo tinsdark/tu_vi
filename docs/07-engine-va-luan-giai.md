@@ -81,6 +81,15 @@ Quy trình `docs/06`: nền → chủ tinh → độ sáng → tam phương tứ
 
 Test: `test_luan_giai.py` — 150 lá số ngẫu nhiên không lỗi, điểm nội tại bội 5 và 6 bậc, mọi nhận định có ID, văn mẫu qua hậu kiểm 0 câu bị bỏ, phi tuyến làm giảm điểm khi thêm sát tinh, sát tinh đắc địa không lọt vào điểm mạnh/yếu, văn mẫu không nói percentile và không lặp ý, mọi nhận định chủ đề truy được về cung chủ/xung/tam hợp và nêu "từ cung …" khi khác cung, câu sát tinh khớp vị trí thật, sàn chính tinh miếu/vượng, ngũ hành có hệ quả, nhánh vô chính diệu, hạn năm có nên/tránh.
 
+### 3b. Câu luận cùng cung không được nói ngược nhau
+
+Mỗi sao trong cung sinh một câu riêng, nên một cung có thể vừa "anh chị em **đông** và giúp đỡ nhau" (Thiên Phủ) vừa "anh chị em **ít** nhờ cậy được" (Địa Không). Cách xử lý (`LuanGiai.hoa_giai_truc` / `hoaGiaiTruc`):
+
+- `data/knowledge/truc_luan.json` (sinh bởi `tools/sinh_truc_luan.py`, **không sửa tay**; CI chạy lại và so khác biệt) liệt kê, cho từng cung, các **trục** mà hai phía loại trừ nhau (số lượng, hòa khí, giúp đỡ, giữ của…) kèm các câu luận thuộc phía dương/âm. Cặp có thể cùng tồn tại (hiếu thảo + ham chơi) thì **không** là trục.
+- Khi một trục có cả câu dương lẫn câu âm ở cùng cung: các câu gốc bị ẩn (`an: true`, vẫn nằm trong `nhan_dinh` nên **điểm và phép đếm §4.8 không đổi**), thay bằng một câu `XD.<cung>.<trục>` ("… các sao tác động lên cung này nói ngược nhau — đông (Thiên Phủ) và ít (Vũ Khúc, Lộc Tồn); nên không kết luận chắc"), xếp vào "lưu ý cấu trúc", `ly_do` ghi các câu gốc.
+- Câu có điều kiện ("…; nếu gặp sát tinh thì…") chỉ xét vế trước dấu `;`; câu âm đã nhẹ nhàng hóa ("có lúc", "có phần") không tạo trái chiều.
+- **Giới hạn:** danh sách trục là bản AI soạn (12 cung, 1–3 trục mỗi cung), chưa được người review; chưa xét mâu thuẫn **giữa các cung** trong một chủ đề. Test: `test_cau_cung_cung_mot_cung_khong_noi_nguoc_nhau`.
+
 ## 4. Hạn chế — nói thẳng
 
 1. **Chưa có gì chứng minh luận đúng.** Trọng số, K của phi tuyến, ngưỡng phá cách chung, trọng số chủ đề đều là mô hình của tao. Mốc hiệu chỉnh chỉ làm thang đo nội bộ. Cần lá số người thật đã biết đời.
