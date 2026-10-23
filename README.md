@@ -38,6 +38,7 @@ python3 tools/kiem_do_sang.py data/knowledge/do_sang.json data/knowledge/do_sang
 | `docs/08-lich-am.md` | Đổi dương → âm lịch, múi giờ lịch sử, quy ước giờ, kết quả so chéo |
 | `docs/09-doi-chieu-web.md` | Đối chiếu độ sáng, Thiên Giải, Lưu Hà, cách cục với web (toàn văn) |
 | `docs/10-web.md` | Web: cấu trúc, parity TS = Python, API viết văn, triển khai, quyền riêng tư |
+| `docs/11-hoc-tu-luan-giai-mau.md` | **Báo cáo học từ hai bản luận giải mẫu**: kết quả đo, 9 điều nên học, điều không học, kế hoạch theo lô, hướng dẫn cho phiên sau |
 | `docs/vi-du-luan-giai.md`, `vi-du-van-xuoi.md`, `vi-du-la-so.svg` | Ví dụ đầu ra |
 | `data/knowledge/` | Tri thức (JSON là nguồn gốc). Mỗi file có `_meta.trang_thai` |
 | `tools/tuvi/` | `lich_am.py` lịch · `an_sao.py` engine · `luan_giai.py` bộ luận · `viet_van.py` văn xuôi · `ve_la_so.py` SVG · test, hiệu chỉnh, so chéo |
