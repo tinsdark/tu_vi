@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { hauKiemTheoMuc, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type NhapLieu } from "../engine";
+import { hauKiemTheoMuc, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type KetQuaNangCao, type NhapLieu } from "../engine";
 import { API_BASE } from "../lib/api";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
@@ -126,7 +126,7 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
   );
 }
 
-export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
+export function TabTongQuan({ bc, nhap, nc }: { bc: BaoCao; nhap: NhapLieu; nc: KetQuaNangCao }) {
   const ids = tapId(bc);
   return (
     <div className="tab-noi-dung">
@@ -147,6 +147,14 @@ export function TabTongQuan({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
           </article>
         ))}
       </div>
+      {nc.bo && (
+        <Khoi tieuDe={`Bộ chính tinh của Mệnh: ${nc.bo.ten}`} ghiChu="Định hướng nghề và tính cách nền theo bộ sao (cách xếp bộ tùy phái, chỉ để tham khảo).">
+          <p>Chính tinh {nc.bo.muon ? "mượn từ cung xung" : "tại Mệnh"}: <b>{nc.bo.sao_menh.join(", ") || "—"}</b></p>
+          <p>Nghề phù hợp: {nc.bo.nghe}.</p>
+          <p>{nc.bo.tinh_cach[0].toUpperCase() + nc.bo.tinh_cach.slice(1)}.</p>
+          {nc.bo.ghi_chu && <p className="mo">{nc.bo.ghi_chu}</p>}
+        </Khoi>
+      )}
       <Khoi tieuDe="Nền của lá số" ghiChu="Mệnh – Cục, âm dương và sao chủ Mệnh.">
         <DanhSachNhanDinh ds={bc.nen} />
       </Khoi>

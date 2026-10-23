@@ -1,7 +1,7 @@
-import { type BaoCao } from "../engine";
+import { type BaoCao, type KetQuaNangCao } from "../engine";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, MAU_XEP as MAU } from "./chung";
 
-export function TabHan({ bc, namXem, onDoiNam }: { bc: BaoCao; namXem: number; onDoiNam: (n: number) => void }) {
+export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNangCao; namXem: number; onDoiNam: (n: number) => void }) {
   const h = bc.han;
   if (!h) return <p className="mo">Chưa có dữ liệu hạn.</p>;
   const d = h.dai_han;
@@ -43,6 +43,16 @@ export function TabHan({ bc, namXem, onDoiNam }: { bc: BaoCao; namXem: number; o
           <>
             <h4>Kết luận và khuyến nghị</h4>
             <DanhSachNhanDinh ds={h.luu_nien.ket_luan} rong />
+          </>
+        )}
+        {nc.tuoi && nc.tuoi.loai !== "khong" && <p className={nc.tuoi.loai === "tam_hop" ? "tot" : "xau"}>{nc.tuoi.nhan_dinh}</p>}
+        {nc.trung_phung && (nc.trung_phung.canh_bao.length > 0 || nc.trung_phung.thuan.length > 0) && (
+          <>
+            <h4>Trùng phùng đại hạn × lưu niên</h4>
+            <ul>
+              {nc.trung_phung.canh_bao.map((c) => <li key={c} className="xau">{c}</li>)}
+              {nc.trung_phung.thuan.map((c) => <li key={c} className="tot">{c}</li>)}
+            </ul>
           </>
         )}
         <details className="phu-luc">

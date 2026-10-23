@@ -147,9 +147,9 @@ export function App() {
                   <p className="mo">Bấm vào tên cung để xem luận cung, bấm vào tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn. Chữ “H” cạnh sao là sao hãm.</p>
                 </>
               )}
-              {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nhap={nhap} />}
+              {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nhap={nhap} nc={kq.nang_cao} />}
               {tab === "cung" && <TabCung bc={kq.bao_cao} />}
-              {tab === "han" && <TabHan bc={kq.bao_cao} namXem={nhap.nam_xem} onDoiNam={doiNam} />}
+              {tab === "han" && <TabHan bc={kq.bao_cao} nc={kq.nang_cao} namXem={nhap.nam_xem} onDoiNam={doiNam} />}
             </div>
           </>
         )}
