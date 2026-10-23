@@ -6,7 +6,7 @@ import { anLaSo, type GioiTinh, type Profile } from "../src/engine/anSao";
 import { triThuc } from "../src/engine/kb";
 import { duongSangAm, tuDuongLich, type Mien } from "../src/engine/lichAm";
 import { baoCao, LuanGiai } from "../src/engine/luanGiai";
-import { hauKiem, hauKiemTheoMuc, mucChoPhep, tapId, vietMau, vietVanMau } from "../src/engine/vietVan";
+import { hauKiem, hauKiemTheoMuc, mucChoPhep, tapId, vietVanMau } from "../src/engine/vietVan";
 
 const nap = (ten: string) => JSON.parse(readFileSync(join(process.env.TUVI_GOLDEN!, ten), "utf8"));
 /** Chuẩn hóa -0 (Python in "-0.0", JS không phân biệt khi serialize) để toEqual không bắt lỗi giả. */
@@ -67,16 +67,15 @@ describe("luận giải: TS = Python", () => {
     expect(sai).toEqual([]);
     expect(g.length).toBeGreaterThan(50);
   });
-  it("văn mẫu + hậu kiểm trùng Python", () => {
+  it("hậu kiểm + tập mã trùng Python; văn mẫu không bị hậu kiểm bỏ câu nào", () => {
     for (const c of g) {
       if (!c.van) continue;
       const v = c.vao;
       const ls = anLaSo(v.can_nam, v.chi_nam, v.thang, v.ngay, v.gio, v.gioi_tinh, v.profile ?? undefined);
       const kq = baoCao(new LuanGiai(ls, tt), v.nam_sinh, v.nam_xem);
-      expect(vietMau(kq)).toBe(c.viet_mau);
+      // văn mẫu (lớp nền) chỉ có ở TS từ spec Phần 3: không so với Python, chỉ kiểm hậu kiểm dưới đây
       const r = vietVanMau(kq);
-      expect(r.van).toBe(c.van);
-      expect(r.bo).toBe(c.bo);
+      expect(r.bo).toBe(0);
       expect([...tapId(kq)].sort()).toEqual(c.ids);
       expect(Object.fromEntries(Object.entries(mucChoPhep(kq)).map(([k, v]) => [k, [...v].sort()]))).toEqual(c.muc);
       expect(hauKiemTheoMuc(c.cau_muc, kq)).toEqual(c.hau_kiem_muc);
