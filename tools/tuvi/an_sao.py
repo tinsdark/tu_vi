@@ -124,7 +124,7 @@ def an_la_so(can_nam, chi_nam, thang, ngay, gio, gioi_tinh, profile=None):
     dat("Tả Phù", mv(THIN, thang - 1))
     dat("Hữu Bật", mv(TUAT, -(thang - 1)))
     dat("Thiên Hình", mv(DAU, thang - 1))
-    dat("Thiên Riêu", mv(SUU, thang - 1))
+    dat("Thiên Diêu", mv(SUU, thang - 1))
     dat("Thiên Y", mv(SUU, thang - 1))
     dat("Địa Giải", mv(MUI, thang - 1))
     dat("Thiên Giải", mv(THAN, (thang - 1) * (2 if p["thien_giai"] == "nhay_cung" else 1)))

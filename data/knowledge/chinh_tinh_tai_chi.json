@@ -11,7 +11,7 @@
       "dieu_chinh": { "Ngọ": 1, "Tý": 0 } },
     { "bo": ["Tử Vi", "Phá Quân"], "chi": ["Sửu", "Mùi"], "chung": "Quyền uy kèm phá cách: dám thay đổi, khởi nghiệp, nhưng đời nhiều thăng trầm; trung niên mới ổn.", "theo_chi": {} },
     { "bo": ["Tử Vi", "Thiên Phủ"], "chi": ["Dần", "Thân"], "chung": "Tử Phủ đồng cung — vừa có uy vừa có kho; ổn định, phúc hậu, giỏi quản trị. Đối cung Thất Sát nên vẫn có quyết đoán.", "theo_chi": {}, "dieu_chinh": { "Dần": 1, "Thân": 1 } },
-    { "bo": ["Tử Vi", "Tham Lang"], "chi": ["Mão", "Dậu"], "chung": "Tử Tham — 'đào hoa phạm chủ': đa tài, giao tế giỏi, ham hưởng thụ; dễ sa đà tửu sắc nếu gặp Đào Hồng Riêu. Gặp Không Kiếp lại hợp tu hành/ triết lý.", "theo_chi": {} },
+    { "bo": ["Tử Vi", "Tham Lang"], "chi": ["Mão", "Dậu"], "chung": "Tử Tham — 'đào hoa phạm chủ': đa tài, giao tế giỏi, ham hưởng thụ; dễ sa đà tửu sắc nếu gặp Đào Hồng Diêu. Gặp Không Kiếp lại hợp tu hành/ triết lý.", "theo_chi": {} },
     { "bo": ["Tử Vi", "Thiên Tướng"], "chi": ["Thìn", "Tuất"], "chung": "Tử Tướng tại Thiên La Địa Võng — có uy và có ấn nhưng bị gò bó; đối cung Phá Quân, đời có bước ngoặt lớn.", "theo_chi": {} },
     { "bo": ["Tử Vi", "Thất Sát"], "chi": ["Tỵ", "Hợi"], "chung": "Tử Sát — 'hóa sát vi quyền': quyền lực thực, quyết đoán, làm việc lớn; tính nóng, khó chịu lép.", "theo_chi": { "Tỵ": "Tỵ là đất miếu của Tử Vi, lực mạnh hơn.", "Hợi": "Hợi Tử Vi bình, Sát đắc thế hơn — thiên về hành động." } },
 

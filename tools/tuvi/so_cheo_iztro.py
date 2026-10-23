@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import CHI, an_la_so, mv  # noqa: E402
 
 # tên iztro (vi-VN) → tên trong engine
-TEN = {"Thiên Diêu": "Thiên Riêu", "Đài Phụ": "Thai Phụ", "Phụng Các": "Phượng Các", "Niên Giải": "Giải Thần",
+TEN = {"Thiên Diêu": "Thiên Diêu", "Đài Phụ": "Thai Phụ", "Phụng Các": "Phượng Các", "Niên Giải": "Giải Thần",
        "Hàm Trì": "Đào Hoa",
        "TS.Trường Sinh": "Tràng Sinh", "BS.Bác Sỹ": "Bác Sĩ", "BS.Lực Sỹ": "Lực Sĩ",
        # vòng Thái Tuế bản Trung Hoa: cùng thứ tự, khác tên

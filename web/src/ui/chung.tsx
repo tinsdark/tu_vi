@@ -42,8 +42,8 @@ export function DanhSachNhanDinh({ ds, rong }: { ds: NhanDinh[]; rong?: boolean 
   );
 }
 
-/** 6 bậc điểm nội tại → lớp màu: rt/t = tốt, k = khá, tb = trung bình, th/rth = thấp. */
-export const MAU_XEP: Record<string, string> = { "Rất tốt": "rt", Tốt: "t", Khá: "k", "Trung bình": "tb", Thấp: "th", "Rất thấp": "rth" };
+/** 6 bậc điểm nội tại → lớp màu: rt/t/k = tốt/khá, tb = trung bình, dtb = dưới trung bình, th = thấp. */
+export const MAU_XEP: Record<string, string> = { "Rất tốt": "rt", Tốt: "t", Khá: "k", "Trung bình": "tb", "Dưới trung bình": "dtb", Thấp: "th" };
 
 /** Thanh điểm nội tại /100 — tương quan giữa các cung của chính lá số này, KHÔNG phải so với lá số khác. */
 export function ThanhDiem({ diem100, xepLoai }: { diem100: number; xepLoai: string }) {

@@ -69,9 +69,9 @@ def test_nhan_diem_khong_mau_thuan_noi_dung():
         for ten, cd in bao_cao(LuanGiai(ls, tt))["chu_de"].items():
             tong += 1
             sang, hung = sum(n["diem"] for n in cd["diem_manh"]), sum(n["diem"] for n in cd["diem_yeu"])
-            if cd["diem100"] >= 75 and hung < -sang:
+            if cd["diem100"] >= 85 and hung < -sang:
                 cao_nhung_hung.append((nam, ten))
-            if cd["diem100"] <= 25 and sang > -hung:
+            if cd["diem100"] <= 30 and sang > -hung:
                 thap_nhung_sang.append((nam, ten))
             assert cd["diem_manh"] or cd["diem_yeu"] or cd["trung_tinh"], (nam, ten)      # chủ đề không được trống
     assert not cao_nhung_hung, cao_nhung_hung

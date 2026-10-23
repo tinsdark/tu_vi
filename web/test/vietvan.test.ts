@@ -8,12 +8,12 @@ function mau(i: number) {
 }
 
 describe("văn mẫu và phân loại điểm mạnh/yếu", () => {
-  it("sát tinh đắc địa được gắn dao_dau, giữ điểm dương, và không vào điểm mạnh/yếu của chủ đề", () => {
+  it("sát tinh đắc địa được gắn dao_dau, vẫn âm (giảm hại), và không bao giờ là điểm sáng của chủ đề", () => {
     let thay = 0;
     for (let i = 0; i < 300; i++) {
       const kq = mau(i);
       for (const k of Object.values(kq.cung)) for (const n of k.nhan_dinh) if (n.dao_dau) { thay++; expect(n.diem).toBeLessThan(0); }
-      for (const cd of Object.values(kq.chu_de)) for (const n of [...cd.diem_manh, ...cd.diem_yeu]) expect(n.dao_dau).toBeUndefined();
+      for (const cd of Object.values(kq.chu_de)) for (const n of cd.diem_manh) expect(n.dao_dau).toBeUndefined(); // sát đắc địa chỉ có thể là mặt cần lưu ý
     }
     expect(thay).toBeGreaterThan(20);
   });

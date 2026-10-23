@@ -2,18 +2,19 @@
 
 Chạy: python3 tools/tuvi/test_luan_giai.py
 """
+import json
 import os
 import random
 import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from tuvi.an_sao import CUNG_CHUC, an_la_so, mv  # noqa: E402
+from tuvi.an_sao import CHI, CUNG_CHUC, an_la_so, mv  # noqa: E402
 from tuvi.lich_am import tu_duong_lich  # noqa: E402
 from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao  # noqa: E402
 from tuvi.viet_van import hau_kiem_theo_muc, rut_gon_cho_llm, viet, viet_mau, ve  # noqa: E402
 
-BAC = {"Rất thấp", "Thấp", "Trung bình", "Khá", "Tốt", "Rất tốt"}
+BAC = {"Thấp", "Dưới trung bình", "Trung bình", "Khá", "Tốt", "Rất tốt"}
 
 
 def la_so_ngau_nhien(rnd):
@@ -49,7 +50,7 @@ def test_phi_tuyen_giam_phan_tot():
 
 
 def test_sat_tinh_dac_dia_khong_la_diem_manh():
-    # sát tinh đắc địa: giảm hại (điểm vẫn âm) nhưng câu luận nói cả hai mặt → gắn dao_dau, không vào điểm mạnh/yếu của chủ đề
+    # sát tinh đắc địa: giảm hại (điểm vẫn âm), câu luận nói cả hai mặt → gắn dao_dau; có thể nằm ở 'cần lưu ý', không bao giờ ở điểm sáng
     tt, rnd, thay = TriThuc(), random.Random(11), 0
     for _ in range(300):
         nam = rnd.randint(1930, 2020)
@@ -59,7 +60,7 @@ def test_sat_tinh_dac_dia_khong_la_diem_manh():
             thay += sum(1 for n in k["nhan_dinh"] if n.get("dao_dau"))
             assert all(n["diem"] < 0 for n in k["nhan_dinh"] if n.get("dao_dau"))
         for cd in kq["chu_de"].values():
-            assert not any(n.get("dao_dau") for n in cd["diem_manh"] + cd["diem_yeu"])
+            assert not any(n.get("dao_dau") for n in cd["diem_manh"])        # sát đắc địa chỉ có thể là mặt cần lưu ý, không bao giờ là điểm sáng
     assert thay > 20
 
 
@@ -122,11 +123,12 @@ def test_diem_noi_tai_nhat_quan():
         for k in kq["cung"].values():
             if k["san_chinh_tinh"]:
                 san += 1
-                assert k["diem100"] >= 45, k["cung"]
+                assert k["diem100"] >= tt.cfg["diem_noi_tai"]["san_chinh_tinh_sang"], k["cung"]
         for ten, cd in kq["chu_de"].items():
             if cd["cau_dan"]:
                 hoa_giai += 1
-                assert 35 <= cd["diem100"] <= 70, ten
+                hg = tt.cfg["diem_noi_tai"]["hoa_giai"]
+                assert hg["san"] <= cd["diem100"] <= hg["tran"], ten
             assert cd["xep_loai"] in BAC
     assert san > 20 and hoa_giai > 20
 
@@ -318,6 +320,102 @@ def test_hau_kiem_theo_muc():
         gon = rut_gon_cho_llm(kq)
         assert all("nhan_dinh" not in k and "chi_tiet_diem" not in k for k in gon["cung"].values())
         assert gon["chu_de"] == kq["chu_de"] and gon["nen"] == kq["nen"]
+
+
+def test_bac_dung_nguong_va_la_so_trung_vi_la_trung_binh():
+    # nhãn đúng bảng công khai (cau_hinh → diem_noi_tai.bac): ≤35 Thấp, 40–50 Dưới TB, 55–65 TB, 70–80 Khá, 85–90 Tốt, 95 Rất tốt
+    from tuvi.luan_giai import bac
+    tt = TriThuc()
+    dn = tt.cfg["diem_noi_tai"]
+    for d, nhan in ((5, "Thấp"), (35, "Thấp"), (40, "Dưới trung bình"), (50, "Dưới trung bình"), (55, "Trung bình"), (65, "Trung bình"),
+                    (70, "Khá"), (80, "Khá"), (85, "Tốt"), (90, "Tốt"), (95, "Rất tốt")):
+        assert bac(d, dn) == nhan, d
+    # cung của lá số trung vị phải rơi vào 'Trung bình' (thang đã căn lại: trung vị ≈ 60)
+    rnd, ds = random.Random(53), []
+    for _ in range(150):
+        nam, ls = la_so_ngau_nhien(rnd)
+        ds += [k["diem100"] for k in bao_cao(LuanGiai(ls, tt))["cung"].values()]
+    ds.sort()
+    assert 55 <= ds[len(ds) // 2] <= 65, ds[len(ds) // 2]
+
+
+def test_tuan_triet_bat_doi_xung_va_co_phan_tich_diem():
+    # Triệt: sao tốt giảm lực (không cộng), sao xấu bớt hung (không trừ thêm); phân tích điểm cộng lại đúng
+    tt, rnd, thay = TriThuc(), random.Random(59), 0
+    for _ in range(200):
+        nam, ls = la_so_ngau_nhien(rnd)
+        for k in bao_cao(LuanGiai(ls, tt))["cung"].values():
+            pt = k["phan_tich"]
+            assert pt["tuan_triet_giam"]["tot"] <= 1e-9 and pt["tuan_triet_giam"]["xau"] >= -1e-9
+            assert abs(sum(pt["theo_loai"].values()) - (pt["tong_tot"] + pt["tong_xau"])) < 0.05
+            if k["tuan_triet"]:
+                thay += 1
+            else:
+                assert pt["tuan_triet_giam"] == {"tot": 0.0, "xau": 0.0}
+    assert thay > 30
+
+
+def test_tinh_cach_co_ca_hai_mat_khi_menh_co_sat_dac_dia():
+    # lỗi cũ: sát tinh đắc địa (VD Kình Dương đắc đồng cung Mệnh) bị loại hẳn → Tính cách chỉ có điểm sáng
+    tt, rnd, thay = TriThuc(), random.Random(61), 0
+    for _ in range(600):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt))
+        dd = [n for n in kq["cung"]["Mệnh"]["nhan_dinh"] if n.get("dao_dau")]
+        if dd:
+            thay += 1
+            yeu = kq["chu_de"]["Tính cách"]["diem_yeu"]
+            assert any(n["id"] == dd[0]["id"] for n in yeu) or len([n for n in yeu if n["id"] not in ("XC.Thiên Di",)]) >= 3, dd[0]["id"]
+    assert thay > 20
+
+
+def test_khung_tuan_triet_khong_lap_nguyen_van():
+    # câu đầy đủ nói một lần ở Nền; các mục chủ đề dùng bản ngắn
+    tt, rnd, thay = TriThuc(), random.Random(67), 0
+    for _ in range(200):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt))
+        van = viet_mau(kq)
+        assert van.count("sao tốt giảm lực") <= 2          # tối đa Mệnh + Thân ở phần Nền
+        for cd in kq["chu_de"].values():
+            assert not any("sao tốt giảm lực" in n["nhan_dinh"] for n in cd["luu_y"])
+            thay += len([n for n in cd["luu_y"] if n["id"] == "TT"])
+    assert thay > 30
+
+
+def test_mot_cach_viet_ten_thien_diem():
+    tt, rnd = TriThuc(), random.Random(71)
+    for _ in range(100):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt), nam, nam + 20)
+        assert "Riêu" not in json.dumps(kq, ensure_ascii=False) and "Riêu" not in viet_mau(kq)
+
+
+def test_khong_phat_doi_sat_xa_va_khung_chinh_tinh_day_du():
+    # (1) sát ở XUNG chiếu chỉ trừ thẳng, không đi vào phi tuyến: thêm sát vào cung xung → điểm giảm nhưng hệ số phi tuyến giữ nguyên
+    # (2) câu 'cung chủ' liệt kê MỌI chính tinh của cung chủ; (3) tốt-hung rõ thì luôn có câu dẫn hòa giải (áp đều mọi chủ đề)
+    tt, rnd, thu, hoa_giai = TriThuc(), random.Random(73), 0, 0
+    hg = tt.cfg["diem_noi_tai"]["hoa_giai"]
+    for _ in range(300):
+        nam, ls = la_so_ngau_nhien(rnd)
+        lg = LuanGiai(ls, tt)
+        ten = rnd.choice(CUNG_CHUC)
+        chi = lg.chi_cua[ten]
+        xung = mv(chi, 6)
+        if CHI[xung] not in tt.phu["Hóa Kỵ"]["dac_dia"]:
+            truoc = lg.cham_cung(ten)
+            sau = LuanGiai(ls, tt, {xung: ["Lưu Hóa Kỵ"]}).cham_cung(ten)
+            assert sau["phan_tich"]["he_so_pha"] == truoc["phan_tich"]["he_so_pha"], ten
+            assert sau["diem"] < truoc["diem"]
+            thu += 1
+        kq = bao_cao(lg)
+        for tdn, cd in kq["chu_de"].items():
+            for c in tt.cfg["chu_de"][tdn]["cung"]:
+                assert all(sao in cd["khung"] for sao in kq["cung"][c]["chinh_tinh"]), (tdn, c)
+            if cd["diem_manh"] and cd["diem_yeu"] and cd["diem_manh"][0]["diem"] >= hg["nguong_diem_sang"] and cd["diem_yeu"][0]["diem"] <= hg["nguong_diem_hung"]:
+                hoa_giai += 1
+                assert cd["cau_dan"]
+    assert thu > 100 and hoa_giai > 100
 
 
 def test_tu_duong_lich_toi_luan():

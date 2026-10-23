@@ -117,7 +117,8 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .phan-vi-thanh { height: 8px; background: var(--vien); border-radius: 99px; overflow: hidden; }
 .phan-vi-thanh > div { height: 100%; border-radius: 99px; background: var(--xam); }
 .phan-vi-rt .phan-vi-thanh > div, .phan-vi-t .phan-vi-thanh > div { background: var(--tot); }
-.phan-vi-th .phan-vi-thanh > div, .phan-vi-rth .phan-vi-thanh > div { background: var(--xau); }
+.phan-vi-th .phan-vi-thanh > div { background: var(--xau); }
+.phan-vi-dtb .phan-vi-thanh > div { background: var(--xau); opacity: .6; }
 .phan-vi-tb .phan-vi-thanh > div { background: var(--vang); }
 .phan-vi-k .phan-vi-thanh > div { background: var(--tot); opacity: .7; }
 .cau-dan { font-size: .9rem; color: var(--mo); border-left: 3px solid var(--vang); padding-left: .6rem; margin: .4rem 0; }
@@ -134,7 +135,7 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .cung-ten { font-weight: 700; min-width: 5.5rem; } .cung-chi { color: var(--mo); } .cung-sao { flex: 1; color: var(--mo); }
 .cung-than-bai { padding: 0 1rem 1rem; }
 .pill { font-size: .78rem; padding: .1rem .55rem; border-radius: 99px; border: 1px solid var(--vien); white-space: nowrap; }
-.pill-rt, .pill-t, .pill-k { color: var(--tot); border-color: var(--tot); } .pill-th, .pill-rth { color: var(--xau); border-color: var(--xau); }
+.pill-rt, .pill-t, .pill-k { color: var(--tot); border-color: var(--tot); } .pill-th, .pill-dtb { color: var(--xau); border-color: var(--xau); }
 
 /* hạn */
 .chon-nam { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
@@ -142,7 +143,7 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .luoi-dai-han { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-top: 10px; }
 .the-dh { border: 1px solid var(--vien); border-radius: 10px; padding: 10px 12px; background: var(--be-mat-2); }
 .the-dh .xep { font-weight: 700; margin: 0; }
-.the-dh-rt, .the-dh-t, .the-dh-k { border-top: 4px solid var(--tot); } .the-dh-th, .the-dh-rth { border-top: 4px solid var(--xau); } .the-dh-tb { border-top: 4px solid var(--vang); }
+.the-dh-rt, .the-dh-t, .the-dh-k { border-top: 4px solid var(--tot); } .the-dh-th, .the-dh-dtb { border-top: 4px solid var(--xau); } .the-dh-tb { border-top: 4px solid var(--vang); }
 .luu-nguyet { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .luu-nguyet li { display: grid; grid-template-columns: 5.5rem 1fr 9rem 8rem; gap: .6rem; align-items: center; }
 .ln-thanh { height: 10px; background: var(--vien); border-radius: 99px; overflow: hidden; } .ln-thanh > span { display: block; height: 100%; background: var(--xam); border-radius: 99px; }

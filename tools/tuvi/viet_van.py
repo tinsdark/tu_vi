@@ -166,6 +166,7 @@ TOPIC_THAN = {"Mệnh": "Tính cách", "Phúc Đức": "Tính cách", "Quan Lộ
 def doan_chu_de(ten, cd, kq, da_dung):
     """Một chủ đề → một đoạn: xếp loại → câu dẫn hòa giải → Thân cư (nếu đúng mục) → khung cung → chính tinh/trung tính → điểm sáng → 'Tuy nhiên' điểm cần lưu ý."""
     dong = [f"Về {ten.lower()}, lá số ở mức {cd['xep_loai'].lower()} (khoảng {cd['diem100']}/100) [CD.{ten}]."]
+    dong.append(f"{cd['khung'].rstrip('.')} [CD.{ten}].")
     if cd["cau_dan"]:
         dong.append(f"{cd['cau_dan'].rstrip('.')} [CD.{ten}].")
     if TOPIC_THAN.get(kq["than"]["cu"]) == ten:
