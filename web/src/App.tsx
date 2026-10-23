@@ -140,7 +140,7 @@ export function App() {
 
             <div className="tabs" role="tablist" aria-label="Phần xem">
               {TABS.map(([k, ten]) => (
-                <button key={k} type="button" role="tab" id={`tab-${k}`} aria-selected={tab === k} aria-controls={`bang-${k}`} className={`tab${tab === k ? " tab-chon" : ""}`} onClick={() => setTab(k)}>{ten}</button>
+                <button key={k} type="button" role="tab" id={`tab-${k}`} aria-selected={tab === k} aria-controls={`bang-${k}`} className={`tab${tab === k ? " tab-chon" : ""}`} onClick={() => { setTab(k); const t = document.querySelector(".tabs"); if (t && t.getBoundingClientRect().top < 0) window.scrollTo({ top: window.scrollY + t.getBoundingClientRect().top - 52 }); }}>{ten}</button>
               ))}
             </div>
 

@@ -303,3 +303,25 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .muc-van[open] > summary h4::after { content: "▴"; }
 .muc-van > summary:hover h4 { text-decoration: underline; }
 .muc-van-than { padding-bottom: .4rem; }
+
+/* đại hạn: thẻ thu gọn */
+.the-dh > summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
+.the-dh > summary::-webkit-details-marker { display: none; }
+.the-dh > summary::after { content: "▾"; color: var(--mo); }
+.the-dh[open] > summary::after { content: "▴"; }
+.the-dh > summary .dh-ten { font-weight: 700; flex: 1; }
+.the-dh > summary .dh-xep { font-weight: 600; }
+.the-dh[open] > summary { margin-bottom: .5rem; }
+
+/* 12 cung: tóm tắt gọn, có mũi tên */
+.cung-chi-tiet > summary { list-style: none; }
+.cung-chi-tiet > summary::-webkit-details-marker { display: none; }
+.cung-chi-tiet > summary::after { content: "▾"; color: var(--mo); margin-left: auto; order: 9; }
+.cung-chi-tiet[open] > summary::after { content: "▴"; }
+@media (max-width: 760px) {
+  .cung-ten { min-width: 0; }
+  .cung-chi-tiet > summary { flex-wrap: wrap; row-gap: .15rem; }
+  .cung-chi-tiet > summary .pill { margin-left: auto; }
+  .cung-chi-tiet > summary::after { margin-left: .2rem; order: 3; }
+  .cung-sao { order: 8; flex-basis: 100%; font-size: .9rem; }
+}
