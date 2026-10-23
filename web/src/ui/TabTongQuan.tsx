@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type NhapLieu } from "../engine";
+import { hauKiemTheoMuc, lenhChoAi, tachMa, tapId, vietVanMau, quyTac, type BaoCao, type CheDoVan, type NhapLieu } from "../engine";
 import { API_BASE } from "../lib/api";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
@@ -55,6 +55,32 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
     fetch(`${API_BASE}/api/health`).then((r) => r.json()).then((j) => setCoAi(Boolean(j.llm)), () => setCoAi(null));
   }, []);
 
+  const [vanDan, setVanDan] = useState("");
+  const [daSao, setDaSao] = useState(false);
+  const [loiDan, setLoiDan] = useState("");
+
+  async function sao() {
+    const lenh = lenhChoAi(bc);
+    try {
+      await navigator.clipboard.writeText(lenh);
+    } catch {
+      const o = document.createElement("textarea"); // trình duyệt chặn clipboard API → chọn rồi sao chép thủ công
+      o.value = lenh; document.body.appendChild(o); o.select(); document.execCommand("copy"); o.remove();
+    }
+    setDaSao(true);
+    setTimeout(() => setDaSao(false), 2500);
+  }
+
+  function kiemTra() {
+    const [van, bo] = hauKiemTheoMuc(vanDan, bc);
+    if (!van.replace(/^#.*$/gm, "").trim()) {
+      setLoiDan("Không câu nào hợp lệ: mỗi câu phải kết thúc bằng mã như [CD.Sự nghiệp] và nằm đúng mục. Hãy nhờ chatbot viết lại theo lời nhắc.");
+      return;
+    }
+    setLoiDan("");
+    setAi({ ky: "xong", che_do: "llm", van, bo, ly_do: bo ? `Đã bỏ ${bo} câu không truy được về quy tắc hoặc lấn sang mục khác.` : undefined });
+  }
+
   async function viet() {
     setAi({ ky: "dang_tai" });
     try {
@@ -77,8 +103,23 @@ export function VanXuoi({ bc, nhap }: { bc: BaoCao; nhap: NhapLieu }) {
             {ai.ky === "dang_tai" ? "Đang viết…" : ai.ky === "xong" && ai.che_do === "llm" ? "Viết lại bằng AI" : "Viết lại bằng AI cho mượt"}
           </button>
         )}
-        <span className="mo">{hien.che_do === "llm" ? `Do AI viết lại, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Văn do web tự ghép từ các nhận định ở trên, không dùng AI."}</span>
+        <span className="mo">{hien.che_do === "llm" ? `Do AI viết, đã hậu kiểm${hien.bo ? ` (bỏ ${hien.bo} câu không có căn cứ)` : ""}.` : "Văn do web tự ghép từ các nhận định ở trên, không dùng AI."}</span>
       </div>
+      <details className="phu-luc dan-tay">
+        <summary>Dùng AI khác (ChatGPT, Gemini, Claude… — không cần API)</summary>
+        <ol className="mo">
+          <li>Bấm “Sao chép lời nhắc”, dán vào chatbot bạn đang dùng. Lời nhắc chứa quy tắc và dữ liệu lá số, <b>không có tên bạn</b>.</li>
+          <li>Dán văn chatbot trả lời vào ô bên dưới rồi bấm “Kiểm tra và hiển thị”. Web bỏ mọi câu không truy được về quy tắc hoặc lấn sang mục khác.</li>
+        </ol>
+        <div className="hang-nut hang-nut-trai">
+          <button type="button" className="nut" onClick={sao}>{daSao ? "Đã sao chép ✓" : "Sao chép lời nhắc"}</button>
+        </div>
+        <textarea className="o-dan" rows={6} value={vanDan} onChange={(e) => setVanDan(e.currentTarget.value)} placeholder="Dán văn do chatbot viết (có các mã như [CD.Sự nghiệp]) vào đây…" aria-label="Văn do AI khác viết" />
+        <div className="hang-nut hang-nut-trai">
+          <button type="button" className="nut" disabled={!vanDan.trim()} onClick={kiemTra}>Kiểm tra và hiển thị</button>
+          {loiDan && <span className="canh-bao" role="status">{loiDan}</span>}
+        </div>
+      </details>
       {hien.ly_do && <p className="canh-bao" role="status">{hien.ly_do}</p>}
       <HienVan van={hien.van} />
     </Khoi>

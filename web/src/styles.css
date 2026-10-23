@@ -226,3 +226,7 @@ input[type="text"], input[type="date"], input[type="time"], input[type="number"]
 .ban-co[data-mau="hanh"] .luu[data-h] { background: none; border: 1px solid currentColor; }
 .o-chan2 { display: flex; justify-content: space-between; font-size: 11px; color: var(--mo); }
 .o-giua p { margin: 2px 0; font-size: 13px; }
+
+.dan-tay { margin: .6rem 0; }
+.dan-tay ol { padding-left: 1.2rem; margin: .4rem 0; }
+.o-dan { width: 100%; box-sizing: border-box; margin: .5rem 0; padding: .5rem; border: 1px solid var(--vien); border-radius: 6px; background: transparent; color: inherit; font: inherit; }

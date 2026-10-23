@@ -87,7 +87,10 @@ export function mucChoPhep(kq: BaoCao): Record<string, Set<string>> {
   const cho: Record<string, Set<string>> = {
     "Tổng quan": new Set(["TQ", "DH", ...Object.keys(kq.chu_de).map((t) => `CD.${t}`), ...idsTrong(kq.nen), ...idsTrong(kq.than)]),
   };
-  for (const [t, cd] of Object.entries(kq.chu_de)) cho[t] = new Set([`CD.${t}`, ...idsTrong([cd.diem_manh, cd.diem_yeu, cd.luu_y, cd.trung_tinh])]);
+  for (const [t, cd] of Object.entries(kq.chu_de)) {
+    cho[t] = new Set([`CD.${t}`, ...idsTrong([cd.diem_manh, cd.diem_yeu, cd.luu_y, cd.trung_tinh])]);
+    if (TOPIC_THAN[kq.than.cu] === t) cho[t].add(`THAN.${kq.than.cu}`); // câu 'cung này cũng là cung Thân cư'
+  }
   if (kq.han) cho["Hạn năm"] = new Set(["DH", "TQ", ...idsTrong(kq.han)]);
   return cho;
 }
@@ -143,7 +146,29 @@ export function gop(ds: NhanDinh[], tienTo: string, daDung?: Set<string>): strin
   return muc.length ? `${tienTo}${muc.join("; ")}.` : "";
 }
 
-/** Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục). */
+const TIEU_MUC = ["Cha mẹ", "Con cái", "Anh em"]; // nhãn tiểu mục của chủ đề Gia đình (khớp chu_de.Gia đình.tieu_muc trong cấu hình)
+const TOPIC_THAN: Record<string, string> = { "Mệnh": "Tính cách", "Phúc Đức": "Tính cách", "Quan Lộc": "Sự nghiệp", "Thiên Di": "Sự nghiệp", "Tài Bạch": "Tài chính", "Phu Thê": "Tình cảm – hôn nhân" };
+
+/** Một chủ đề → một đoạn: xếp loại → câu dẫn hòa giải → Thân cư (nếu đúng mục) → khung cung → chính tinh/trung tính → điểm sáng → 'Tuy nhiên' điểm cần lưu ý. */
+function doanChuDe(ten: string, cd: BaoCao["chu_de"][string], kq: BaoCao, daDung: Set<string>): string {
+  const dong = [`Về ${ten.toLowerCase()}, lá số ở mức ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100) [CD.${ten}].`];
+  if (cd.cau_dan) dong.push(`${cd.cau_dan.replace(/\.+$/, "")} [CD.${ten}].`);
+  if (TOPIC_THAN[kq.than.cu] === ten) dong.push(cau(kq.than.nhan_dinh[0], "Cung này cũng là cung Thân cư: "));
+  dong.push(...[gop(cd.luu_y, "Khung của cung: ", daDung), gop(cd.trung_tinh, "Chính tinh và nhận định trung tính: ", daDung)].filter(Boolean));
+  if (ten === "Gia đình") {
+    for (const m of TIEU_MUC) {
+      const bo = (ds: NhanDinh[]) => ds.filter((n) => n.nhan_dinh.startsWith(`${m}: `)).map((n) => ({ ...n, nhan_dinh: n.nhan_dinh.slice(m.length + 2) }));
+      dong.push(...[gop(bo(cd.diem_manh), `${m} — điểm sáng: `, daDung), gop(bo(cd.diem_yeu), `${m} — hạn chế: `, daDung)].filter(Boolean));
+    }
+  } else {
+    const manh = gop(cd.diem_manh, "Điểm sáng: ", daDung);
+    const yeu = gop(cd.diem_yeu, manh ? "Tuy nhiên, cần lưu ý: " : "Cần lưu ý: ", daDung);
+    dong.push(...[manh, yeu].filter(Boolean));
+  }
+  return dong.join(" ");
+}
+
+/** Không dùng LLM: ghép nhận định thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục). */
 export function vietMau(kq: BaoCao): string {
   const l = kq.la_so;
   const tong = [`Mệnh tại ${kq.menh_tai}, ${l.am_duong_nam_nu}, Bản Mệnh ${HANH_VN[l.ban_menh]}, Cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so} [TQ].`,
@@ -153,10 +178,7 @@ export function vietMau(kq: BaoCao): string {
   const daDung = new Set<string>();
   for (const [ten, cd] of Object.entries(kq.chu_de)) {
     out.push(`\n# ${ten}`);
-    const dong = [`Nhìn chung ${cd.xep_loai.toLowerCase()} (khoảng ${cd.diem100}/100) [CD.${ten}].`];
-    if (cd.cau_dan) dong.push(`${cd.cau_dan.replace(/\.+$/, "")} [CD.${ten}].`);
-    dong.push(...[gop(cd.luu_y, "Lưu ý cấu trúc: ", daDung), gop(cd.trung_tinh, "Chính tinh và nhận định trung tính: ", daDung), gop(cd.diem_manh, "Điểm sáng: ", daDung), gop(cd.diem_yeu, "Cần lưu ý: ", daDung)].filter(Boolean));
-    out.push(dong.join(" "));
+    out.push(doanChuDe(ten, cd, kq, daDung));
   }
   if (kq.han?.dai_han) {
     const d = kq.han.dai_han;
@@ -165,6 +187,11 @@ export function vietMau(kq: BaoCao): string {
     out.push([`Đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi tại ${d.chi}; Mệnh đại hạn ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()} [DH].`, ...(luu ? [luu] : []), ...kq.han.luu_nien.ket_luan.map((n) => cau(n))].join(" "));
   }
   return out.join("\n");
+}
+
+/** Lời nhắc + dữ liệu để DÁN vào bất kỳ chatbot nào (không cần API). Không chứa tên người dùng. Văn trả về dán lại web để hậu kiểm theo mục. */
+export function lenhChoAi(kq: BaoCao): string {
+  return `${HUONG_DAN}\n\n--- DỮ LIỆU LÁ SỐ (JSON) ---\n${JSON.stringify(rutGonChoLlm(kq))}`;
 }
 
 export type CheDoVan = "mau" | "llm";

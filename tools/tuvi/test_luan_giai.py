@@ -74,8 +74,9 @@ def test_van_mau_khong_lap_y_va_khong_noi_phan_tram_dan_so():
             dong = next(d for d in van.splitlines() if f"[CD.{ten}]" in d)
             assert f"khoảng {cd['diem100']}/100" in dong
         # mỗi ý (mã + nội dung) của các chủ đề chỉ xuất hiện đúng một lần trong văn
+        bo_nhan = lambda n: dict(n, nhan_dinh=n["nhan_dinh"].split(": ", 1)[1]) if n["nhan_dinh"].split(": ", 1)[0] in ("Cha mẹ", "Con cái", "Anh em") else n   # tiểu mục Gia đình: nhãn nằm ở đầu câu dẫn
         for n in {(n["id"], n["nhan_dinh"]): n for cd in kq["chu_de"].values() for n in cd["diem_manh"] + cd["diem_yeu"]}.values():
-            assert van.count(ve(n)) == 1, ve(n)
+            assert van.count(ve(bo_nhan(n))) == 1, ve(n)
 
 
 def test_gan_dung_cung_nguon():

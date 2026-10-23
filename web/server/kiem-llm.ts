@@ -1,18 +1,20 @@
-// Kiểm đường gọi Claude THẬT trên vài lá số mẫu. Cần ANTHROPIC_API_KEY.  Chạy: ANTHROPIC_API_KEY=... npm run kiem:llm [số lá số]
+// Kiểm đường gọi AI THẬT trên vài lá số mẫu. Cần cấu hình AI (xem server/llm.ts).  Chạy: TUVI_LLM_BASE_URL=... TUVI_LLM_MODEL=... TUVI_LLM_API_KEY=... npm run kiem:llm [số lá số]
 // In: tỉ lệ câu bị hậu kiểm bỏ, mục thiếu, câu chứa lời cấm (percentile...), và một đoạn văn mẫu để đọc bằng mắt. Thoát mã 1 nếu vượt ngưỡng.
 import { anLaSo, baoCao, hauKiemTheoMuc, LuanGiai, tapId } from "../src/engine";
-import { coKhoa, taoVietLlm } from "./llm";
+import { chonVietLlm } from "./llm";
 
 const MUC = ["Tổng quan", "Tính cách", "Sự nghiệp", "Tài chính", "Tình cảm – hôn nhân", "Sức khỏe", "Gia đình", "Hạn năm"];
 const CAM = /(cao|thấp) hơn khoảng|% lá số|percentile|phân vị/i;
 
 async function main() {
-  if (!coKhoa()) {
-    console.error("Thiếu ANTHROPIC_API_KEY — không gọi được Claude thật nên không có gì để kiểm.");
+  const { vietLlm, mota } = chonVietLlm();
+  if (!vietLlm) {
+    console.error(`Chưa cấu hình AI (${mota}) — không có gì để kiểm.`);
     process.exit(2);
   }
+  console.log(`AI: ${mota}`);
   const n = Number(process.argv[2] ?? 3);
-  const viet = taoVietLlm()!;
+  const viet = vietLlm;
   let loi = 0;
   for (let i = 0; i < n; i++) {
     const nam = 1985 + i * 7;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { anLaSo, baoCao, LuanGiai, triThuc, ve, vietMau } from "../src/engine";
+import { anLaSo, baoCao, LuanGiai, triThuc, ve, vietMau, type NhanDinh } from "../src/engine";
 
 function mau(i: number) {
   const nam = 1930 + ((i * 37) % 90);
@@ -28,7 +28,8 @@ describe("văn mẫu và phân loại điểm mạnh/yếu", () => {
         expect(dong).toContain(`khoảng ${cd.diem100}/100`);
       }
       const duy = new Map(Object.values(kq.chu_de).flatMap((cd) => [...cd.diem_manh, ...cd.diem_yeu]).map((n) => [JSON.stringify([n.id, n.nhan_dinh]), n]));
-      for (const n of duy.values()) expect(van.split(ve(n)).length - 1, ve(n)).toBe(1);
+      const boNhan = (n: NhanDinh): NhanDinh => (/^(Cha mẹ|Con cái|Anh em): /.test(n.nhan_dinh) ? { ...n, nhan_dinh: n.nhan_dinh.split(": ").slice(1).join(": ") } : n); // tiểu mục Gia đình: nhãn nằm ở đầu câu dẫn
+      for (const n of duy.values()) expect(van.split(ve(boNhan(n))).length - 1, ve(n)).toBe(1);
     }
   });
 

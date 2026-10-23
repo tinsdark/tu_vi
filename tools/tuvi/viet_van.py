@@ -100,6 +100,9 @@ def muc_cho_phep(kq):
     cho = {"Tổng quan": {"TQ", "DH"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["nen"]) | ids(kq["than"])}
     for t, cd in kq["chu_de"].items():
         cho[t] = {f"CD.{t}"} | ids({k: cd[k] for k in ("diem_manh", "diem_yeu", "luu_y", "trung_tinh")})
+        if TOPIC_THAN.get(kq["than"]["cu"]) == t:
+            cho[t].add(f"THAN.{kq['than']['cu']}")        # câu 'cung này cũng là cung Thân cư'
+
     if "han" in kq:
         cho["Hạn năm"] = {"DH", "TQ"} | ids(kq["han"])
     return cho
@@ -156,8 +159,31 @@ def gop(ds, tien_to, da_dung=None):
     return f"{tien_to}{'; '.join(muc)}." if muc else ""
 
 
+TIEU_MUC = ("Cha mẹ", "Con cái", "Anh em")           # nhãn tiểu mục của chủ đề Gia đình (khớp chu_de.Gia đình.tieu_muc trong cấu hình)
+TOPIC_THAN = {"Mệnh": "Tính cách", "Phúc Đức": "Tính cách", "Quan Lộc": "Sự nghiệp", "Thiên Di": "Sự nghiệp", "Tài Bạch": "Tài chính", "Phu Thê": "Tình cảm – hôn nhân"}
+
+
+def doan_chu_de(ten, cd, kq, da_dung):
+    """Một chủ đề → một đoạn: xếp loại → câu dẫn hòa giải → Thân cư (nếu đúng mục) → khung cung → chính tinh/trung tính → điểm sáng → 'Tuy nhiên' điểm cần lưu ý."""
+    dong = [f"Về {ten.lower()}, lá số ở mức {cd['xep_loai'].lower()} (khoảng {cd['diem100']}/100) [CD.{ten}]."]
+    if cd["cau_dan"]:
+        dong.append(f"{cd['cau_dan'].rstrip('.')} [CD.{ten}].")
+    if TOPIC_THAN.get(kq["than"]["cu"]) == ten:
+        dong.append(cau(kq["than"]["nhan_dinh"][0], "Cung này cũng là cung Thân cư: "))
+    dong += [c for c in (gop(cd["luu_y"], "Khung của cung: ", da_dung), gop(cd["trung_tinh"], "Chính tinh và nhận định trung tính: ", da_dung)) if c]
+    if ten == "Gia đình":
+        for m in TIEU_MUC:
+            bo = lambda ds: [dict(n, nhan_dinh=n["nhan_dinh"][len(m) + 2:]) for n in ds if n["nhan_dinh"].startswith(m + ": ")]
+            dong += [c for c in (gop(bo(cd["diem_manh"]), f"{m} — điểm sáng: ", da_dung), gop(bo(cd["diem_yeu"]), f"{m} — hạn chế: ", da_dung)) if c]
+    else:
+        manh = gop(cd["diem_manh"], "Điểm sáng: ", da_dung)
+        yeu = gop(cd["diem_yeu"], "Tuy nhiên, cần lưu ý: " if manh else "Cần lưu ý: ", da_dung)
+        dong += [c for c in (manh, yeu) if c]
+    return " ".join(dong)
+
+
 def viet_mau(kq):
-    """Không dùng LLM: ghép nhận định nổi bật thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục)."""
+    """Không dùng LLM: ghép nhận định thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục)."""
     la = kq["la_so"]
     tong = [f"Mệnh tại {kq['menh_tai']}, {la['am_duong_nam_nu']}, Bản Mệnh {HANH_VN[la['ban_menh']]}, Cục {HANH_VN[la['cuc']['hanh']]} {la['cuc']['so']} [TQ].",
             "Điểm /100 ở các mục dưới chỉ phản ánh tương quan nội tại giữa các cung của chính lá số này, không so với lá số khác [TQ]."]
@@ -166,11 +192,7 @@ def viet_mau(kq):
     da_dung = set()
     for ten, cd in kq["chu_de"].items():
         out.append(f"\n# {ten}")
-        dong = [f"Nhìn chung {cd['xep_loai'].lower()} (khoảng {cd['diem100']}/100) [CD.{ten}]."]
-        if cd["cau_dan"]:
-            dong.append(f"{cd['cau_dan'].rstrip('.')} [CD.{ten}].")
-        dong += [c for c in (gop(cd["luu_y"], "Lưu ý cấu trúc: ", da_dung), gop(cd["trung_tinh"], "Chính tinh và nhận định trung tính: ", da_dung), gop(cd["diem_manh"], "Điểm sáng: ", da_dung), gop(cd["diem_yeu"], "Cần lưu ý: ", da_dung)) if c]
-        out.append(" ".join(dong))
+        out.append(doan_chu_de(ten, cd, kq, da_dung))
     if "han" in kq and kq["han"]["dai_han"]:
         d = kq["han"]["dai_han"]
         out.append(f"\n# Hạn năm {kq['han']['nam_xem']}")
