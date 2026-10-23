@@ -2,7 +2,7 @@
 import { anLaSo, CAN, canCung, CHI, CUNG_CHUC, mv, theoCung, type LaSo } from "./anSao";
 import { triThuc, type CachCuc, type Dk, type TriThuc } from "./kb";
 import { pyRound, toFixedPy } from "./py";
-import type { BaoCao, KetQuaChuDe, KetQuaCung, KetQuaHan, KetQuaThan, NhanDinh, PhanTichDiem, QuanHe } from "./types";
+import type { BaoCao, MocDaiHan, KetQuaChuDe, KetQuaCung, KetQuaHan, KetQuaThan, NhanDinh, PhanTichDiem, QuanHe } from "./types";
 
 export const CHINH_TINH = ["Tử Vi", "Thiên Cơ", "Thái Dương", "Vũ Khúc", "Thiên Đồng", "Liêm Trinh", "Thiên Phủ",
   "Thái Âm", "Tham Lang", "Cự Môn", "Thiên Tướng", "Thiên Lương", "Thất Sát", "Phá Quân"];
@@ -154,20 +154,22 @@ export class LuanGiai {
     return rieng ?? this.cauTuanTriet(tenCung, tuanTriet, true);
   }
 
-  /** Bảng vai_nguoi (luan_lien_cung.json): mỗi sao × vai người × tình trạng (Hóa Kỵ / hãm) → câu ở cung của vai, nếu cung đó khác cung chứa sao. */
+  /** Bảng vai_nguoi (luan_lien_cung.json): mỗi sao × vai người × tình trạng (Hóa Kỵ/Lộc/Quyền/Khoa, hãm, miếu/vượng) → câu ở cung của vai, nếu cung đó khác cung chứa sao. */
   private vaiNguoi(tenCung: string): NhanDinh[] {
     const bang = this.tt.lienCung.vai_nguoi;
     const ket: NhanDinh[] = [];
     for (const [sao, vais] of Object.entries<[string, string][]>(bang.sao)) {
       const chiSao = this.ls.sao[sao];
       if (chiSao === undefined || this.ls.cung_chuc[chiSao] === tenCung) continue;
-      const tinhTrang = [this.gocHoa["Hóa Kỵ"] === sao ? "ky" : "", this.tt.sang(sao, chiSao) === "H" ? "ham" : ""].filter(Boolean);
-      for (const tt of tinhTrang) {
+      const muc = this.tt.sang(sao, chiSao);
+      for (const [tt, dk] of Object.entries<any>(bang.tinh_trang)) {
+        const dung = dk.hoa ? this.gocHoa[dk.hoa] === sao : muc !== null && (dk.sang as string[]).includes(muc);
+        if (!dung) continue;
         for (const [vai, cung] of vais) {
           if (cung !== tenCung) continue;
           ket.push({
-            id: `LC.vai.${sao}.${tt}`, diem: 0, luu_y: true, ly_do: `${sao} ${tt === "ky" ? "mang Hóa Kỵ" : "hãm"} ở ${this.ls.cung_chuc[chiSao]} (${CHI[chiSao]}); ${sao} ứng với ${vai}`,
-            nhan_dinh: (bang.tinh_trang[tt] as string).replace("{sao}", sao).replace("{cung_sao}", this.ls.cung_chuc[chiSao]).replace("{chi}", CHI[chiSao]).replace("{vai}", vai),
+            id: `LC.vai.${sao}.${tt}`, diem: 0, luu_y: true, ly_do: `${sao} ${dk.nhan} ở ${this.ls.cung_chuc[chiSao]} (${CHI[chiSao]}); ${sao} ứng với ${vai}`,
+            nhan_dinh: (dk.cau as string).replace("{sao}", sao).replace("{cung_sao}", this.ls.cung_chuc[chiSao]).replace("{chi}", CHI[chiSao]).replace("{vai}", vai),
             ...this.nguon(this.chiCua.get(tenCung)!, "ban_cung", []), // sao nằm ở cung khác: nguồn ghi ở chính cung vai, câu tự nêu rõ sao và cung của nó
           });
         }
@@ -854,6 +856,8 @@ export class LuanGiai {
       const kiemKhop = { sang: sN, hung: hN, vi_pham_kha: canKha && diem100(pv) < kh["khá_tran"], vi_pham_tb: canTb && diem100(pv) > kh.tb_tran };
       if (canKha) pv = Math.max(pv, kh["khá_tran"]);
       if (canTb) pv = Math.min(pv, kh.tb_tran);
+      // nội dung người đọc thấy (điểm mạnh và điểm yếu hiển thị) nghiêng về hạn chế thì nhãn không vượt 80
+      if ([...xauHien, ...gt].reduce((a, n) => a - n.diem, 0) > totHien.reduce((a, n) => a + n.diem, 0)) pv = Math.min(pv, kh.net_hung_tran);
       let cauDan: string | null = null;
       if (tot.length && xau.length) { // §17: câu 'hai mặt cùng tồn tại' áp cho MỌI mục có cả sáng lẫn hung (không kẹp điểm: điểm do công thức v3 quyết định)
         const nhan = (n: NhanDinh) => {
@@ -912,11 +916,6 @@ export function bac(d100: number, dn: any): string {
   return dn.bac[dn.bac.length - 1][1];
 }
 
-export interface MocDaiHan {
-  tu_tuoi: number; den_tuoi: number; chi: string; cung_goc: string; xep_loai: string; diem: number;
-  nhan: "" | "đẹp nhất" | "khó nhất"; goi_y: string;
-}
-
 /** Dòng thời gian đại hạn cả đời: điểm = tổng điểm Mệnh + Quan Lộc + Tài Bạch của đại hạn (chỉ so các đại hạn của cùng lá số). Không đổi điểm cung nào. */
 export function dongThoiGianDaiHan(lg: LuanGiai, namSinh: number): MocDaiHan[] {
   const kn: Record<string, { muc: string; nen: string; tranh: string }> = lg.tt.cfg.han.khuyen_nghi;
@@ -927,43 +926,45 @@ export function dongThoiGianDaiHan(lg: LuanGiai, namSinh: number): MocDaiHan[] {
     const dg = dh.danh_gia;
     const diem = pyRound(["Mệnh", "Quan Lộc", "Tài Bạch"].reduce((t, k) => t + dg[k].diem, 0), 2);
     const k = kn[lg.ls.cung_chuc[Number(c)]];
-    moc.push({ tu_tuoi: tuTuoi, den_tuoi: tuTuoi + 9, chi: dh.chi, cung_goc: dh.cung_goc, xep_loai: dg["Mệnh"].xep_loai, diem, nhan: "", goi_y: k ? `Nên ${k.nen}; tránh ${k.tranh}.` : "" });
+    moc.push({ id: `DH.${tuTuoi}`, nhan_dinh: "", tu_tuoi: tuTuoi, den_tuoi: tuTuoi + 9, chi: dh.chi, cung_goc: dh.cung_goc, xep_loai: dg["Mệnh"].xep_loai, diem, nhan: "", goi_y: k ? `Nên ${k.nen}; tránh ${k.tranh}.` : "" });
   }
   if (moc.length > 1) {
     const dd = moc.map((m) => m.diem);
     moc[dd.indexOf(Math.max(...dd))].nhan = "đẹp nhất";
     moc[dd.indexOf(Math.min(...dd))].nhan = "khó nhất";
   }
+  for (const m of moc) m.nhan_dinh = `Đại hạn ${m.tu_tuoi}–${m.den_tuoi} tuổi tại ${m.chi} (cung ${m.cung_goc} gốc), xếp loại ${m.xep_loai.toLowerCase()}${m.nhan ? `; đây là đại hạn ${m.nhan} trong cả đời của bạn` : ""}.`;
   return moc;
 }
 
-/** So cung với cung (bảng so_cung): cặp chỉ được nói "trội" khi điểm /100 chênh từ ngưỡng VÀ đủ thành phần (chính tinh, phụ tinh ròng, cách cục) cùng nghiêng về cung trội;
- *  thành phần nào cung yếu hơn hẳn, cung trội vô chính diệu, cung yếu bị Tuần/Triệt nén, cung trội còn sát tinh đáng kể đều thành lưu ý. Không đổi điểm. */
+/** So cung với cung (bảng so_cung): chỉ là đánh giá khách quan từ điểm đã tính, không kèm lời khuyên. Cặp được nêu khi điểm /100 chênh từ ngưỡng, không thành phần nào nghiêng về cung yếu,
+ *  đủ thành phần nghiêng về cung trội, cả hai cung đều có chính tinh bản cung và không bị Tuần/Triệt nén (nếu không thì điểm không còn so công bằng). Không đổi điểm. */
 export function soCung(lg: LuanGiai, cham: Record<string, KetQuaCung>): NhanDinh[] {
   const sc = lg.tt.lienCung.so_cung;
+  const ly = sc.luu_y;
   const ket: NhanDinh[] = [];
-  for (const { a, b, a_hon, b_hon } of sc.cap as { a: string; b: string; a_hon: string; b_hon: string }[]) {
+  for (const { a, b } of sc.cap as { a: string; b: string }[]) {
     const hieu = cham[a].diem100 - cham[b].diem100;
     if (Math.abs(hieu) < sc.nguong) continue;
     const [troi, yeu] = hieu > 0 ? [a, b] : [b, a];
     const pt = { troi: cham[troi].phan_tich, yeu: cham[yeu].phan_tich };
+    if (pt.troi.vo_chinh_dieu || pt.yeu.vo_chinh_dieu || pt.troi.k_triet_tuan < 1 || pt.yeu.k_triet_tuan < 1) continue;
     const tp: [string, number, number][] = [
       ["chinh_tinh", pt.troi.tong_base, pt.yeu.tong_base],
       ["phu_tinh", pt.troi.tong_cat + pt.troi.tong_sat, pt.yeu.tong_cat + pt.yeu.tong_sat],
       ["cach_cuc", pt.troi.cach_cuc, pt.yeu.cach_cuc],
     ];
-    const thuan = tp.filter(([, t, y]) => t - y >= sc.lech_nho).length;
-    if (thuan < sc.can_dong_thuan) continue;
-    const ly = sc.luu_y;
-    const luuY: string[] = [];
-    for (const [ten, t, y] of tp) if (y - t >= sc.lech_lon) luuY.push((ly.nghich as string).replace("{yeu}", yeu).replace("{thanh_phan}", ly.thanh_phan[ten]));
-    if (pt.troi.vo_chinh_dieu) luuY.push((ly.vcd as string).replace("{troi}", troi));
-    if (pt.yeu.k_triet_tuan < 1) luuY.push((ly.tuan_triet as string).replace("{yeu}", yeu));
-    if (pt.troi.tong_sat <= sc.sat_dang_ke) luuY.push((ly.sat as string).replace("{troi}", troi));
+    if (tp.some(([, t, y]) => y - t >= sc.lech_nho)) continue;
+    const thuan = tp.filter(([, t, y]) => t - y >= sc.lech_nho);
+    if (thuan.length < sc.can_dong_thuan) continue;
+    const nhan = (n: string) => ly.thanh_phan[n] as string;
+    const cau: string[] = [(sc.mau as string).replace("{troi}", troi).replace("{dt}", String(cham[troi].diem100)).replace("{yeu}", yeu).replace("{dy}", String(cham[yeu].diem100))
+      .replace("{thanh_phan}", thuan.map(([n]) => nhan(n)).join(" và "))];
+    if (pt.troi.tong_sat <= sc.sat_dang_ke) cau.push((ly.sat as string).replace("{troi}", troi));
     ket.push({
-      id: `SC.${a}.${b}`, diem: 0, nhan_dinh: [hieu > 0 ? a_hon : b_hon, ...luuY].join(" "),
-      ly_do: `${troi} ~${cham[troi].diem100}/100, ${yeu} ~${cham[yeu].diem100}/100 (chênh từ ${sc.nguong}); ${thuan}/3 thành phần nghiêng về ${troi}: `
-        + tp.map(([ten, t, y]) => `${ly.thanh_phan[ten]} ${toFixedPy(t, 1)} so với ${toFixedPy(y, 1)}`).join(", "),
+      id: `SC.${a}.${b}`, diem: 0, nhan_dinh: cau.join(" "),
+      ly_do: `${troi} ~${cham[troi].diem100}/100, ${yeu} ~${cham[yeu].diem100}/100 (chênh từ ${sc.nguong}); ${thuan.length}/3 thành phần nghiêng về ${troi}, không thành phần nào ngược: `
+        + tp.map(([n, t, y]) => `${nhan(n)} ${toFixedPy(t, 1)} so với ${toFixedPy(y, 1)}`).join(", "),
     });
   }
   return ket;
@@ -977,6 +978,9 @@ export function baoCao(lg: LuanGiai, namSinh?: number, namXem?: number): BaoCao 
     menh_tai: CHI[lg.ls.menh], nen: lg.nen(), than: lg.than(),
     cung: Object.fromEntries(THU_TU_CUNG.map((c) => [c, cham[c]])), chu_de: lg.chuDe(cham), so_cung: soCung(lg, cham),
   };
-  if (namSinh && namXem) kq.han = { ...lg.han(namSinh, namXem), nam_xem: namXem };
+  if (namSinh && namXem) {
+    kq.han = { ...lg.han(namSinh, namXem), nam_xem: namXem };
+    kq.dai_han_ca_doi = dongThoiGianDaiHan(lg, namSinh);
+  }
   return kq;
 }

@@ -56,6 +56,10 @@
   "hoi_dap": {
     "tieu_de": "Những câu hỏi thường gặp",
     "than": "tiền vận hay hậu vận",
-    "mo": "Về chuyện {hoi}, {tra_loi}"
+    "mo": "Về chuyện {hoi}, {tra_loi}",
+    "chu_de": "Về {hoi}, bạn ở mức {nhan} (khoảng {d}/100); phần luận chi tiết nằm ở mục {ten} phía trên",
+    "so_cung": "Về chuyện {hoi}, xét theo điểm của hai cung: {tra_loi}",
+    "dai_han_nay": "Về {hoi}, bạn đang ở đại hạn {tu}–{den} tuổi tại {chi} (cung {cung_goc} gốc), xếp loại {nhan}",
+    "quy_nhan": "Về chuyện {hoi}, lá số có {cach}"
   }
 }

@@ -15,7 +15,7 @@ python3 tools/tuvi/test_luan_giai.py       # test bất biến bộ luận
 python3 tools/tuvi/test_fixture_la_so.py   # hồi quy lá số mẫu (spec scoring v3 §16)
 python3 tools/tuvi/test_doi_chieu_thay.py  # đối chiếu 100 lá số với 'thầy độc lập' + nhãn điểm không mâu thuẫn nội dung
 python3 tools/tuvi/ve_la_so.py > la_so.svg # vẽ lá số
-python3 tools/tuvi/viet_van.py [--mau]     # văn xuôi (Claude nếu có ANTHROPIC_API_KEY, không thì ghép mẫu)
+python3 tools/tuvi/viet_van.py              # văn xuôi ghép mẫu (không dùng AI)
 python3 tools/sinh_sql.py                  # sinh db/du_lieu.sql từ JSON
 python3 tools/tuvi/luan_giai.py            # demo luận 1 lá số → markdown
 python3 tools/tuvi/hieu_chinh.py 3000      # phân bố điểm v3 trên lá số ngẫu nhiên (để tune hằng số)

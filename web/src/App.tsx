@@ -1,4 +1,3 @@
-import { HIEN_AI } from "./lib/tinhNang";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { chuanHoaNhap, tinhLaSo, veLaSo, type KetQuaTinh, type NhapLieu } from "./engine";
 import { docGiaoDien, docLuu, ghiGiaoDien, giaiMaNhap, luuLaSo, maHoaNhap, xoaLaSo, type GiaoDien, type LaSoDaLuu } from "./lib/luuTru";
@@ -90,7 +89,7 @@ export function App() {
           <section className="gioi-thieu">
             <h1>Lập lá số Tử Vi</h1>
             <p>Nhập ngày giờ sinh dương lịch; web tự đổi sang âm lịch, an sao và luận giải. Mỗi nhận định đều dẫn về quy tắc đứng sau nó, kèm nhãn độ tin cậy của dữ liệu.</p>
-            <p className="mo">{HIEN_AI ? "Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy trừ khi bạn bấm “Viết lại bằng AI” (khi đó chỉ gửi ngày giờ sinh, không gửi tên)." : "Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy bạn."}</p>
+            <p className="mo">Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy bạn.</p>
           </section>
         )}
 
@@ -155,9 +154,9 @@ export function App() {
                   <p className="mo">Bấm tên cung để xem luận cung, bấm tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn; (M) miếu, (V) vượng, (Đ) đắc, (B) bình, (H) hãm.</p>
                 </>
               )}
-              {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nhap={nhap} nc={kq.nang_cao} />}
+              {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nc={kq.nang_cao} />}
               {tab === "cung" && <TabCung bc={kq.bao_cao} />}
-              {tab === "han" && <TabHan bc={kq.bao_cao} nc={kq.nang_cao} luan={kq.luan} namSinh={kq.lich.am_lich.nam} namXem={nhap.nam_xem} onDoiNam={doiNam} />}
+              {tab === "han" && <TabHan bc={kq.bao_cao} nc={kq.nang_cao} namXem={nhap.nam_xem} onDoiNam={doiNam} />}
             </div>
           </>
         )}

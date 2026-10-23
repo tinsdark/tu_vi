@@ -109,6 +109,14 @@ export interface KetQuaHan {
   luu_nguyet: { thang: number; chi: string; cung_goc: string; diem: number; nhan_xet: string }[];
 }
 
+/** Một đại hạn trong dòng thời gian cả đời (doc11 L7). */
+export interface MocDaiHan {
+  /** Mã quy tắc (DH.<tuổi bắt đầu>) và câu mô tả đã ghép sẵn, để văn xuôi trích được. */
+  id: string; nhan_dinh: string;
+  tu_tuoi: number; den_tuoi: number; chi: string; cung_goc: string; xep_loai: string; diem: number;
+  nhan: "" | "đẹp nhất" | "khó nhất"; goi_y: string;
+}
+
 export interface BaoCao {
   la_so: { input: import("./anSao").LaSo["input"]; am_duong_nam_nu: string; ban_menh: string; cuc: { hanh: string; so: number } };
   menh_tai: string;
@@ -119,4 +127,6 @@ export interface BaoCao {
   /** So cung với cung (doc11 L4): cặp cung chênh điểm từ ngưỡng. */
   so_cung: NhanDinh[];
   han?: KetQuaHan;
+  /** Dòng thời gian 12 đại hạn (có khi báo cáo có năm sinh và năm xem). */
+  dai_han_ca_doi?: MocDaiHan[];
 }

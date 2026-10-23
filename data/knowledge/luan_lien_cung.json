@@ -60,8 +60,36 @@
     "Hóa Kỵ": "Hóa Kỵ gặp {tt} tại {cung}: sức cản của Kỵ bớt đi, nhưng việc ở cung này vẫn dễ lắt léo."
   },
   "vai_nguoi": {
-    "ghi_chu": "Sao → người trong đời. Sao hãm hoặc mang Hóa Kỵ thì nói thêm ở cung của vai người đó (chỉ khi cung ấy khác cung chứa sao). Thêm sao/vai mới chỉ cần thêm dòng.",
+    "ghi_chu": "Sao → người trong đời, theo quan niệm phổ thông (bảng AI tổng hợp, chưa đối chiếu sách). Tình trạng nào đúng (Hóa Kỵ, hãm, Hóa Lộc/Quyền/Khoa, miếu/vượng) thì nói thêm ở cung của vai người đó — chỉ khi cung ấy khác cung chứa sao. Thêm sao/vai/tình trạng mới chỉ cần thêm dòng.",
     "sao": {
+      "Tử Vi": [
+        [
+          "cha",
+          "Phụ Mẫu"
+        ],
+        [
+          "cấp trên có quyền lực",
+          "Quan Lộc"
+        ],
+        [
+          "người bạn đời có địa vị",
+          "Phu Thê"
+        ]
+      ],
+      "Thiên Cơ": [
+        [
+          "anh chị em",
+          "Huynh Đệ"
+        ],
+        [
+          "người cố vấn, người mưu trí quanh bạn",
+          "Nô Bộc"
+        ],
+        [
+          "cha mẹ",
+          "Phụ Mẫu"
+        ]
+      ],
       "Thái Dương": [
         [
           "cha",
@@ -74,6 +102,66 @@
         [
           "con trai",
           "Tử Tức"
+        ],
+        [
+          "người bạn đời nam",
+          "Phu Thê"
+        ]
+      ],
+      "Vũ Khúc": [
+        [
+          "anh em, người đồng hành",
+          "Huynh Đệ"
+        ],
+        [
+          "đối tác làm ăn",
+          "Nô Bộc"
+        ],
+        [
+          "người bạn đời",
+          "Phu Thê"
+        ]
+      ],
+      "Thiên Đồng": [
+        [
+          "em, người nhỏ tuổi trong nhà",
+          "Huynh Đệ"
+        ],
+        [
+          "con cái",
+          "Tử Tức"
+        ],
+        [
+          "bạn bè gần gũi",
+          "Nô Bộc"
+        ]
+      ],
+      "Liêm Trinh": [
+        [
+          "người yêu, người bạn đời",
+          "Phu Thê"
+        ],
+        [
+          "cấp trên",
+          "Quan Lộc"
+        ],
+        [
+          "cấp dưới",
+          "Nô Bộc"
+        ]
+      ],
+      "Thiên Phủ": [
+        [
+          "mẹ",
+          "Phụ Mẫu"
+        ],
+        [
+          "người giữ của, giữ nhà trong gia đình",
+          "Điền Trạch"
+        ],
+        [
+          "người bạn đời",
+          "Phu Thê"
         ]
       ],
       "Thái Âm": [
@@ -89,77 +177,217 @@
           "con gái",
           "Tử Tức"
         ]
+      ],
+      "Tham Lang": [
+        [
+          "người bạn đời",
+          "Phu Thê"
+        ],
+        [
+          "bạn bè xã giao",
+          "Nô Bộc"
+        ],
+        [
+          "con cái",
+          "Tử Tức"
+        ]
+      ],
+      "Cự Môn": [
+        [
+          "anh chị em",
+          "Huynh Đệ"
+        ],
+        [
+          "cấp dưới, bạn bè hay tranh luận",
+          "Nô Bộc"
+        ],
+        [
+          "người bạn đời",
+          "Phu Thê"
+        ]
+      ],
+      "Thiên Tướng": [
+        [
+          "cấp dưới tận tụy",
+          "Nô Bộc"
+        ],
+        [
+          "người bạn đời",
+          "Phu Thê"
+        ],
+        [
+          "cấp trên",
+          "Quan Lộc"
+        ]
+      ],
+      "Thiên Lương": [
+        [
+          "cha mẹ, người lớn tuổi che chở",
+          "Phụ Mẫu"
+        ],
+        [
+          "người đỡ đầu, thầy",
+          "Quan Lộc"
+        ],
+        [
+          "con cái",
+          "Tử Tức"
+        ]
+      ],
+      "Thất Sát": [
+        [
+          "cấp dưới mạnh, đối thủ",
+          "Nô Bộc"
+        ],
+        [
+          "anh em",
+          "Huynh Đệ"
+        ],
+        [
+          "người bạn đời",
+          "Phu Thê"
+        ]
+      ],
+      "Phá Quân": [
+        [
+          "con cái",
+          "Tử Tức"
+        ],
+        [
+          "cấp dưới, bạn bè hay thay đổi",
+          "Nô Bộc"
+        ],
+        [
+          "anh em",
+          "Huynh Đệ"
+        ]
+      ],
+      "Tả Phù": [
+        [
+          "người giúp việc, cấp dưới",
+          "Nô Bộc"
+        ],
+        [
+          "anh em giúp đỡ",
+          "Huynh Đệ"
+        ]
+      ],
+      "Hữu Bật": [
+        [
+          "người giúp việc, cấp dưới",
+          "Nô Bộc"
+        ],
+        [
+          "anh em giúp đỡ",
+          "Huynh Đệ"
+        ]
+      ],
+      "Thiên Khôi": [
+        [
+          "quý nhân, người đỡ đầu",
+          "Quan Lộc"
+        ],
+        [
+          "bạn bè giỏi giang",
+          "Nô Bộc"
+        ]
+      ],
+      "Thiên Việt": [
+        [
+          "quý nhân, người đỡ đầu",
+          "Quan Lộc"
+        ],
+        [
+          "bạn bè giỏi giang",
+          "Nô Bộc"
+        ]
       ]
     },
     "tinh_trang": {
-      "ky": "{sao} mang Hóa Kỵ ở {cung_sao} ({chi}) → quan hệ với {vai} dễ có hiểu lầm, va chạm hoặc xa cách.",
-      "ham": "{sao} hãm ở {cung_sao} ({chi}) → {vai} khó nâng đỡ được nhiều, bạn dựa vào chính mình hơn."
+      "ky": {
+        "hoa": "Hóa Kỵ",
+        "nhan": "mang Hóa Kỵ",
+        "cau": "{sao} mang Hóa Kỵ ở {cung_sao} ({chi}) → quan hệ với {vai} dễ có hiểu lầm, va chạm hoặc xa cách."
+      },
+      "ham": {
+        "sang": [
+          "H"
+        ],
+        "nhan": "hãm",
+        "cau": "{sao} hãm ở {cung_sao} ({chi}) → {vai} khó nâng đỡ được nhiều, bạn dựa vào chính mình hơn."
+      },
+      "loc": {
+        "hoa": "Hóa Lộc",
+        "nhan": "mang Hóa Lộc",
+        "cau": "{sao} mang Hóa Lộc ở {cung_sao} ({chi}) → quan hệ với {vai} có phần thuận lợi, dễ được lợi từ họ."
+      },
+      "quyen": {
+        "hoa": "Hóa Quyền",
+        "nhan": "mang Hóa Quyền",
+        "cau": "{sao} mang Hóa Quyền ở {cung_sao} ({chi}) → {vai} có tiếng nói, có sức ảnh hưởng với bạn."
+      },
+      "khoa": {
+        "hoa": "Hóa Khoa",
+        "nhan": "mang Hóa Khoa",
+        "cau": "{sao} mang Hóa Khoa ở {cung_sao} ({chi}) → quan hệ với {vai} nhẹ nhàng, được tiếng tốt."
+      },
+      "mieu": {
+        "sang": [
+          "M",
+          "V"
+        ],
+        "nhan": "miếu hoặc vượng",
+        "cau": "{sao} sáng (miếu hoặc vượng) ở {cung_sao} ({chi}) → {vai} có thế vững, là chỗ dựa đáng kể."
+      }
     }
   },
   "so_cung": {
     "nguong": 25,
-    "ghi_chu": "Hai cung chỉ được so khi (1) điểm /100 chênh từ 'nguong' VÀ (2) ít nhất 'can_dong_thuan' trong 3 thành phần (chính tinh, phụ tinh ròng = cát + sát, cách cục) cùng nghiêng về cung trội — tránh nói 'trội' khi chỉ một sao kéo điểm. Thành phần nào cung yếu hơn hẳn (từ 'lech_lon' điểm thô) thì nêu thành lưu ý chứ không bỏ qua. Lưu ý thêm: cung trội vô chính diệu, cung yếu bị Tuần/Triệt nén, cung trội vẫn có sát tinh đáng kể ('sat_dang_ke'). Không đổi điểm.",
+    "ghi_chu": "So cung chỉ là ĐÁNH GIÁ KHÁCH QUAN từ điểm đã tính, không kèm lời khuyên. Một cặp chỉ được nêu khi: (1) điểm /100 chênh từ 'nguong'; (2) không thành phần nào (chính tinh, phụ tinh ròng = cát + sát, cách cục) nghiêng về cung yếu từ 'lech_nho' điểm thô, và ít nhất 'can_dong_thuan' thành phần nghiêng về cung trội; (3) cả hai cung đều có chính tinh bản cung (vô chính diệu mượn sao thì không so được công bằng); (4) cả hai cung không bị Tuần/Triệt nén (điểm đã bị kéo về giữa nên không còn so công bằng). Cung trội còn sát tinh đáng kể ('sat_dang_ke') thì nêu thêm. Không đổi điểm.",
     "cap": [
       {
         "a": "Nô Bộc",
         "b": "Quan Lộc",
-        "a_hon": "Nô Bộc mạnh hơn Quan Lộc rõ rệt → làm nhờ hợp tác, nhờ người giúp (tá lực nhi thành) thuận hơn tự đứng một mình.",
-        "b_hon": "Quan Lộc mạnh hơn Nô Bộc rõ rệt → tự đi, tự làm chủ việc của mình thuận hơn dựa vào người khác.",
         "hoi": "làm chủ hay hợp tác"
       },
       {
         "a": "Nô Bộc",
         "b": "Huynh Đệ",
-        "a_hon": "Nô Bộc mạnh hơn Huynh Đệ → hợp tác với bạn bè thuận hơn với anh chị em ruột.",
-        "b_hon": "Huynh Đệ mạnh hơn Nô Bộc → anh chị em đáng tin hơn bạn bè.",
         "hoi": "hợp tác với bạn bè hay anh chị em"
       },
       {
         "a": "Quan Lộc",
         "b": "Tài Bạch",
-        "a_hon": "Quan Lộc mạnh hơn Tài Bạch → danh vị, công việc đi trước tiền bạc.",
-        "b_hon": "Tài Bạch mạnh hơn Quan Lộc → tiền bạc dễ khá hơn địa vị.",
         "hoi": "danh vị hay tiền bạc đến trước"
       },
       {
         "a": "Mệnh",
         "b": "Thiên Di",
-        "a_hon": "Mệnh mạnh hơn Thiên Di → ở nhà, ở nơi quen thuộc phát huy tốt hơn ra ngoài.",
-        "b_hon": "Thiên Di mạnh hơn Mệnh → ra ngoài, đi xa, môi trường mới thuận hơn ở yên một chỗ.",
         "hoi": "ở yên hay đi xa"
       },
       {
         "a": "Mệnh",
         "b": "Phúc Đức",
-        "a_hon": "Mệnh mạnh hơn Phúc Đức → bản lĩnh cá nhân hơn nền phúc ấm của dòng họ.",
-        "b_hon": "Phúc Đức mạnh hơn Mệnh → được nền phúc dòng họ che chở nhiều hơn sức mình.",
         "hoi": "dựa vào bản thân hay nền phúc dòng họ"
       },
       {
         "a": "Tài Bạch",
         "b": "Điền Trạch",
-        "a_hon": "Tài Bạch mạnh hơn Điền Trạch → kiếm tiền khá hơn giữ của.",
-        "b_hon": "Điền Trạch mạnh hơn Tài Bạch → giữ của, tích lũy nhà đất khá hơn kiếm tiền.",
         "hoi": "kiếm tiền hay giữ của"
       },
       {
         "a": "Phu Thê",
         "b": "Tử Tức",
-        "a_hon": "Phu Thê mạnh hơn Tử Tức → đường hôn nhân thuận hơn chuyện con cái.",
-        "b_hon": "Tử Tức mạnh hơn Phu Thê → con cái là chỗ dựa tình cảm hơn vợ chồng.",
         "hoi": "vợ chồng hay con cái là chỗ dựa"
       },
       {
         "a": "Phụ Mẫu",
         "b": "Phúc Đức",
-        "a_hon": "Phụ Mẫu mạnh hơn Phúc Đức → được cha mẹ, người trên nâng đỡ hơn nền phúc chung.",
-        "b_hon": "Phúc Đức mạnh hơn Phụ Mẫu → phúc phần chung khá hơn sự nâng đỡ trực tiếp của cha mẹ.",
         "hoi": "sự nâng đỡ của cha mẹ hay phúc phần chung"
       }
     ],
     "can_dong_thuan": 2,
     "lech_nho": 1.0,
-    "lech_lon": 3.0,
     "sat_dang_ke": -10,
     "luu_y": {
       "thanh_phan": {
@@ -167,10 +395,8 @@
         "phu_tinh": "phụ tinh (cát trừ sát)",
         "cach_cuc": "cách cục"
       },
-      "nghich": "Tuy nhiên {yeu} lại hơn về {thanh_phan}, nên khoảng cách không phải một chiều tuyệt đối.",
-      "vcd": "Lưu ý {troi} không có chính tinh, phần mạnh dựa vào sao mượn và sao chiếu nên độ vững thấp hơn con số.",
-      "tuan_triet": "Lưu ý {yeu} đang bị Tuần/Triệt nén, khoảng cách thực có thể nhỏ hơn con số.",
-      "sat": "Lưu ý {troi} vẫn có sát tinh đáng kể, mặt mạnh đi kèm áp lực."
-    }
+      "sat": "Lưu ý {troi} vẫn có sát tinh đáng kể, nên mặt mạnh đi kèm áp lực."
+    },
+    "mau": "{troi} (khoảng {dt}/100) mạnh hơn {yeu} (khoảng {dy}/100); chênh lệch đến từ {thanh_phan}."
   }
 }

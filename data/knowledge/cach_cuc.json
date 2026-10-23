@@ -2350,50 +2350,6 @@
       "xac_nhan_web": false
     },
     {
-      "id": "CC68",
-      "ten": "Kình Đà đối xung",
-      "loai": "hung",
-      "pham_vi": "*",
-      "thanh": {
-        "any": [
-          {
-            "all": [
-              {
-                "co": "Kình Dương"
-              },
-              {
-                "co": "Đà La",
-                "o": "xung"
-              }
-            ]
-          },
-          {
-            "all": [
-              {
-                "co": "Đà La"
-              },
-              {
-                "co": "Kình Dương",
-                "o": "xung"
-              }
-            ]
-          }
-        ]
-      },
-      "pha": {
-        "tuan_triet": true
-      },
-      "diem": 0,
-      "diem_pha": 0,
-      "linh_vuc": [
-        "tinh_cach"
-      ],
-      "ket_luan": "Kình Dương, Đà La đứng hai đầu trục {cung}–{cung_xung}: việc thuộc cung này vừa nóng vội vừa trì trệ, dễ vướng thị phi.",
-      "ket_luan_pha": "Có Tuần Triệt: sức xung giảm.",
-      "xac_nhan_web": false,
-      "ghi_chu_diem": "Điểm 0: sát tinh/sao liên quan đã bị công thức v3 trừ ở bản cung/xung chiếu, cộng thêm sẽ tính đôi; cách chỉ để luận."
-    },
-    {
       "id": "CC69",
       "ten": "Hỏa Linh đối xung",
       "loai": "hung",
@@ -2482,6 +2438,1566 @@
       "ket_luan_pha": "Có Tuần Triệt: thế giảm.",
       "xac_nhan_web": false,
       "ghi_chu_diem": "Điểm 0: sát tinh/sao liên quan đã bị công thức v3 trừ ở bản cung/xung chiếu, cộng thêm sẽ tính đôi; cách chỉ để luận."
+    },
+    {
+      "id": "CC71",
+      "ten": "Hóa cát hội Mệnh–Phúc Đức",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Phúc Đức",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cach"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Mệnh lẫn Phúc Đức: nội lực và phúc phần cùng đỡ nhau, bản thân vững, tâm thế thoải mái.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Mệnh lẫn Phúc Đức: nội lực và phúc phần cùng đỡ nhau, bản thân vững, tâm thế thoải mái.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC72",
+      "ten": "Quý nhân văn tinh hội Mệnh–Phúc Đức",
+      "loai": "cat",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Phúc Đức",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Mệnh lẫn Phúc Đức: có người giúp, có chữ nghĩa, tinh thần được nâng đỡ.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Mệnh lẫn Phúc Đức: có người giúp, có chữ nghĩa, tinh thần được nâng đỡ.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC73",
+      "ten": "Sát Kỵ hội Mệnh–Phúc Đức",
+      "loai": "hung",
+      "pham_vi": "Mệnh",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Phúc Đức",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cach"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Mệnh lẫn Phúc Đức: ngoài áp lực còn thêm lo nghĩ trong lòng, tâm khó yên.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Mệnh lẫn Phúc Đức: ngoài áp lực còn thêm lo nghĩ trong lòng, tâm khó yên.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC74",
+      "ten": "Hóa cát hội Phụ Mẫu–Mệnh",
+      "loai": "cat",
+      "pham_vi": "Phụ Mẫu",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Mệnh",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Phụ Mẫu lẫn Mệnh: được cha mẹ, người trên nâng đỡ và bản thân biết tận dụng.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Phụ Mẫu lẫn Mệnh: được cha mẹ, người trên nâng đỡ và bản thân biết tận dụng.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC75",
+      "ten": "Quý nhân văn tinh hội Phụ Mẫu–Mệnh",
+      "loai": "cat",
+      "pham_vi": "Phụ Mẫu",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Mệnh",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Phụ Mẫu lẫn Mệnh: dễ được bề trên dìu dắt, giấy tờ, học hành thuận.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Phụ Mẫu lẫn Mệnh: dễ được bề trên dìu dắt, giấy tờ, học hành thuận.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC76",
+      "ten": "Sát Kỵ hội Phụ Mẫu–Mệnh",
+      "loai": "hung",
+      "pham_vi": "Phụ Mẫu",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Mệnh",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai_nan"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Phụ Mẫu lẫn Mệnh: quan hệ với cha mẹ, bề trên dễ căng thẳng, giấy tờ dễ trục trặc.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Phụ Mẫu lẫn Mệnh: quan hệ với cha mẹ, bề trên dễ căng thẳng, giấy tờ dễ trục trặc.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC77",
+      "ten": "Hóa cát hội Phúc Đức–Mệnh",
+      "loai": "cat",
+      "pham_vi": "Phúc Đức",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Mệnh",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "an_khang"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Phúc Đức lẫn Mệnh: phúc phần dày, đời sống tinh thần và hành động cùng thuận.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Phúc Đức lẫn Mệnh: phúc phần dày, đời sống tinh thần và hành động cùng thuận.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC78",
+      "ten": "Quý nhân văn tinh hội Phúc Đức–Mệnh",
+      "loai": "cat",
+      "pham_vi": "Phúc Đức",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Mệnh",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Phúc Đức lẫn Mệnh: được họ hàng, người quen che chở, tâm tính hiền.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Phúc Đức lẫn Mệnh: được họ hàng, người quen che chở, tâm tính hiền.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC79",
+      "ten": "Sát Kỵ hội Phúc Đức–Mệnh",
+      "loai": "hung",
+      "pham_vi": "Phúc Đức",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Mệnh",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cach"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Phúc Đức lẫn Mệnh: phúc phần mỏng đi, dễ lo nghĩ, khó thảnh thơi.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Phúc Đức lẫn Mệnh: phúc phần mỏng đi, dễ lo nghĩ, khó thảnh thơi.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC80",
+      "ten": "Hóa cát hội Điền Trạch–Tài Bạch",
+      "loai": "cat",
+      "pham_vi": "Điền Trạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Tài Bạch",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Điền Trạch lẫn Tài Bạch: có thu nhập và có chỗ cất giữ, nhà đất tiền bạc cùng khá.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Điền Trạch lẫn Tài Bạch: có thu nhập và có chỗ cất giữ, nhà đất tiền bạc cùng khá.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC81",
+      "ten": "Quý nhân văn tinh hội Điền Trạch–Tài Bạch",
+      "loai": "cat",
+      "pham_vi": "Điền Trạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Tài Bạch",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Điền Trạch lẫn Tài Bạch: được người giúp trong chuyện mua bán, giữ của.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Điền Trạch lẫn Tài Bạch: được người giúp trong chuyện mua bán, giữ của.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC82",
+      "ten": "Sát Kỵ hội Điền Trạch–Tài Bạch",
+      "loai": "hung",
+      "pham_vi": "Điền Trạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Tài Bạch",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "hao"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Điền Trạch lẫn Tài Bạch: tiền ra vào bất ổn, nhà đất dễ vướng thủ tục hoặc hao hụt.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Điền Trạch lẫn Tài Bạch: tiền ra vào bất ổn, nhà đất dễ vướng thủ tục hoặc hao hụt.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC83",
+      "ten": "Hóa cát hội Quan Lộc–Nô Bộc",
+      "loai": "cat",
+      "pham_vi": "Quan Lộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Nô Bộc",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "su_nghiep"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Quan Lộc lẫn Nô Bộc: công việc thuận và có người đồng hành, cấp dưới hỗ trợ.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Quan Lộc lẫn Nô Bộc: công việc thuận và có người đồng hành, cấp dưới hỗ trợ.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC84",
+      "ten": "Quý nhân văn tinh hội Quan Lộc–Nô Bộc",
+      "loai": "cat",
+      "pham_vi": "Quan Lộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Nô Bộc",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Quan Lộc lẫn Nô Bộc: công việc có người nâng đỡ, đồng nghiệp tốt.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Quan Lộc lẫn Nô Bộc: công việc có người nâng đỡ, đồng nghiệp tốt.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC85",
+      "ten": "Sát Kỵ hội Quan Lộc–Nô Bộc",
+      "loai": "hung",
+      "pham_vi": "Quan Lộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Nô Bộc",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "su_nghiep"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Quan Lộc lẫn Nô Bộc: việc làm gặp cản trở, dễ bất hòa với cấp dưới hoặc đồng nghiệp.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Quan Lộc lẫn Nô Bộc: việc làm gặp cản trở, dễ bất hòa với cấp dưới hoặc đồng nghiệp.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC86",
+      "ten": "Hóa cát hội Nô Bộc–Quan Lộc",
+      "loai": "cat",
+      "pham_vi": "Nô Bộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Quan Lộc",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Nô Bộc lẫn Quan Lộc: bạn bè, cấp dưới giúp được việc và việc làm cũng thuận.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Nô Bộc lẫn Quan Lộc: bạn bè, cấp dưới giúp được việc và việc làm cũng thuận.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC87",
+      "ten": "Quý nhân văn tinh hội Nô Bộc–Quan Lộc",
+      "loai": "cat",
+      "pham_vi": "Nô Bộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Quan Lộc",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Nô Bộc lẫn Quan Lộc: quanh bạn có người giỏi, dễ nhờ vả.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Nô Bộc lẫn Quan Lộc: quanh bạn có người giỏi, dễ nhờ vả.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC88",
+      "ten": "Sát Kỵ hội Nô Bộc–Quan Lộc",
+      "loai": "hung",
+      "pham_vi": "Nô Bộc",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Quan Lộc",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Nô Bộc lẫn Quan Lộc: bạn bè, cấp dưới dễ gây rắc rối cho công việc.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Nô Bộc lẫn Quan Lộc: bạn bè, cấp dưới dễ gây rắc rối cho công việc.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC89",
+      "ten": "Hóa cát hội Thiên Di–Tật Ách",
+      "loai": "cat",
+      "pham_vi": "Thiên Di",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Tật Ách",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Thiên Di lẫn Tật Ách: ra ngoài thuận lợi, thân thể đủ sức để đi lại, làm việc.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Thiên Di lẫn Tật Ách: ra ngoài thuận lợi, thân thể đủ sức để đi lại, làm việc.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC90",
+      "ten": "Quý nhân văn tinh hội Thiên Di–Tật Ách",
+      "loai": "cat",
+      "pham_vi": "Thiên Di",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Tật Ách",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Thiên Di lẫn Tật Ách: đi ngoài gặp người giúp, sức khỏe được che chắn.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Thiên Di lẫn Tật Ách: đi ngoài gặp người giúp, sức khỏe được che chắn.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC91",
+      "ten": "Sát Kỵ hội Thiên Di–Tật Ách",
+      "loai": "hung",
+      "pham_vi": "Thiên Di",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Tật Ách",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai_nan"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Thiên Di lẫn Tật Ách: ra ngoài dễ gặp việc bất trắc, cần giữ gìn sức khỏe khi đi xa.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Thiên Di lẫn Tật Ách: ra ngoài dễ gặp việc bất trắc, cần giữ gìn sức khỏe khi đi xa.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC92",
+      "ten": "Hóa cát hội Tật Ách–Phúc Đức",
+      "loai": "cat",
+      "pham_vi": "Tật Ách",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Phúc Đức",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "an_khang"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Tật Ách lẫn Phúc Đức: sức khỏe và tinh thần cùng được đỡ, ít bệnh vặt kéo dài.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Tật Ách lẫn Phúc Đức: sức khỏe và tinh thần cùng được đỡ, ít bệnh vặt kéo dài.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC93",
+      "ten": "Quý nhân văn tinh hội Tật Ách–Phúc Đức",
+      "loai": "cat",
+      "pham_vi": "Tật Ách",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Phúc Đức",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "giai_ach"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Tật Ách lẫn Phúc Đức: gặp việc rắc rối về sức khỏe dễ có người giúp, có đường hóa giải.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Tật Ách lẫn Phúc Đức: gặp việc rắc rối về sức khỏe dễ có người giúp, có đường hóa giải.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC94",
+      "ten": "Sát Kỵ hội Tật Ách–Phúc Đức",
+      "loai": "hung",
+      "pham_vi": "Tật Ách",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Phúc Đức",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "suc_khoe"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Tật Ách lẫn Phúc Đức: sức khỏe và tinh thần cùng chịu áp lực, cần nghỉ ngơi và khám định kỳ.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Tật Ách lẫn Phúc Đức: sức khỏe và tinh thần cùng chịu áp lực, cần nghỉ ngơi và khám định kỳ.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC95",
+      "ten": "Hóa cát hội Tài Bạch–Điền Trạch",
+      "loai": "cat",
+      "pham_vi": "Tài Bạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Điền Trạch",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Tài Bạch lẫn Điền Trạch: kiếm được và giữ được, của cải có chỗ tích lũy.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Tài Bạch lẫn Điền Trạch: kiếm được và giữ được, của cải có chỗ tích lũy.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC96",
+      "ten": "Quý nhân văn tinh hội Tài Bạch–Điền Trạch",
+      "loai": "cat",
+      "pham_vi": "Tài Bạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Điền Trạch",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tai"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Tài Bạch lẫn Điền Trạch: tiền bạc có người dẫn đường, đầu tư dễ có tư vấn tốt.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Tài Bạch lẫn Điền Trạch: tiền bạc có người dẫn đường, đầu tư dễ có tư vấn tốt.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC97",
+      "ten": "Sát Kỵ hội Tài Bạch–Điền Trạch",
+      "loai": "hung",
+      "pham_vi": "Tài Bạch",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Điền Trạch",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "hao"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Tài Bạch lẫn Điền Trạch: tiền vào rồi dễ ra, khó giữ của, cần thận trọng chuyện vay mượn.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Tài Bạch lẫn Điền Trạch: tiền vào rồi dễ ra, khó giữ của, cần thận trọng chuyện vay mượn.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC98",
+      "ten": "Hóa cát hội Tử Tức–Phu Thê",
+      "loai": "cat",
+      "pham_vi": "Tử Tức",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Phu Thê",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Tử Tức lẫn Phu Thê: tình cảm gia đình hòa thuận, con cái và vợ chồng cùng thuận.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Tử Tức lẫn Phu Thê: tình cảm gia đình hòa thuận, con cái và vợ chồng cùng thuận.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC99",
+      "ten": "Quý nhân văn tinh hội Tử Tức–Phu Thê",
+      "loai": "cat",
+      "pham_vi": "Tử Tức",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Phu Thê",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Tử Tức lẫn Phu Thê: con cái học hành tốt, vợ chồng có người nâng đỡ.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Tử Tức lẫn Phu Thê: con cái học hành tốt, vợ chồng có người nâng đỡ.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC100",
+      "ten": "Sát Kỵ hội Tử Tức–Phu Thê",
+      "loai": "hung",
+      "pham_vi": "Tử Tức",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Phu Thê",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Tử Tức lẫn Phu Thê: chuyện con cái và vợ chồng dễ chung một nỗi lo, cần kiên nhẫn.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Tử Tức lẫn Phu Thê: chuyện con cái và vợ chồng dễ chung một nỗi lo, cần kiên nhẫn.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC101",
+      "ten": "Hóa cát hội Phu Thê–Tử Tức",
+      "loai": "cat",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Tử Tức",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Phu Thê lẫn Tử Tức: hôn nhân êm ấm, vợ chồng và con cái cùng được lợi.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Phu Thê lẫn Tử Tức: hôn nhân êm ấm, vợ chồng và con cái cùng được lợi.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC102",
+      "ten": "Quý nhân văn tinh hội Phu Thê–Tử Tức",
+      "loai": "cat",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Tử Tức",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "tinh_cam"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Phu Thê lẫn Tử Tức: vợ chồng có người dìu dắt, gia đình biết nhờ nhau.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Phu Thê lẫn Tử Tức: vợ chồng có người dìu dắt, gia đình biết nhờ nhau.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC103",
+      "ten": "Sát Kỵ hội Phu Thê–Tử Tức",
+      "loai": "hung",
+      "pham_vi": "Phu Thê",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Tử Tức",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "co_doc"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Phu Thê lẫn Tử Tức: hôn nhân và con cái cùng gặp sóng gió, dễ căng thẳng trong nhà.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Phu Thê lẫn Tử Tức: hôn nhân và con cái cùng gặp sóng gió, dễ căng thẳng trong nhà.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC104",
+      "ten": "Hóa cát hội Huynh Đệ–Phụ Mẫu",
+      "loai": "cat",
+      "pham_vi": "Huynh Đệ",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Lộc Tồn",
+              "Hóa Lộc",
+              "Hóa Quyền",
+              "Hóa Khoa"
+            ]
+          },
+          {
+            "cung_chuc": "Phụ Mẫu",
+            "dk": {
+              "co_mot": [
+                "Lộc Tồn",
+                "Hóa Lộc",
+                "Hóa Quyền",
+                "Hóa Khoa"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Lộc/Quyền/Khoa nằm ở cả Huynh Đệ lẫn Phụ Mẫu: anh chị em và cha mẹ cùng thuận, gia đình biết nâng đỡ nhau.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: lộc/Quyền/Khoa nằm ở cả Huynh Đệ lẫn Phụ Mẫu: anh chị em và cha mẹ cùng thuận, gia đình biết nâng đỡ nhau.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC105",
+      "ten": "Quý nhân văn tinh hội Huynh Đệ–Phụ Mẫu",
+      "loai": "cat",
+      "pham_vi": "Huynh Đệ",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Văn Xương",
+              "Văn Khúc",
+              "Thiên Khôi",
+              "Thiên Việt",
+              "Tả Phù",
+              "Hữu Bật"
+            ]
+          },
+          {
+            "cung_chuc": "Phụ Mẫu",
+            "dk": {
+              "co_mot": [
+                "Văn Xương",
+                "Văn Khúc",
+                "Thiên Khôi",
+                "Thiên Việt",
+                "Tả Phù",
+                "Hữu Bật"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": 1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Văn tinh, quý nhân, trợ tinh nằm ở cả Huynh Đệ lẫn Phụ Mẫu: anh chị em giúp đỡ nhau, được bề trên dìu dắt.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: văn tinh, quý nhân, trợ tinh nằm ở cả Huynh Đệ lẫn Phụ Mẫu: anh chị em giúp đỡ nhau, được bề trên dìu dắt.",
+      "xac_nhan_web": false
+    },
+    {
+      "id": "CC106",
+      "ten": "Sát Kỵ hội Huynh Đệ–Phụ Mẫu",
+      "loai": "hung",
+      "pham_vi": "Huynh Đệ",
+      "thanh": {
+        "all": [
+          {
+            "co_mot": [
+              "Hóa Kỵ",
+              "Kình Dương",
+              "Đà La",
+              "Hỏa Tinh",
+              "Linh Tinh",
+              "Địa Không",
+              "Địa Kiếp"
+            ]
+          },
+          {
+            "cung_chuc": "Phụ Mẫu",
+            "dk": {
+              "co_mot": [
+                "Hóa Kỵ",
+                "Kình Dương",
+                "Đà La",
+                "Hỏa Tinh",
+                "Linh Tinh",
+                "Địa Không",
+                "Địa Kiếp"
+              ]
+            }
+          }
+        ]
+      },
+      "pha": {
+        "tuan_triet": true
+      },
+      "diem": -1,
+      "diem_pha": 0,
+      "linh_vuc": [
+        "quy_nhan"
+      ],
+      "ket_luan": "Sát tinh hoặc Hóa Kỵ nằm ở cả Huynh Đệ lẫn Phụ Mẫu: anh chị em và cha mẹ dễ bất hòa, việc nhà nhiều rắc rối.",
+      "ket_luan_pha": "Cung này có Tuần/Triệt nên thế bị giảm: sát tinh hoặc Hóa Kỵ nằm ở cả Huynh Đệ lẫn Phụ Mẫu: anh chị em và cha mẹ dễ bất hòa, việc nhà nhiều rắc rối.",
+      "xac_nhan_web": false
     }
   ]
 }

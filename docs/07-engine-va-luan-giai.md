@@ -77,7 +77,6 @@ Quy trình `docs/06`: nền → chủ tinh → độ sáng → tam phương tứ
 | Gia đình | Luôn = Phụ Mẫu + Tử Tức + Huynh Đệ, tách tiểu mục Cha mẹ / Con cái / Anh em, mỗi câu mang nhãn |
 | Hạn năm | Kết luận hành động: trọng tâm rủi ro → nên/tránh theo cung gốc bị lưu sát chiếu → mặt thuận (Hóa Lộc/Quyền/Khoa đại hạn, lưu cát tinh). Lưu sát tinh/Kỵ rơi ngoài tam phương lưu niên nhưng vào cung trọng yếu (Mệnh/Tài/Quan/Phu/Tật) vẫn được nêu (lớp 2, id `LN2.*`) |
 | **Văn mẫu** (`viet_van.py`, không cần AI) | Mỗi mục là MỘT đoạn: 'Nhìn chung <bậc> (khoảng N/100). [câu dẫn hòa giải]. Điểm sáng: A; B. Cần lưu ý: C.', mỗi ý kèm mã quy tắc; ý (mã + nội dung) đã nêu ở mục trước thì bỏ. Sát tinh đắc địa (điểm bị lật dương nhưng câu luận vẫn nói mặt xấu) gắn cờ `dao_dau` và không vào điểm mạnh/yếu của chủ đề |
-| **Viết văn bằng AI** (`viet_van.py`, tùy chọn) | Gửi báo cáo JSON cho Claude (`claude-opus-5-5`), yêu cầu mỗi câu kết thúc bằng [ID]. Hậu kiểm: câu không có ID hợp lệ bị bỏ. Không có credential → chế độ mẫu (ghép câu, không gọi API) |
 
 Test: `test_luan_giai.py` — 150 lá số ngẫu nhiên không lỗi, điểm nội tại bội 5 và 6 bậc, mọi nhận định có ID, văn mẫu qua hậu kiểm 0 câu bị bỏ, phi tuyến làm giảm điểm khi thêm sát tinh, sát tinh đắc địa không lọt vào điểm mạnh/yếu, văn mẫu không nói percentile và không lặp ý, mọi nhận định chủ đề truy được về cung chủ/xung/tam hợp và nêu "từ cung …" khi khác cung, câu sát tinh khớp vị trí thật, sàn chính tinh miếu/vượng, ngũ hành có hệ quả, nhánh vô chính diệu, hạn năm có nên/tránh.
 
@@ -110,7 +109,7 @@ Người review chỉ ra lỗi bằng cách so với một bản luận tay; m�
 
 1. **Chưa có gì chứng minh luận đúng.** Trọng số, K của phi tuyến, ngưỡng phá cách chung, trọng số chủ đề đều là mô hình của tao. Mốc hiệu chỉnh chỉ làm thang đo nội bộ. Cần lá số người thật đã biết đời.
 2. Nội dung luận: cách cục 40/57 có nguồn web; phụ tinh theo cung đối chiếu 1 nguồn web; `chinh_tinh_tai_chi`, `chinh_tinh_tai_cung_chuc`, `tu_hoa_luan`, `y_nghia` phụ tinh vẫn là AI tổng hợp chưa đối chiếu từng câu.
-3. Nhánh LLM của `viet_van.py` **chưa chạy thật** (môi trường không có API key); chữ ký SDK đã kiểm, nhánh mẫu chạy được.
+3. Đường AI viết văn đã bỏ (doc11); văn xuôi chỉ do engine ghép mẫu.
 4. Đại hạn dùng câu luận của cung chức (VD "Mệnh") cho cung đại hạn — nghĩa hơi lệch với vận 10 năm; lưu nguyệt chấm cả cung như Mệnh.
 5. Chưa xét giờ sinh ngày/đêm cho các cách cần (Nguyệt lãng thiên môn, Nhật chiếu lôi môn).
 6. Chưa có web; mới có SVG lá số + schema/INSERT SQL (`db/`), chưa chạy trên SQL Server.

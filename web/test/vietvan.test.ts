@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { HOA_GIAI, hinhDang } from "../src/engine/vanNen";
-import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc, hauKiemDayDu, hauKiemNoiDung, rutGonChoLlm, tapId } from "../src/engine";
+import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc, tapId } from "../src/engine";
 
 function mau(i: number) {
   const nam = 1930 + ((i * 37) % 90);
@@ -108,44 +108,15 @@ describe("lớp nền văn xuôi (spec Phần 3 §24–§26)", () => {
   });
 });
 
-describe("hậu kiểm nội dung văn do AI viết (spec Phần 3 §29)", () => {
+describe("hậu kiểm văn của engine", () => {
   it("văn lớp nền của chính web không bao giờ bị bỏ câu nào", () => {
     for (let i = 0; i < 300; i++) {
       const kq = mau(i);
       const van = vietMau(kq);
-      const [giu, bo] = hauKiemDayDu(van, kq);
+      const [giu, bo] = hauKiemTheoMuc(van, kq);
       expect(bo, `lá ${i}`).toBe(0);
       expect(giu).toBe(van);
     }
-  });
-
-  const kq = mau(5);
-  const ten = Object.keys(kq.chu_de)[1]; // chủ đề thứ hai
-  const cd = kq.chu_de[ten];
-  const nhanDung = cd.xep_loai.toLowerCase();
-  const nhanSai = ["rất thấp", "thấp", "trung bình", "khá", "tốt", "rất tốt"].find((n) => n !== nhanDung)!;
-  const them = (cau: string) => hauKiemNoiDung(`# ${ten}\n${cau}`, kq);
-
-  it("giữ câu hợp lệ, bỏ câu nêu sao không có trong báo cáo", () => {
-    expect(them(`Bạn ở mức ${nhanDung} (khoảng ${cd.diem100}/100) [CD.${ten}].`)[1]).toBe(0);
-    const chiMenh = JSON.stringify(rutGonChoLlm(kq));
-    const saoLa = [...triThuc().phu.keys()].filter((t) => t.includes(" ")).find((t) => !chiMenh.includes(t))!;
-    expect(saoLa).toBeTruthy();
-    expect(them(`Bạn có ${saoLa} rất mạnh [CD.${ten}].`)[1]).toBe(1);
-  });
-
-  it("bỏ câu có con số lạ hoặc nhãn mức khác nhãn của chủ đề", () => {
-    expect(them(`Bạn đạt khoảng ${cd.diem100 === 77 ? 78 : 77}/100 [CD.${ten}].`)[1]).toBe(1);
-    expect(them(`Về ${ten.toLowerCase()}, bạn ở mức ${nhanSai} [CD.${ten}].`)[1]).toBe(1);
-  });
-
-  it("bỏ câu phán tuyệt đối", () => {
-    expect(them(`Bạn chắc chắn sẽ giàu [CD.${ten}].`)[1]).toBe(1);
-    expect(them(`Hôn nhân của bạn nhất định phải đổ vỡ [CD.${ten}].`)[1]).toBe(1);
-  });
-
-  it("không đếm số bên trong mã [ID]", () => {
-    expect(them(`Bạn hợp nghề này [CC21][CD.${ten}].`)[1]).toBe(0);
   });
 });
 
@@ -190,8 +161,8 @@ describe("kể chuyện theo hình dạng — Tài chính, Sự nghiệp", () =>
 });
 
 describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
-  it("tổng kết 2–3 câu, mỗi câu có mã hợp lệ; hỏi đáp chỉ gồm câu trả lời có luật (SC.* hoặc Thân)", () => {
-    let coHoiDap = 0;
+  it("tổng kết 2–3 câu; hỏi đáp: đủ 20 câu hỏi khi có hạn, mỗi câu có mã hợp lệ đúng mục, chỉ hỏi khi có luật", () => {
+    let minHoi = 99;
     for (let i = 0; i < 100; i++) {
       const kq = mau(i);
       const van = vietMau(kq);
@@ -199,17 +170,21 @@ describe("tổng kết và hỏi đáp (doc11 lô C)", () => {
       const nCau = tk.split(/(?<=[\].!?])\s+/).filter(Boolean).length;
       expect(nCau, tk).toBeGreaterThanOrEqual(2);
       expect(nCau, tk).toBeLessThanOrEqual(3);
-      const hd = van.split("\n# Những câu hỏi thường gặp\n")[1];
+      const hd = (van.split("\n# Những câu hỏi thường gặp\n")[1] ?? "").split("\n").filter(Boolean);
       const ids = tapId(kq);
-      for (const dong of (hd ?? "").split("\n").filter(Boolean)) {
-        coHoiDap++;
+      for (const dong of hd) {
         const ma = [...dong.matchAll(/\[([^[\]]+)\]/g)].map((m) => m[1]);
-        expect(ma.every((m) => /^(SC\.|THAN\.)/.test(m) && ids.has(m)), dong).toBe(true);
+        expect(ma.length, dong).toBeGreaterThan(0);
+        expect(ma.every((m) => ids.has(m)), dong).toBe(true);
       }
+      // câu hỏi thuộc loại cần so cung / quý nhân chỉ có khi luật cho phép: số dòng không vượt số câu hỏi khai báo
+      expect(hd.length).toBeLessThanOrEqual(triThuc().cauHoi.cau_hoi.length);
+      if (kq.han?.dai_han) minHoi = Math.min(minHoi, hd.length);
       const [, bo] = hauKiemTheoMuc(van, kq);
       expect(bo, `lá ${i}`).toBe(0);
     }
-    expect(coHoiDap).toBeGreaterThan(50);
+    expect(triThuc().cauHoi.cau_hoi.length).toBeGreaterThanOrEqual(20);
+    expect(minHoi).toBeGreaterThanOrEqual(11); // 6 chủ đề + Thân + 2 đại hạn + đại hạn hiện tại + hạn năm (ít nhất 1)
   });
 
   it("một báo cáo không lặp nguyên văn một câu giữa các đoạn chủ đề (câu nối được xoay vòng)", () => {

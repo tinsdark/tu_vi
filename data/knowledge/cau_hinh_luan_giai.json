@@ -396,7 +396,8 @@
     "khop_noi_dung": {
       "khá_tran": 65,
       "tb_tran": 60,
-      "ghi_chu": "§4.8: sáng ≥ 2×hung và có chính tinh miếu/vượng (hoặc không có hung mà có chính tinh đắc) → nhãn ≥ khá (65); hung ≥ 2×sáng → nhãn ≤ trung bình (60)."
+      "net_hung_tran": 80,
+      "ghi_chu": "§4.8: sáng ≥ 2×hung và có chính tinh miếu/vượng (hoặc không có hung mà có chính tinh đắc) → nhãn ≥ khá (65); hung ≥ 2×sáng → nhãn ≤ trung bình (60). Bổ sung (doc11): tổng điểm câu hung lớn hơn tổng điểm câu sáng → không quá 80 (không để nhãn 'Rất tốt' đứng cạnh nội dung nghiêng về hạn chế)."
     }
   },
   "vcd_theo_cung": {

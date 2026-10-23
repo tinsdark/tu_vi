@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import CHI, CUNG_CHUC, an_la_so, mv  # noqa: E402
 from tuvi.lich_am import tu_duong_lich  # noqa: E402
 from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao, chon_gioi  # noqa: E402
-from tuvi.viet_van import hau_kiem_theo_muc, rut_gon_cho_llm, viet, viet_mau, ve  # noqa: E402
+from tuvi.viet_van import hau_kiem_theo_muc, viet, viet_mau, ve  # noqa: E402
 
 BAC = {"Rất thấp", "Thấp", "Trung bình", "Khá", "Tốt", "Rất tốt"}
 
@@ -36,8 +36,8 @@ def test_bao_cao_bat_bien():
             assert all(n["id"] and n["nhan_dinh"] for n in k["nhan_dinh"])
         h = kq["han"]
         assert len(h["luu_nguyet"]) == 12 and h["tieu_han"] and h["luu_nien"]
-        van, che_do, bo = viet(kq, dung_llm=False)
-        assert che_do == "mau" and bo == 0 and van
+        van, bo = viet(kq)
+        assert bo == 0 and van
 
 
 def test_phi_tuyen_giam_phan_tot():
@@ -314,7 +314,7 @@ def test_vo_chinh_dieu_base_nua_va_khong_san():
 
 
 def test_hau_kiem_theo_muc():
-    # văn mẫu không bao giờ bị bỏ câu; LLM kéo sao mục khác sang mục này thì bị bỏ; payload gửi LLM đã rút gọn mà vẫn đủ mã
+    # văn mẫu không bao giờ bị bỏ câu; câu kéo sao mục khác sang mục này thì bị bỏ
     tt, rnd = TriThuc(), random.Random(41)
     for _ in range(80):
         nam, ls = la_so_ngau_nhien(rnd)
@@ -326,9 +326,6 @@ def test_hau_kiem_theo_muc():
         if ma and not any(ma == n["id"] for cd in (kq["chu_de"][ten[2]],) for n in cd["diem_manh"] + cd["diem_yeu"] + cd["luu_y"] + cd["trung_tinh"]):
             fake = f"# {ten[2]}\nCâu lấn mục [{ma}]. Câu đúng [CD.{ten[2]}]."
             assert hau_kiem_theo_muc(fake, kq) == (f"# {ten[2]}\nCâu đúng [CD.{ten[2]}].", 1)
-        gon = rut_gon_cho_llm(kq)
-        assert all("nhan_dinh" not in k and "chi_tiet_diem" not in k for k in gon["cung"].values())
-        assert gon["chu_de"] == kq["chu_de"] and gon["nen"] == kq["nen"]
 
 
 def test_bac_dung_nguong_va_la_so_trung_vi_la_trung_binh():
@@ -586,6 +583,28 @@ def test_dsl_xuyen_cung():
     sao = next(s for s in lg.cung[chi_ql] if s in tt.phu)
     assert lg.khop({"cung_chuc": "Quan Lộc", "dk": {"co": sao}}, lg.chi_cua["Mệnh"])
     assert not lg.khop({"cung_chuc": "Quan Lộc", "dk": {"co": "không có sao này"}}, lg.chi_cua["Mệnh"])
+
+
+def test_cach_cuc_xuyen_cung_deu_co_the_xay_ra():
+    """doc11 lô B: mọi cách mới (CC64+) phải kích hoạt được trên lá số thật (trừ cách quá hiếm đã biết), mỗi cung đều có ít nhất một cách xuyên cung."""
+    from tuvi.luan_giai import CHINH_TINH
+    tt = TriThuc()
+    moi = [c for c in tt.cach if int(c["id"][2:]) >= 64]
+    assert {x for c in moi for x in ([c["pham_vi"]] if isinstance(c["pham_vi"], str) else c["pham_vi"])} >= set(CUNG_CHUC) | {"*"}
+    rnd, thay, vai = random.Random(7), set(), set()
+    for _ in range(600):
+        _, ls = la_so_ngau_nhien(rnd)
+        lg = LuanGiai(ls, tt)
+        for c in moi:
+            if c["id"] not in thay and any(lg.khop(c["thanh"], lg.chi_cua[cu]) for cu in (CUNG_CHUC if c["pham_vi"] == "*" else [c["pham_vi"]] if isinstance(c["pham_vi"], str) else c["pham_vi"])):
+                thay.add(c["id"])
+        for cu in CUNG_CHUC:
+            vai |= {n["id"].split(".")[2] for n in lg.vai_nguoi(cu)}
+    hiem = {"CC70"}      # Thái Âm hãm ở Phu Thê + Đào Hoa ở Quan Lộc + Thiên Diêu ở Tài Bạch: có trong luật nhưng gần như không gặp
+    assert {c["id"] for c in moi} - thay <= hiem, {c["id"] for c in moi} - thay
+    # bảng sao → người phủ đủ 14 chính tinh
+    assert set(tt.lien_cung["vai_nguoi"]["sao"]) >= set(CHINH_TINH)
+    assert vai >= {"Tử Vi", "Thái Dương", "Thái Âm", "Tham Lang", "Thiên Phủ"}, vai
 
 
 if __name__ == "__main__":

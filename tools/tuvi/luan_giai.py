@@ -199,22 +199,25 @@ class LuanGiai:
         return rieng or self.cau_tuan_triet(ten_cung, tuan_triet, ngan=True)
 
     def vai_nguoi(self, ten_cung):
-        """Bảng vai_nguoi (luan_lien_cung.json): mỗi sao × vai người × tình trạng (Hóa Kỵ / hãm) → câu ở cung của vai, nếu cung đó khác cung chứa sao."""
+        """Bảng vai_nguoi (luan_lien_cung.json): mỗi sao × vai người × tình trạng (Hóa Kỵ/Lộc/Quyền/Khoa, hãm, miếu/vượng) → câu ở cung của vai, nếu cung đó khác cung chứa sao."""
         bang = self.tt.lien_cung["vai_nguoi"]
         ket = []
         for sao, vais in bang["sao"].items():
             chi_sao = self.ls["sao"].get(sao)
             if chi_sao is None or self.ls["cung_chuc"][chi_sao] == ten_cung:
                 continue
-            tinh_trang = [t for t, co in (("ky", self.goc_hoa.get("Hóa Kỵ") == sao), ("ham", self.tt.sang(sao, chi_sao) == "H")) if co]
-            for tt in tinh_trang:
+            muc = self.tt.sang(sao, chi_sao)
+            for tt, dk in bang["tinh_trang"].items():
+                dung = self.goc_hoa.get(dk["hoa"]) == sao if "hoa" in dk else muc is not None and muc in dk["sang"]
+                if not dung:
+                    continue
                 for vai, cung in vais:
                     if cung != ten_cung:
                         continue
                     ket.append({"id": f"LC.vai.{sao}.{tt}", "diem": 0, "luu_y": True,
-                                "ly_do": f"{sao} {'mang Hóa Kỵ' if tt == 'ky' else 'hãm'} ở {self.ls['cung_chuc'][chi_sao]} ({CHI[chi_sao]}); {sao} ứng với {vai}",
-                                "nhan_dinh": bang["tinh_trang"][tt].replace("{sao}", sao).replace("{cung_sao}", self.ls["cung_chuc"][chi_sao])
-                                                                   .replace("{chi}", CHI[chi_sao]).replace("{vai}", vai),
+                                "ly_do": f"{sao} {dk['nhan']} ở {self.ls['cung_chuc'][chi_sao]} ({CHI[chi_sao]}); {sao} ứng với {vai}",
+                                "nhan_dinh": dk["cau"].replace("{sao}", sao).replace("{cung_sao}", self.ls["cung_chuc"][chi_sao])
+                                                      .replace("{chi}", CHI[chi_sao]).replace("{vai}", vai),
                                 **self.nguon(self.chi_cua[ten_cung], "ban_cung", [])})   # sao nằm ở cung khác: nguồn ghi ở chính cung vai, câu tự nêu rõ sao và cung của nó
         return ket
 
@@ -818,6 +821,8 @@ class LuanGiai:
                 pv = max(pv, kh["khá_tran"])
             if can_tb:
                 pv = min(pv, kh["tb_tran"])
+            if -sum(n["diem"] for n in xau_hien + gt) > sum(n["diem"] for n in tot_hien):          # nội dung người đọc thấy nghiêng về hạn chế thì nhãn không vượt 80
+                pv = min(pv, kh["net_hung_tran"])
             # vừa tốt vừa hung rõ: kéo nhãn về vùng giữa (không lấy cực trị) và chèn câu dẫn hòa giải
             cau_dan = None
             if tot and xau:         # §17: câu 'hai mặt cùng tồn tại' áp cho MỌI mục có cả sáng lẫn hung (không kẹp điểm: điểm do công thức v3 quyết định)
@@ -872,9 +877,32 @@ THU_TU_CUNG = ["Mệnh", "Quan Lộc", "Tài Bạch", "Phu Thê", "Thiên Di", "
                "Điền Trạch", "Phụ Mẫu", "Tử Tức", "Huynh Đệ", "Nô Bộc"]
 
 
+def dong_thoi_gian_dai_han(lg, nam_sinh):
+    """Dòng thời gian đại hạn cả đời: điểm = tổng điểm Mệnh + Quan Lộc + Tài Bạch của đại hạn (chỉ so các đại hạn của cùng lá số). Không đổi điểm cung nào."""
+    kn = lg.tt.cfg["han"]["khuyen_nghi"]
+    moc = []
+    for c, tu_tuoi in sorted(lg.ls["dai_han"].items(), key=lambda kv: kv[1]):
+        dh = lg.han(nam_sinh, nam_sinh + tu_tuoi - 1, False)["dai_han"]
+        if not dh:
+            continue
+        dg = dh["danh_gia"]
+        diem = round(sum(dg[k]["diem"] for k in ("Mệnh", "Quan Lộc", "Tài Bạch")), 2)
+        k = kn.get(lg.ls["cung_chuc"][c])
+        moc.append({"id": f"DH.{tu_tuoi}", "nhan_dinh": "", "tu_tuoi": tu_tuoi, "den_tuoi": tu_tuoi + 9, "chi": dh["chi"], "cung_goc": dh["cung_goc"], "xep_loai": dg["Mệnh"]["xep_loai"],
+                    "diem": diem, "nhan": "", "goi_y": f"Nên {k['nen']}; tránh {k['tranh']}." if k else ""})
+    if len(moc) > 1:
+        dd = [m["diem"] for m in moc]
+        moc[dd.index(max(dd))]["nhan"] = "đẹp nhất"
+        moc[dd.index(min(dd))]["nhan"] = "khó nhất"
+    for m in moc:
+        m["nhan_dinh"] = (f"Đại hạn {m['tu_tuoi']}–{m['den_tuoi']} tuổi tại {m['chi']} (cung {m['cung_goc']} gốc), xếp loại {m['xep_loai'].lower()}"
+                          + (f"; đây là đại hạn {m['nhan']} trong cả đời của bạn" if m["nhan"] else "") + ".")
+    return moc
+
+
 def so_cung(lg, cham):
-    """So cung với cung (bảng so_cung): cặp chỉ được nói "trội" khi điểm /100 chênh từ ngưỡng VÀ đủ thành phần (chính tinh, phụ tinh ròng, cách cục) cùng nghiêng về cung trội;
-    thành phần nào cung yếu hơn hẳn, cung trội vô chính diệu, cung yếu bị Tuần/Triệt nén, cung trội còn sát tinh đáng kể đều thành lưu ý. Không đổi điểm."""
+    """So cung với cung (bảng so_cung): chỉ là đánh giá khách quan từ điểm đã tính, không kèm lời khuyên. Cặp được nêu khi điểm /100 chênh từ ngưỡng, không thành phần nào nghiêng về cung yếu,
+    đủ thành phần nghiêng về cung trội, cả hai cung đều có chính tinh bản cung và không bị Tuần/Triệt nén (nếu không thì điểm không còn so công bằng). Không đổi điểm."""
     sc = lg.tt.lien_cung["so_cung"]
     ly = sc["luu_y"]
     ket = []
@@ -885,22 +913,24 @@ def so_cung(lg, cham):
             continue
         troi, yeu = (a, b) if hieu > 0 else (b, a)
         pt, py = cham[troi]["phan_tich"], cham[yeu]["phan_tich"]
+        if pt["vo_chinh_dieu"] or py["vo_chinh_dieu"] or pt["k_triet_tuan"] < 1 or py["k_triet_tuan"] < 1:
+            continue
         tp = [("chinh_tinh", pt["tong_base"], py["tong_base"]),
               ("phu_tinh", pt["tong_cat"] + pt["tong_sat"], py["tong_cat"] + py["tong_sat"]),
               ("cach_cuc", pt["cach_cuc"], py["cach_cuc"])]
-        thuan = sum(1 for _, t, y in tp if t - y >= sc["lech_nho"])
-        if thuan < sc["can_dong_thuan"]:
+        if any(y - t >= sc["lech_nho"] for _, t, y in tp):
             continue
-        luu_y = [ly["nghich"].replace("{yeu}", yeu).replace("{thanh_phan}", ly["thanh_phan"][ten]) for ten, t, y in tp if y - t >= sc["lech_lon"]]
-        if pt["vo_chinh_dieu"]:
-            luu_y.append(ly["vcd"].replace("{troi}", troi))
-        if py["k_triet_tuan"] < 1:
-            luu_y.append(ly["tuan_triet"].replace("{yeu}", yeu))
+        thuan = [x for x in tp if x[1] - x[2] >= sc["lech_nho"]]
+        if len(thuan) < sc["can_dong_thuan"]:
+            continue
+        nhan = lambda n: ly["thanh_phan"][n]
+        cau = [sc["mau"].replace("{troi}", troi).replace("{dt}", str(cham[troi]["diem100"])).replace("{yeu}", yeu).replace("{dy}", str(cham[yeu]["diem100"]))
+               .replace("{thanh_phan}", " và ".join(nhan(n) for n, _, _ in thuan))]
         if pt["tong_sat"] <= sc["sat_dang_ke"]:
-            luu_y.append(ly["sat"].replace("{troi}", troi))
-        ket.append({"id": f"SC.{a}.{b}", "diem": 0, "nhan_dinh": " ".join([c["a_hon"] if hieu > 0 else c["b_hon"], *luu_y]),
-                    "ly_do": f"{troi} ~{cham[troi]['diem100']}/100, {yeu} ~{cham[yeu]['diem100']}/100 (chênh từ {sc['nguong']}); {thuan}/3 thành phần nghiêng về {troi}: "
-                             + ", ".join(f"{ly['thanh_phan'][ten]} {t:.1f} so với {y:.1f}" for ten, t, y in tp)})
+            cau.append(ly["sat"].replace("{troi}", troi))
+        ket.append({"id": f"SC.{a}.{b}", "diem": 0, "nhan_dinh": " ".join(cau),
+                    "ly_do": f"{troi} ~{cham[troi]['diem100']}/100, {yeu} ~{cham[yeu]['diem100']}/100 (chênh từ {sc['nguong']}); {len(thuan)}/3 thành phần nghiêng về {troi}, không thành phần nào ngược: "
+                             + ", ".join(f"{nhan(n)} {t:.1f} so với {y:.1f}" for n, t, y in tp)})
     return ket
 
 
@@ -912,6 +942,7 @@ def bao_cao(lg, nam_sinh=None, nam_xem=None):
           "cung": {c: cham[c] for c in THU_TU_CUNG}, "chu_de": lg.chu_de(cham), "so_cung": so_cung(lg, cham)}
     if nam_sinh and nam_xem:
         kq["han"] = dict(lg.han(nam_sinh, nam_xem), nam_xem=nam_xem)
+        kq["dai_han_ca_doi"] = dong_thoi_gian_dai_han(lg, nam_sinh)
     return kq
 
 

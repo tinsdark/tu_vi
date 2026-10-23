@@ -12,7 +12,7 @@ web/
     index.ts      tinhLaSo(nhap) → lịch + lá số + báo cáo
   src/ui/         React: FormNhap, BanCo (lưới 12 cung), TabTongQuan, TabCung, TabHan, NganKeo (chi tiết sao/cung/quy tắc)
   src/lib/        localStorage (lá số đã lưu), mã hóa URL, xuất PNG/SVG
-  server/         máy chủ nhỏ: /api/viet-van, /api/health, phục vụ dist/
+  server/         máy chủ nhỏ: /api/health, phục vụ dist/ (không còn AI)
   test/           parity.test.ts (TS = Python), server.test.ts, nhap.test.ts, hienthi.test.ts
 data/knowledge/   tri thức JSON — dùng CHUNG với Python (import qua alias @kb)
 ```
@@ -22,8 +22,7 @@ data/knowledge/   tri thức JSON — dùng CHUNG với Python (import qua alias
 ```bash
 cd web && npm ci
 npm run dev                    # giao diện, http://localhost:5173 (proxy /api → :8787)
-npm run server                 # API + web tĩnh (sau npm run build), PORT mặc định 8787
-ANTHROPIC_API_KEY=... npm run server   # bật AI viết văn
+npm run server                 # web tĩnh (sau npm run build), PORT mặc định 8787
 npm test                       # parity + server + giao diện (cần python3 trong PATH)
 npm run build                  # dist/
 ```
@@ -59,43 +58,19 @@ Lần chạy `GOLDEN_N=2000`: 6.000 ngày + 6.000 ca lịch đầy đủ + 8.000
 - Lưu lá số trong trình duyệt (localStorage); chép liên kết (`#c=…` mã hóa dữ liệu sinh, **không có họ tên**); tải PNG/SVG; in/PDF; sáng/tối.
 - Truy cập được: nhãn cho mọi ô nhập, tab đúng vai trò ARIA, Esc đóng ngăn kéo, focus trả về chỗ cũ, tôn trọng `prefers-color-scheme`.
 
-## 5. API viết văn (tùy chọn)
+## 5. Văn xuôi (không dùng AI)
 
-**Không cần API key để dùng web.** Không có key thì web tự ghép văn từ các nhận định (xem `docs/07`), nút “Viết lại bằng AI” tự ẩn, và chi phí bằng 0.
+Từ doc11, **toàn bộ đường AI đã bỏ** (nút “Viết lại bằng AI”, “Dùng AI khác”, `POST /api/viet-van`, `server/llm.ts`, `kiem-llm.ts`, SDK Anthropic, cờ `HIEN_AI`). Văn xuôi do chính engine ghép từ các nhận định đã luận (`web/src/engine/vanNen.ts`, dữ liệu câu nối và mẫu ở `data/knowledge/van_phong.json`, danh sách câu hỏi ở `cau_hoi.json`).
 
-`POST /api/viet-van` — body là **dữ liệu sinh** (cùng hình dạng form), không phải báo cáo hay prompt:
-
-```json
-{"nam":1990,"thang":6,"ngay":8,"gio":8,"phut":30,"gioi_tinh":"nam","mien":"nam","nam_xem":2026,"quy_uoc":{},"profile":{}}
-```
-Trả `{van, che_do: "llm"|"mau", bo, ly_do?}`. Luôn trả 200 kèm văn mẫu khi AI không dùng được (kèm `ly_do`); 400 khi dữ liệu sai; 429 khi hết lượt.
-
-Thiết kế an toàn:
-- Server **tự lập lá số và luận** từ dữ liệu sinh đã kiểm tra → client không đưa được nội dung tùy ý vào prompt, nên không dùng được như proxy LLM miễn phí. Họ tên không bao giờ được gửi/ghi.
-- Đầu ra LLM qua `hauKiem`: câu không có mã quy tắc hợp lệ bị bỏ. Văn rỗng sau hậu kiểm → rơi về văn mẫu.
-- Giới hạn: body ≤ 8 KB, 20 lượt AI/IP/giờ (`TUVI_GIOI_HAN_MOI_GIO`), tối đa 4 lượt đồng thời; cache theo báo cáo (cùng dữ liệu sinh không gọi lại).
-- Header an toàn (CSP, nosniff, no-referrer, X-Frame-Options); chặn path traversal khi phục vụ file.
-- Model `claude-opus-5-5` (đổi bằng `TUVI_MODEL`), `effort: medium`, kèm `fallbacks: "default"` (server-side fallback khi classifier từ chối); `stop_reason: refusal` → văn mẫu.
-
-Biến môi trường: `TUVI_LLM_BASE_URL`, `TUVI_LLM_MODEL`, `TUVI_LLM_API_KEY`, `ANTHROPIC_API_KEY`, `PORT`, `TUVI_MODEL`, `TUVI_GIOI_HAN_MOI_GIO`, `TUVI_TIN_CAY_PROXY=1` (sau reverse proxy), `TUVI_CORS_ORIGIN` (khi web ở host khác), và phía build web `VITE_API_BASE` (địa chỉ API khi web và API khác origin).
-
-**Không cần Claude:** AI viết văn không gắn với một nhà cung cấp. Có ba đường, đường nào cũng đi qua cùng một hậu kiểm theo mục.
-1. **Dán tay, không cần API** (trong web, tab Tổng quan → “Dùng AI khác”): sao chép lời nhắc (quy tắc + dữ liệu lá số, không có tên) → dán vào ChatGPT/Gemini/Claude… → dán văn trả lời lại web → web bỏ câu không có mã hoặc lấn mục. Chạy hoàn toàn trên trình duyệt.
-2. **API kiểu OpenAI** (OpenAI, Gemini qua endpoint tương thích, DeepSeek, Groq, OpenRouter, Ollama chạy máy mình…): `TUVI_LLM_BASE_URL`, `TUVI_LLM_MODEL`, `TUVI_LLM_API_KEY` (Ollama không cần key). Ví dụ Ollama: `TUVI_LLM_BASE_URL=http://localhost:11434/v1 TUVI_LLM_MODEL=qwen2.5:14b npm run server`.
-3. **Claude:** `ANTHROPIC_API_KEY`.
-Mô hình yếu hơn chỉ làm nhiều câu bị bỏ hơn (xem số câu bị bỏ), không làm sai cung. Tiếng Việt và thuật ngữ tử vi của từng mô hình khác nhau: nên dùng `npm run kiem:llm` để đo trước.
-
-**Hậu kiểm theo mục:** mỗi câu LLM viết phải có mã hợp lệ VÀ mã đó phải thuộc đúng mục đang viết (mục Tài chính chỉ được trích mã của Tài chính; Tổng quan: nền/Thân/xếp loại; Hạn năm: mã hạn). LLM kéo sao mục khác sang thì câu bị bỏ — chặn đúng lỗi gán sai cung. Payload gửi LLM đã rút gọn (`rutGonChoLlm`), prompt (`HUONG_DAN`) mô tả cấu trúc JSON và quy tắc theo mục. Parity Python = TS cho phần này nằm trong `parity.test.ts`.
-
-**Kiểm bằng AI thật:** đặt biến môi trường như trên rồi `npm run kiem:llm [số lá số]` gọi AI trên vài lá số mẫu, in tỉ lệ câu bị bỏ, mục thiếu, câu chứa lời cấm (percentile…), thoát mã 1 nếu vượt ngưỡng.
-
-**Chưa kiểm:** gọi nhà cung cấp AI thật (môi trường dev không có key; chất lượng văn AI chưa được đánh giá). Đã kiểm: API kiểu OpenAI qua HTTP thật tới máy chủ giả (`test/llm.test.ts`), luồng server bằng LLM giả (`test/server.test.ts`), và luồng sao chép/dán lại bằng Chromium headless.
+- Mỗi câu kết thúc bằng mã quy tắc `[ID]`; `hauKiem` bỏ câu không có mã hợp lệ, `hauKiemTheoMuc` bỏ câu trích mã của mục khác. Văn của engine luôn qua hậu kiểm với 0 câu bị bỏ (có test).
+- Các mục: Tổng quan, 6 chủ đề, Hạn năm, **Tổng kết** (mảng thuận nhất / cần chú tâm nhất / cung Thân), **Những câu hỏi thường gặp** (21 câu hỏi, chỉ hỏi khi engine có luật để trả lời).
+- Server (`server/app.ts`) chỉ còn phục vụ web tĩnh và `/api/health`. Header an toàn (CSP, nosniff, no-referrer, X-Frame-Options), chặn path traversal.
 
 ## 6. Triển khai
 
 | Cách | Làm gì | Ghi chú |
 |---|---|---|
-| **Một container** (đề xuất) | `docker build -f web/Dockerfile -t tu-vi .` rồi `docker run -p 8787:8787 -e ANTHROPIC_API_KEY=... tu-vi` | web + API cùng origin, có AI. Chưa chạy thử Docker trong môi trường dev |
+| **Một container** (đề xuất) | `docker build -f web/Dockerfile -t tu-vi .` rồi `docker run -p 8787:8787 tu-vi` | web tĩnh. Chưa chạy thử Docker trong môi trường dev |
 | **GitHub Pages** | Bật Pages (Source: GitHub Actions), đặt biến repo `DEPLOY_PAGES=true` và `PAGES_BASE_PATH=/tu_vi/` | Chỉ web tĩnh, **không có AI** (nút tự ẩn). Có thể trỏ `VITE_API_BASE` tới container ở nơi khác + `TUVI_CORS_ORIGIN` |
 | Node host bất kỳ | `npm ci && npm run build && npm run server` | |
 
@@ -103,7 +78,7 @@ CI (`.github/workflows/ci.yml`): test Python, kiểm dữ liệu sinh ra không 
 
 ## 7. Quyền riêng tư và pháp lý
 
-- Ngày giờ sinh chỉ rời trình duyệt khi người dùng chủ động bấm “Viết lại bằng AI” (server không ghi log dữ liệu, không lưu).
+- Mọi tính toán chạy trong trình duyệt; ngày giờ sinh không rời máy người dùng (server chỉ phục vụ file tĩnh).
 - Chưa có tài khoản, chưa lưu phía server → chưa chạm nghĩa vụ lưu trữ dữ liệu cá nhân (Nghị định 13/2023). Khi thêm tài khoản/lưu server phải làm chính sách dữ liệu và xin đồng ý.
 - Câu miễn trừ đã có ở chân trang. Web công khai thu phí thì vẫn nên hỏi luật sư (docs/05 Q6).
 

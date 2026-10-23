@@ -9,6 +9,7 @@ import keChuyen from "@kb/ke_chuyen.json";
 import doSangChot from "@kb/do_sang_chot.json";
 import phuTinh from "@kb/phu_tinh.json";
 import phuTinhTaiCungChuc from "@kb/phu_tinh_tai_cung_chuc.json";
+import cauHoi from "@kb/cau_hoi.json";
 import lienCung from "@kb/luan_lien_cung.json";
 import trucLuan from "@kb/truc_luan.json";
 import vanPhong from "@kb/van_phong.json";
@@ -40,6 +41,8 @@ export class TriThuc {
   truc: Record<string, TrucLuan[]> = (trucLuan as any).truc;
   /** Luận liên cung (doc11 lô B): Tuần/Triệt theo cung, sao → người, so cung với cung. Dữ liệu chạy cho mọi cung/sao có trong bảng. */
   lienCung: any = lienCung;
+  /** Danh sách câu hỏi thường gặp (doc11 lô C). */
+  cauHoi: any = cauHoi;
   /** Kho câu nối và mẫu tổng kết/hỏi đáp của lớp văn xuôi (doc11 lô C). */
   vanPhong: any = vanPhong;
   /** Bảng kể chuyện cho văn xuôi (chỉ web dùng): hình dạng chủ đề + "việc nên làm". */

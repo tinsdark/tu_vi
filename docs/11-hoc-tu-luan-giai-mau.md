@@ -168,7 +168,7 @@ cd web && npm run typecheck && npx vitest run && npm run build
 
 ## 8. Đã triển khai (Lô A + B + C) và 5 quyết định đã chốt
 
-Quyết định của người dùng: (1) giữ chủ mệnh theo cung Mệnh; (2) cho cách cục của Mệnh vào Sự nghiệp/Tài chính (làm tổng quát: mọi chủ đề có lĩnh vực trùng); (3) so cung phải xét thêm các sao khác, không chỉ chênh điểm; (4) **không bật AI** — thay vào đó làm giàu văn phong của chính engine; (5) giữ giọng "bạn".
+Quyết định của người dùng: (1) giữ chủ mệnh theo cung Mệnh; (2) cho cách cục của Mệnh vào Sự nghiệp/Tài chính (làm tổng quát: mọi chủ đề có lĩnh vực trùng); (3) so cung phải xét thêm các sao khác, không chỉ chênh điểm; (4) **bỏ AI hoàn toàn** — thay vào đó làm giàu văn phong của chính engine; (5) giữ giọng "bạn".
 
 Nguyên tắc triển khai: **mỗi thứ là một cơ chế đọc từ dữ liệu, chạy cho mọi cung/sao**, không viết riêng cho một vài ca. Thêm dòng vào bảng là engine tự áp dụng.
 
@@ -197,3 +197,18 @@ Nguyên tắc triển khai: **mỗi thứ là một cơ chế đọc từ dữ l
 - Ngưỡng so cung (25) và các hằng số `so_cung.*` là giá trị khởi điểm.
 - Python (`viet_van.py`) chưa có bản ghép văn mới (Tổng kết, hỏi đáp, biến thể câu nối); chỉ `muc_cho_phep` được giữ parity. Văn xuôi TS và Python vốn không parity.
 - Đường AI (`HIEN_AI = false`) giữ nguyên, tắt.
+
+### 8b. Vòng hai (sau khi chốt 5 quyết định và yêu cầu làm đủ, không dừng ở ví dụ)
+
+| Việc | Đã làm |
+|---|---|
+| Sao → người cho **mọi** chính tinh | Bảng 14 chính tinh + Tả/Hữu/Khôi/Việt, 6 tình trạng (Hóa Kỵ, hãm, Hóa Lộc/Quyền/Khoa, miếu/vượng) trong `luan_lien_cung.json` → `vai_nguoi` (nội dung do AI tổng hợp, nhãn xám) |
+| Cách đa cung **đủ cho 12 cung** | CC71–CC106: mỗi cung 3 cách xuyên cung (Hóa cát hội, quý nhân văn tinh hội, sát Kỵ hội) với cung đối ứng nằm ngoài tam phương nên không tính đôi; cộng CC64–CC67, CC69 (cặp sao đôi đối xung ở mọi trục) và CC70. CC68 (Kình–Đà đối xung) bỏ vì engine an sao luôn đặt Kình–Đà cạnh nhau, không bao giờ đối xung. CC70 giữ nhưng hiếm gần như không gặp |
+| So cung **chỉ là đánh giá khách quan** | Bỏ mọi lời khuyên trong câu so cung. Chỉ nêu khi: chênh ≥ 25 điểm; không thành phần nào nghiêng về cung yếu; ≥ 2/3 thành phần nghiêng về cung trội; cả hai cung có chính tinh bản cung; cả hai không bị Tuần/Triệt nén. Câu là số liệu: "A (khoảng x/100) mạnh hơn B (khoảng y/100); chênh lệch đến từ chính tinh và phụ tinh" |
+| Dòng thời gian đại hạn vào báo cáo | `dai_han_ca_doi` (có mã `DH.<tuổi>`), dùng được trong văn xuôi và hỏi đáp; Python có bản tương đương, parity khớp |
+| 21 câu hỏi thường gặp | `cau_hoi.json`. Chỉ trả lời bằng kết quả engine đã tính; không có câu hỏi về thời điểm, số con, xác suất, IQ |
+| Python | `viet_van.py` có Tổng kết và hỏi đáp; `muc_cho_phep` khớp TS |
+| Bỏ AI | Xóa UI AI, `POST /api/viet-van`, `llm.ts`, `kiem-llm.ts`, SDK Anthropic, cờ `HIEN_AI`, `HUONG_DAN`, `lenhChoAi`, `hauKiemNoiDung`, `hauKiemDayDu`, `rut_gon_cho_llm`, `viet_llm` |
+| Ràng buộc khớp điểm–nội dung | Thêm: nội dung hiển thị nghiêng về hạn chế (tổng điểm câu hung > tổng điểm câu sáng) thì nhãn chủ đề không vượt 80 (`khop_noi_dung.net_hung_tran`). Phát hiện nhờ test `test_nhan_diem_khong_mau_thuan_noi_dung` khi thêm cách mới |
+
+**Nguồn cho danh sách câu hỏi.** Tìm web chỉ xác nhận được ba chủ đề được nhắc nhiều nhất trong các bài hướng dẫn xem lá số (công danh/sự nghiệp, tài lộc, tình duyên/hôn nhân) và nhu cầu hỏi về vận hạn năm ([CafeF](https://cafef.vn/xem-tu-vi.html), [FPT Shop](https://fptshop.com.vn/tin-tuc/for-gamers/cau-lenh-chatgpt-xem-la-so-tu-vi-201972), [Phong Vũ](https://phongvu.vn/cong-nghe/xem-tu-vi-bang-chatgpt/)). Không có số liệu thống kê nào về tần suất câu hỏi; các câu còn lại (sức khỏe, gia đạo, tiền vận/hậu vận, giai đoạn thuận/khó, quý nhân, các cặp so cung) lấy từ các mục kinh điển của lá số và từ những gì engine tính được. Danh sách này là phán đoán, không phải kết quả khảo sát.

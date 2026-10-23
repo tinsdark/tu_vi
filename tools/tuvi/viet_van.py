@@ -1,10 +1,9 @@
-"""Viết kết quả luận (luan_giai.bao_cao) thành văn xuôi.
+"""Viết kết quả luận (luan_giai.bao_cao) thành văn xuôi bằng mẫu, KHÔNG dùng AI.
 
-Nguyên tắc (docs/04 Phase 5): LLM CHỈ viết lại, không thêm ý. Mỗi câu phải kết thúc bằng [ID] trỏ về một nhận định
-trong báo cáo; hậu kiểm bỏ mọi câu không có ID hợp lệ.
-Không có credential Anthropic (ANTHROPIC_API_KEY / `ant auth login`) → chế độ 'mau': ghép câu theo mẫu, không gọi API.
+Mỗi câu phải kết thúc bằng [ID] trỏ về một nhận định trong báo cáo; hậu kiểm bỏ mọi câu không có ID hợp lệ hoặc nằm sai mục.
+Bản ghép đầy đủ, giàu văn phong nằm ở web/src/engine/vanNen.ts; file này giữ bản ghép gọn để kiểm hậu kiểm và chạy dòng lệnh.
 
-Chạy: python3 tools/tuvi/viet_van.py [--mau]
+Chạy: python3 tools/tuvi/viet_van.py
 """
 import json
 import os
@@ -13,36 +12,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tuvi.an_sao import an_la_so  # noqa: E402
-from tuvi.luan_giai import HANH_VN, LuanGiai, bao_cao  # noqa: E402
-
-MODEL = "claude-opus-5-5"
-
-HUONG_DAN = """Bạn là người viết lời luận cho một lá số Tử Vi đã được máy lập và chấm sẵn (JSON). Việc của bạn: viết thành văn tiếng Việt liền mạch, dễ hiểu cho người không học tử vi, như một thầy luận giải cẩn thận — KHÔNG phải một người phát minh thêm nhận định.
-
-Quy tắc bắt buộc (hậu kiểm tự động sẽ bỏ câu vi phạm):
-1. Chỉ dùng ý có trong JSON. Không thêm sao, cung, nhận định, con số, dự đoán hay lời khuyên nào không có trong đó.
-2. Mỗi câu kết thúc bằng mã trong ngoặc vuông đúng như trường "id" trong JSON, ví dụ [CT.Tử Vi.Mệnh]. Câu gộp nhiều ý thì ghi nhiều mã: [CC21][PT.Lộc Tồn]. Mã đặc biệt: [TQ] thông tin chung lá số; [CD.<tên chủ đề>] xếp loại một chủ đề; [DH] đại hạn hiện tại.
-3. Mỗi mục CHỈ được trích mã thuộc mục đó: mục chủ đề dùng các mã trong "diem_manh", "diem_yeu", "luu_y", "trung_tinh", "sao_nho" của đúng chủ đề đó (cộng [CD.<chủ đề>]); mục Tổng quan dùng mã trong "nen", "than", [TQ]; mục Hạn năm dùng mã trong "han". Không kéo sao của mục này sang mục khác.
-4. Sao ở cung khác chỉ được nêu đúng như JSON ghi (ví dụ 'X từ cung Y xung chiếu Z → ...'): không viết như thể sao nằm tại cung đang luận.
-5. Điểm là "điểm nội tại /100" (tương quan giữa các cung của chính lá số này). Nói bằng lời thường kèm bậc ("khoảng 60/100, mức khá"). TUYỆT ĐỐI không nói "cao/thấp hơn X% lá số khác", không nói percentile.
-6. Giữ đúng chiều: câu nào JSON xếp 'diem_manh' thì là điểm sáng, 'diem_yeu' là điểm cần lưu ý. Khi có "cau_dan" (chủ đề vừa tốt vừa hung) dùng nó làm câu mở trước khi nêu hai mặt. Khi có "luu_y" (Tuần/Triệt, vô chính diệu) và "trung_tinh" (chính tinh/nhận định trung tính) phải nhắc, vì đó là khung của cung.
-7. Chủ đề "Gia đình" luôn tách ba tiểu mục Cha mẹ / Con cái / Anh em theo nhãn có sẵn trong câu.
-8. Mục Hạn năm: nêu đại hạn, rồi ĐÚNG ba phần trong han.luu_nien.ket_luan: trọng tâm rủi ro → nên/tránh theo từng cung → mặt thuận. Không thêm khuyến nghị khác.
-
-Cách viết cho hay (không được trái các quy tắc trên): 
-- Mở mỗi mục bằng một câu tóm tắt xếp loại, rồi nối các ý bằng từ nối tự nhiên (vì vậy, tuy nhiên, bù lại...) thay vì liệt kê rời rạc; đặt điểm sáng và điểm cần lưu ý cạnh nhau để người đọc thấy bức tranh hai mặt.
-- Liên hệ các yếu tố nền với nhau CHỈ bằng những gì JSON có: ví dụ Thân cư (than) gắn với mục tương ứng, Bản Mệnh–Cục (nen) gắn với nền chung.
-- Mỗi mục 3–6 câu. Mục: Tổng quan, Tính cách, Sự nghiệp, Tài chính, Tình cảm – hôn nhân, Sức khỏe, Gia đình, Hạn năm (nếu có). Tiêu đề mục dạng '# Tên mục'.
-- Ngoài mã nhận định, không dùng ngoặc vuông ở bất cứ đâu (tên cách cục viết trong «»).
-- Giọng trung tính, không hù dọa, không khẳng định chắc chắn chuyện tương lai."""
-
-
-def rut_gon_cho_llm(kq):
-    """Bỏ phần chỉ để hiển thị/gỡ lỗi trước khi gửi LLM (giảm token): mỗi cung chỉ giữ tóm tắt — mọi nhận định có mã đã nằm trong chu_de / nen / than / han."""
-    out = json.loads(json.dumps(kq, ensure_ascii=False, default=str))
-    out["cung"] = {ten: {k: v[k] for k in ("chi", "xep_loai", "diem100", "chinh_tinh", "tuan_triet")} for ten, v in out["cung"].items()}
-    return out
-
+from tuvi.luan_giai import HANH_VN, LuanGiai, bao_cao, nap  # noqa: E402
 
 def tap_id(kq):
     """Mọi ID hợp lệ trong báo cáo."""
@@ -107,7 +77,9 @@ def muc_cho_phep(kq):
         cho["Hạn năm"] = {"DH", "TQ"} | ids(kq["han"])
     # mục tổng hợp cuối bài: chỉ trích mã chủ đề, Thân và so cung (không có sao riêng lẻ)
     cho["Tổng kết"] = {"TQ"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["than"])
-    cho["Những câu hỏi thường gặp"] = ids(kq["so_cung"]) | ids(kq["than"])
+    cho["Những câu hỏi thường gặp"] = ({"DH"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["so_cung"]) | ids(kq["than"]) | ids(kq.get("dai_han_ca_doi", []))
+                                       | ids([[cd["diem_manh"], cd["diem_yeu"]] for cd in kq["chu_de"].values()]) | ids(kq["han"]["luu_nien"]["ket_luan"] if "han" in kq else [])
+                                       | {i for i in tap_id(kq) if re.fullmatch(r"CC\d+", i)})   # cách quý nhân: mã cách ở bất kỳ cung nào
     return cho
 
 
@@ -189,6 +161,106 @@ def doan_chu_de(ten, cd, kq, da_dung):
     return " ".join(dong)
 
 
+VAN_PHONG = nap("van_phong.json")
+CAU_HOI = nap("cau_hoi.json")["cau_hoi"]
+
+
+def _bo(t):
+    return t.strip().rstrip(".")
+
+
+def _cau(t, *ma):
+    return f"{_bo(t)} {''.join(f'[{m}]' for m in ma)}."
+
+
+def _sach(t):
+    """Bỏ mũi tên, dấu chấm giữa câu, ngoặc vuông (chỉ dành cho mã)."""
+    t = re.sub(r"\[([^\[\]]+)\]", r"«\1»", _bo(t))
+    return re.sub(r"\.\s+", "; ", re.sub(r"\s*→\s*", ", ", t))
+
+
+def _thuong(t):
+    return t if not t or re.match(r"\w[^\W\d_]*\s[A-ZĐ]", t) and t[0].isupper() and len(t.split()) > 1 and t.split()[1][:1].isupper() else t[:1].lower() + t[1:]
+
+
+def _dien(mau, **kw):
+    for k, v in kw.items():
+        mau = mau.replace("{" + k + "}", str(v))
+    return mau
+
+
+def doan_tong_ket(kq):
+    """Tổng kết 2–3 câu sinh từ luật: mảng thuận nhất, mảng cần chú tâm nhất (chênh từ ngưỡng mới gọi tên, nếu không nói là đồng đều), rồi cung Thân."""
+    tk = VAN_PHONG["tong_ket"]
+    kc = nap("ke_chuyen.json")["chu_de"]
+    xep = sorted(kq["chu_de"].items(), key=lambda kv: -kv[1]["diem100"])     # sort ổn định như TS
+    if len(xep) < 2:
+        return None
+    (ten_cao, cao), (ten_thap, thap) = xep[0], xep[-1]
+    s = []
+    if cao["diem100"] - thap["diem100"] >= tk["chenh_toi_thieu"]:
+        tan_dung = kc.get(ten_cao, {}).get("tan_dung")
+        viec = kc.get(ten_thap, {}).get("viec_nen_lam", {}).get("chung")
+        s.append(_cau(_dien(tk["manh"] if tan_dung else tk["manh_khong_viec"], ten=ten_cao.lower(), d=cao["diem100"], viec=tan_dung or ""), f"CD.{ten_cao}"))
+        s.append(_cau(_dien(tk["yeu"] if viec else tk["yeu_khong_viec"], ten=ten_thap.lower(), d=thap["diem100"], viec=viec or ""), f"CD.{ten_thap}"))
+    else:
+        s.append(_cau(_dien(tk["dong_deu"], cao=ten_cao.lower(), dc=cao["diem100"], thap=ten_thap.lower(), dt=thap["diem100"]), f"CD.{ten_cao}", f"CD.{ten_thap}"))
+    if len(kq["than"]["nhan_dinh"]) > 1:
+        b = kq["than"]["nhan_dinh"][1]
+        s.append(_cau(_dien(tk["than"], noi_dung=_thuong(_sach(b["nhan_dinh"]))), b["id"]))
+    return " ".join(s)
+
+
+def dong_hoi_dap(kq):
+    """Hỏi–đáp (cau_hoi.json): mỗi câu hỏi chỉ được trả lời bằng đúng kết quả engine đã tính; không đủ luật thì không hỏi."""
+    vp = VAN_PHONG["hoi_dap"]
+    hoi_sc = {f"SC.{c['a']}.{c['b']}": c["hoi"] for c in nap("luan_lien_cung.json")["so_cung"]["cap"]}
+    out = []
+    for q in CAU_HOI:
+        dong = []
+        if q["loai"] == "chu_de":
+            cd = kq["chu_de"].get(q["ten"])
+            if not cd:
+                continue
+            dong = [_cau(_dien(vp["chu_de"], hoi=q["hoi"], nhan=cd["xep_loai"].lower(), d=cd["diem100"], ten=q["ten"]), f"CD.{q['ten']}")]     # chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
+        elif q["loai"] == "so_cung":
+            n = next((x for x in kq["so_cung"] if x["id"] == f"SC.{q['a']}.{q['b']}"), None)
+            if not n:
+                continue
+            chinh, *luu_y = re.split(r"(?<=\.)\s+", n["nhan_dinh"])
+            dong = [_cau(_dien(vp["so_cung"], hoi=hoi_sc[n["id"]], tra_loi=_thuong(_sach(chinh))), n["id"]), *[_cau(_sach(c), n["id"]) for c in luu_y]]
+        elif q["loai"] == "than":
+            if len(kq["than"]["nhan_dinh"]) > 1:
+                b = kq["than"]["nhan_dinh"][1]
+                dong = [_cau(_dien(vp["mo"], hoi=q["hoi"], tra_loi=_thuong(_sach(b["nhan_dinh"]))), b["id"])]
+        elif q["loai"] == "dai_han":
+            ds = kq.get("dai_han_ca_doi", [])
+            m = next((x for x in ds if x["nhan"] == q["nhan"]), None) if len(ds) > 1 else None
+            if m:
+                dong = [_cau(_dien(vp["mo"], hoi=q["hoi"], tra_loi=_thuong(_sach(m["nhan_dinh"]))), m["id"])]
+        elif q["loai"] == "dai_han_nay":
+            d = kq.get("han", {}).get("dai_han")
+            if d:
+                dong = [_cau(_dien(vp["dai_han_nay"], hoi=q["hoi"], tu=d["tu_tuoi"], den=d["tu_tuoi"] + 9, chi=d["chi"], cung_goc=d["cung_goc"], nhan=d["danh_gia"]["Mệnh"]["xep_loai"].lower()), "DH")]
+        elif q["loai"] == "han":
+            n = next((x for x in kq.get("han", {}).get("luu_nien", {}).get("ket_luan", []) if x["id"] == q["id"]), None)
+            if n:
+                dong = [f"Về {q['hoi']}: {_cau(_sach(n['nhan_dinh']), n['id'])}"]
+        elif q["loai"] == "quy_nhan":
+            cach = []
+            for cung, k in kq["cung"].items():
+                for n in k["nhan_dinh"]:
+                    m = re.match(r"\[(.+?)\]", n["nhan_dinh"])      # bỏ cách bị phá ("— PHÁ CÁCH")
+                    if n["id"].startswith("CC") and n["diem"] > 0 and not n.get("an") and q["linh_vuc"] in n.get("linh_vuc", []) and m and "PHÁ CÁCH" not in m.group(1):
+                        cach.append((m.group(1), cung, n["id"]))
+            if cach:
+                ds = cach[:2]
+                dong = [_cau(_dien(vp["quy_nhan"], hoi=q["hoi"], cach=" và ".join(f"cách «{t}» ở cung {c}" for t, c, _ in ds)), *[i for _, _, i in ds])]
+        if dong:
+            out.append(" ".join(dong))
+    return out
+
+
 def viet_mau(kq):
     """Không dùng LLM: ghép nhận định thành đoạn văn theo chủ đề (mỗi mục một đoạn, không lặp ý giữa các mục)."""
     la = kq["la_so"]
@@ -206,42 +278,22 @@ def viet_mau(kq):
         dong = [f"Đang ở đại hạn {d['tu_tuoi']}–{d['tu_tuoi'] + 9} tuổi tại {d['chi']}; Mệnh đại hạn {d['danh_gia']['Mệnh']['xep_loai'].lower()} [DH]."]
         luu = gop(kq["han"]["luu_nien"]["ghi_chu"], f"Trong năm {kq['han']['nam_xem']}: ")
         out.append(" ".join(dong + ([luu] if luu else []) + [cau(n) for n in kq["han"]["luu_nien"]["ket_luan"]]))
+    tk = doan_tong_ket(kq)
+    if tk:
+        out += ["\n# Tổng kết", tk]
+    hd = dong_hoi_dap(kq)
+    if hd:
+        out += [f"\n# {VAN_PHONG['hoi_dap']['tieu_de']}", *hd]
     return "\n".join(out)
 
 
-def viet_llm(kq):
-    import anthropic
-
-    client = anthropic.Anthropic()
-    msg = client.beta.messages.create(
-        model=MODEL,
-        max_tokens=16000,
-        output_config={"effort": "medium"},
-        betas=["server-side-fallback-2026-07-01"],
-        fallbacks="default",
-        system=HUONG_DAN,
-        messages=[{"role": "user", "content": json.dumps(rut_gon_cho_llm(kq), ensure_ascii=False)}],
-    )
-    if msg.stop_reason == "refusal":
-        raise RuntimeError(f"Model từ chối: {msg.stop_details}")
-    return "".join(b.text for b in msg.content if b.type == "text")
-
-
-def viet(kq, dung_llm=True):
-    """Trả (văn, chế độ, số câu bị hậu kiểm bỏ)."""
-    ids = tap_id(kq)
-    if dung_llm:
-        try:
-            van, bo = hau_kiem_theo_muc(viet_llm(kq), kq)
-            return van, "llm", bo
-        except Exception as e:  # thiếu SDK/credential/mạng → rơi về mẫu, báo rõ lý do
-            print(f"[viet_van] không gọi được LLM ({type(e).__name__}: {e}) → dùng mẫu", file=sys.stderr)
-    van, bo = hau_kiem(viet_mau(kq), ids)
-    return van, "mau", bo
+def viet(kq):
+    """Trả (văn, số câu bị hậu kiểm bỏ)."""
+    return hau_kiem(viet_mau(kq), tap_id(kq))
 
 
 if __name__ == "__main__":
     lg = LuanGiai(an_la_so(7, 7, 5, 15, 5, "nam"))
-    van, che_do, bo = viet(bao_cao(lg, 1990, 2026), dung_llm="--mau" not in sys.argv)
+    van, bo = viet(bao_cao(lg, 1990, 2026))
     print(van)
-    print(f"\n<!-- chế độ: {che_do}; hậu kiểm bỏ {bo} câu -->")
+    print(f"\n<!-- hậu kiểm bỏ {bo} câu -->")

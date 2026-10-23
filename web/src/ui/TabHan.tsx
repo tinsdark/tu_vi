@@ -1,10 +1,9 @@
-import { useMemo } from "react";
-import { dongThoiGianDaiHan, type BaoCao, type KetQuaNangCao, type LuanGiai } from "../engine";
+import { type BaoCao, type KetQuaNangCao } from "../engine";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, MAU_XEP as MAU } from "./chung";
 
-export function TabHan({ bc, nc, luan, namSinh, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNangCao; luan: LuanGiai; namSinh: number; namXem: number; onDoiNam: (n: number) => void }) {
+export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNangCao; namXem: number; onDoiNam: (n: number) => void }) {
   const h = bc.han;
-  const moc = useMemo(() => dongThoiGianDaiHan(luan, namSinh), [luan, namSinh]);
+  const moc = bc.dai_han_ca_doi ?? [];
   if (!h) return <p className="mo">Chưa có dữ liệu hạn.</p>;
   const d = h.dai_han;
   const diemMax = Math.max(...h.luu_nguyet.map((m) => Math.abs(m.diem)), 1);

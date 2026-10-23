@@ -293,6 +293,33 @@ function cauThan(kq: BaoCao): string[] {
   return out;
 }
 
+/** Câu "điều cần để ý nhất trong năm" từ han.luu_nien.ket_luan (dùng cho đoạn Hạn năm và hỏi đáp). */
+function cauRuiRo(kq: BaoCao): string | null {
+  const ruiRo = kq.han?.luu_nien.ket_luan.find((n) => n.id === "HAN.rui_ro");
+  if (!ruiRo) return null;
+  const kn: Record<string, { muc: string }> = triThuc().cfg.han.khuyen_nghi;
+  const phan = ruiRo.nhan_dinh.replace(/\s*;\s*ngoài tam phương lưu niên nhưng là cung trọng yếu/g, "");
+  const sau = phan.slice(phan.lastIndexOf(" — ") >= 0 ? phan.lastIndexOf(" — ") + 3 : phan.indexOf(": ") + 2).replace(/\.$/, "");
+  const goc: string[] = [];
+  for (const seg of sau.split("; ")) {
+    const m = /^(.+?) \((\S+)\): (.+)$/.exec(seg);
+    if (!m) continue;
+    const nghia = [...m[3].matchAll(/\(([^()]+)\)/g)].map((x) => x[1]);
+    if (nghia.length) goc.push(`${kn[m[1]]?.muc ?? m[1].toLowerCase()} (dễ gặp ${noi(nghia)})`);
+  }
+  if (!goc.length) return cau(sach(ruiRo.nhan_dinh), ruiRo.id);
+  const bo3 = /bộ Mệnh – Tài Bạch – Quan Lộc/.test(ruiRo.nhan_dinh);
+  return cau(`Điều cần để ý nhất trong năm là ${noi(goc.slice(0, 3))}${bo3 ? "; vì cả ba mảng này cùng chịu ảnh hưởng nên đây là năm cần thận trọng" : ""}`, ruiRo.id);
+}
+
+/** Câu "mặt thuận của năm" từ han.luu_nien.ket_luan (dùng cho đoạn Hạn năm và hỏi đáp). */
+function cauMatThuan(kq: BaoCao): string | null {
+  const thuan = kq.han?.luu_nien.ket_luan.find((n) => n.id === "HAN.mat_thuan");
+  if (!thuan) return null;
+  const m = /→ tận dụng cho (.+?) theo hướng (.+?)\.?$/s.exec(thuan.nhan_dinh);
+  return cau(m ? `Mặt thuận của năm là có sao hỗ trợ ở các mảng ${m[1]}; bạn nên tận dụng theo hướng ${bo(m[2])}` : sach(thuan.nhan_dinh), thuan.id);
+}
+
 // ---------- hạn năm
 function doanHan(kq: BaoCao): string | null {
   const h = kq.han;
@@ -300,34 +327,16 @@ function doanHan(kq: BaoCao): string | null {
   const d = h.dai_han;
   const s: string[] = [cau(`Năm ${h.nam_xem}, bạn đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi, nhìn chung ở mức ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()}`, "DH")];
   const kl = h.luu_nien.ket_luan;
-  const kn: Record<string, { muc: string }> = triThuc().cfg.han.khuyen_nghi;
-  const ruiRo = kl.find((n) => n.id === "HAN.rui_ro");
-  if (ruiRo) {
-    const phan = ruiRo.nhan_dinh.replace(/\s*;\s*ngoài tam phương lưu niên nhưng là cung trọng yếu/g, "");
-    const sau = phan.slice(phan.lastIndexOf(" — ") >= 0 ? phan.lastIndexOf(" — ") + 3 : phan.indexOf(": ") + 2).replace(/\.$/, "");
-    const goc: string[] = [];
-    for (const seg of sau.split("; ")) {
-      const m = /^(.+?) \((\S+)\): (.+)$/.exec(seg);
-      if (!m) continue;
-      const nghia = [...m[3].matchAll(/\(([^()]+)\)/g)].map((x) => x[1]);
-      if (nghia.length) goc.push(`${kn[m[1]]?.muc ?? m[1].toLowerCase()} (dễ gặp ${noi(nghia)})`);
-    }
-    if (goc.length) {
-      const bo3 = /bộ Mệnh – Tài Bạch – Quan Lộc/.test(ruiRo.nhan_dinh);
-      s.push(cau(`Điều cần để ý nhất trong năm là ${noi(goc.slice(0, 3))}${bo3 ? "; vì cả ba mảng này cùng chịu ảnh hưởng nên đây là năm cần thận trọng" : ""}`, ruiRo.id));
-    } else s.push(cau(sach(ruiRo.nhan_dinh), ruiRo.id));
-  }
+  const cauRR = cauRuiRo(kq);
+  if (cauRR) s.push(cauRR);
   for (const n of kl.filter((x) => x.id.startsWith("HAN.nen_tranh."))) {
     const m = /^Về (.+?): nên (.+?); tránh (.+?)\.?$/s.exec(n.nhan_dinh);
     s.push(cau(m ? `Về ${m[1]}, bạn nên ${bo(m[2])} và tránh ${bo(m[3])}` : sach(n.nhan_dinh), n.id));
   }
   const ky = h.luu_nien.ghi_chu.find((n) => n.id === "LN.song_ky");
   if (ky) s.push(cau(`Năm nay có hai lớp vận Hóa Kỵ chồng nhau (đại hạn và lưu niên), nên việc thuộc cung đó dễ vướng mắc, cần thận trọng`, ky.id));
-  const thuan = kl.find((n) => n.id === "HAN.mat_thuan");
-  if (thuan) {
-    const m = /→ tận dụng cho (.+?) theo hướng (.+?)\.?$/s.exec(thuan.nhan_dinh);
-    s.push(cau(m ? `Mặt thuận của năm là có sao hỗ trợ ở các mảng ${m[1]}; bạn nên tận dụng theo hướng ${bo(m[2])}` : sach(thuan.nhan_dinh), thuan.id));
-  }
+  const cauMT = cauMatThuan(kq);
+  if (cauMT) s.push(cauMT);
   return s.join(" ");
 }
 
@@ -354,19 +363,52 @@ function doanTongKet(kq: BaoCao): string | null {
   return s.join(" ");
 }
 
-/** Hỏi–đáp: mỗi cặp cung trong so_cung có `hoi`, trả lời bằng đúng câu so cung (kèm lưu ý) khi đủ điều kiện; thêm một câu về tiền vận/hậu vận từ cung Thân. Không đủ luật thì không hỏi. */
+/** Hỏi–đáp (data/knowledge/cau_hoi.json): mỗi câu hỏi chỉ được trả lời bằng đúng kết quả engine đã tính (chủ đề, so cung, cung Thân, dòng thời gian đại hạn, hạn năm, cách quý nhân); không đủ luật thì không hỏi. */
 function dongHoiDap(kq: BaoCao): string[] {
-  const hd = triThuc().vanPhong.hoi_dap;
-  const cap: { a: string; b: string; hoi: string }[] = triThuc().lienCung.so_cung.cap;
+  const vp = triThuc().vanPhong.hoi_dap;
+  const hoiSc: Record<string, string> = Object.fromEntries((triThuc().lienCung.so_cung.cap as { a: string; b: string; hoi: string }[]).map((c) => [`SC.${c.a}.${c.b}`, c.hoi]));
+  const dien = (m: string, r: Record<string, string>) => Object.entries(r).reduce((t, [k, v]) => t.replace(`{${k}}`, v), m);
+  const mo = (hoi: string, traLoi: string) => dien(vp.mo, { hoi, tra_loi: traLoi });
   const out: string[] = [];
-  for (const n of kq.so_cung) {
-    const hoi = cap.find((c) => n.id === `SC.${c.a}.${c.b}`)?.hoi;
-    if (!hoi) continue;
-    const [chinh, ...luuY] = n.nhan_dinh.split(/(?<=\.)\s+/);
-    out.push([cau((hd.mo as string).replace("{hoi}", hoi).replace("{tra_loi}", thuong(sach(chinh))), n.id), ...luuY.map((c) => cau(sach(c), n.id))].join(" "));
+  for (const q of triThuc().cauHoi.cau_hoi as Record<string, string>[]) {
+    let dong: string[] = [];
+    if (q.loai === "chu_de") {
+      const cd = kq.chu_de[q.ten];
+      if (!cd) continue;
+      dong = [cau(dien(vp.chu_de, { hoi: q.hoi, nhan: cd.xep_loai.toLowerCase(), d: String(cd.diem100), ten: q.ten }), `CD.${q.ten}`)]; // chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
+    } else if (q.loai === "so_cung") {
+      const n = kq.so_cung.find((x) => x.id === `SC.${q.a}.${q.b}`);
+      if (!n) continue;
+      const [chinh, ...luuY] = n.nhan_dinh.split(/(?<=\.)\s+/);
+      dong = [cau(dien(vp.so_cung, { hoi: hoiSc[n.id], tra_loi: thuong(sach(chinh)) }), n.id), ...luuY.map((c) => cau(sach(c), n.id))];
+    } else if (q.loai === "than") {
+      const b = kq.than.nhan_dinh[1];
+      if (b) dong = [cau(mo(q.hoi, thuong(sach(b.nhan_dinh))), b.id)];
+    } else if (q.loai === "dai_han") {
+      const ds = kq.dai_han_ca_doi ?? [];
+      const m = ds.length > 1 ? ds.find((x) => x.nhan === q.nhan) : undefined;
+      if (m) dong = [cau(mo(q.hoi, thuong(sach(m.nhan_dinh))), m.id)];
+    } else if (q.loai === "dai_han_nay") {
+      const d = kq.han?.dai_han;
+      if (d) dong = [cau(dien(vp.dai_han_nay, { hoi: q.hoi, tu: String(d.tu_tuoi), den: String(d.tu_tuoi + 9), chi: d.chi, cung_goc: d.cung_goc, nhan: d.danh_gia["Mệnh"].xep_loai.toLowerCase() }), "DH")];
+    } else if (q.loai === "han") {
+      const c = q.id === "HAN.rui_ro" ? cauRuiRo(kq) : cauMatThuan(kq);
+      if (c) dong = [`Về ${q.hoi}: ${c}`];
+    } else if (q.loai === "quy_nhan") {
+      const cach: { ten: string; cung: string; id: string }[] = [];
+      for (const [cung, k] of Object.entries(kq.cung)) {
+        for (const n of k.nhan_dinh) {
+          const m = /^\[(.+?)\]/.exec(n.nhan_dinh); // bỏ cách bị phá ("— PHÁ CÁCH")
+          if (n.id.startsWith("CC") && n.diem > 0 && !n.an && (n.linh_vuc ?? []).includes(q.linh_vuc) && m && !m[1].includes("PHÁ CÁCH")) cach.push({ ten: m[1], cung, id: n.id });
+        }
+      }
+      if (cach.length) {
+        const ds = cach.slice(0, 2);
+        dong = [cau(dien(vp.quy_nhan, { hoi: q.hoi, cach: noi(ds.map((c) => `cách «${c.ten}» ở cung ${c.cung}`)) }), ...ds.map((c) => c.id))];
+      }
+    }
+    if (dong.length) out.push(dong.join(" "));
   }
-  const b = kq.than.nhan_dinh[1];
-  if (b) out.push(cau((hd.mo as string).replace("{hoi}", hd.than).replace("{tra_loi}", thuong(sach(b.nhan_dinh))), b.id));
   return out;
 }
 
