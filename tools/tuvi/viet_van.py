@@ -105,6 +105,9 @@ def muc_cho_phep(kq):
 
     if "han" in kq:
         cho["Hạn năm"] = {"DH", "TQ"} | ids(kq["han"])
+    # mục tổng hợp cuối bài: chỉ trích mã chủ đề, Thân và so cung (không có sao riêng lẻ)
+    cho["Tổng kết"] = {"TQ"} | {f"CD.{t}" for t in kq["chu_de"]} | ids(kq["than"])
+    cho["Những câu hỏi thường gặp"] = ids(kq["so_cung"]) | ids(kq["than"])
     return cho
 
 

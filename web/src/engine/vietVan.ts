@@ -108,6 +108,9 @@ export function mucChoPhep(kq: BaoCao): Record<string, Set<string>> {
     if (TOPIC_THAN[kq.than.cu] === t) cho[t].add(`THAN.${kq.than.cu}`); // câu 'cung này cũng là cung Thân cư'
   }
   if (kq.han) cho["Hạn năm"] = new Set(["DH", "TQ", ...idsTrong(kq.han)]);
+  // mục tổng hợp cuối bài: chỉ trích mã chủ đề, Thân và so cung (không có sao riêng lẻ)
+  cho["Tổng kết"] = new Set(["TQ", ...Object.keys(kq.chu_de).map((t) => `CD.${t}`), ...idsTrong(kq.than)]);
+  cho["Những câu hỏi thường gặp"] = new Set([...idsTrong(kq.so_cung), ...idsTrong(kq.than)]);
   return cho;
 }
 

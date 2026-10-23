@@ -819,6 +819,12 @@ export class LuanGiai {
         nhoC.sort((a, b) => (uuTien.get(a.id.split(".")[1]) ?? uuTien.size) - (uuTien.get(b.id.split(".")[1]) ?? uuTien.size)); // sort ổn định: cùng ưu tiên giữ thứ tự gốc
         saoNho.push(...nhoC.slice(0, cfgNho.toi_da_moi_cung));
       }
+      // cách cục của cung Mệnh vào mọi chủ đề có lĩnh vực trùng nhãn của cách (nghề/tài/danh/quyền…); chỉ thêm câu, điểm chủ đề vẫn theo trọng số cung
+      if (!(("Mệnh") in cd.cung) && linhVuc.size) {
+        for (const n of cham["Mệnh"].nhan_dinh) {
+          if (n.id.startsWith("CC") && n.diem && !n.an && giao(new Set(n.linh_vuc ?? []))) ungVien.push({ ...n, cung: "Mệnh" });
+        }
+      }
       const sang = ungVien.filter((n) => n.diem > 0);
       const hung = ungVien.filter((n) => n.diem < 0);
       // ĐẾM (điểm, §4.8) dùng cả câu đã bị gộp; HIỂN THỊ chỉ dùng câu còn hiện (câu "trái chiều" XD.* đã thay chỗ chúng)
@@ -931,16 +937,33 @@ export function dongThoiGianDaiHan(lg: LuanGiai, namSinh: number): MocDaiHan[] {
   return moc;
 }
 
-/** So cung với cung (bảng so_cung): cặp chênh từ ngưỡng điểm /100 thì nói cung nào trội. Chạy cho mọi cặp có trong bảng; không đổi điểm. */
+/** So cung với cung (bảng so_cung): cặp chỉ được nói "trội" khi điểm /100 chênh từ ngưỡng VÀ đủ thành phần (chính tinh, phụ tinh ròng, cách cục) cùng nghiêng về cung trội;
+ *  thành phần nào cung yếu hơn hẳn, cung trội vô chính diệu, cung yếu bị Tuần/Triệt nén, cung trội còn sát tinh đáng kể đều thành lưu ý. Không đổi điểm. */
 export function soCung(lg: LuanGiai, cham: Record<string, KetQuaCung>): NhanDinh[] {
   const sc = lg.tt.lienCung.so_cung;
   const ket: NhanDinh[] = [];
   for (const { a, b, a_hon, b_hon } of sc.cap as { a: string; b: string; a_hon: string; b_hon: string }[]) {
     const hieu = cham[a].diem100 - cham[b].diem100;
     if (Math.abs(hieu) < sc.nguong) continue;
+    const [troi, yeu] = hieu > 0 ? [a, b] : [b, a];
+    const pt = { troi: cham[troi].phan_tich, yeu: cham[yeu].phan_tich };
+    const tp: [string, number, number][] = [
+      ["chinh_tinh", pt.troi.tong_base, pt.yeu.tong_base],
+      ["phu_tinh", pt.troi.tong_cat + pt.troi.tong_sat, pt.yeu.tong_cat + pt.yeu.tong_sat],
+      ["cach_cuc", pt.troi.cach_cuc, pt.yeu.cach_cuc],
+    ];
+    const thuan = tp.filter(([, t, y]) => t - y >= sc.lech_nho).length;
+    if (thuan < sc.can_dong_thuan) continue;
+    const ly = sc.luu_y;
+    const luuY: string[] = [];
+    for (const [ten, t, y] of tp) if (y - t >= sc.lech_lon) luuY.push((ly.nghich as string).replace("{yeu}", yeu).replace("{thanh_phan}", ly.thanh_phan[ten]));
+    if (pt.troi.vo_chinh_dieu) luuY.push((ly.vcd as string).replace("{troi}", troi));
+    if (pt.yeu.k_triet_tuan < 1) luuY.push((ly.tuan_triet as string).replace("{yeu}", yeu));
+    if (pt.troi.tong_sat <= sc.sat_dang_ke) luuY.push((ly.sat as string).replace("{troi}", troi));
     ket.push({
-      id: `SC.${a}.${b}`, diem: 0, nhan_dinh: hieu > 0 ? a_hon : b_hon,
-      ly_do: `${a} ~${cham[a].diem100}/100, ${b} ~${cham[b].diem100}/100 (chênh từ ${sc.nguong})`,
+      id: `SC.${a}.${b}`, diem: 0, nhan_dinh: [hieu > 0 ? a_hon : b_hon, ...luuY].join(" "),
+      ly_do: `${troi} ~${cham[troi].diem100}/100, ${yeu} ~${cham[yeu].diem100}/100 (chênh từ ${sc.nguong}); ${thuan}/3 thành phần nghiêng về ${troi}: `
+        + tp.map(([ten, t, y]) => `${ly.thanh_phan[ten]} ${toFixedPy(t, 1)} so với ${toFixedPy(y, 1)}`).join(", "),
     });
   }
   return ket;

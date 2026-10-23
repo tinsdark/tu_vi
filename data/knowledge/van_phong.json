@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "trang_thai": "draft_ai_tong_hop",
+    "ghi_chu": "doc11 lô C: kho câu nối/mẫu câu của lớp văn xuôi (web tự ghép, không dùng AI). Chỉ đổi cách diễn đạt; ý và số vẫn lấy từ báo cáo. Chọn biến thể theo thứ tự chủ đề + vị trí câu để một báo cáo không lặp nguyên văn."
+  },
+  "noi_them": [
+    "Ngoài ra,",
+    "Bên cạnh đó,",
+    "Đồng thời,",
+    "Thêm vào đó,"
+  ],
+  "noi_nguoc": [
+    "Tuy nhiên,",
+    "Mặt khác,",
+    "Dù vậy,"
+  ],
+  "noi_hung_tiep": [
+    "Bên cạnh đó,",
+    "Ngoài ra,",
+    "Đồng thời cũng cần lưu ý rằng"
+  ],
+  "mo_dau_duoi": [
+    " (mức {nhan}, khoảng {d}/100, dựa trên {nen})",
+    ", ở mức {nhan} (khoảng {d}/100; nền là {nen})",
+    " — mức {nhan}, khoảng {d}/100, nền là {nen}"
+  ],
+  "canh_nhe": [
+    "Chỉ cần để ý: ",
+    "Điều nhỏ cần lưu tâm: ",
+    "Chỉ có một điều nên chú ý: "
+  ],
+  "canh_vua": [
+    "Nhưng cần để ý: ",
+    "Song cũng cần để ý: ",
+    "Cái giá đi kèm là: "
+  ],
+  "canh_nang": [
+    "Cần để ý: ",
+    "Điều cần lưu tâm là: ",
+    "Phần cần cẩn trọng: "
+  ],
+  "diem_tua": [
+    "Điểm đỡ cho bạn: ",
+    "Chỗ có thể dựa vào: ",
+    "Điểm tựa của bạn: "
+  ],
+  "tong_ket": {
+    "chenh_toi_thieu": 10,
+    "manh": "Nhìn toàn cục, {ten} là mảng thuận nhất của bạn (khoảng {d}/100); bạn nên {viec}.",
+    "yeu": "Ngược lại, {ten} là mảng cần chú tâm hơn cả (khoảng {d}/100); việc nên làm là {viec}.",
+    "dong_deu": "Nhìn toàn cục, sáu mảng của bạn khá đồng đều: cao nhất là {cao} (khoảng {dc}/100), thấp nhất là {thap} (khoảng {dt}/100), nên không có mảng nào quá trội hay quá lép vế.",
+    "than": "Về đường dài, {noi_dung}",
+    "manh_khong_viec": "Nhìn toàn cục, {ten} là mảng thuận nhất của bạn (khoảng {d}/100).",
+    "yeu_khong_viec": "Ngược lại, {ten} là mảng cần chú tâm hơn cả (khoảng {d}/100)."
+  },
+  "hoi_dap": {
+    "tieu_de": "Những câu hỏi thường gặp",
+    "than": "tiền vận hay hậu vận",
+    "mo": "Về chuyện {hoi}, {tra_loi}"
+  }
+}

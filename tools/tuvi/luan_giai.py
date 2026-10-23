@@ -787,6 +787,11 @@ class LuanGiai:
                 uu = {t: i for i, t in enumerate(cfg_nho["uu_tien"])}
                 nho_c.sort(key=lambda n: uu.get(n["id"].split(".")[1], len(uu)))       # sort ổn định: cùng ưu tiên giữ thứ tự gốc
                 sao_nho += nho_c[:cfg_nho["toi_da_moi_cung"]]
+            # cách cục của cung Mệnh vào mọi chủ đề có lĩnh vực trùng nhãn của cách (nghề/tài/danh/quyền…); chỉ thêm câu, điểm chủ đề vẫn theo trọng số cung
+            if "Mệnh" not in cd["cung"] and cd["linh_vuc"]:
+                for n in cham["Mệnh"]["nhan_dinh"]:
+                    if n["id"].startswith("CC") and n["diem"] and not n.get("an") and set(n.get("linh_vuc", [])) & set(cd["linh_vuc"]):
+                        ung_vien.append(dict(n, cung="Mệnh"))
             sang = [n for n in ung_vien if n["diem"] > 0]
             hung = [n for n in ung_vien if n["diem"] < 0]
             # ĐẾM (điểm, §4.8) dùng cả câu đã bị gộp; HIỂN THỊ chỉ dùng câu còn hiện (câu 'trái chiều' XD.* đã thay chỗ chúng)
@@ -868,16 +873,34 @@ THU_TU_CUNG = ["Mệnh", "Quan Lộc", "Tài Bạch", "Phu Thê", "Thiên Di", "
 
 
 def so_cung(lg, cham):
-    """So cung với cung (bảng so_cung): cặp chênh từ ngưỡng điểm /100 thì nói cung nào trội. Chạy cho mọi cặp có trong bảng; không đổi điểm."""
+    """So cung với cung (bảng so_cung): cặp chỉ được nói "trội" khi điểm /100 chênh từ ngưỡng VÀ đủ thành phần (chính tinh, phụ tinh ròng, cách cục) cùng nghiêng về cung trội;
+    thành phần nào cung yếu hơn hẳn, cung trội vô chính diệu, cung yếu bị Tuần/Triệt nén, cung trội còn sát tinh đáng kể đều thành lưu ý. Không đổi điểm."""
     sc = lg.tt.lien_cung["so_cung"]
+    ly = sc["luu_y"]
     ket = []
     for c in sc["cap"]:
         a, b = c["a"], c["b"]
         hieu = cham[a]["diem100"] - cham[b]["diem100"]
         if abs(hieu) < sc["nguong"]:
             continue
-        ket.append({"id": f"SC.{a}.{b}", "diem": 0, "nhan_dinh": c["a_hon"] if hieu > 0 else c["b_hon"],
-                    "ly_do": f"{a} ~{cham[a]['diem100']}/100, {b} ~{cham[b]['diem100']}/100 (chênh từ {sc['nguong']})"})
+        troi, yeu = (a, b) if hieu > 0 else (b, a)
+        pt, py = cham[troi]["phan_tich"], cham[yeu]["phan_tich"]
+        tp = [("chinh_tinh", pt["tong_base"], py["tong_base"]),
+              ("phu_tinh", pt["tong_cat"] + pt["tong_sat"], py["tong_cat"] + py["tong_sat"]),
+              ("cach_cuc", pt["cach_cuc"], py["cach_cuc"])]
+        thuan = sum(1 for _, t, y in tp if t - y >= sc["lech_nho"])
+        if thuan < sc["can_dong_thuan"]:
+            continue
+        luu_y = [ly["nghich"].replace("{yeu}", yeu).replace("{thanh_phan}", ly["thanh_phan"][ten]) for ten, t, y in tp if y - t >= sc["lech_lon"]]
+        if pt["vo_chinh_dieu"]:
+            luu_y.append(ly["vcd"].replace("{troi}", troi))
+        if py["k_triet_tuan"] < 1:
+            luu_y.append(ly["tuan_triet"].replace("{yeu}", yeu))
+        if pt["tong_sat"] <= sc["sat_dang_ke"]:
+            luu_y.append(ly["sat"].replace("{troi}", troi))
+        ket.append({"id": f"SC.{a}.{b}", "diem": 0, "nhan_dinh": " ".join([c["a_hon"] if hieu > 0 else c["b_hon"], *luu_y]),
+                    "ly_do": f"{troi} ~{cham[troi]['diem100']}/100, {yeu} ~{cham[yeu]['diem100']}/100 (chênh từ {sc['nguong']}); {thuan}/3 thành phần nghiêng về {troi}: "
+                             + ", ".join(f"{ly['thanh_phan'][ten]} {t:.1f} so với {y:.1f}" for ten, t, y in tp)})
     return ket
 
 

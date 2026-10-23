@@ -1,8 +1,8 @@
 # 11 — Học từ hai bản luận giải mẫu: báo cáo phân tích và kế hoạch làm
 
-Mục đích: ghi lại **đã học được gì, nên làm gì, không nên làm gì** từ hai bản luận giải mẫu do người dùng đưa, để phiên làm việc sau bắt tay vào việc mà không phải đọc lại từ đầu. **Chưa có dòng code nào được sửa theo báo cáo này.**
+Mục đích: ghi lại **đã học được gì, nên làm gì, không nên làm gì** từ hai bản luận giải mẫu do người dùng đưa, để phiên làm việc sau bắt tay vào việc mà không phải đọc lại từ đầu. Phần §0–§7 là bản phân tích gốc, giữ nguyên để đối chiếu.
 
-Trạng thái: bản phân tích (23/10/2026). Mọi con số dưới đây do máy đo, trừ chỗ ghi "ý kiến".
+Trạng thái: bản phân tích (23/10/2026), **đã triển khai Lô A, B, C** (xem §8). Mọi con số ở §0–§7 do máy đo lúc phân tích, trừ chỗ ghi "ý kiến".
 
 ---
 
@@ -163,3 +163,37 @@ cd web && npm run typecheck && npx vitest run && npm run build
 - Đổi điểm: luôn đo và báo; không đổi hằng số công thức nếu không có căn cứ (ví dụ Tài Bạch vô chính diệu + Tuần vẫn 70/100, đã thêm cảnh báo thay vì đổi điểm).
 - Văn bản phình: mỗi câu mới phải đủ giá trị; có giới hạn câu mỗi đoạn.
 - Lệ thuộc bản mẫu: hai bản mẫu cũng có thể sai; đừng tune cho khớp chúng.
+
+---
+
+## 8. Đã triển khai (Lô A + B + C) và 5 quyết định đã chốt
+
+Quyết định của người dùng: (1) giữ chủ mệnh theo cung Mệnh; (2) cho cách cục của Mệnh vào Sự nghiệp/Tài chính (làm tổng quát: mọi chủ đề có lĩnh vực trùng); (3) so cung phải xét thêm các sao khác, không chỉ chênh điểm; (4) **không bật AI** — thay vào đó làm giàu văn phong của chính engine; (5) giữ giọng "bạn".
+
+Nguyên tắc triển khai: **mỗi thứ là một cơ chế đọc từ dữ liệu, chạy cho mọi cung/sao**, không viết riêng cho một vài ca. Thêm dòng vào bảng là engine tự áp dụng.
+
+| Mục | Cơ chế | Dữ liệu |
+|---|---|---|
+| L1 | `chonGioi`/`chon_gioi` lọc nhánh "Nếu bạn là nam/nữ" cho **mọi** câu của mọi cung | `chinh_tinh_tai_cung_chuc.json` (bổ sung nhánh còn thiếu) |
+| L2 | `pham_vi` nhận tên cung / danh sách / `"*"`; `ket_luan_theo_cung`; câu điền `{cung}`, `{cung_xung}`; cặp sao đôi đối xung ở mọi trục (CC64–CC69); điều kiện xuyên cung `{"cung_chuc": ..., "dk": ...}` (CC70) | `cach_cuc.json` |
+| L3 | bảng sao → vai người: sao hãm / mang Hóa Kỵ nói thêm ở cung của vai (mã `LC.vai.*`) | `luan_lien_cung.json` → `vai_nguoi` |
+| L4 | so cung: chênh từ ngưỡng **và** ≥ 2/3 thành phần (chính tinh, phụ tinh ròng, cách cục) cùng nghiêng; thành phần ngược lại, vô chính diệu, Tuần/Triệt, sát tinh đáng kể thành lưu ý (mã `SC.*`) | `luan_lien_cung.json` → `so_cung` |
+| L5 | câu Tuần/Triệt riêng cho 12 cung + câu cho từng Hóa cùng cung (`LC.tt_hoa.*`) | `luan_lien_cung.json` |
+| L7 | `dongThoiGianDaiHan`: bảng 12 đại hạn, đẹp nhất / khó nhất, gợi ý nên/tránh (chỉ web, không đổi điểm) | `cau_hinh_luan_giai.json` → `han.khuyen_nghi` |
+| L8a | bảng điểm 12 cung một dòng (tab Tổng quan) | — |
+| L8b | mục "Tổng kết" 2–3 câu: mảng thuận nhất / cần chú tâm nhất (chênh ≥ 10 mới gọi tên, ngược lại nói đồng đều) + cung Thân | `van_phong.json` |
+| L8c | mục "Những câu hỏi thường gặp": mỗi cặp `so_cung` có `hoi`; chỉ trả lời khi có luật; thêm câu tiền vận/hậu vận | `luan_lien_cung.json`, `van_phong.json` |
+| L9 → thay | làm giàu văn phong engine: câu nối xoay vòng theo vị trí chủ đề (không lặp nguyên văn), nhiều biến thể mở đầu/điểm tựa/cần để ý | `van_phong.json` |
+| quyết định 2 | cách cục của Mệnh vào mọi chủ đề có `linh_vuc` trùng (chỉ thêm câu; điểm chủ đề vẫn theo trọng số cung, trừ ràng buộc khớp điểm–nội dung §4.8) | `luanGiai.ts` / `luan_giai.py` → `chuDe` |
+
+**Đo ảnh hưởng điểm** (400 lá số seed cố định, `do.py` cùng cách đo `hieu_chinh.py`):
+- Lô A+B: cát tinh đối xung (Tả–Hữu, Xương–Khúc, Khôi–Việt) cộng +1 ở mọi cung → 72/400 lá số đổi, lệch tối đa 5 điểm /100. Các cách hung đối xung và CC70 đặt **điểm 0** (sát tinh đã bị trừ trong công thức v3, cộng thêm là tính đôi; thử −1 thì fixture "Lá 4" Sức khỏe tụt từ Trung bình xuống Thấp).
+- Quyết định 2: điểm 12 cung không đổi; điểm chủ đề đổi ở 23/2400 mục (Sức khỏe 13, Sự nghiệp 5, Tài chính 5), tối đa 20 điểm — do ràng buộc khớp điểm–nội dung (§4.8) khi có thêm câu sáng/hung. Cần người nhìn lại nếu thấy lệch lớn.
+- So cung: trong 400 lá số, 371 cặp chênh từ ngưỡng 25, cổng đồng thuận chặn 22 (6%), 349 câu được nói ra, 204 lưu ý kèm theo.
+
+**Còn mở**
+- Mọi câu trong `luan_lien_cung.json`, `van_phong.json` và 7 cách CC64–CC70 do AI soạn, hiện nhãn xám, cần người review; CC64–CC70 chưa có nguồn web.
+- Bảng sao → người mới có Thái Dương và Thái Âm.
+- Ngưỡng so cung (25) và các hằng số `so_cung.*` là giá trị khởi điểm.
+- Python (`viet_van.py`) chưa có bản ghép văn mới (Tổng kết, hỏi đáp, biến thể câu nối); chỉ `muc_cho_phep` được giữ parity. Văn xuôi TS và Python vốn không parity.
+- Đường AI (`HIEN_AI = false`) giữ nguyên, tắt.
