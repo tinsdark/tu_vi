@@ -14,7 +14,7 @@ from tuvi.lich_am import tu_duong_lich  # noqa: E402
 from tuvi.luan_giai import LuanGiai, TriThuc, bao_cao  # noqa: E402
 from tuvi.viet_van import hau_kiem_theo_muc, rut_gon_cho_llm, viet, viet_mau, ve  # noqa: E402
 
-BAC = {"Thấp", "Dưới trung bình", "Trung bình", "Khá", "Tốt", "Rất tốt"}
+BAC = {"Rất thấp", "Thấp", "Trung bình", "Khá", "Tốt", "Rất tốt"}
 
 
 def la_so_ngau_nhien(rnd):
@@ -115,22 +115,24 @@ def test_cau_sat_tinh_sinh_tu_du_lieu_that():
 
 
 def test_diem_noi_tai_nhat_quan():
-    # §4.3: chính tinh miếu/vượng + sát chỉ ở xung/hội → không dưới 'trung bình'; vừa tốt vừa hung rõ → nhãn về vùng giữa kèm câu dẫn
-    tt, rnd, san, hoa_giai = TriThuc(), random.Random(8), 0, 0
+    # sàn chính tinh miếu/vượng (§4.5) và khớp điểm ↔ nội dung (§4.8): sau khi ép phải không còn vi phạm
+    from tuvi.luan_giai import diem_100
+    tt, rnd, san, ep = TriThuc(), random.Random(8), 0, 0
+    kh = tt.cfg["diem_noi_tai"]["khop_noi_dung"]
     for _ in range(300):
         nam, ls = la_so_ngau_nhien(rnd)
         kq = bao_cao(LuanGiai(ls, tt))
         for k in kq["cung"].values():
-            if k["san_chinh_tinh"]:
+            if k["phan_tich"]["san_ap_dung"]:
                 san += 1
-                assert k["diem100"] >= tt.cfg["diem_noi_tai"]["san_chinh_tinh_sang"], k["cung"]
+                assert k["diem100"] >= diem_100(k["phan_tich"]["san_ap_dung"]), k["cung"]
         for ten, cd in kq["chu_de"].items():
-            if cd["cau_dan"]:
-                hoa_giai += 1
-                hg = tt.cfg["diem_noi_tai"]["hoa_giai"]
-                assert hg["san"] <= cd["diem100"] <= hg["tran"], ten
             assert cd["xep_loai"] in BAC
-    assert san > 20 and hoa_giai > 20
+            m = cd["kiem_khop"]
+            ep += m["vi_pham_kha"] or m["vi_pham_tb"]
+            if m["hung"] >= 1 and m["hung"] >= 2 * m["sang"]:
+                assert cd["diem100"] <= kh["tb_tran"], (ten, m)
+    assert san > 20
 
 
 def test_ngu_hanh_co_he_qua_va_am_duong_ky_thuat():
@@ -292,15 +294,20 @@ def test_diem_theo_cau_rieng_trung_tinh():
     assert thay > 5
 
 
-def test_vo_chinh_dieu_khong_vuot_tran():
+def test_vo_chinh_dieu_base_nua_va_khong_san():
+    # §4.1: vô chính diệu = base chính tinh mượn × 0.5, không có sàn (n_chinh_tinh_mv = 0), cờ vo_chinh_dieu bật
     tt, rnd, thay = TriThuc(), random.Random(37), 0
-    tran = tt.cfg["vo_chinh_dieu"]["tran_diem100"]
+    he, cap = tt.cfg["vo_chinh_dieu"]["he_so"], tt.cfg["diem_v3"]["base_cap"]
     for _ in range(300):
         nam, ls = la_so_ngau_nhien(rnd)
         for k in bao_cao(LuanGiai(ls, tt))["cung"].values():
+            p = k["phan_tich"]
             if not k["chinh_tinh"]:
                 thay += 1
-                assert k["diem100"] <= tran, k["cung"]
+                assert p["vo_chinh_dieu"] and p["n_chinh_tinh_mv"] == 0 and p["san_ap_dung"] == 0
+                assert abs(p["tong_base"] - min(max(sum(b["diem"] for b in p["base"]), cap[0]), cap[1]) * he) < 0.01
+            else:
+                assert not p["vo_chinh_dieu"]
     assert thay > 100
 
 
@@ -323,36 +330,55 @@ def test_hau_kiem_theo_muc():
 
 
 def test_bac_dung_nguong_va_la_so_trung_vi_la_trung_binh():
-    # nhãn đúng bảng công khai (cau_hinh → diem_noi_tai.bac): ≤35 Thấp, 40–50 Dưới TB, 55–65 TB, 70–80 Khá, 85–90 Tốt, 95 Rất tốt
+    # nhãn đúng bảng công khai spec v3 §4.7: ≤30 Rất thấp, 31–45 Thấp, 46–60 TB, 61–75 Khá, 76–90 Tốt, ≥91 Rất tốt; 35 KHÔNG được là 'Trung bình'
     from tuvi.luan_giai import bac
     tt = TriThuc()
     dn = tt.cfg["diem_noi_tai"]
-    for d, nhan in ((5, "Thấp"), (35, "Thấp"), (40, "Dưới trung bình"), (50, "Dưới trung bình"), (55, "Trung bình"), (65, "Trung bình"),
-                    (70, "Khá"), (80, "Khá"), (85, "Tốt"), (90, "Tốt"), (95, "Rất tốt")):
+    for d, nhan in ((5, "Rất thấp"), (30, "Rất thấp"), (35, "Thấp"), (45, "Thấp"), (50, "Trung bình"), (60, "Trung bình"),
+                    (65, "Khá"), (75, "Khá"), (80, "Tốt"), (90, "Tốt"), (95, "Rất tốt")):
         assert bac(d, dn) == nhan, d
-    # cung của lá số trung vị phải rơi vào 'Trung bình' (thang đã căn lại: trung vị ≈ 60)
+    # cung trung vị phải rơi vào 'Trung bình' (START = 50 là điểm trung tính)
     rnd, ds = random.Random(53), []
     for _ in range(150):
         nam, ls = la_so_ngau_nhien(rnd)
         ds += [k["diem100"] for k in bao_cao(LuanGiai(ls, tt))["cung"].values()]
     ds.sort()
-    assert 55 <= ds[len(ds) // 2] <= 65, ds[len(ds) // 2]
+    assert 50 <= ds[len(ds) // 2] <= 60, ds[len(ds) // 2]
 
 
-def test_tuan_triet_bat_doi_xung_va_co_phan_tich_diem():
-    # Triệt: sao tốt giảm lực (không cộng), sao xấu bớt hung (không trừ thêm); phân tích điểm cộng lại đúng
-    tt, rnd, thay = TriThuc(), random.Random(59), 0
-    for _ in range(200):
+def test_tuan_triet_nen_ve_giua():
+    # §4.4: Tuần/Triệt NÉN độ lệch so với START về giữa (×0.6 Triệt, ×0.8 Tuần), không trừ thẳng: cung tốt hạ xuống, cung xấu nâng lên
+    tt, rnd, thay = TriThuc(), random.Random(59), {"tot": 0, "xau": 0}
+    v = tt.cfg["diem_v3"]
+    for _ in range(300):
         nam, ls = la_so_ngau_nhien(rnd)
         for k in bao_cao(LuanGiai(ls, tt))["cung"].values():
-            pt = k["phan_tich"]
-            assert pt["tuan_triet_giam"]["tot"] <= 1e-9 and pt["tuan_triet_giam"]["xau"] >= -1e-9
-            assert abs(sum(pt["theo_loai"].values()) - (pt["tong_tot"] + pt["tong_xau"])) < 0.05
+            p = k["phan_tich"]
+            ky_vong = (v["nen"]["Triệt"] if "Triệt" in k["tuan_triet"] else 1.0) * (v["nen"]["Tuần"] if "Tuần" in k["tuan_triet"] else 1.0)
+            assert abs(p["k_triet_tuan"] - ky_vong) < 1e-3
+            assert abs(p["raw_sau_triet"] - (v["start"] + (p["raw_truoc_triet"] - v["start"]) * ky_vong)) < 0.02
+            assert abs(p["raw_sau_triet"] - v["start"]) <= abs(p["raw_truoc_triet"] - v["start"]) + 1e-9
             if k["tuan_triet"]:
-                thay += 1
-            else:
-                assert pt["tuan_triet_giam"] == {"tot": 0.0, "xau": 0.0}
-    assert thay > 30
+                thay["tot" if p["raw_truoc_triet"] > v["start"] else "xau"] += 1
+    assert thay["tot"] > 20 and thay["xau"] > 5
+
+
+def test_nguon_sao_cho_base_va_hoa_cat_cuu_hai():
+    # §15: base chỉ nhận chính tinh BẢN CUNG (hoặc sao mượn từ xung khi vô chính diệu); §15.3: chính tinh hãm đang mang Hóa Lộc/Quyền/Khoa không bị trừ, không xếp vào hạn chế
+    tt, rnd, cuu = TriThuc(), random.Random(79), 0
+    for _ in range(300):
+        nam, ls = la_so_ngau_nhien(rnd)
+        kq = bao_cao(LuanGiai(ls, tt))
+        for ten, k in kq["cung"].items():
+            p = k["phan_tich"]
+            nguon = set(p["tap_xung"]) if p["vo_chinh_dieu"] else set(p["tap_ban_cung"])
+            assert {b["sao"] for b in p["base"]} <= nguon, (ten, p["base"])
+            for b in p["base"]:
+                if b["hoa_cuu"]:
+                    cuu += 1
+                    assert b["diem"] == 0 and b["do_sang"] == "H"
+                    assert next(n for n in k["nhan_dinh"] if n["id"] == f"CT.{b['sao']}.{ten}")["diem"] == 0
+    assert cuu > 10
 
 
 def test_tinh_cach_co_ca_hai_mat_khi_menh_co_sat_dac_dia():
@@ -391,31 +417,29 @@ def test_mot_cach_viet_ten_thien_diem():
         assert "Riêu" not in json.dumps(kq, ensure_ascii=False) and "Riêu" not in viet_mau(kq)
 
 
-def test_khong_phat_doi_sat_xa_va_khung_chinh_tinh_day_du():
-    # (1) sát ở XUNG chiếu chỉ trừ thẳng, không đi vào phi tuyến: thêm sát vào cung xung → điểm giảm nhưng hệ số phi tuyến giữ nguyên
-    # (2) câu 'cung chủ' liệt kê MỌI chính tinh của cung chủ; (3) tốt-hung rõ thì luôn có câu dẫn hòa giải (áp đều mọi chủ đề)
-    tt, rnd, thu, hoa_giai = TriThuc(), random.Random(73), 0, 0
-    hg = tt.cfg["diem_noi_tai"]["hoa_giai"]
+def test_sat_xung_chi_tru_thang_khung_day_du_va_hai_mat():
+    # (1) thêm sát vào cung XUNG làm điểm không tăng (tru thẳng theo trọng số xung −3, có cap tổng −30); (2) câu 'cung chủ' liệt kê MỌI chính tinh bản cung;
+    # (3) §17: mục có cả sáng lẫn hung luôn có câu 'hai mặt cùng tồn tại'
+    tt, rnd, thu, hai_mat = TriThuc(), random.Random(73), 0, 0
     for _ in range(300):
         nam, ls = la_so_ngau_nhien(rnd)
         lg = LuanGiai(ls, tt)
         ten = rnd.choice(CUNG_CHUC)
         chi = lg.chi_cua[ten]
         xung = mv(chi, 6)
-        if CHI[xung] not in tt.phu["Hóa Kỵ"]["dac_dia"]:
-            truoc = lg.cham_cung(ten)
-            sau = LuanGiai(ls, tt, {xung: ["Lưu Hóa Kỵ"]}).cham_cung(ten)
-            assert sau["phan_tich"]["he_so_pha"] == truoc["phan_tich"]["he_so_pha"], ten
-            assert sau["diem"] < truoc["diem"]
-            thu += 1
+        truoc = lg.cham_cung(ten)
+        sau = LuanGiai(ls, tt, {xung: ["Lưu Hóa Kỵ"]}).cham_cung(ten)
+        assert sau["diem"] <= truoc["diem"] + 1e-9
+        thu += sau["diem"] < truoc["diem"]
         kq = bao_cao(lg)
         for tdn, cd in kq["chu_de"].items():
             for c in tt.cfg["chu_de"][tdn]["cung"]:
                 assert all(sao in cd["khung"] for sao in kq["cung"][c]["chinh_tinh"]), (tdn, c)
-            if cd["diem_manh"] and cd["diem_yeu"] and cd["diem_manh"][0]["diem"] >= hg["nguong_diem_sang"] and cd["diem_yeu"][0]["diem"] <= hg["nguong_diem_hung"]:
-                hoa_giai += 1
-                assert cd["cau_dan"]
-    assert thu > 100 and hoa_giai > 100
+            if cd["diem_manh"] and cd["diem_yeu"]:
+                hai_mat += 1
+                assert cd["cau_dan"] and "hai mặt cùng tồn tại" in cd["cau_dan"]
+                assert "Nền tảng" not in cd["cau_dan"]            # §15.2: dòng 'Nền tảng' chỉ dành cho chính tinh bản cung (khung)
+    assert thu > 100 and hai_mat > 200
 
 
 def test_tu_duong_lich_toi_luan():
