@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { tachMa, tapId, vietVanMau, quyTac, type BaoCao, type KetQuaNangCao } from "../engine";
 import { ChuThichTinCay, DanhSachNhanDinh, Khoi, ThanhDiem, useNganKeo } from "./chung";
 import { ChamTinCay } from "./chung";
@@ -31,7 +31,7 @@ function ChamMa({ ma, onMo }: { ma: string; onMo: () => void }) {
 }
 
 /** Mặc định đọc liền mạch (không chấm giữa câu); mỗi đoạn có một hàng "Cơ sở" gom các mã đã dùng. Bật "chấm theo từng câu" để thấy mã ngay sau câu. */
-function HienVan({ van }: { van: string }) {
+function HienVan({ van, sao }: { van: string; sao: Map<string, string[]> }) {
   const [theoCau, setTheoCau] = useState(false);
   const mo = useNganKeo();
   // tách theo dòng "# Tiêu đề": mỗi mục là một khối thu gọn; dòng đứng trước tiêu đề đầu tiên không thuộc mục nào
@@ -48,6 +48,7 @@ function HienVan({ van }: { van: string }) {
   const veDong = (d: string, i: number) => {
     if (theoCau) return <p key={i}><CauChu cau={d} /></p>;
     const ma = [...new Set(tachMa(d).flatMap((m) => (m.ma ? [m.ma] : [])))];
+    const saoLienQuan = [...new Set(ma.flatMap((m) => sao.get(m) ?? []))]; // tên sao đã bỏ khỏi câu văn nằm ở đây
     const chu = tachMa(d).filter((m) => !m.ma).map((m) => m.text).join("").replace(/\s+([.;,])/g, "$1").replace(/\s{2,}/g, " ");
     return (
       <div key={i} className="doan-van">
@@ -55,6 +56,7 @@ function HienVan({ van }: { van: string }) {
         <details className="co-so mo">
           <summary>Căn cứ của đoạn này ({ma.length} quy tắc)</summary>
           <ul>{ma.map((m) => <li key={m}><ChamMa ma={m} onMo={() => mo({ loai: "quy_tac", id: m })} /> {quyTac(m).tieu_de}</li>)}</ul>
+          {saoLienQuan.length > 0 && <p>Sao liên quan: {saoLienQuan.join(", ")}</p>}
         </details>
       </div>
     );
@@ -80,12 +82,28 @@ function HienVan({ van }: { van: string }) {
   );
 }
 
+/** Mã nhận định → tên các sao sinh ra nó (lấy từ trường `nhan`), để hàng "Cơ sở" vẫn tra được những tên sao đã bỏ khỏi câu văn. */
+function saoTheoMa(bc: BaoCao): Map<string, string[]> {
+  const kq = new Map<string, string[]>();
+  const duyet = (x: unknown): void => {
+    if (Array.isArray(x)) x.forEach(duyet);
+    else if (x && typeof x === "object") {
+      const o = x as Record<string, unknown>;
+      if (typeof o.id === "string" && Array.isArray(o.nhan) && !kq.has(o.id)) kq.set(o.id, (o.nhan as unknown[]).filter((t): t is string => typeof t === "string" && !t.startsWith("«") && t !== "vô chính diệu"));
+      Object.values(o).forEach(duyet);
+    }
+  };
+  duyet(bc);
+  return kq;
+}
+
 export function VanXuoi({ bc }: { bc: BaoCao }) {
   const mau = vietVanMau(bc);
+  const sao = useMemo(() => saoTheoMa(bc), [bc]);
   return (
     <Khoi tieuDe="Bản đọc thành văn" ghiChu="Mỗi đoạn có hàng “Cơ sở” gồm các chấm màu — bấm để xem quy tắc đứng sau và nguồn của nó. Câu nào không truy được về quy tắc đều bị loại.">
-      <p className="mo">Văn do web tự ghép từ các nhận định ở trên, không dùng AI.</p>
-      <HienVan van={mau.van} />
+      <p className="mo">Văn do web tự ghép từ các nhận định ở trên. Điểm /100 chỉ so các mảng trong chính lá số này với nhau, không so với người khác.</p>
+      <HienVan van={mau.van} sao={sao} />
     </Khoi>
   );
 }

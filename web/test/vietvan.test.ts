@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { HOA_GIAI, hinhDang } from "../src/engine/vanNen";
+import { VONG_BAC_SI, VONG_THAI_TUE, VONG_TRANG_SINH } from "../src/engine/boCuc";
+import { CHINH_TINH } from "../src/engine/luanGiai";
 import { anLaSo, baoCao, LuanGiai, triThuc, vietMau, hauKiemTheoMuc, tapId } from "../src/engine";
 
 function mau(i: number) {
@@ -217,6 +219,53 @@ describe("cô đọng (doc11 §8c)", () => {
         expect(k.nhan_dinh.filter((n) => n.id.startsWith("LC.vai.")).length, `lá ${i} ${ten}`).toBeLessThanOrEqual(2);
         const hien = k.nhan_dinh.filter((n) => !n.an && n.diem !== 0 && /^(CT|PT)\./.test(n.id)).map((n) => n.nhan_dinh);
         expect(new Set(hien).size, `lá ${i} ${ten}: ${hien.join(" | ")}`).toBe(hien.length);
+      }
+    }
+  });
+});
+
+describe("văn dễ đọc, bớt thuật ngữ (docs/12)", () => {
+  const CUNG = ["Phụ Mẫu", "Phúc Đức", "Điền Trạch", "Quan Lộc", "Nô Bộc", "Thiên Di", "Tật Ách", "Tài Bạch", "Tử Tức", "Phu Thê", "Huynh Đệ"];
+  const SAO = [...new Set([...CHINH_TINH, ...triThuc().phu.keys(), ...VONG_BAC_SI, ...VONG_THAI_TUE, ...VONG_TRANG_SINH])].filter((t) => t.includes(" ") && !["Mệnh", "Thân", ...CUNG].includes(t));
+  const phanVan = (van: string) => {
+    const kq: Record<string, string> = {};
+    let hien = "";
+    for (const d of van.split("\n")) {
+      if (d.startsWith("# ")) { hien = d.slice(2); kq[hien] = ""; } else if (hien && d.trim()) kq[hien] += `${d} `;
+    }
+    return kq;
+  };
+  const saoTrong = (t: string) => SAO.filter((s) => t.replace(/\[[^[\]]+\]/g, " ").includes(s));
+
+  it("không còn tên cung chức, tên cách, nguồn kỹ thuật trong câu văn", () => {
+    for (let i = 0; i < 120; i++) {
+      const van = vietMau(mau(i)).replace(/\[[^[\]]+\]/g, " ");
+      for (const c of CUNG) expect(van, `lá ${i}: ${c}`).not.toMatch(new RegExp(`cung ${c}`));
+      expect(van).not.toMatch(/«|\(do .+ chiếu sang\)|sao nằm ở cung|\bchính tinh\b/);
+    }
+  });
+
+  it("ngân sách thuật ngữ: mỗi đoạn chủ đề tối đa 2 tên sao, Tổng quan tối đa 3, Tổng kết và hỏi đáp không có", () => {
+    let toiDa = 0;
+    for (let i = 0; i < 120; i++) {
+      const kq = mau(i);
+      const p = phanVan(vietMau(kq));
+      for (const [muc, t] of Object.entries(p)) {
+        const dem = saoTrong(t).length;
+        toiDa = Math.max(toiDa, dem);
+        const gioiHan = muc.startsWith("Tổng quan") ? 3 : muc.startsWith("Tổng kết") || muc.startsWith("Những câu hỏi") ? 0 : 2;
+        expect(dem, `lá ${i} ${muc}: ${saoTrong(t).join(", ")}`).toBeLessThanOrEqual(gioiHan);
+      }
+    }
+    expect(toiDa).toBeLessThanOrEqual(3);
+  });
+
+  it("hình dạng 'nền tốt' không dùng cho cung vô chính diệu mượn sao", () => {
+    for (let i = 0; i < 200; i++) {
+      const kq = mau(i);
+      for (const [ten, cd] of Object.entries(kq.chu_de)) {
+        const cung = Object.keys(cd.cung)[0];
+        if (Object.keys(cd.cung).length === 1 && kq.cung[cung].muon_tu && ["Tài chính", "Sự nghiệp"].includes(ten)) expect(["A", "B"]).not.toContain(hinhDang(cd, kq));
       }
     }
   });

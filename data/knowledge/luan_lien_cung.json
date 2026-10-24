@@ -363,11 +363,11 @@
     "sat_dang_ke": -10,
     "luu_y": {
       "thanh_phan": {
-        "chinh_tinh": "chính tinh",
-        "phu_tinh": "phụ tinh (cát trừ sát)",
-        "cach_cuc": "cách cục"
+        "chinh_tinh": "sao chủ của cung",
+        "phu_tinh": "các sao hỗ trợ và cản trở",
+        "cach_cuc": "thế sao đặc biệt"
       },
-      "sat": "Lưu ý {troi} vẫn có sát tinh đáng kể, nên mặt mạnh đi kèm áp lực."
+      "sat": "Lưu ý {troi} vẫn có yếu tố gây cản trở đáng kể, nên mặt mạnh đi kèm áp lực."
     },
     "mau": "{troi} (khoảng {dt}/100) mạnh hơn {yeu} (khoảng {dy}/100); chênh lệch đến từ {thanh_phan}."
   }
