@@ -23,8 +23,18 @@ function chonNganSach(ds: CauUu[], toiDa = TOI_DA_CAU): string[] {
 const thuong = (s: string) => (!s || /^\p{Lu}\p{Ll}*\s\p{Lu}/u.test(s) ? s : s[0].toLowerCase() + s.slice(1));
 const hoa = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 const mo = (s: string) => s.replace(/\[([^[\]]+)\]/g, "«$1»"); // ngoặc vuông chỉ dành cho mã
+/** Gọi cung bằng lĩnh vực ("công việc", "tiền bạc"…): người xem không cần biết tên cung chức. Riêng Mệnh và Thân giữ nguyên. */
+const linhVuc = (cung: string): string => triThuc().vanPhong.linh_vuc[cung] ?? cung;
+/** Bỏ dấu vết kỹ thuật khỏi câu văn: nguồn "(do X ở cung Y chiếu sang)", "(sao nằm ở cung …)", tên cung chức → lĩnh vực. Tên sao đầy đủ vẫn có ở hàng "Cơ sở" dưới đoạn. */
+function lamSach(s: string): string {
+  let r = s.replace(/\s*\(do .+? chiếu sang\)/g, "").replace(/\s*\(sao nằm ở cung[^)]*\)/g, "").replace(/chính tinh/g, "sao chủ");
+  for (const [cung, v] of Object.entries<string>(triThuc().vanPhong.linh_vuc)) {
+    r = r.replace(new RegExp(`cung ${cung}(?![\\p{L}])`, "gu"), `mảng ${v}`).replace(new RegExp(`(?<![\\p{L}])${cung}(?![\\p{L}])`, "gu"), v);
+  }
+  return r;
+}
 /** Bỏ mũi tên và dấu chấm giữa câu: văn thường không dùng ký hiệu. */
-const sach = (s: string) => mo(bo(s)).replace(/\s*→\s*/g, ", ").replace(/\.\s+/g, "; ");
+const sach = (s: string) => lamSach(mo(bo(s)).replace(/\s*→\s*/g, ", ").replace(/\.\s+/g, "; "));
 const noi = (a: string[]): string => (a.length <= 1 ? (a[0] ?? "") : `${a.slice(0, -1).join(", ")} và ${a[a.length - 1]}`);
 /** Câu kết thúc bằng mã. */
 const cau = (txt: string, ...ma: string[]): string => `${bo(txt)} ${ma.map((m) => `[${m}]`).join("")}.`;
@@ -32,36 +42,44 @@ const cau = (txt: string, ...ma: string[]): string => `${bo(txt)} ${ma.map((m) =
 /** Chọn biến thể câu nối theo vị trí (chủ đề, câu) để một báo cáo không lặp nguyên văn; bảng ở data/knowledge/van_phong.json. */
 const bienThe = (khoa: string, k: number): string => { const ds: string[] = triThuc().vanPhong[khoa]; return ds[k % ds.length]; };
 
-const MUC_SANG: Record<string, string> = { M: "miếu", V: "vượng", "Đ": "đắc", B: "bình", H: "hãm" };
-
 // ---------- một nhận định → một mệnh đề đọc được (không có mã, không có dấu chấm cuối)
+/** Kết luận của một cách cục bằng lời thường: bỏ tên cách, tên sao; chỉ giữ ý nghĩa. Cách xuyên cung chỉ lấy phần hệ quả sau dấu hai chấm. */
+function cauCach(n: NhanDinh): string {
+  const m = /^\[(.+?)(?: — (PHÁ CÁCH))?\]\s*(.*)$/s.exec(n.nhan_dinh.trim());
+  if (!m) return sach(n.nhan_dinh);
+  const [, , pha, mt] = m;
+  const dd: Record<string, string> = triThuc().vanPhong.cach_de_doc;
+  let txt = dd[pha ? `${n.id}.pha` : n.id] ?? (pha ? undefined : dd[n.id]);
+  if (txt === undefined) {
+    txt = mt;
+    const macDinh = /^Gặp từ 2 sát tinh\/Hóa Kỵ ở bản cung và xung chiếu: cách bị giảm nhiều\.\s*(.*)$/s.exec(txt); // câu phá cách mặc định
+    if (macDinh) txt = `Thế này bị giảm nhiều vì có nhiều yếu tố xấu đi kèm; ${macDinh[1]}`;
+    else if (/^CC(6[4-9]|[7-9]\d|10\d)$/.test(n.id)) txt = txt.split(": ").pop()!; // cách xuyên cung: bỏ phần liệt kê sao
+  }
+  return hoa(sach(txt));
+}
+
 function menhDe(n: NhanDinh): string {
   const t = n.nhan_dinh.trim();
   const id = n.id;
-  if (id === "CAT_XH") {
-    const sao = [...new Set(n.nhan ?? [])];
-    return `Có thêm các sao hỗ trợ từ những cung khác chiếu về${sao.length ? ` (${noi(sao.slice(0, 4))}${sao.length > 4 ? ", …" : ""})` : ""}, giúp cung ${n.cung ?? "này"} được nâng đỡ`;
-  }
-  if (id === "PHI_TUYEN") {
-    const sao = [...new Set(n.nhan ?? [])];
-    return `Quanh cung ${n.cung ?? "này"} có nhiều sao gây cản trở${sao.length ? ` (${noi(sao.slice(0, 4))}${sao.length > 4 ? ", …" : ""})` : ""}, nên cần cẩn trọng`;
-  }
-  if (/^CC\d+/.test(id)) { // "[Tên cách — PHÁ CÁCH] mô tả"
-    const m = /^\[(.+?)(?: — (PHÁ CÁCH))?\]\s*(.*)$/s.exec(t);
-    if (m) {
-      const [, ten, pha, mt] = m;
-      return `Theo cách «${ten}»${pha ? " (cách này bị phá nên giảm hiệu lực)" : ""}, ${sach(thuong(mt)).replace(/:\s+/g, ", ")}`;
-    }
-  }
+  const lv = n.cung ? linhVuc(n.cung) : "phần này";
+  if (id === "CAT_XH") return `Có thêm nhiều yếu tố hỗ trợ từ xung quanh, giúp ${lv} được nâng đỡ`;
+  if (id === "PHI_TUYEN") return `Quanh ${lv} có nhiều yếu tố gây cản trở, nên cần cẩn trọng`;
+  if (/^CC\d+/.test(id)) return cauCach(n);
   if (id.startsWith("BO.") || id === "BO") {
     const m = /^([^.—]{1,30}) — (.*)$/s.exec(t);
-    return m ? `Bộ sao «${m[1]}»: ${sach(thuong(m[2]))}` : `Bộ sao ở Mệnh của bạn: ${sach(t)}`;
+    return hoa(sach(m ? m[2] : t));
   }
-  { // sao mượn hoặc sao hội/xung chiếu: "Sao từ cung X (chi) xung|hội chiếu Y (chi) → hệ quả"
+  if (id.startsWith("LC.vai.")) { // sao → người: bỏ danh sách sao, chỉ nói quan hệ với ai và hệ quả
+    const vai = /ứng với (.+)$/.exec(n.ly_do ?? "")?.[1] ?? "những người liên quan";
+    const ket = triThuc().lienCung.vai_nguoi.nhom[id.slice(7)]?.ket ?? "";
+    return `Quan hệ với ${vai} nhìn chung ${ket}`;
+  }
+  { // sao mượn hoặc sao hội/xung chiếu: "Sao từ cung X (chi) xung|hội chiếu Y (chi) → hệ quả" — chỉ giữ hệ quả
     const m = /^(.+?) từ cung (.+?) \(.+?\) (xung|hội) chiếu .+? \(.+?\) → (.*)$/s.exec(t);
-    if (m) return `${hoa(sach(thuong(m[4]).replace(/\s*\(sao nằm ở cung[^)]*\)/, "")))} (do ${m[1]} ở cung ${m[2]} chiếu sang)`; // hệ quả trước, nguồn trong ngoặc
+    if (m) return hoa(sach(thuong(m[4])));
   }
-  return sach(t).replace(/\s*\(sao nằm ở cung[^)]*\)/, "");
+  return sach(t);
 }
 
 /** Ưu tiên khi chọn 2–3 ý mạnh nhất (R7): ý riêng của sao/cách trước, tổng hợp hội chiếu sau cùng. */
@@ -70,30 +88,38 @@ const chon = (ds: NhanDinh[], toiDa: number, dau: 1 | -1): NhanDinh[] =>
   [...ds].sort((a, b) => uuTien(a) - uuTien(b) || dau * (b.diem - a.diem)).slice(0, toiDa);
 
 // ---------- một chủ đề → một đoạn (R4: kết luận trước, chi tiết sau)
+const lvChuDe = (cung: string): string => (cung === "Mệnh" ? "tính cách và bản thân" : linhVuc(cung));
+
 function cauNen(ten: string, cd: KetQuaChuDe, kq: BaoCao): string | null {
   const cungs = Object.keys(cd.cung);
   if (cungs.length !== 1) return null; // chủ đề gộp nhiều cung (Gia đình) tách tiểu mục riêng
   const k = kq.cung[cungs[0]];
   const ds = k.chinh_tinh_sang.filter(([, m]) => m);
+  const lv = lvChuDe(cungs[0]);
   if (k.muon_tu) {
-    const sao = k.chinh_tinh_sang.map(([s]) => s);
     const dac = /;\s*(.+?)\.\s*Không tự động/s.exec(cd.luu_y.find((n) => n.id === "VCD")?.nhan_dinh ?? "")?.[1];
-    return cau(`Cung ${cungs[0]} của bạn không có chính tinh, nên khi luận phải mượn sao ở cung đối diện (${noi(sao)}) và độ mạnh được tính giảm đi; điều này không tự động là xấu${dac && !/^mượn/.test(dac) ? `, ${thuong(dac.replace(/^thường luận /, "thường "))}` : ""}`, `CD.${ten}`, "VCD");
+    return cau(`Phần ${lv} của bạn không có sao chủ riêng nên dựa nhiều vào ảnh hưởng từ bên cạnh, độ vững vì vậy kém hơn con số một chút${dac && !/^mượn/.test(dac) ? `; ${thuong(sach(dac.replace(/^thường luận /, "thường ")))}` : ""}`, `CD.${ten}`, "VCD");
   }
   if (!ds.length) return null;
-  const tot = ds.some(([, m]) => m === "M" || m === "V") ? "ở thế tốt" : ds.some(([, m]) => m === "Đ") ? "ở thế khá" : ds.every(([, m]) => m === "H") ? "ở thế yếu" : "ở thế bình thường";
-  return cau(`Cung ${cungs[0]} của bạn có chính tinh ${tot} (${ds.map(([s, m]) => `${s} ${MUC_SANG[m!]}`).join(", ")})`, `CD.${ten}`);
+  const tot = ds.some(([, m]) => m === "M" || m === "V") ? "khá vững" : ds.some(([, m]) => m === "Đ") ? "ở mức khá" : ds.every(([, m]) => m === "H") ? "còn yếu" : "bình thường";
+  return cau(`Phần nền của ${lv} ${tot}`, `CD.${ten}`);
 }
 
-/** Khung của cung (Tuần/Triệt, vô chính diệu) → một câu thường. */
+/** Khung của cung (Tuần/Triệt, trái chiều, sao → người) → một câu thường, không tên sao. */
 function cauLuuY(n: NhanDinh): string {
   const t = n.nhan_dinh;
   if (n.id === "TT") {
+    const m = /^(?:Tuần và Triệt|Triệt|Tuần) án [^:]+:\s*(.+?)\.?$/s.exec(t); // câu riêng của từng cung: "Triệt án Quan Lộc: việc đang thuận dễ bị đứt giữa chừng…"
+    if (m) return hoa(sach(m[1]));
     const triet = /Triệt/.test(t);
     const tuan = /Tuần/.test(t);
     const ten = triet && tuan ? "Tuần và Triệt" : triet ? "Triệt" : "Tuần";
-    return `Cung này có ${ten} đi qua: điều tốt ở đây bị giảm lực, điều xấu cũng bớt hung${triet ? "; Triệt tác động mạnh ở nửa đầu đời" : ""}${tuan ? `${triet ? ", " : "; "}Tuần rõ hơn từ khoảng 30 tuổi` : ""}`;
+    return `Phần này có ${ten} (yếu tố chặn lại) đi qua nên điều tốt giảm lực, điều xấu cũng bớt hung${triet ? "; mạnh nhất ở nửa đầu đời" : ""}${tuan ? `${triet ? ", " : "; "}rõ hơn từ khoảng 30 tuổi` : ""}`;
   }
+  if (n.id.startsWith("XD.")) { // trái chiều: bỏ tên sao trong ngoặc
+    return sach(t.replace(/\s*\([^()]*\)/g, "").replace("các sao tác động lên cung này nói ngược nhau", "có tín hiệu trái chiều"));
+  }
+  if (n.id.startsWith("LC.vai.")) return menhDe(n);
   return sach(t);
 }
 
@@ -114,7 +140,7 @@ export type HinhDang = "A" | "B" | "C" | "D" | "E";
 /** Nhận ra hình dạng của một mục: nền (chính tinh cung chủ) tốt/yếu × mặt thuận/mặt nhiễu có đáng kể không. */
 export function hinhDang(cd: KetQuaChuDe, kq: BaoCao): HinhDang {
   const cung = Object.keys(cd.cung)[0];
-  const nenTot = kq.cung[cung].chinh_tinh_dac;
+  const nenTot = kq.cung[cung].chinh_tinh_dac && !kq.cung[cung].muon_tu; // cung vô chính diệu mượn sao thì không gọi là "nền tốt"
   const cong = cd.diem_manh.reduce((t, n) => t + Math.max(0, n.diem), 0);
   const tru = cd.diem_yeu.reduce((t, n) => t + Math.abs(Math.min(0, n.diem)), 0);
   // ngưỡng đo trên 1600 mục ngẫu nhiên: trung vị cộng ≈ 6.8, trừ ≈ 4.6
@@ -133,14 +159,6 @@ function loaiCanh(n: NhanDinh, nhom: Record<string, string[]>, rieng: Record<str
   return [...dem].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "chung";
 }
 
-/** "Thất Sát miếu" — nền chính tinh của cung chủ, tên sao đặt trong ngoặc ở câu mở (R1). */
-function nenChu(cung: string, kq: BaoCao): string {
-  const k = kq.cung[cung];
-  const ds = k.chinh_tinh_sang.filter(([, m]) => m).map(([s, m]) => `${s} ${MUC_SANG[m!]}`);
-  if (k.muon_tu) return `cung ${cung} không có chính tinh, mượn ${noi(k.chinh_tinh_sang.map(([s]) => s))} từ cung đối diện`;
-  return ds.length ? `${noi(ds)} ở cung ${cung}` : `cung ${cung}`;
-}
-
 /** Lưu ý cấu trúc đưa vào văn xuôi: bỏ VCD (đã nói ở câu mở), VCD_TT (lời lưu ý về điểm số, chỉ hiện ở thẻ) và LC.* (câu liên cung, chỉ chen vào khi đoạn còn chỗ — xem cauLienCung), chỉ giữ 1 câu "trái chiều" (XD.*) để đoạn không phình (R7). */
 function khungVan(cd: KetQuaChuDe, daDung: Set<string>): NhanDinh[] {
   let xd = 0;
@@ -150,7 +168,7 @@ function khungVan(cd: KetQuaChuDe, daDung: Set<string>): NhanDinh[] {
   });
 }
 
-/** Một phụ tinh nhỏ (Thiên Mã, Thiên Khốc…) quan trọng nhất của mục (đã sắp theo ưu tiên): nêu tên sao và mang đúng mã của nó.
+/** Một chi tiết nhỏ (phụ tinh ±1) quan trọng nhất của mục (đã sắp theo ưu tiên): không nêu tên sao, mang đúng mã của nó.
  *  Chỉ 1 câu để đoạn không phình (R7); danh sách đầy đủ vẫn hiện ở thẻ chủ đề. */
 function cauSaoNho(cd: KetQuaChuDe, daDung: Set<string>): string[] {
   const out: string[] = [];
@@ -159,7 +177,7 @@ function cauSaoNho(cd: KetQuaChuDe, daDung: Set<string>): string[] {
     const k = JSON.stringify([n.id, n.nhan_dinh]);
     if (daDung.has(k)) continue;
     daDung.add(k);
-    out.push(cau(`Sao phụ ${n.id.split(".")[1]} cũng đáng để ý: ${thuong(menhDe(n))}`, n.id));
+    out.push(cau(`Một chi tiết nhỏ cũng đáng để ý: ${thuong(menhDe(n))}`, n.id));
   }
   return out;
 }
@@ -170,7 +188,6 @@ function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<stri
   if (!kc) return null;
   const ma = `CD.${ten}`;
   const hd = hinhDang(cd, kq);
-  const cung = Object.keys(cd.cung)[0];
   const moi = (ds: NhanDinh[]) => ds.filter((n) => {
     const k = JSON.stringify([n.id, n.nhan_dinh]);
     if (daDung.has(k)) return false;
@@ -186,7 +203,7 @@ function doanKeChuyen(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<stri
 
   const vt = Math.max(0, Object.keys(kq.chu_de).indexOf(ten)); // vị trí chủ đề: gốc để chọn biến thể câu nối
   const moDau = (kc.mo_dau[hd] as string).replace(/\s*\(mức \{nhan\}, khoảng \{d\}\/100, dựa trên \{nen\}\)/, bienThe("mo_dau_duoi", vt));
-  const s: CauUu[] = [{ t: cau(moDau.replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", nenChu(cung, kq)), ma), u: 0 }];
+  const s: CauUu[] = [{ t: cau(moDau.replace("{nhan}", cd.xep_loai.toLowerCase()).replace("{d}", String(cd.diem100)).replace("{nen}", ""), ma), u: 0 }];
   const them = (t: string, u: number) => s.push({ t, u });
   const diemTua = (tienTo: string) => mua.forEach((n, i) => them(cau(i === 0 && !tienTo ? menhDe(n) : i === 0 ? `${tienTo}${thuong(menhDe(n))}` : `${bienThe("noi_them", vt + i)} ${thuong(menhDe(n))}`, n.id), i === 0 ? 1 : 3));
   const canhCau = (tienTo: string) => canh.forEach((n) => them(cau(`${tienTo}${thuong(menhDe(n))}`, n.id), 1));
@@ -266,36 +283,31 @@ function doanChuDe(ten: string, cd: KetQuaChuDe, kq: BaoCao, daDung: Set<string>
 
 // ---------- tổng quan
 export const NEN_CUC: Record<string, string> = {
-  cuc_sinh_menh: "Cục sinh cho Mệnh, nghĩa là hoàn cảnh nâng đỡ và bạn dễ phát huy được năng lực.",
-  tuong_hoa: "Mệnh và Cục cùng hành, nghĩa là nền lá số thuận hòa và ổn định.",
-  menh_sinh_cuc: "Mệnh sinh cho Cục, nghĩa là bạn hao sức cho hoàn cảnh nên dễ làm nhiều hưởng ít.",
-  menh_khac_cuc: "Mệnh khắc Cục, nghĩa là bạn chủ động cải tạo hoàn cảnh nhưng khá vất vả.",
-  cuc_khac_menh: "Cục khắc Mệnh, nghĩa là hoàn cảnh có nhiều trở ngại nên cần tu dưỡng và kiên trì.",
+  cuc_sinh_menh: "Cục nuôi dưỡng bản mệnh, nên hoàn cảnh nâng đỡ và bạn dễ phát huy được năng lực.",
+  tuong_hoa: "Bản mệnh và cục hợp nhau, nên nền lá số thuận hòa và ổn định.",
+  menh_sinh_cuc: "Bản mệnh nuôi cục, nghĩa là bạn hao sức cho hoàn cảnh nên dễ làm nhiều hưởng ít.",
+  menh_khac_cuc: "Bản mệnh khắc cục, nghĩa là bạn chủ động cải tạo hoàn cảnh nhưng khá vất vả.",
+  cuc_khac_menh: "Cục khắc bản mệnh, nghĩa là hoàn cảnh có nhiều trở ngại nên cần tu dưỡng và kiên trì.",
 };
-const NEN_SAO: Record<string, (sao: string) => string> = {
-  dong_hanh: (s) => `Chính tinh thủ Mệnh (${s}) cùng hành với bản mệnh, nên mặt tốt của sao được phát huy trọn vẹn.`,
-  sao_sinh_menh: (s) => `Chính tinh thủ Mệnh (${s}) sinh cho bản mệnh, nên bạn được nâng đỡ và dễ nhờ vào tính chất tốt của sao.`,
-  menh_sinh_sao: (s) => `Bản mệnh của bạn nuôi chính tinh thủ Mệnh (${s}), nên bạn làm hết sức nhưng dễ đuối nếu ôm đồm; bù lại sao phát huy được mặt tốt.`,
-  sao_khac_menh: (s) => `Chính tinh thủ Mệnh (${s}) khắc bản mệnh, nên mặt tốt của sao bị giảm bớt và bạn dễ chịu áp lực từ chính tính chất của sao.`,
-  menh_khac_sao: (s) => `Bản mệnh của bạn kiềm chế được chính tinh thủ Mệnh (${s}), nên bạn kiểm soát tốt tính chất của sao nhưng phần hưởng thụ bị kìm, hơi khắc khổ.`,
+/** Quan hệ giữa sao chủ của cung Mệnh và bản mệnh, nói bằng lời thường (tên sao ở hàng "Cơ sở"). */
+const NEN_SAO: Record<string, string> = {
+  dong_hanh: "Sao chủ của cung Mệnh cùng hành với bản mệnh, nên mặt tốt của bạn được phát huy trọn vẹn.",
+  sao_sinh_menh: "Sao chủ của cung Mệnh nuôi bản mệnh, nên bạn được nâng đỡ và dễ nhờ vào mặt tốt của chính mình.",
+  menh_sinh_sao: "Bản mệnh nuôi sao chủ của cung Mệnh, nên bạn làm hết sức nhưng dễ đuối nếu ôm đồm; bù lại mặt tốt được phát huy.",
+  sao_khac_menh: "Sao chủ của cung Mệnh khắc bản mệnh, nên mặt tốt bị giảm bớt và bạn dễ chịu áp lực từ chính tính nết của mình.",
+  menh_khac_sao: "Bạn kiểm soát tốt tính nết của chính mình nhưng hơi kìm chuyện hưởng thụ nên dễ sống khắc khổ.",
 };
 
-function cauNenLaSo(n: NhanDinh): string {
+function cauNenLaSo(n: NhanDinh): string | null {
   const loai = n.id.replace(/^NEN\./, "");
   if (NEN_CUC[loai]) return cau(NEN_CUC[loai], n.id);
-  if (loai === "am_duong") {
-    const thuan = /thuận lý/.test(n.nhan_dinh);
-    return cau(`Đại hạn của bạn đi theo chiều ${thuan ? "thuận" : "nghịch"}; đây chỉ là đặc điểm kỹ thuật của lá số, không quyết định cuộc đời thuận hay nghịch`, n.id);
-  }
-  if (loai.startsWith("sao_chu.")) {
-    const f = NEN_SAO[loai.slice(8)];
-    const sao = /^(.+?) \(/.exec(n.nhan_dinh)?.[1];
-    if (f && sao) return cau(bo(f(sao)), n.id);
-  }
+  if (loai === "am_duong") return null; // chiều đại hạn chỉ là chi tiết kỹ thuật, đã có ở tab Hạn
+  if (loai.startsWith("sao_chu.") && NEN_SAO[loai.slice(8)]) return cau(bo(NEN_SAO[loai.slice(8)]), n.id);
   if (loai.startsWith("tuan_triet.")) {
     const m = /án cung (\S+) \((.+?)\)/.exec(n.nhan_dinh); // "án cung <địa chi> (<cung chức>)"
     const ten = /Triệt/.test(n.nhan_dinh) ? "Triệt" : "Tuần";
-    return cau(`Cung ${m ? `${m[2]} (tại ${m[1]}) ` : ""}của bạn có ${ten} đi qua, ảnh hưởng đến cả đời nên đáng chú ý ngay từ đầu: điều tốt ở đây giảm lực, điều xấu cũng bớt hung`, n.id);
+    const cung = !m || m[2] === "Mệnh" ? "Cung Mệnh của bạn" : `Cung Thân của bạn (thuộc mảng ${linhVuc(m[2])})`;
+    return cau(`${cung} có ${ten} (yếu tố chặn lại) đi qua, ảnh hưởng đến cả đời nên đáng chú ý ngay từ đầu: điều tốt giảm lực, điều xấu cũng bớt hung`, n.id);
   }
   return cau(sach(n.nhan_dinh), n.id);
 }
@@ -304,7 +316,8 @@ function cauThan(kq: BaoCao): string[] {
   const out: string[] = [];
   const [a, b] = kq.than.nhan_dinh;
   const m = /^Thân cư [^:]+: (.*)$/s.exec(a.nhan_dinh);
-  out.push(cau(`Cung Thân của bạn nằm ở cung ${kq.than.cu}${m ? `: ${sach(thuong(m[1]))}` : ""}`, a.id));
+  const lv = kq.than.cu === "Mệnh" ? "bản thân (cùng cung Mệnh)" : linhVuc(kq.than.cu);
+  out.push(cau(`Cung Thân (nơi vận về sau gắn vào) của bạn thuộc mảng ${lv}${m ? `: ${sach(thuong(m[1]))}` : ""}`, a.id));
   if (b) out.push(cau(sach(b.nhan_dinh), b.id));
   return out;
 }
@@ -341,7 +354,7 @@ function doanHan(kq: BaoCao): string | null {
   const h = kq.han;
   if (!h?.dai_han) return null;
   const d = h.dai_han;
-  const s: string[] = [cau(`Năm ${h.nam_xem}, bạn đang ở đại hạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi, nhìn chung ở mức ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()}`, "DH")];
+  const s: string[] = [cau(`Năm ${h.nam_xem}, bạn đang ở giai đoạn ${d.tu_tuoi}–${d.tu_tuoi + 9} tuổi (một đại hạn, tức 10 năm), nhìn chung ở mức ${d.danh_gia["Mệnh"].xep_loai.toLowerCase()}`, "DH")];
   const kl = h.luu_nien.ket_luan;
   const cauRR = cauRuiRo(kq);
   if (cauRR) s.push(cauRR);
@@ -350,7 +363,7 @@ function doanHan(kq: BaoCao): string | null {
     s.push(cau(m ? `Về ${m[1]}, bạn nên ${bo(m[2])} và tránh ${bo(m[3])}` : sach(n.nhan_dinh), n.id));
   }
   const ky = h.luu_nien.ghi_chu.find((n) => n.id === "LN.song_ky");
-  if (ky) s.push(cau(`Năm nay có hai lớp vận Hóa Kỵ chồng nhau (đại hạn và lưu niên), nên việc thuộc cung đó dễ vướng mắc, cần thận trọng`, ky.id));
+  if (ky) s.push(cau(`Năm nay có hai yếu tố bất lợi cùng dồn vào một mảng (một từ giai đoạn 10 năm, một riêng của năm), nên việc thuộc mảng đó dễ vướng mắc, cần thận trọng`, ky.id));
   const cauMT = cauMatThuan(kq);
   if (cauMT) s.push(cauMT);
   return s.join(" ");
@@ -389,19 +402,7 @@ function dongHoiDap(kq: BaoCao): string[] {
     if (q.loai === "chu_de") {
       const cd = kq.chu_de[q.ten];
       if (!cd) continue;
-      // một dòng chắt: mức + điểm, rồi tên sao/cách làm nên mặt mạnh và mặt cần lưu ý (không nhắc lại câu đã có ở mục chủ đề)
-      const ten = (n: NhanDinh): string[] => {
-        const cach = /^\[(.+?)(?: — PHÁ CÁCH)?\]/.exec(n.nhan_dinh);
-        return /^CC\d+$/.test(n.id) && cach ? [`«${cach[1]}»`] : (n.nhan ?? []).filter((x) => x !== "vô chính diệu");
-      };
-      const tomTat = (ds: NhanDinh[]) => {
-        const dung = ds.slice(0, 2);
-        return { ten: [...new Set(dung.flatMap(ten))].slice(0, 3), ids: dung.map((n) => n.id) };
-      };
-      const m = tomTat(chon(cd.diem_manh, 2, 1));
-      const y = tomTat(chon(cd.diem_yeu, 2, -1));
-      const phan = [m.ten.length ? `mạnh nhờ ${noi(m.ten)}` : "", y.ten.length ? `cần lưu ý ${noi(y.ten)}` : ""].filter(Boolean);
-      dong = [cau(dien(vp.chu_de, { hoi: q.hoi, nhan: cd.xep_loai.toLowerCase(), d: String(cd.diem100), chi_tiet: phan.length ? ` — ${phan.join("; ")}` : "" }), `CD.${q.ten}`, ...(phan.length ? [...m.ids, ...y.ids] : []))];
+      dong = [cau(dien(vp.chu_de, { hoi: q.hoi, nhan: cd.xep_loai.toLowerCase(), d: String(cd.diem100), ten: q.ten }), `CD.${q.ten}`)]; // chỉ trỏ về mục chi tiết, không nhắc lại câu đã có
     } else if (q.loai === "so_cung") {
       const n = kq.so_cung.find((x) => x.id === `SC.${q.a}.${q.b}`);
       if (!n) continue;
@@ -413,10 +414,10 @@ function dongHoiDap(kq: BaoCao): string[] {
     } else if (q.loai === "dai_han") {
       const ds = kq.dai_han_ca_doi ?? [];
       const m = ds.length > 1 ? ds.find((x) => x.nhan === q.nhan) : undefined;
-      if (m) dong = [cau(mo(q.hoi, thuong(sach(m.nhan_dinh))), m.id)];
+      if (m) dong = [cau(mo(q.hoi, `giai đoạn ${m.tu_tuoi}–${m.den_tuoi} tuổi (một đại hạn), xếp loại ${m.xep_loai.toLowerCase()}; đây là giai đoạn ${m.nhan} trong cả đời của bạn`), m.id)];
     } else if (q.loai === "dai_han_nay") {
       const d = kq.han?.dai_han;
-      if (d) dong = [cau(dien(vp.dai_han_nay, { hoi: q.hoi, tu: String(d.tu_tuoi), den: String(d.tu_tuoi + 9), chi: d.chi, cung_goc: d.cung_goc, nhan: d.danh_gia["Mệnh"].xep_loai.toLowerCase() }), "DH")];
+      if (d) dong = [cau(dien(vp.dai_han_nay, { hoi: q.hoi, tu: String(d.tu_tuoi), den: String(d.tu_tuoi + 9), nhan: d.danh_gia["Mệnh"].xep_loai.toLowerCase() }), "DH")];
     } else if (q.loai === "dai_han_ke") {
       const d = kq.han?.dai_han;
       const ds = kq.dai_han_ca_doi ?? [];
@@ -425,19 +426,19 @@ function dongHoiDap(kq: BaoCao): string[] {
       if (nay && ke) {
         const hieu = ke.diem - nay.diem;
         const sc = vp.so_sanh;
-        dong = [cau(dien(vp.dai_han_ke, { hoi: q.hoi, tu: String(ke.tu_tuoi), den: String(ke.den_tuoi), chi: ke.chi, nhan: ke.xep_loai.toLowerCase(), so_sanh: Math.abs(hieu) < vp.dai_han_chenh ? sc.ngang : hieu > 0 ? sc.hon : sc.kem }), ke.id, nay.id)];
+        dong = [cau(dien(vp.dai_han_ke, { hoi: q.hoi, tu: String(ke.tu_tuoi), den: String(ke.den_tuoi), nhan: ke.xep_loai.toLowerCase(), so_sanh: Math.abs(hieu) < vp.dai_han_chenh ? sc.ngang : hieu > 0 ? sc.hon : sc.kem }), ke.id, nay.id)];
       }
     } else if (q.loai === "quy_nhan") {
-      const cach: { ten: string; cung: string; id: string }[] = [];
-      for (const [cung, k] of Object.entries(kq.cung)) {
+      const cach: { txt: string; id: string }[] = [];
+      for (const k of Object.values(kq.cung)) {
         for (const n of k.nhan_dinh) {
           const m = /^\[(.+?)\]/.exec(n.nhan_dinh); // bỏ cách bị phá ("— PHÁ CÁCH")
-          if (n.id.startsWith("CC") && n.diem > 0 && !n.an && (n.linh_vuc ?? []).includes(q.linh_vuc) && m && !m[1].includes("PHÁ CÁCH")) cach.push({ ten: m[1], cung, id: n.id });
+          if (n.id.startsWith("CC") && n.diem > 0 && !n.an && (n.linh_vuc ?? []).includes(q.linh_vuc) && m && !m[1].includes("PHÁ CÁCH") && !cach.some((c) => c.id === n.id)) cach.push({ txt: cauCach(n), id: n.id });
         }
       }
       if (cach.length) {
         const ds = cach.slice(0, 2);
-        dong = [cau(dien(vp.quy_nhan, { hoi: q.hoi, cach: noi(ds.map((c) => `cách «${c.ten}» ở cung ${c.cung}`)) }), ...ds.map((c) => c.id))];
+        dong = [cau(dien(vp.quy_nhan, { hoi: q.hoi, cach: ds.map((c) => thuong(bo(c.txt))).join("; ") }), ...ds.map((c) => c.id))];
       }
     }
     if (dong.length) out.push(dong.join(" "));
@@ -449,9 +450,8 @@ function dongHoiDap(kq: BaoCao): string[] {
 export function vietMau(kq: BaoCao): string {
   const l = kq.la_so;
   const tong: string[] = [
-    cau(`Lá số của bạn có Mệnh tại cung ${kq.menh_tai} (${l.am_duong_nam_nu}), bản mệnh ${HANH_VN[l.ban_menh]}, cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so}`, "TQ"),
-    cau("Điểm /100 ở các mục dưới chỉ so các cung trong chính lá số của bạn với nhau, không so với người khác", "TQ"),
-    ...kq.nen.map(cauNenLaSo),
+    cau(`Mệnh của bạn nằm ở cung ${kq.menh_tai}, bản mệnh ${HANH_VN[l.ban_menh]}, cục ${HANH_VN[l.cuc.hanh]} ${l.cuc.so}`, "TQ"),
+    ...[...new Set(kq.nen.map(cauNenLaSo).filter((x): x is string => x !== null))], // hai sao cùng quan hệ với bản mệnh cho cùng một câu: chỉ nêu một lần
     ...cauThan(kq),
   ];
   const out: string[] = ["# Tổng quan", tong.join(" ")];

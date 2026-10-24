@@ -1,7 +1,7 @@
 {
   "_meta": {
     "trang_thai": "draft_ai_tong_hop",
-    "ghi_chu": "doc11 lô C: kho câu nối/mẫu câu của lớp văn xuôi (web tự ghép, không dùng AI). Chỉ đổi cách diễn đạt; ý và số vẫn lấy từ báo cáo. Chọn biến thể theo thứ tự chủ đề + vị trí câu để một báo cáo không lặp nguyên văn."
+    "ghi_chu": "doc11 lô C: kho câu nối/mẫu câu của lớp văn xuôi (web tự ghép, không dùng AI). Chỉ đổi cách diễn đạt; ý và số vẫn lấy từ báo cáo. Chọn biến thể theo thứ tự chủ đề + vị trí câu để một báo cáo không lặp nguyên văn. Dự thảo docs/12: văn dễ đọc, bớt thuật ngữ. 'linh_vuc' gọi cung bằng lĩnh vực; 'cach_de_doc' là câu thường của các cách còn tên sao; tên sao/cách chỉ ở hàng 'Cơ sở'."
   },
   "noi_them": [
     "Ngoài ra,",
@@ -20,9 +20,9 @@
     "Đồng thời cũng cần lưu ý rằng"
   ],
   "mo_dau_duoi": [
-    " (mức {nhan}, khoảng {d}/100, dựa trên {nen})",
-    ", ở mức {nhan} (khoảng {d}/100; nền là {nen})",
-    " — mức {nhan}, khoảng {d}/100, nền là {nen}"
+    " (mức {nhan}, khoảng {d}/100)",
+    ", ở mức {nhan} (khoảng {d}/100)",
+    " — mức {nhan}, khoảng {d}/100"
   ],
   "canh_nhe": [
     "Chỉ cần để ý: ",
@@ -56,16 +56,52 @@
     "tieu_de": "Những câu hỏi thường gặp",
     "than": "tiền vận hay hậu vận",
     "mo": "Về chuyện {hoi}, {tra_loi}",
-    "chu_de": "Về {hoi}: mức {nhan}, khoảng {d}/100{chi_tiet}",
+    "chu_de": "Về {hoi}: mức {nhan}, khoảng {d}/100 (chi tiết ở mục {ten})",
     "so_cung": "Về chuyện {hoi}, xét theo điểm của hai cung: {tra_loi}",
-    "dai_han_nay": "Về {hoi}, bạn đang ở đại hạn {tu}–{den} tuổi tại {chi} (cung {cung_goc} gốc), xếp loại {nhan}",
-    "quy_nhan": "Về chuyện {hoi}, lá số có {cach}",
-    "dai_han_ke": "Về {hoi}: đại hạn {tu}–{den} tuổi (tại {chi}) xếp loại {nhan}, {so_sanh} đại hạn hiện tại",
+    "dai_han_nay": "Về {hoi}: bạn đang ở giai đoạn {tu}–{den} tuổi (một đại hạn), xếp loại {nhan}",
+    "quy_nhan": "Về chuyện {hoi}, lá số cho thấy: {cach}",
+    "dai_han_ke": "Về {hoi}: giai đoạn {tu}–{den} tuổi xếp loại {nhan}, {so_sanh} giai đoạn hiện tại",
     "dai_han_chenh": 3,
     "so_sanh": {
       "hon": "cao hơn",
       "kem": "thấp hơn",
       "ngang": "tương đương với"
     }
+  },
+  "linh_vuc": {
+    "Phụ Mẫu": "cha mẹ",
+    "Phúc Đức": "phúc phần, tinh thần",
+    "Điền Trạch": "nhà đất",
+    "Quan Lộc": "công việc",
+    "Nô Bộc": "bạn bè, cấp dưới",
+    "Thiên Di": "ra ngoài, xa nhà",
+    "Tật Ách": "sức khỏe",
+    "Tài Bạch": "tiền bạc",
+    "Tử Tức": "con cái",
+    "Phu Thê": "chuyện vợ chồng",
+    "Huynh Đệ": "anh chị em"
+  },
+  "cach_de_doc": {
+    "CC08": "Cha mẹ ít nhờ cậy được và bản thân nhiều vất vả; nếu về sau có thêm yếu tố thuận thì lại phát muộn.",
+    "CC12": "Bạn có danh vọng hiển đạt, công danh rõ ràng.",
+    "CC14": "Thuở nhỏ chưa nổi, càng về sau càng quý; hợp nghề dùng lời nói.",
+    "CC16": "Bạn có quyền chức, thành đạt bằng chính bản lĩnh của mình.",
+    "CC17": "Bạn mạnh mẽ, dám làm việc lớn.",
+    "CC18": "Bạn chính trực, được trọng vọng và sống thọ.",
+    "CC21.pha": "Bạn muốn đi, muốn làm xa nhưng hay bị vướng.",
+    "CC23.pha": "Thành công nhưng kèm thị phi.",
+    "CC28": "Bạn được che chở và có của.",
+    "CC30": "Bị kẹp hai phía nên nhiều áp lực, trở ngại; giữ được của nhưng vất vả.",
+    "CC35": "Bạn hiển phát về võ nghiệp, uy trấn một phương.",
+    "CC40": "Bạn duyên dáng, nhiều người để ý; nhưng dễ lụy tình khi gặp thêm yếu tố xấu.",
+    "CC44.pha": "Cái xấu giảm mạnh, bạn thành người khéo giao tế.",
+    "CC46.pha": "Biến động giảm bớt.",
+    "CC50": "Tiền tài hanh thông, dễ trở nên giàu có lớn.",
+    "CC51": "Dù ít yếu tố hỗ trợ vẫn phú quý; có thêm thì càng hiển đạt.",
+    "CC58.pha": "Trắc trở nhẹ hơn nhưng vẫn nên kết hôn muộn và chọn người kỹ.",
+    "CC60": "Tiền bạc dễ thủng; tình anh em và chuyện hợp tác dễ đứt đoạn, nên rạch ròi chuyện tiền, tránh hùn vốn và cho vay mượn.",
+    "CC61": "Tiền vào có nhưng khó giữ; nên tránh đầu cơ và hùn vốn.",
+    "CC62": "Tài sản dễ thất thoát, giữ của khó; nên làm giấy tờ nhà đất thật chặt chẽ, tránh mua bán nóng vội.",
+    "CC63": "Nghề hay biến động, đi lại, đổi việc, dễ làm xa; hợp công việc linh hoạt (đi lại, tư vấn, chuyên môn) hơn nghề cố định, phát muộn và cần chọn đúng hướng."
   }
 }
