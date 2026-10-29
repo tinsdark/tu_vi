@@ -38,6 +38,19 @@ Tương phản chữ ≥ 4.5:1 ở cả hai chế độ (đã tính tay cho `--m
 - Nhận định tốt/xấu mang dấu `+`/`−` (kèm chữ cho trình đọc màn hình), màu không là kênh duy nhất.
 - Chấm độ tin cậy: 12px, vùng bấm mở rộng 14px mỗi phía bằng `::before`.
 
+## Đường đối chiếu cung
+
+Bật mặc định (công tắc "Đường đối chiếu cung"). Bấm tên một cung để chọn; mặc định là Mệnh. Dữ liệu lấy nguyên từ `phan_tich.cat/sat` của engine (không tính lại), gom theo cung nguồn trong `lib/quanHe.ts`.
+
+- Đường nối từ tâm cung nguồn tới cung đang xem, có đầu mũi tên. Nét theo loại: liền = xung chiếu, đứt = tam hợp, chấm = giáp. Màu theo tác động: xanh giúp, đỏ hại, xám không đáng kể hoặc chỉ tham khảo (giáp không tính điểm).
+- Đường nằm **dưới chữ, trên nền ô**: nền ô là `::before` (z 0), SVG z 1, nội dung z 2. Tâm ô tính theo % của lưới 4×4 nên không cần đo pixel.
+- Trong ô nguồn: nhãn quan hệ kèm điểm ("Xung chiếu −0,4") và các sao góp điểm được tô nền kèm `+`/`−`. Ô đang xem có viền vàng đồng.
+- Bảng giải thích dưới bàn cờ liệt kê từng cung chiếu vào, sao giúp/hại và điểm; nút "Xem luận cung" mở ngăn kéo.
+
+## Điện thoại
+
+Lá số luôn là lưới 4×4 (không xếp dọc). Mỗi ô thu nhỏ: tên cung 9px, chính tinh 11px, phụ tinh 9.5px xếp dòng chảy thay vì hai cột; vòng Bác Sĩ/Tràng Sinh/Thái Tuế và tiểu hạn ẩn khỏi ô, xem trong ngăn kéo khi bấm tên cung. Ô giữa chỉ giữ năm can chi, âm lịch và tóm tắt cung đang xem; bảng thông tin đầy đủ nằm ngay dưới bàn cờ.
+
 ## Chuyển động
 
 Một khoảnh khắc: lá số hiện từng ô theo thứ tự cung (28ms mỗi ô, tổng khoảng 0.5s, ease-out mũ). Ngăn kéo trượt vào, thành bảng dưới trên điện thoại. Mọi chuyển động nằm trong `prefers-reduced-motion: no-preference`.

@@ -34,6 +34,7 @@ export function App() {
   const [giaoDien, setGiaoDien] = useState<GiaoDien>(() => docGiaoDien());
   const [hienSaoLuu, setHienSaoLuu] = useState(true);
   const [mauHanh, setMauHanh] = useState(true);
+  const [hienDuong, setHienDuong] = useState(true);
   const [thongBao, setThongBao] = useState("");
   const [moForm, setMoForm] = useState(false);
 
@@ -166,9 +167,10 @@ export function App() {
                   <div className="tuy-chon">
                     <label className="chon"><input type="checkbox" role="switch" checked={hienSaoLuu} onChange={(e) => setHienSaoLuu(e.target.checked)} /> Sao lưu niên {nhap.nam_xem}</label>
                     <label className="chon" title="Bỏ chọn: sao tốt màu xanh, sao xấu màu đỏ"><input type="checkbox" role="switch" checked={mauHanh} onChange={(e) => setMauHanh(e.target.checked)} /> Màu sao theo ngũ hành</label>
+                    <label className="chon" title="Vẽ đường nối các cung chiếu vào cung đang chọn và đánh dấu sao giúp / làm xấu"><input type="checkbox" role="switch" checked={hienDuong} onChange={(e) => setHienDuong(e.target.checked)} /> Đường đối chiếu cung</label>
                   </div>
-                  <BanCo kq={kq} hienSaoLuu={hienSaoLuu} mauHanh={mauHanh} />
-                  <p className="mo huong-dan-doc">Bấm tên cung để xem luận cung, bấm tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn; (M) miếu, (V) vượng, (Đ) đắc, (B) bình, (H) hãm.</p>
+                  <BanCo kq={kq} hienSaoLuu={hienSaoLuu} mauHanh={mauHanh} hienDuong={hienDuong} />
+                  <p className="mo huong-dan-doc">Bấm tên cung để xem các cung chiếu vào nó (hoặc luận cung khi tắt đường đối chiếu), bấm tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn; (M) miếu, (V) vượng, (Đ) đắc, (B) bình, (H) hãm.</p>
                 </>
               )}
               {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nc={kq.nang_cao} />}
