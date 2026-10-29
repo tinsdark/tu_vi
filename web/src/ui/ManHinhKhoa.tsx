@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { DauHieu } from "./chung";
 import { ghiMoKhoa, kiemTraMatKhau } from "../lib/khoa";
 
 export function ManHinhKhoa({ onMo }: { onMo: () => void }) {
@@ -20,8 +21,9 @@ export function ManHinhKhoa({ onMo }: { onMo: () => void }) {
   };
 
   return (
-    <main className="trang" style={{ maxWidth: 420, paddingTop: 80 }}>
+    <main className="trang man-hinh-khoa">
       <form className="the" onSubmit={gui}>
+        <DauHieu size={40} />
         <h1>Tử Vi</h1>
         <label className="truong">
           <span>Mật khẩu</span>

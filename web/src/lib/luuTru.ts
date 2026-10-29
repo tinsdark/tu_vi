@@ -66,9 +66,9 @@ export type GiaoDien = "tu_dong" | "sang" | "toi";
 export function docGiaoDien(): GiaoDien {
   try {
     const v = localStorage.getItem(KHOA_GIAO_DIEN);
-    return v === "sang" || v === "toi" ? v : "tu_dong";
+    return v === "sang" || v === "toi" || v === "tu_dong" ? v : "toi";
   } catch {
-    return "tu_dong";
+    return "toi";
   }
 }
 export function ghiGiaoDien(v: GiaoDien) {

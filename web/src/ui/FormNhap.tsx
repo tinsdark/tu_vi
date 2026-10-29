@@ -44,6 +44,7 @@ export function FormNhap({ khoiTao, daLuu, onLap, onMoLaSoLuu, onXoaLuu }: Props
 
   return (
     <form className="form-nhap" onSubmit={gui} noValidate>
+      <h2 className="tieu-de-form">Thông tin lá số</h2>
       <div className="luoi-form">
         <label className="truong truong-rong">
           <span>Họ tên <em>(không bắt buộc, chỉ lưu trong máy bạn)</em></span>

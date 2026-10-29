@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { CHI, luanNen, moTaDieuKien, NHAN_TIN_CAY, quyTac, thongTinSao, triThuc, HANH_VN, type BaoCao, type LaSo, type NenId } from "../engine";
-import { DanhSachNhanDinh, ThanhDiem, type NoiDungNganKeo } from "./chung";
+import { CHI, canChiCung, chiNamTieuHan, dungOCung, luanNen, moTaDieuKien, NHAN_TIN_CAY, quyTac, thongTinSao, triThuc, HANH_VN, type BaoCao, type LaSo, type NenId } from "../engine";
+import { DanhSachNhanDinh, Icon, ThanhDiem, type NoiDungNganKeo } from "./chung";
 
 const MUC: Record<string, string> = { M: "Miếu", V: "Vượng", "Đ": "Đắc", B: "Bình", H: "Hãm" };
 
@@ -95,13 +95,28 @@ function NoiDungNen({ id, ls, bc }: { id: NenId; ls: LaSo; bc: BaoCao | null }) 
   );
 }
 
-function NoiDungCung({ ten, bc }: { ten: string; bc: BaoCao }) {
+function NoiDungCung({ ten, bc, ls }: { ten: string; bc: BaoCao; ls: LaSo | null }) {
   const k = bc.cung[ten];
+  const chi = CHI.indexOf(k.chi);
+  const oc = ls && chi > 0 ? dungOCung(ls)[chi] : null;
   return (
     <>
       <h2>{ten} <small>({k.chi})</small></h2>
       <ThanhDiem diem100={k.diem100} xepLoai={k.xep_loai} />
       <p className="mo">Điểm cung {k.diem}. Chính tinh: {k.chinh_tinh.length ? k.chinh_tinh.join(", ") : "vô chính diệu"}{k.tuan_triet.length ? ` · ${k.tuan_triet.join("/")}` : ""}</p>
+      {oc && ls && (
+        <>
+          <h4>Vòng sao và hạn tại cung này</h4>
+          <dl className="theo-cung">
+            <div><dt>Can chi</dt><dd>{canChiCung(ls, chi)}</dd></div>
+            <div><dt>Bác Sĩ</dt><dd>{oc.bac_si}</dd></div>
+            <div><dt>Tràng Sinh</dt><dd>{oc.trang_sinh}</dd></div>
+            <div><dt>Thái Tuế</dt><dd>{oc.thai_tue}</dd></div>
+            <div><dt>Đại hạn</dt><dd>từ {oc.dai_han} tuổi</dd></div>
+            <div><dt>Tiểu hạn</dt><dd>{chiNamTieuHan(ls, chi) || "—"}</dd></div>
+          </dl>
+        </>
+      )}
       <DanhSachNhanDinh ds={k.nhan_dinh} rong />
     </>
   );
@@ -129,10 +144,10 @@ export function NganKeo({ noiDung, bc, laSo, dong }: { noiDung: NoiDungNganKeo |
     <>
       <div className="phu-nen" onClick={dong} />
       <aside className="ngan-keo" role="dialog" aria-modal="true" aria-label="Chi tiết">
-        <button ref={nutDong} type="button" className="nut-dong" onClick={dong} aria-label="Đóng">×</button>
+        <button ref={nutDong} type="button" className="nut-dong" onClick={dong} aria-label="Đóng"><Icon ten="dong" size={18} /></button>
         {noiDung.loai === "quy_tac" && <NoiDungQuyTac id={noiDung.id} />}
         {noiDung.loai === "sao" && <NoiDungSao ten={noiDung.ten} chi={noiDung.chi} bc={bc} />}
-        {noiDung.loai === "cung" && bc && <NoiDungCung ten={noiDung.ten} bc={bc} />}
+        {noiDung.loai === "cung" && bc && <NoiDungCung ten={noiDung.ten} bc={bc} ls={laSo} />}
         {noiDung.loai === "nen" && laSo && <NoiDungNen id={noiDung.id} ls={laSo} bc={bc} />}
         {noiDung.loai === "quy_tac" && <p className="mo">Độ tin cậy là nhãn của dữ liệu (đã đối chiếu mấy nguồn), không phải xác suất đúng.</p>}
       </aside>

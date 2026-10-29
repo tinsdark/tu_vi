@@ -32,6 +32,7 @@ export function TabCung({ bc }: { bc: BaoCao }) {
   return (
     <div className="tab-noi-dung">
       <p className="mo">Điểm /100 phản ánh tương quan nội tại giữa các cung của chính lá số này (bội số 5, 6 bậc) — không so với lá số khác và không phải bằng chứng luận đúng. Sao ở cung xung/hội chiếu luôn được ghi rõ là “từ cung …”.</p>
+      <div className="nhom-cung">
       {THU_TU_CUNG.map((ten, i) => {
         const k = bc.cung[ten];
         return (
@@ -51,6 +52,7 @@ export function TabCung({ bc }: { bc: BaoCao }) {
           </details>
         );
       })}
+      </div>
     </div>
   );
 }
