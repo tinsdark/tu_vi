@@ -1,5 +1,5 @@
 import { type BaoCao, type KetQuaNangCao } from "../engine";
-import { ChuThichTinCay, DanhSachNhanDinh, Khoi, MAU_XEP as MAU } from "./chung";
+import { ChuThichTinCay, DanhSachNhanDinh, Icon, Khoi, MAU_XEP as MAU } from "./chung";
 
 export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNangCao; namXem: number; onDoiNam: (n: number) => void }) {
   const h = bc.han;
@@ -10,9 +10,9 @@ export function TabHan({ bc, nc, namXem, onDoiNam }: { bc: BaoCao; nc: KetQuaNan
   return (
     <div className="tab-noi-dung">
       <div className="chon-nam" role="group" aria-label="Năm xem hạn">
-        <button type="button" className="nut" onClick={() => onDoiNam(namXem - 1)} aria-label="Năm trước">‹</button>
+        <button type="button" className="nut" onClick={() => onDoiNam(namXem - 1)} aria-label="Năm trước"><Icon ten="trai" /></button>
         <label>Năm <input type="number" value={namXem} onChange={(e) => Number.isFinite(e.currentTarget.valueAsNumber) && onDoiNam(e.currentTarget.valueAsNumber)} /></label>
-        <button type="button" className="nut" onClick={() => onDoiNam(namXem + 1)} aria-label="Năm sau">›</button>
+        <button type="button" className="nut" onClick={() => onDoiNam(namXem + 1)} aria-label="Năm sau"><Icon ten="phai" /></button>
         <span className="mo">Tuổi âm {h.tuoi_am}</span>
       </div>
       <ChuThichTinCay />

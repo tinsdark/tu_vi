@@ -3,7 +3,7 @@ import { chuanHoaNhap, tinhLaSo, veLaSo, type KetQuaTinh, type NhapLieu } from "
 import { docGiaoDien, docLuu, ghiGiaoDien, giaiMaNhap, luuLaSo, maHoaNhap, xoaLaSo, type GiaoDien, type LaSoDaLuu } from "./lib/luuTru";
 import { taiPng, taiSvg } from "./lib/xuatAnh";
 import { BanCo } from "./ui/BanCo";
-import { NganKeoCtx, type NoiDungNganKeo } from "./ui/chung";
+import { ChuThichTinCay, DauHieu, Icon, NganKeoCtx, type NoiDungNganKeo, type TenIcon } from "./ui/chung";
 import { FormNhap } from "./ui/FormNhap";
 import { NganKeo } from "./ui/NganKeo";
 import { TabCung } from "./ui/TabCung";
@@ -12,7 +12,10 @@ import { TabTongQuan } from "./ui/TabTongQuan";
 
 type Tab = "la_so" | "tong_quan" | "cung" | "han";
 const TABS: [Tab, string][] = [["la_so", "Lá số"], ["tong_quan", "Tổng quan"], ["cung", "12 cung"], ["han", "Hạn"]];
-const NHAN_GIAO_DIEN: Record<GiaoDien, string> = { tu_dong: "Tự động", sang: "Sáng", toi: "Tối" };
+const NHAN_GIAO_DIEN: Record<GiaoDien, string> = { tu_dong: "Theo thiết bị", sang: "Sáng", toi: "Tối" };
+const ICON_GIAO_DIEN: Record<GiaoDien, TenIcon> = { tu_dong: "tu_dong", sang: "mat_troi", toi: "mat_trang" };
+/** Chiều cao thanh đầu trang (px); khớp --cao-dau trong styles.css để cuộn tab không bị che. */
+const CAO_DAU = 56;
 
 function tinh(n: NhapLieu | null): { kq: KetQuaTinh | null; loi: string | null } {
   if (!n) return { kq: null, loi: null };
@@ -66,67 +69,81 @@ export function App() {
   const tenFile = nhap ? `la-so-tu-vi-${nhap.nam}${String(nhap.thang).padStart(2, "0")}${String(nhap.ngay).padStart(2, "0")}` : "la-so";
   const dong = useCallback(() => setNganKeo(null), []);
 
+  const bangNhap = (
+    <section className="the bang-nhap" aria-label="Nhập thông tin">
+      <FormNhap
+        key={nhap ? JSON.stringify(nhap) : "moi"}
+        khoiTao={nhap}
+        daLuu={daLuu}
+        onLap={lap}
+        onMoLaSoLuu={lap}
+        onXoaLuu={(id) => setDaLuu(xoaLaSo(id))}
+      />
+    </section>
+  );
+
   return (
     <NganKeoCtx.Provider value={setNganKeo}>
       <a className="bo-qua" href="#noi-dung">Bỏ qua tới nội dung</a>
       <header className="dau-trang">
         <div className="dau-trang-trong">
           <a className="thuong-hieu" href={location.pathname} onClick={(e) => { e.preventDefault(); history.replaceState(null, "", location.pathname); setNhap(null); }}>
-            <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true"><rect width="64" height="64" rx="14" fill="currentColor" opacity=".12" /><g fill="none" stroke="currentColor" strokeWidth="3"><rect x="14" y="14" width="36" height="36" rx="3" /><path d="M14 26h36M14 38h36M26 14v36M38 14v36" strokeWidth="1.6" /></g><circle cx="32" cy="32" r="5" fill="currentColor" /></svg>
+            <DauHieu />
             <span>Tử Vi</span>
           </a>
-          <label className="chon-giao-dien">
-            <span className="chi-doc-man-hinh">Giao diện</span>
-            <select value={giaoDien} onChange={(e) => setGiaoDien(e.target.value as GiaoDien)} aria-label="Giao diện sáng/tối">
-              {(Object.keys(NHAN_GIAO_DIEN) as GiaoDien[]).map((g) => <option key={g} value={g}>{NHAN_GIAO_DIEN[g]}</option>)}
-            </select>
-          </label>
+          <div className="chon-giao-dien" role="group" aria-label="Giao diện sáng/tối">
+            {(Object.keys(NHAN_GIAO_DIEN) as GiaoDien[]).map((g) => (
+              <button key={g} type="button" className="gd-nut" aria-pressed={giaoDien === g} title={NHAN_GIAO_DIEN[g]} onClick={() => setGiaoDien(g)}>
+                <Icon ten={ICON_GIAO_DIEN[g]} size={16} />
+                <span className="chi-doc-man-hinh">{NHAN_GIAO_DIEN[g]}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
       <main id="noi-dung" className="trang">
         {!kq && (
-          <section className="gioi-thieu">
-            <h1>Lập lá số Tử Vi</h1>
-            <p>Nhập ngày giờ sinh dương lịch; web tự đổi sang âm lịch, an sao và luận giải. Mỗi nhận định đều dẫn về quy tắc đứng sau nó, kèm nhãn độ tin cậy của dữ liệu.</p>
-            <p className="mo">Mọi tính toán chạy ngay trên trình duyệt của bạn; ngày giờ sinh không rời khỏi máy bạn.</p>
-          </section>
+          <div className="mo-dau">
+            <section className="gioi-thieu">
+              <h1>Lập lá số <span>Tử Vi</span></h1>
+              <p className="dan-nhap">Nhập ngày giờ sinh dương lịch; web tự đổi sang âm lịch, an sao và luận giải. Mỗi nhận định đều dẫn về quy tắc đứng sau nó.</p>
+              <dl className="cam-ket">
+                <div><dt>Ở lại trên máy bạn</dt><dd>Mọi tính toán chạy ngay trên trình duyệt; ngày giờ sinh không rời khỏi máy.</dd></div>
+                <div><dt>Truy được về quy tắc</dt><dd>Bấm vào chấm màu cuối mỗi câu để xem quy tắc và nguồn của nó.</dd></div>
+                <div><dt>Nói rõ chỗ chưa chắc</dt><dd>Mỗi quy tắc mang nhãn cho biết đã đối chiếu mấy nguồn:</dd></div>
+              </dl>
+              <ChuThichTinCay />
+            </section>
+            {bangNhap}
+          </div>
         )}
 
-        {(!kq || moForm) && (
-          <section className="the" aria-label="Nhập thông tin">
-            <FormNhap
-              key={nhap ? JSON.stringify(nhap) : "moi"}
-              khoiTao={nhap}
-              daLuu={daLuu}
-              onLap={lap}
-              onMoLaSoLuu={lap}
-              onXoaLuu={(id) => setDaLuu(xoaLaSo(id))}
-            />
-          </section>
-        )}
+        {kq && moForm && bangNhap}
 
         {loi && <p className="loi" role="alert">{loi}</p>}
 
         {kq && nhap && (
           <>
             <section className="tieu-de-ket-qua">
-              <div>
+              <div className="tdkq-ten">
                 <h1>{nhap.ho_ten ?? "Lá số Tử Vi"}</h1>
-                <p className="mo">
-                  Dương lịch {String(nhap.ngay).padStart(2, "0")}/{String(nhap.thang).padStart(2, "0")}/{nhap.nam}, {String(nhap.gio).padStart(2, "0")}:{String(nhap.phut).padStart(2, "0")} · {nhap.gioi_tinh === "nam" ? "Nam" : "Nữ"} · {kq.lich.can_chi.nam}
+                <p className="meta-sinh">
+                  <span>Dương lịch {String(nhap.ngay).padStart(2, "0")}/{String(nhap.thang).padStart(2, "0")}/{nhap.nam}, {String(nhap.gio).padStart(2, "0")}:{String(nhap.phut).padStart(2, "0")}</span>
+                  <span>{nhap.gioi_tinh === "nam" ? "Nam" : "Nữ"}</span>
+                  <span>{kq.lich.can_chi.nam}</span>
                 </p>
               </div>
               <div className="hang-nut hang-nut-tren">
-                <button type="button" className="nut" onClick={() => setMoForm((v) => !v)} aria-expanded={moForm}>{moForm ? "Ẩn form" : "Sửa thông tin"}</button>
-                <button type="button" className="nut" onClick={() => { setDaLuu(luuLaSo(nhap)); baoTam("Đã lưu lá số trong trình duyệt này."); }}>Lưu</button>
-                <button type="button" className="nut" onClick={async () => { try { await navigator.clipboard.writeText(location.href); baoTam("Đã chép liên kết (không chứa họ tên)."); } catch { baoTam("Hãy chép liên kết từ thanh địa chỉ."); } }}>Chép liên kết</button>
+                <button type="button" className="nut" onClick={() => setMoForm((v) => !v)} aria-expanded={moForm}><Icon ten="sua" size={16} />{moForm ? "Ẩn form" : "Sửa thông tin"}</button>
+                <button type="button" className="nut" onClick={() => { setDaLuu(luuLaSo(nhap)); baoTam("Đã lưu lá số trong trình duyệt này."); }}><Icon ten="luu" size={16} />Lưu</button>
+                <button type="button" className="nut" onClick={async () => { try { await navigator.clipboard.writeText(location.href); baoTam("Đã chép liên kết (không chứa họ tên)."); } catch { baoTam("Hãy chép liên kết từ thanh địa chỉ."); } }}><Icon ten="lien_ket" size={16} />Chép liên kết</button>
                 <details className="menu-xuat">
-                  <summary className="nut">Xuất ▾</summary>
+                  <summary className="nut"><Icon ten="tai" size={16} />Xuất</summary>
                   <div className="menu-xuat-ds">
                     <button type="button" onClick={() => taiPng(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile).catch((e) => baoTam(String(e.message)))}>Tải ảnh PNG</button>
                     <button type="button" onClick={() => taiSvg(veLaSo(kq.la_so, "Lá số Tử Vi", nhap.ho_ten, kq.bao_cao.han, mauHanh), tenFile)}>Tải SVG</button>
-                    <button type="button" onClick={() => window.print()}>In / PDF</button>
+                    <button type="button" onClick={() => window.print()}><Icon ten="in" size={16} />In / PDF</button>
                   </div>
                 </details>
               </div>
@@ -134,12 +151,12 @@ export function App() {
             {thongBao && <p className="thong-bao" role="status">{thongBao}</p>}
 
             {kq.lich.canh_bao.length > 0 && (
-              <ul className="canh-bao-ds">{kq.lich.canh_bao.map((c) => <li key={c} className="canh-bao">⚠ {c}</li>)}</ul>
+              <ul className="canh-bao-ds">{kq.lich.canh_bao.map((c) => <li key={c} className="canh-bao"><Icon ten="canh_bao" size={16} /><span>{c}</span></li>)}</ul>
             )}
 
             <div className="tabs" role="tablist" aria-label="Phần xem">
               {TABS.map(([k, ten]) => (
-                <button key={k} type="button" role="tab" id={`tab-${k}`} aria-selected={tab === k} aria-controls={`bang-${k}`} className={`tab${tab === k ? " tab-chon" : ""}`} onClick={() => { setTab(k); const t = document.querySelector(".tabs"); if (t && t.getBoundingClientRect().top < 0) window.scrollTo({ top: window.scrollY + t.getBoundingClientRect().top - 52 }); }}>{ten}</button>
+                <button key={k} type="button" role="tab" id={`tab-${k}`} aria-selected={tab === k} aria-controls={`bang-${k}`} className={`tab${tab === k ? " tab-chon" : ""}`} onClick={() => { setTab(k); const t = document.querySelector(".tabs"); if (t && t.getBoundingClientRect().top < 0) window.scrollTo({ top: window.scrollY + t.getBoundingClientRect().top - CAO_DAU }); }}>{ten}</button>
               ))}
             </div>
 
@@ -147,11 +164,11 @@ export function App() {
               {tab === "la_so" && (
                 <>
                   <div className="tuy-chon">
-                    <label className="chon"><input type="checkbox" checked={hienSaoLuu} onChange={(e) => setHienSaoLuu(e.target.checked)} /> Sao lưu niên {nhap.nam_xem}</label>
-                    <label className="chon" title="Bỏ chọn: sao tốt màu xanh, sao xấu màu đỏ"><input type="checkbox" checked={mauHanh} onChange={(e) => setMauHanh(e.target.checked)} /> Màu sao theo ngũ hành</label>
+                    <label className="chon"><input type="checkbox" role="switch" checked={hienSaoLuu} onChange={(e) => setHienSaoLuu(e.target.checked)} /> Sao lưu niên {nhap.nam_xem}</label>
+                    <label className="chon" title="Bỏ chọn: sao tốt màu xanh, sao xấu màu đỏ"><input type="checkbox" role="switch" checked={mauHanh} onChange={(e) => setMauHanh(e.target.checked)} /> Màu sao theo ngũ hành</label>
                   </div>
                   <BanCo kq={kq} hienSaoLuu={hienSaoLuu} mauHanh={mauHanh} />
-                  <p className="mo">Bấm tên cung để xem luận cung, bấm tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn; (M) miếu, (V) vượng, (Đ) đắc, (B) bình, (H) hãm.</p>
+                  <p className="mo huong-dan-doc">Bấm tên cung để xem luận cung, bấm tên sao để xem ý nghĩa và độ sáng. Số ở góc phải mỗi ô là tuổi bắt đầu đại hạn; (M) miếu, (V) vượng, (Đ) đắc, (B) bình, (H) hãm.</p>
                 </>
               )}
               {tab === "tong_quan" && <TabTongQuan bc={kq.bao_cao} nc={kq.nang_cao} />}

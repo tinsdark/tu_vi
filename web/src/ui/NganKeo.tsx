@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { CHI, luanNen, moTaDieuKien, NHAN_TIN_CAY, quyTac, thongTinSao, triThuc, HANH_VN, type BaoCao, type LaSo, type NenId } from "../engine";
-import { DanhSachNhanDinh, ThanhDiem, type NoiDungNganKeo } from "./chung";
+import { DanhSachNhanDinh, Icon, ThanhDiem, type NoiDungNganKeo } from "./chung";
 
 const MUC: Record<string, string> = { M: "Miếu", V: "Vượng", "Đ": "Đắc", B: "Bình", H: "Hãm" };
 
@@ -129,7 +129,7 @@ export function NganKeo({ noiDung, bc, laSo, dong }: { noiDung: NoiDungNganKeo |
     <>
       <div className="phu-nen" onClick={dong} />
       <aside className="ngan-keo" role="dialog" aria-modal="true" aria-label="Chi tiết">
-        <button ref={nutDong} type="button" className="nut-dong" onClick={dong} aria-label="Đóng">×</button>
+        <button ref={nutDong} type="button" className="nut-dong" onClick={dong} aria-label="Đóng"><Icon ten="dong" size={18} /></button>
         {noiDung.loai === "quy_tac" && <NoiDungQuyTac id={noiDung.id} />}
         {noiDung.loai === "sao" && <NoiDungSao ten={noiDung.ten} chi={noiDung.chi} bc={bc} />}
         {noiDung.loai === "cung" && bc && <NoiDungCung ten={noiDung.ten} bc={bc} />}
